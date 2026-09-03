@@ -63,3 +63,33 @@ RIGHT_SEMI translator arm NOT here).
   1e9 scan as probe (join est. 2.5e8 = max(L,R) x 0.25, the >= 1e7-gap rule); and the LEFT SEMI statement is
   commuted by the FE to `RIGHT SEMI JOIN` -> plan item 5 (translator RIGHT_SEMI arm, fusion worktree) is a hard
   prerequisite for running with the knob on, as the spec predicted (risk 8.2).
+- 18:10 fe-build 269 s: output/fe/lib/fe-core-4.1.1.jar carries estimateRowCount/getTotalFileBytes/footerRowCount,
+  Config.files_scan_estimate_row_count and PGetFileSchemaResult.numRows (jprotobuf boxed it as Long, so the
+  `!= null && > 0` guard is the right one).
+- Stacked shape: commit 1 carries a PR-A-only FE patch (no numRows consumption, no footer test); that tree was
+  compiled (checkstyle included) and TableFunctionTableTest passed 15/15 before committing. Commit 2 regenerates
+  the FE patch with the consumption line + testFooterRowCountPreferred and adds proto/CN/build.rs/CI.
+- Pre-commit hook caught a "(plan item 5)" pointer in a test comment; reworded to the plain constraint (a CN that
+  consumes these plans must execute RIGHT_SEMI_JOIN). experimental/ is otherwise excluded from most hooks.
+
+## Result
+
+Commits on fix/files-cardinality (base 45dab3be):
+- 7f38171c feat(starrocks-fe): plan FILES() scans with real row counts instead of 1  (PR-A: FE patch, bench
+  read-backs, TUNABLES/DEMO)
+- 00302c5c feat(starrocks-cn): return the parquet footer row total with the FILES() schema  (PR-B: proto patch,
+  file_schema.rs/compute_node_service.rs, build.rs guard, CI applies all patches, regenerated FE patch)
+Submodule pointer unchanged (14b7e3fa662); patches: files-scan-row-count.patch, files-schema-row-count-proto.patch.
+
+Tests: cargo test -p sirius-starrocks-cn --no-default-features (157 lib + 9 bin pass), clippy -D warnings, fmt
+--check; FE JUnit TableFunctionTableTest 16/16, StatisticsCalculatorTest 14/14, FilesScanStatisticsTest 2/2;
+patch set applies from clean in glob order and is idempotent; pre-commit on all changed files; fe-build.
+
+Left for the orchestrator / other worktrees:
+- Gate A (EXPLAIN COSTS survey at clean 1 CN and 4 CNs, knob off/on) and Gate B: not run here (no clusters).
+- Plan item 5 (translator RIGHT_SEMI_JOIN arm) lives in the fusion worktree; the FE does commute LEFT SEMI to
+  RIGHT SEMI once the outer side is small (FilesScanStatisticsTest), so it is a hard prerequisite for knob-on sweeps.
+- Goldens under benchmarks/tpch/plans/ are the gate's output, not written here.
+- Not fixed (out of scope, upstream test utility): LogicalPlanPrinter has no arm for
+  PhysicalTableFunctionTableScanOperator, so UtFrameUtils.getPlanAndFragment cannot print a FILES() plan.
+- The engine-linked CN (`pixi run cn-build`) was not relinked here; nothing under src/ changed.
