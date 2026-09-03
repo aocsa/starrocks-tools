@@ -1,0 +1,15 @@
+fix(starrocks-fe): gate the footer flag on the knob and match path columns by name
+
+hasExactRowCount() said "footer" even with files_scan_estimate_row_count off, so the
+per-statement INFO line could read rows=1 source=footer; it now follows the same rule as
+estimateRowCount() and the line prints footer, estimated or disabled. getFileColumns()
+excludes columns_from_path by name instead of trailing position, which the INSERT full-schema
+push-down does not preserve. bench.sh and run-abc.sh abort when ADMIN SHOW FRONTEND CONFIG
+fails instead of treating a patched FE as stock; the bench helper is set_and_verify_global in
+both. TUNABLES.md and DEMO.md state the landing-order dependency: with the knob on the FE
+commutes LEFT SEMI to RIGHT SEMI (q04, q20), which the CN translator must support first.
+
+Tested with the three FE JUnit classes, the CN cargo tests, clippy and fmt; the patch set still
+applies from a clean submodule and is idempotent.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>

@@ -72,3 +72,15 @@ Cargo.lock unchanged; no build outputs, telemetry or .pixi symlink committed. No
 Not findings: the LogicalPlanPrinter gap and the CTE-named FILES() scans in FilesScanStatisticsTest are test-side
 workarounds for upstream utility limits and are documented in the test; `FilesSchema.files` is the spec's
 permitted variant; the unbounded RPC wait is pre-existing and out of scope.
+
+## FE JUnit result (reviewer's own run, 18:42 UTC)
+
+TableFunctionTableTest 16/16, FilesScanStatisticsTest 2/2, StatisticsCalculatorTest 14/14 (32 tests, 0 failures,
+0 errors, checkstyle 0 violations, BUILD SUCCESS). Log: files-cardinality-reviewer-feut.log.
+
+## Verdict
+
+Approve, conditional on landing order: the code does what the spec says and every test the implementer cited
+re-ran green here; finding 1 (default-on knob before the RIGHT_SEMI translator arm exists) is the one thing that
+would regress q04/q20 if this merged ahead of the fusion worktree's item-5 commit, and it is the orchestrator's
+recorded decision, not a code defect. Findings 2-7 are minor polish.

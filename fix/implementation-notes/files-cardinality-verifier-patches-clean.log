@@ -1,0 +1,19 @@
+== pass 1
+applied files-query-whole-file-ranges.patch
+applied files-scan-row-count.patch
+applied files-schema-row-count-proto.patch
+applied nixl-exchange-proto.patch
+== pass 2
+already applied files-query-whole-file-ranges.patch
+already applied files-scan-row-count.patch
+already applied files-schema-row-count-proto.patch
+already applied nixl-exchange-proto.patch
+== byte-for-byte against the worktree:
+same fe/fe-core/src/main/java/com/starrocks/catalog/TableFunctionTable.java
+same fe/fe-core/src/main/java/com/starrocks/common/Config.java
+same fe/fe-core/src/main/java/com/starrocks/planner/FileScanNode.java
+same fe/fe-core/src/main/java/com/starrocks/sql/optimizer/statistics/StatisticsCalculator.java
+same fe/fe-core/src/test/java/com/starrocks/catalog/TableFunctionTableTest.java
+same fe/fe-core/src/test/java/com/starrocks/sql/optimizer/statistics/StatisticsCalculatorTest.java
+same fe/fe-core/src/test/java/com/starrocks/sql/plan/FilesScanStatisticsTest.java
+same gensrc/proto/internal_service.proto

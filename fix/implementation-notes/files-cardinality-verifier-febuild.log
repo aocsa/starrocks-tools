@@ -1,0 +1,22 @@
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+✨ Pixi task (fe-build in fe): bash -lc 'set -e
+notice_script="build-support/gen_notice.py"
+notice_backup="$(mktemp)"
+cp "$notice_script" "$notice_backup"
+restore_notice() {
+    status=$?
+    trap - EXIT
+    cp "$notice_backup" "$notice_script"
+    rm -f "$notice_backup"
+    exit "$status"
+}
+trap restore_notice EXIT
+sed -i "1s|^.*$|#!/usr/bin/env python3|" "$notice_script"
+
+thirdparty="${PIXI_PROJECT_ROOT}/.pixi/starrocks-fe-thirdparty"
+mkdir -p "${thirdparty}/installed/llvm/lib"
+touch "${thirdparty}/installed/llvm/lib/libLLVMInstCombine.a"
+STARROCKS_THIRDPARTY="${thirdparty}" ./build.sh --fe --with-maven-batch-mode ON
+cp ../conf/fe.conf output/fe/conf/fe.conf': (Build and package the StarRocks FE into starrocks/output/fe)
+Task 'fe-build' can be skipped (cache hit) 🚀
+rc=0

@@ -1,0 +1,13 @@
+== fmt start 19:04:12
+== fmt rc=0 19:04:12
+== fmt-all start 19:04:12
+== fmt-all rc=0 19:04:13
+== clippy start 19:04:13
+== clippy rc=0 19:04:14
+== test-workspace start 19:04:14
+== test-workspace rc=0 19:04:30
+== test-cn start 19:04:30
+== test-cn rc=0 19:04:33
+== build-release start 19:04:33
+== build-release rc=0 19:04:49
+== cargo chain done 19:04:49
