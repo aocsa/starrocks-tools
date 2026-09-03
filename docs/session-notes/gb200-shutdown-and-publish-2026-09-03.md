@@ -14,7 +14,7 @@ CDMM + GDS; slurm/network cleanup). Everything was published in the last hour:
   INTEGRATION.md + DECISIONS.md, all plans and reports, session notes, oracle answers, small evidence. README.md is the
   replication guide for a new box.
 Left undone: fix 3 review/verify, fix 4 (fragment fusion + RIGHT_SEMI arm) not started, the SF1000 verification arms
-V1..V6 (fix/INTEGRATION.md section 6) not run, the 2-GPU contention check for fix 1, no PRs opened for the fixes.
+V1..V6 (fix/INTEGRATION.md section 6) not run, the 2-GPU contention check for fix 1, Draft PRs on the fork for the fixes: aocsa/sirius#4 (fix 1), #5 (fix 2), #6 (fix 3), all against perf/profile-sf1000; fix 4 has none.
 
 **Why:** the next session starts on a different machine with none of the worktrees.
 

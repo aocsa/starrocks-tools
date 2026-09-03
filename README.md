@@ -17,9 +17,9 @@ maintenance on 2026-09-03 19:00 UTC. Paths below are that box's; every script ha
 | `perf/float-sum-canonicalize-flag` | d24f02c4 (feat/pin-table-cn) | SIRIUS_CANONICAL_FLOAT_SUMS gate (85658f09) + SIRIUS_CN_ASYNC_SENDER_DISPATCH (9a5a4da6) |
 | `perf/quent-instrument` | d24f02c4 | Quent probes: scan reads, stream hops, staging leases, CN fragment labels, explicit enable_quent (784cf116) |
 | `perf/profile-sf1000` | perf/float-sum-canonicalize-flag | + the Quent probe commit cherry-picked (45dab3be); the build every SF1000 arm used |
-| `fix/oom-failfast` | perf/profile-sf1000 | fix 1: fail the query fast when an OOM retry cannot make progress (19f9eee4, engine, Catch2 tests) |
-| `fix/parked-bookkeeping` | perf/profile-sf1000 | fix 2: retire a failed query's parked output; cancel_plan_fragment tears the query down (63e7e0c1, 0f4b1c19) |
-| `fix/files-cardinality` @ 00302c5c | perf/profile-sf1000 | fix 3: real FILES() cardinalities in the FE (7f38171c FE patch + 00302c5c CN footer row total; review/verify pending at shutdown) |
+| `fix/oom-failfast` | perf/profile-sf1000 | fix 1: fail the query fast when an OOM retry cannot make progress (19f9eee4, engine, Catch2 tests); Draft PR aocsa/sirius#4 |
+| `fix/parked-bookkeeping` | perf/profile-sf1000 | fix 2: retire a failed query's parked output; cancel_plan_fragment tears the query down (63e7e0c1, 0f4b1c19); Draft PR aocsa/sirius#5 |
+| `fix/files-cardinality` @ 00302c5c | perf/profile-sf1000 | fix 3: real FILES() cardinalities in the FE (7f38171c FE patch + 00302c5c CN footer row total; review/verify pending at shutdown); Draft PR aocsa/sirius#6 |
 | `fix/fragment-fusion` @ 45dab3be | perf/profile-sf1000 | fix 4: not started, branch equals its base (spec in `fix/fragment-fusion-SPEC.md`) |
 
 ## Layout of this repo
