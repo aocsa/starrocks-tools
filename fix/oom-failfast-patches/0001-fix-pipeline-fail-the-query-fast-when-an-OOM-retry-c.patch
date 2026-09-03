@@ -1,0 +1,1336 @@
+From 19f9eee4991342f58895f588d866ae9b92c30d02 Mon Sep 17 00:00:00 2001
+From: Alexander Victor Ocsa Mamani <aocsa.cs@gmail.com>
+Date: Thu, 3 Sep 2026 17:28:01 +0000
+Subject: [PATCH] fix(pipeline): fail the query fast when an OOM retry cannot
+ make progress
+
+At SF1000 on one CN, q05 q08 q09 q17 q18 q21 each replayed a certain OOM 100
+times (54-232 s, 775 s of a 910 s sweep): the pool was full of parked fragment
+output the downgrade cannot see, so every retry gate granted the same partial
+reservation, and the error named the retry cap rather than the cause.
+The reschedule path now consults a pure predicate (retry_futility.hpp): partial
+grant, downgrade freed 0, OOM needed more than the grant, nothing completed or
+running anywhere since the gate -> the query fails at that retry with a message
+naming bytes needed vs granted and bytes held outside any task reservation vs
+the pool. First attempts, CUDA-launch reschedules and full-grant OOMs (#732)
+keep MAX_RETRIES=100 and the 50 ms backoff; a failed query's queued tasks are
+dropped at the gate. Tests: GPU-free predicate table plus four component cases;
+full Catch2 suite green except a pre-existing float-sum case that needs
+SIRIUS_CANONICAL_FLOAT_SUMS=1. Left: 2-GPU q11 contention check, SF1000 arms.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+---
+ CMakeLists.txt                                |   1 +
+ docs/super-sirius/execution-flow.md           |   2 +-
+ docs/super-sirius/memory-management.md        |   2 +-
+ docs/super-sirius/pipeline-execution.md       |  19 +-
+ .../pipeline/gpu_pipeline_executor.hpp        |  12 +-
+ src/include/pipeline/gpu_pipeline_task.hpp    |  19 +-
+ src/include/pipeline/retry_futility.hpp       | 144 ++++++
+ src/include/pipeline/task_scheduler.hpp       |   6 +
+ src/pipeline/gpu_pipeline_executor.cpp        | 133 +++++-
+ src/pipeline/task_scheduler.cpp               |  11 +-
+ test/cpp/pipeline/test_oom_reschedule.cpp     | 429 +++++++++++++++++-
+ test/cpp/pipeline/test_retry_futility.cpp     | 183 ++++++++
+ 12 files changed, 927 insertions(+), 34 deletions(-)
+ create mode 100644 src/include/pipeline/retry_futility.hpp
+ create mode 100644 test/cpp/pipeline/test_retry_futility.cpp
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2870d7d4..f6c54623 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -848,6 +848,7 @@ set(TEST_SOURCES
+     test/cpp/pipeline/test_completion_signal.cpp
+     test/cpp/pipeline/test_gpu_pipeline_executor.cpp
+     test/cpp/pipeline/test_oom_reschedule.cpp
++    test/cpp/pipeline/test_retry_futility.cpp
+     test/cpp/pipeline/test_pipeline_memory_history.cpp
+     test/cpp/pipeline/test_data_size_estimator.cpp
+     test/cpp/pipeline/test_gpu_pipeline_task_history.cpp
+diff --git a/docs/super-sirius/execution-flow.md b/docs/super-sirius/execution-flow.md
+index 9fcbbe60..61bb47db 100644
+--- a/docs/super-sirius/execution-flow.md
++++ b/docs/super-sirius/execution-flow.md
+@@ -147,7 +147,7 @@ The GPU executor's manager loop:
+    - Lock input batches and convert to GPU if needed (`lock_or_prepare_batch`)
+    - `compute_task()`: iterate **all** operators in the pipeline (source through sink), calling `execute()` on each
+    - `publish_output()`: call the sink's `sink()` method to push results to downstream ports
+-   - On OOM: catch `oom_reschedule_exception`, retry up to 10 times with 5ms backoff
++   - On OOM: catch `oom_reschedule_exception`, retry up to 100 times with 50 ms backoff, or fail fast when a retry is provably futile (see [Pipeline Execution](pipeline-execution.md#reschedule-handling-oom-and-cuda-launch-failures))
+    - On success: check if query is complete (RESULT_COLLECTOR sink + pipeline finished)
+    - If not complete: schedule downstream consumers via `task_creator->schedule()`
+    - If complete: `completion_handler->mark_completed()`
+diff --git a/docs/super-sirius/memory-management.md b/docs/super-sirius/memory-management.md
+index 963f6ee4..ed7983ed 100644
+--- a/docs/super-sirius/memory-management.md
++++ b/docs/super-sirius/memory-management.md
+@@ -81,7 +81,7 @@ Pipeline tasks acquire memory reservations before execution to prevent GPU OOM:
+ 
+ Wraps RMM device memory resource. On each allocation:
+ - Checks if the reservation has sufficient capacity
+-- If exhausted → fails gracefully, triggering `oom_reschedule_exception`
++- If exhausted → fails gracefully, triggering `oom_reschedule_exception`; the GPU executor retries with a raised reservation floor, or fails the query fast when the retry's gate could not grant what the OOM needed and nothing can free memory (`assess_retry_futility`, see [Pipeline Execution](pipeline-execution.md#reschedule-handling-oom-and-cuda-launch-failures))
+ - Enables predictable memory usage per task
+ 
+ ### Caller reservations for HOST conversions
+diff --git a/docs/super-sirius/pipeline-execution.md b/docs/super-sirius/pipeline-execution.md
+index 8cd4bc38..430110bb 100644
+--- a/docs/super-sirius/pipeline-execution.md
++++ b/docs/super-sirius/pipeline-execution.md
+@@ -426,15 +426,16 @@ Retryable execution failures are modeled as a small exception hierarchy: `task_r
+ The GPU executor catches the **base** `task_reschedule_exception` and:
+ 
+ 1. Checks if the completion handler already has an error (skip if so)
+-2. Increments `retry_count` (max 100 retries, `MAX_RETRIES`)
+-3. Logs the retry attempt
+-4. Marks the original task as rescheduled (skips pipeline completion tracking)
+-5. Transitions intermediate data from idle to `task_created` state
+-6. Creates a new rescheduled task via `create_rescheduled_task()` virtual factory
+-7. Sleeps 50ms for backoff
+-8. Reschedules the new task back through the manager loop
+-
+-If max retries are exceeded, the error propagates and terminates the query.
++2. Increments `retry_count` (max 100 retries, `MAX_RETRIES` = `kMaxTaskRetries`)
++3. Checks whether an OOM retry is futile (`assess_retry_futility`, `src/include/pipeline/retry_futility.hpp`): the reservation gate granted less than requested, the downgrade it requested freed 0 bytes, the OOM needed more than the grant (`live + requested`, recorded by the OOM handler as `oom_required_bytes`), and nothing completed or was running anywhere since the gate (`execution_progress`, shared by all executors of a `task_scheduler`). If so the query fails at that retry with a message naming the bytes needed vs granted and the bytes held outside any task reservation vs the pool. A first attempt never fails fast; CUDA-launch reschedules and full-grant OOMs (the cross-GPU batch-lock contention case) keep the retry budget.
++4. Logs the retry attempt
++5. Marks the original task as rescheduled (skips pipeline completion tracking)
++6. Transitions intermediate data from idle to `task_created` state
++7. Creates a new rescheduled task via `create_rescheduled_task()` virtual factory
++8. Sleeps 50ms for backoff
++9. Reschedules the new task back through the manager loop
++
++If max retries are exceeded, or a retry is futile, the error propagates and terminates the query. The manager loop also drops queued tasks once the completion handler has an error, so a failed query's remaining retries do not each pay a blocking `make_reservation()`.
+ 
+ ## Error Handling and Draining
+ 
+diff --git a/src/include/pipeline/gpu_pipeline_executor.hpp b/src/include/pipeline/gpu_pipeline_executor.hpp
+index c1ddb819..16a9fe12 100644
+--- a/src/include/pipeline/gpu_pipeline_executor.hpp
++++ b/src/include/pipeline/gpu_pipeline_executor.hpp
+@@ -21,6 +21,7 @@
+ #include "parallel/task_executor.hpp"
+ #include "pipeline/completion_handler.hpp"
+ #include "pipeline/gpu_pipeline_task.hpp"
++#include "pipeline/retry_futility.hpp"
+ #include "pipeline/task_request.hpp"
+ 
+ #include <cucascade/memory/memory_space.hpp>
+@@ -52,6 +53,8 @@ namespace pipeline {
+ 
+ struct executor_metrics {
+   size_t tasks_executed{0};
++  size_t oom_reschedules{0};  ///< OOM retries handed back to the manager loop
++  size_t futile_aborts{0};    ///< queries failed because an OOM retry could not make progress
+ };
+ 
+ /**
+@@ -72,13 +75,17 @@ class gpu_pipeline_executor : public sirius::parallel::itask_executor {
+    * @param downgrade_executor Pointer to the downgrade executor. This is used so that the
+    * gpu_pipeline_executor can request memory downgrade if it cannot obtain a reservation from the
+    * memory space.
++   * @param progress Progress signals shared by all executors of one task_scheduler, consulted by
++   * the OOM fail-fast rule. When null the executor creates a private instance (what tests and
++   * any single-executor caller get).
+    */
+   explicit gpu_pipeline_executor(
+     exec::thread_pool_config config,
+     cucascade::memory::memory_space* mem_space,
+     exec::publisher<std::unique_ptr<task_request>> task_request_publisher,
+     sirius::parallel::downgrade_executor* downgrade_executor,
+-    std::shared_ptr<const telemetry::telemetry_context> telemetry_context);
++    std::shared_ptr<const telemetry::telemetry_context> telemetry_context,
++    std::shared_ptr<execution_progress> progress = nullptr);
+ 
+   /**
+    * @brief Destructor for the gpu_pipeline_executor.
+@@ -149,7 +156,10 @@ class gpu_pipeline_executor : public sirius::parallel::itask_executor {
+   sirius::parallel::downgrade_executor* _downgrade_executor{nullptr};
+   sirius::creator::task_creator* _task_creator{nullptr};
+   completion_handler* _completion_handler{nullptr};
++  std::shared_ptr<execution_progress> _progress;
+   std::atomic<size_t> _tasks_executed{0};
++  std::atomic<size_t> _oom_reschedules{0};
++  std::atomic<size_t> _futile_aborts{0};
+ };
+ 
+ }  // namespace pipeline
+diff --git a/src/include/pipeline/gpu_pipeline_task.hpp b/src/include/pipeline/gpu_pipeline_task.hpp
+index 14ada6ad..97637239 100644
+--- a/src/include/pipeline/gpu_pipeline_task.hpp
++++ b/src/include/pipeline/gpu_pipeline_task.hpp
+@@ -19,6 +19,7 @@
+ #include "config.hpp"
+ #include "memory/size_arithmetic.hpp"
+ #include "parallel/task_executor.hpp"
++#include "pipeline/retry_futility.hpp"
+ #include "pipeline/sirius_pipeline.hpp"
+ #include "pipeline/sirius_pipeline_itask.hpp"
+ #include "pipeline/sirius_pipeline_task_states.hpp"
+@@ -92,6 +93,9 @@ class gpu_pipeline_task_local_state : public sirius_pipeline_task_local_state {
+   uint32_t retry_count = 0;
+   /// Task ID of the original (non-retried) task; only meaningful when retry_count > 0.
+   std::optional<uint64_t> original_task_id = std::nullopt;
++  /// Filled by the GPU executor's reservation gate on every attempt; consumed by the reschedule
++  /// path to decide whether an OOM retry is futile.
++  std::optional<retry_gate_observation> gate_observation;
+ 
+   /// Request-size fallback used when an OOM does not expose the failed allocation size.
+   static constexpr std::size_t kDefaultRetryRequestBytes = 1024 * 1024;
+@@ -101,16 +105,22 @@ class gpu_pipeline_task_local_state : public sirius_pipeline_task_local_state {
+                                                 std::optional<std::size_t> requested_bytes) noexcept
+   {
+     auto const request_bytes = requested_bytes.value_or(kDefaultRetryRequestBytes);
++    auto const required      = memory::saturating_add(live_allocated_bytes, request_bytes);
+     auto next_floor          = memory::saturating_mul(current_reservation_bytes, 2);
+-    next_floor = std::max(next_floor, memory::saturating_add(live_allocated_bytes, request_bytes));
+-    next_floor = std::max(next_floor, kDefaultRetryRequestBytes);
++    next_floor               = std::max(next_floor, required);
++    next_floor               = std::max(next_floor, kDefaultRetryRequestBytes);
+     _retry_reservation_floor = std::max(_retry_reservation_floor, next_floor);
++    // Hard lower bound on what the failed attempt had to allocate on its own stream (a
++    // LIMIT_EXCEEDED OOM proves live + requested exceeded the reservation). Unlike the floor it
++    // carries no policy multiplier; the reschedule path compares the gate's grant against it.
++    _oom_required_bytes = std::max(_oom_required_bytes, required);
+   }
+ 
+   void inherit_retry_reservation_floor(const gpu_pipeline_task_local_state& previous) noexcept
+   {
+     _retry_reservation_floor =
+       std::max(_retry_reservation_floor, previous._retry_reservation_floor);
++    _oom_required_bytes = std::max(_oom_required_bytes, previous._oom_required_bytes);
+   }
+ 
+   [[nodiscard]] std::size_t get_retry_reservation_floor() const noexcept
+@@ -118,6 +128,10 @@ class gpu_pipeline_task_local_state : public sirius_pipeline_task_local_state {
+     return _retry_reservation_floor;
+   }
+ 
++  /// live + requested recorded by the most demanding OOM of this task chain; 0 when no OOM
++  /// handler recorded one (the futility rule then stays dormant).
++  [[nodiscard]] std::size_t get_oom_required_bytes() const noexcept { return _oom_required_bytes; }
++
+   [[nodiscard]] std::size_t get_task_consumption_basis() const override
+   {
+     if (_reservation_size_info) { return _reservation_size_info->input_basis; }
+@@ -141,6 +155,7 @@ class gpu_pipeline_task_local_state : public sirius_pipeline_task_local_state {
+  private:
+   std::optional<int> _preferred_device_id;  ///< Preferred GPU device based on data locality
+   std::size_t _retry_reservation_floor = 0;
++  std::size_t _oom_required_bytes      = 0;
+ };
+ 
+ /**
+diff --git a/src/include/pipeline/retry_futility.hpp b/src/include/pipeline/retry_futility.hpp
+new file mode 100644
+index 00000000..9a5e7f70
+--- /dev/null
++++ b/src/include/pipeline/retry_futility.hpp
+@@ -0,0 +1,144 @@
++/*
++ * Copyright 2025, Sirius Contributors.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#pragma once
++
++// GPU-free, header-only: the decision rule for failing a query fast when an OOM retry cannot
++// make progress. No CUDA, no cucascade; the executor feeds it plain numbers.
++
++#include <atomic>
++#include <cstddef>
++#include <cstdint>
++#include <format>
++#include <optional>
++#include <string>
++
++namespace sirius::pipeline {
++
++/// Retry budget for a rescheduled GPU pipeline task (OOM or CUDA-launch reschedule).
++///
++/// Bumped from 10 to 100 as part of follow-up #17. SF100 Q11 with cache=table_gpu + num_gpus=2
++/// exhausted the old 10-retry budget against cross-GPU BUILD_PROBE batch-lock contention: the
++/// batch was held in `processing` on one GPU while the probe task on the other GPU needed it.
++/// Each convert-release cycle is O(100ms) at SF100 scale, so 10 retries x 5ms backoff (50 ms
++/// total) was far too short. With 100 retries x 50 ms backoff (~5 s) the probe tasks get enough
++/// patience to clear the contention window while still bailing out on truly wedged queries.
++/// Lives here so the futility reason can name the cap it short-circuits.
++inline constexpr std::uint32_t kMaxTaskRetries = 100;
++
++/// Context-wide progress signals consulted by the OOM fail-fast. One instance per task_scheduler,
++/// shared by every gpu_pipeline_executor it owns; relaxed/acquire atomics, no locks.
++struct execution_progress {
++  /// +1 per task whose execute() returned normally, on any executor.
++  std::atomic<std::uint64_t> completed_epoch{0};
++  /// First-attempt tasks (retry_count == 0) currently inside execute(), on any executor.
++  std::atomic<std::int64_t> inflight_first_attempts{0};
++};
++
++/// What the GPU executor's reservation gate saw for one attempt. Written by the manager thread
++/// right before set_reservation(); read by the reschedule path after the attempt threw.
++struct retry_gate_observation {
++  std::size_t requested_bytes    = 0;  ///< bytes_needs after the space-max clamp
++  std::size_t granted_bytes      = 0;  ///< reservation->size() handed to the task
++  std::size_t freed_by_downgrade = 0;  ///< bytes the gate's downgrade request freed (0 if none ran)
++  bool downgrade_requested  = false;   ///< the gate asked a downgrade executor (partial + executor)
++  bool disk_tier_configured = false;   ///< downgrade_executor::has_disk_tier()
++  std::size_t space_max_bytes = 0;     ///< memory_space::get_max_memory() (the reservation limit)
++  std::uint64_t completed_epoch_at_gate = 0;  ///< execution_progress::completed_epoch read before
++                                              ///< make_reservation()
++};
++
++struct retry_futility_input {
++  bool is_oom               = false;  ///< the exception is an oom_reschedule_exception
++  std::uint32_t retry_count = 0;      ///< of the task that just threw (0 = first attempt)
++  std::size_t oom_required_bytes =
++    0;  ///< live + requested recorded by the OOM handler; 0 = unknown
++  std::optional<retry_gate_observation> gate;  ///< this attempt's gate observation
++  std::uint64_t completed_epoch_now        = 0;
++  std::int64_t inflight_first_attempts_now = 0;
++};
++
++/**
++ * @brief Decide whether another OOM retry of this task can possibly be granted what it needs.
++ *
++ * Returns std::nullopt when another retry may succeed; otherwise the human-readable reason it
++ * cannot (used verbatim in the query error). Pure: no I/O, no globals.
++ *
++ * The proof rests on two facts about cucascade's reservation gate. (A) A *partial* grant is
++ * issued only when no other reservation is alive on the space, so `space_max - granted` is
++ * exactly the number of bytes held outside any task reservation (parked fragment output, pinned
++ * tables, idle batches). (B) A LIMIT_EXCEEDED OOM proves the attempt needed strictly more than
++ * its reservation on its own stream, and the handler records that `live + requested` lower
++ * bound. When the retry's gate was partial, the downgrade freed nothing, the recorded need
++ * exceeds the grant, and nothing completed or was running anywhere that could release memory,
++ * the next retry is granted at most the same and hits the same limit.
++ */
++inline std::optional<std::string> assess_retry_futility(const retry_futility_input& in)
++{
++  // 1. CUDA-launch reschedules keep the plain retry budget.
++  if (!in.is_oom) { return std::nullopt; }
++  // 2. A first attempt never fails fast; partial first attempts often succeed.
++  if (in.retry_count == 0) { return std::nullopt; }
++  // 3. Defensive: the gate did not record.
++  if (!in.gate) { return std::nullopt; }
++  auto const& gate = *in.gate;
++  // 4. Full grant: the gate was not the constraint (the #732 batch-lock contention shape).
++  if (gate.granted_bytes >= gate.requested_bytes) { return std::nullopt; }
++  // 5. Spilling is making progress.
++  if (gate.freed_by_downgrade != 0) { return std::nullopt; }
++  // 6. Unknown need, or it would fit in the grant.
++  if (in.oom_required_bytes == 0 || in.oom_required_bytes <= gate.granted_bytes) {
++    return std::nullopt;
++  }
++  // 7. Something finished since the gate; its memory may now be convertible or free.
++  if (in.completed_epoch_now != gate.completed_epoch_at_gate) { return std::nullopt; }
++  // 8. A first attempt is running somewhere and may release memory.
++  if (in.inflight_first_attempts_now != 0) { return std::nullopt; }
++
++  // 9. Futile.
++  constexpr double kGiB = 1073741824.0;
++  auto const held       = gate.space_max_bytes > gate.granted_bytes
++                            ? gate.space_max_bytes - gate.granted_bytes
++                            : std::size_t{0};
++  auto const held_pct   = gate.space_max_bytes > 0 ? 100.0 * static_cast<double>(held) /
++                                                     static_cast<double>(gate.space_max_bytes)
++                                                   : 0.0;
++  std::string const downgrade_clause =
++    gate.downgrade_requested
++      ? std::format(
++          "and were not convertible by the downgrade executor, which freed 0 bytes "
++          "(disk tier {}configured)",
++          gate.disk_tier_configured ? "" : "not ")
++      : std::string("and no downgrade executor is attached to this memory space");
++  return std::format(
++    "the last attempt needed at least {} bytes ({:.2f} GiB) on its own stream but the "
++    "reservation gate could grant only {} bytes ({:.2f} GiB) of the {} requested; {} bytes "
++    "({:.1f}% of the {}-byte space) are held outside any task reservation {}; no task completed "
++    "and no first attempt was running since this attempt's reservation was granted, so another "
++    "retry would hit the same limit (retry cap {})",
++    in.oom_required_bytes,
++    static_cast<double>(in.oom_required_bytes) / kGiB,
++    gate.granted_bytes,
++    static_cast<double>(gate.granted_bytes) / kGiB,
++    gate.requested_bytes,
++    held,
++    held_pct,
++    gate.space_max_bytes,
++    downgrade_clause,
++    kMaxTaskRetries);
++}
++
++}  // namespace sirius::pipeline
+diff --git a/src/include/pipeline/task_scheduler.hpp b/src/include/pipeline/task_scheduler.hpp
+index 947cf7d3..b94c72f1 100644
+--- a/src/include/pipeline/task_scheduler.hpp
++++ b/src/include/pipeline/task_scheduler.hpp
+@@ -23,6 +23,7 @@
+ #include "parallel/task.hpp"
+ #include "pipeline/completion_handler.hpp"
+ #include "pipeline/gpu_pipeline_executor.hpp"
++#include "pipeline/retry_futility.hpp"
+ #include "pipeline/task_request.hpp"
+ #include "planner/query.hpp"
+ 
+@@ -239,6 +240,11 @@ class task_scheduler {
+   /// _task_request_channel and erases on dispatch), so no synchronization needed.
+   std::vector<int> _ready_devices;
+ 
++  /// Progress signals shared by every GPU executor below (the OOM fail-fast reads them so a
++  /// completion on one GPU counts as progress for a retry on another). Declared before the
++  /// executors, which also hold a shared_ptr, so it outlives them either way.
++  std::shared_ptr<execution_progress> _execution_progress = std::make_shared<execution_progress>();
++
+   /// Device ID to GPU executor.
+   std::unordered_map<int, std::unique_ptr<gpu_pipeline_executor>> _gpu_executors;
+ 
+diff --git a/src/pipeline/gpu_pipeline_executor.cpp b/src/pipeline/gpu_pipeline_executor.cpp
+index df01088b..581c9038 100644
+--- a/src/pipeline/gpu_pipeline_executor.cpp
++++ b/src/pipeline/gpu_pipeline_executor.cpp
+@@ -41,21 +41,49 @@
+ #include <mutex>
+ #include <string>
+ #include <utility>
++
+ namespace sirius {
+ namespace pipeline {
+ 
++namespace {
++
++// Retry budget for rescheduled tasks. The figure lives in retry_futility.hpp (with the #732
++// contention note) so the futility reason can name the cap it short-circuits.
++constexpr uint32_t MAX_RETRIES = kMaxTaskRetries;
++
++// Counts a first-attempt task as in flight for the lifetime of its execute() call. The futility
++// rule reads execution_progress::inflight_first_attempts to learn whether a task that might still
++// release memory is running anywhere in the context.
++struct first_attempt_guard {
++  execution_progress* p;
++  explicit first_attempt_guard(execution_progress* progress) : p(progress)
++  {
++    if (p) { p->inflight_first_attempts.fetch_add(1, std::memory_order_acq_rel); }
++  }
++  ~first_attempt_guard()
++  {
++    if (p) { p->inflight_first_attempts.fetch_sub(1, std::memory_order_acq_rel); }
++  }
++  first_attempt_guard(const first_attempt_guard&)            = delete;
++  first_attempt_guard& operator=(const first_attempt_guard&) = delete;
++};
++
++}  // namespace
++
+ gpu_pipeline_executor::gpu_pipeline_executor(
+   exec::thread_pool_config config,
+   cucascade::memory::memory_space* mem_space,
+   exec::publisher<std::unique_ptr<task_request>> task_request_publisher,
+   sirius::parallel::downgrade_executor* downgrade_executor,
+-  std::shared_ptr<const telemetry::telemetry_context> telemetry_context)
++  std::shared_ptr<const telemetry::telemetry_context> telemetry_context,
++  std::shared_ptr<execution_progress> progress)
+   : sirius::parallel::itask_executor(
+       config, std::move(telemetry_context), mem_space->get_device_id()),
+     _stream_pool(rmm::cuda_device_id{mem_space->get_device_id()}, config.num_threads),
+     _task_request_publisher(std::move(task_request_publisher)),
+     _memory_space(mem_space),
+-    _downgrade_executor(downgrade_executor)
++    _downgrade_executor(downgrade_executor),
++    _progress(progress ? std::move(progress) : std::make_shared<execution_progress>())
+ {
+ }
+ 
+@@ -138,6 +166,18 @@ void gpu_pipeline_executor::manager_loop()
+       }
+       break;
+     }
++    // Once the query has failed, nothing queued here can matter any more: drop the task instead
++    // of paying a blocking make_reservation() and a dispatch for it. Safe for the next query
++    // because task_scheduler::prepare_for_query installs a fresh completion handler on every
++    // executor before it schedules anything. Dropping the unique_ptr destroys the task and
++    // releases the reserved slot, exactly like drain_leftover_tasks() does.
++    if (_completion_handler && _completion_handler->has_error()) {
++      SIRIUS_LOG_DEBUG(
++        "GPU Pipeline Executor: dropping task {} for pipeline {}: the query already failed",
++        gpu_task->get_task_id(),
++        gpu_task->get_pipeline_id());
++      continue;
++    }
+     // Pass this executor's memory space so cross-space inputs (host/disk tiers and GPU data on
+     // another device, which prepare clones into this space) are counted in the reservation.
+     auto reservation_info = gpu_task->get_estimated_reservation_size_info(_memory_space);
+@@ -183,7 +223,13 @@ void gpu_pipeline_executor::manager_loop()
+       _memory_space->get_available_memory(),
+       _memory_space->get_total_reserved_memory(),
+       _memory_space->get_max_memory());
+-    auto reservation = _memory_space->make_reservation(bytes_needs);
++    // Snapshot the completion epoch before the (possibly blocking) reservation: the futility rule
++    // compares it with the epoch after this attempt's OOM to learn whether anything finished in
++    // between. `freed` / `downgrade_requested` are recorded on the task with the grant below.
++    auto const epoch_at_gate = _progress->completed_epoch.load(std::memory_order_acquire);
++    size_t freed             = 0;
++    bool downgrade_requested = false;
++    auto reservation         = _memory_space->make_reservation(bytes_needs);
+     if (!reservation) {
+       SIRIUS_LOG_ERROR("GPU Pipeline Executor: Failed to acquire memory reservation for task {}",
+                        gpu_task->get_task_id());
+@@ -215,10 +261,10 @@ void gpu_pipeline_executor::manager_loop()
+         gpu_task->get_task_id());
+ 
+       reservation.reset();  // release partial reservation before downgrade
++      downgrade_requested = true;
+ 
+       std::unique_ptr<cucascade::memory::reservation> new_reservation;
+       auto* mem_space = _memory_space;
+-      size_t freed    = 0;
+       std::mutex reservation_mutex;
+       try {
+         freed =
+@@ -281,8 +327,23 @@ void gpu_pipeline_executor::manager_loop()
+         gpu_task->get_task_id(),
+         reservation->size());
+     }
++    bool first_attempt = true;
+     if (auto* local_state = dynamic_cast<sirius::pipeline::sirius_pipeline_task_local_state*>(
+           gpu_task->local_state())) {
++      if (auto* gpu_local = dynamic_cast<gpu_pipeline_task_local_state*>(local_state)) {
++        // Recorded on every attempt (full or partial grant, with or without a downgrade
++        // executor); the reschedule path reads it back if this attempt OOMs.
++        gpu_local->gate_observation =
++          retry_gate_observation{.requested_bytes      = bytes_needs,
++                                 .granted_bytes        = reservation->size(),
++                                 .freed_by_downgrade   = freed,
++                                 .downgrade_requested  = downgrade_requested,
++                                 .disk_tier_configured = _downgrade_executor != nullptr &&
++                                                         _downgrade_executor->has_disk_tier(),
++                                 .space_max_bytes         = _memory_space->get_max_memory(),
++                                 .completed_epoch_at_gate = epoch_at_gate};
++        first_attempt = gpu_local->retry_count == 0;
++      }
+       local_state->set_reservation(std::move(reservation), reservation_info);
+     } else {
+       SIRIUS_LOG_ERROR("GPU Pipeline Executor: Failed to cast local state for task {}",
+@@ -304,10 +365,14 @@ void gpu_pipeline_executor::manager_loop()
+        task       = std::move(pipeline_task),
+        exc_stream = std::move(exc_stream),
+        consumers  = std::move(output_consumers),
+-       pipeline]() mutable {
++       pipeline,
++       first_attempt]() mutable {
++        // First statement, so every exit of this lambda (normal, reschedule, error) uncounts it.
++        first_attempt_guard inflight(first_attempt ? _progress.get() : nullptr);
+         try {
+           task->execute(exc_stream);
+           _tasks_executed.fetch_add(1, std::memory_order_relaxed);
++          _progress->completed_epoch.fetch_add(1, std::memory_order_acq_rel);
+         } catch (task_reschedule_exception& ex) {
+           if (_completion_handler && _completion_handler->has_error()) {
+             // If the completion handler is already in an error state, then we can just return and
+@@ -336,16 +401,6 @@ void gpu_pipeline_executor::manager_loop()
+             orig_task_id     = cur_local->original_task_id.value();
+           }
+ 
+-          // Bumped from 10 to 100 as part of follow-up #17. SF100 Q11 with
+-          // cache=table_gpu + num_gpus=2 exhausted the old 10-retry budget
+-          // against cross-GPU BUILD_PROBE batch-lock contention: the batch
+-          // was held in `processing` on one GPU while the probe task on the
+-          // other GPU needed it. Each convert-release cycle is O(100ms) at
+-          // SF100 scale, so 10 retries × 5ms backoff (50 ms total) was far
+-          // too short. With 100 retries × 50 ms backoff (~5 s) the probe
+-          // tasks get enough patience to clear the contention window while
+-          // still bailing out on truly wedged queries.
+-          static constexpr uint32_t MAX_RETRIES = 100;
+           if (next_retry_count > MAX_RETRIES) {
+             SIRIUS_LOG_ERROR(
+               "GPU Pipeline Executor: task {} (original task {}) exceeded {} retries at "
+@@ -363,6 +418,50 @@ void gpu_pipeline_executor::manager_loop()
+             return;
+           }
+ 
++          // Fail fast when this OOM retry provably could not have been granted what its last OOM
++          // needed, and nothing changed that could make the next one different: the gate granted
++          // less than requested, the downgrade freed nothing, the recorded need exceeds the
++          // grant, and no task completed or was running anywhere since the gate. Decided only
++          // after the retry's own OOM confirmed the gate's verdict (a first attempt never fails
++          // fast); the CUDA-launch and #732 batch-lock shapes keep the MAX_RETRIES budget.
++          bool const is_oom = dynamic_cast<oom_reschedule_exception*>(&ex) != nullptr;
++          if (is_oom && cur_local) {
++            auto const reason = assess_retry_futility(
++              {.is_oom              = true,
++               .retry_count         = cur_local->retry_count,
++               .oom_required_bytes  = cur_local->get_oom_required_bytes(),
++               .gate                = cur_local->gate_observation,
++               .completed_epoch_now = _progress->completed_epoch.load(std::memory_order_acquire),
++               .inflight_first_attempts_now =
++                 _progress->inflight_first_attempts.load(std::memory_order_acquire)});
++            if (reason) {
++              _futile_aborts.fetch_add(1, std::memory_order_relaxed);
++              auto message = std::format(
++                "GPU pipeline task gave up after {} OOM {} with no way to make progress for "
++                "original task {} on GPU:{}: {}; {}",
++                cur_local->retry_count,
++                cur_local->retry_count == 1 ? "retry" : "retries",
++                orig_task_id,
++                _memory_space->get_device_id(),
++                ex.what(),
++                *reason);
++              SIRIUS_LOG_ERROR(
++                "GPU Pipeline Executor: task {} (original task {}) OOM retry {} is futile -- "
++                "failing the query: {}",
++                gpu_task->get_task_id(),
++                orig_task_id,
++                cur_local->retry_count,
++                *reason);
++              if (_completion_handler) {
++                _completion_handler->report_error(
++                  std::make_exception_ptr(std::runtime_error(std::move(message))));
++              }
++              // Same exit shape as the MAX_RETRIES path: report_error only; the engine drains.
++              return;
++            }
++          }
++          if (is_oom) { _oom_reschedules.fetch_add(1, std::memory_order_relaxed); }
++
+           SIRIUS_LOG_WARN(
+             "GPU Pipeline Executor: reschedule (retry {}/{}) for task {} (original task {}), "
+             "resuming from operator index {}: {}",
+@@ -484,7 +583,9 @@ bool gpu_pipeline_executor::is_task_queue_empty() const noexcept { return _task_
+ 
+ executor_metrics gpu_pipeline_executor::get_metrics() const noexcept
+ {
+-  return {_tasks_executed.load(std::memory_order_relaxed)};
++  return {.tasks_executed  = _tasks_executed.load(std::memory_order_relaxed),
++          .oom_reschedules = _oom_reschedules.load(std::memory_order_relaxed),
++          .futile_aborts   = _futile_aborts.load(std::memory_order_relaxed)};
+ }
+ 
+ void gpu_pipeline_executor::set_completion_handler(completion_handler* handler) noexcept
+diff --git a/src/pipeline/task_scheduler.cpp b/src/pipeline/task_scheduler.cpp
+index 1d3dbf99..ec1c22e4 100644
+--- a/src/pipeline/task_scheduler.cpp
++++ b/src/pipeline/task_scheduler.cpp
+@@ -120,7 +120,8 @@ task_scheduler::task_scheduler(
+                                               const_cast<cucascade::memory::memory_space*>(space),
+                                               _task_request_channel.make_publisher(),
+                                               dg_exec,
+-                                              _telemetry_context));
++                                              _telemetry_context,
++                                              _execution_progress));
+   }
+ }
+ 
+@@ -291,6 +292,14 @@ void task_scheduler::drain_after_error()
+   // tasks to finish, then restart the manager for the next query.
+   for (auto& [device_id, gpu_exec] : _gpu_executors) {
+     gpu_exec->drain_and_wait();
++    auto const m = gpu_exec->get_metrics();
++    SIRIUS_LOG_INFO(
++      "task_scheduler: GPU:{} executor metrics (cumulative): tasks_executed={} "
++      "oom_reschedules={} futile_aborts={}",
++      device_id,
++      m.tasks_executed,
++      m.oom_reschedules,
++      m.futile_aborts);
+   }
+ 
+   // Now that no executor can generate further task_creation_requests, discard
+diff --git a/test/cpp/pipeline/test_oom_reschedule.cpp b/test/cpp/pipeline/test_oom_reschedule.cpp
+index aa13cada..965b7408 100644
+--- a/test/cpp/pipeline/test_oom_reschedule.cpp
++++ b/test/cpp/pipeline/test_oom_reschedule.cpp
+@@ -15,25 +15,34 @@
+  */
+ 
+ #include "catch.hpp"
++#include "data/data_repository_manager_registry.hpp"
++#include "downgrade/downgrade_executor.hpp"
+ #include "exec/channel.hpp"
+ #include "exec/config.hpp"
+ #include "pipeline/completion_handler.hpp"
+ #include "pipeline/gpu_pipeline_executor.hpp"
+ #include "pipeline/gpu_pipeline_task.hpp"
+ #include "pipeline/oom_reschedule_exception.hpp"
++#include "pipeline/retry_futility.hpp"
+ #include "pipeline/sirius_pipeline_task_states.hpp"
+ #include "pipeline/task_request.hpp"
+ #include "scan/test_utils.hpp"
+ #include "utils/telemetry_utils.hpp"
+ 
++#include <rmm/cuda_stream_view.hpp>
++#include <rmm/device_buffer.hpp>
++
++#include <cucascade/memory/error.hpp>
+ #include <cucascade/memory/memory_reservation.hpp>
+ #include <cucascade/memory/reservation_aware_resource_adaptor.hpp>
+ 
++#include <algorithm>
+ #include <atomic>
+ #include <chrono>
+ #include <cstddef>
+ #include <memory>
+ #include <mutex>
++#include <optional>
+ #include <string>
+ #include <thread>
+ #include <utility>
+@@ -78,11 +87,22 @@ struct oom_test_fixture {
+   std::unique_ptr<sirius::memory::sirius_memory_reservation_manager> manager;
+   cucascade::memory::memory_space* mem_space = nullptr;
+   sirius::exec::channel<std::unique_ptr<sirius::pipeline::task_request>> request_channel;
++  // Declared before `executor` so they outlive it: the executor keeps raw pointers to the
++  // downgrade executor and shares ownership of the progress signals.
++  std::unique_ptr<sirius::data::data_repository_manager_registry> repo_registry;
++  std::unique_ptr<sirius::parallel::downgrade_executor> downgrade;
++  std::shared_ptr<sirius::pipeline::execution_progress> progress =
++    std::make_shared<sirius::pipeline::execution_progress>();
+   std::unique_ptr<sirius::pipeline::gpu_pipeline_executor> executor;
+   sirius::pipeline::completion_handler completion;
+ 
+   // Returns false if setup failed (no GPU available) — caller should WARN and return.
+-  bool setup(int num_threads, const std::string& thread_name_prefix)
++  // With `with_downgrade_executor` the executor gets a real downgrade_executor over an empty
++  // repository registry, so a partial-grant gate runs the production downgrade round trip and
++  // sees 0 bytes freed (the analogue of parked fragment output the sweep cannot reach).
++  bool setup(int num_threads,
++             const std::string& thread_name_prefix,
++             bool with_downgrade_executor = false)
+   {
+     try {
+       cucascade::memory::reservation_manager_configurator builder;
+@@ -109,17 +129,44 @@ struct oom_test_fixture {
+     config.num_threads        = num_threads;
+     config.thread_name_prefix = thread_name_prefix;
+ 
++    if (with_downgrade_executor) {
++      repo_registry = std::make_unique<sirius::data::data_repository_manager_registry>();
++      sirius::exec::downgrade_executor_config dg_config{
++        .thread_pool    = {.num_threads = 1, .thread_name_prefix = "downgrade"},
++        .monitor_period = std::chrono::milliseconds{0}};
++      downgrade = std::make_unique<sirius::parallel::downgrade_executor>(
++        dg_config,
++        *repo_registry,
++        cucascade::memory::memory_space_id(cucascade::memory::Tier::GPU, 0),
++        mem_space,
++        *manager);
++      downgrade->start();
++    }
++
+     executor = std::make_unique<sirius::pipeline::gpu_pipeline_executor>(
+       config,
+       mem_space,
+       std::move(request_publisher),
+-      nullptr,
+-      sirius::test::make_test_telemetry_context());
++      downgrade.get(),
++      sirius::test::make_test_telemetry_context(),
++      progress);
+     executor->set_completion_handler(&completion);
+     return true;
+   }
+ };
+ 
++// Memory the downgrade sweep cannot see: a plain allocation on the space's default allocator,
++// outside any task reservation (the analogue of parked STREAMING_SINK output). With the 1100 MB
++// capacity and 0.95 reservation fraction (limit 1045 MB), a 900 MB hog leaves an "upto" grant of
++// exactly 145 MB and 55 MB of unreservable overflow headroom.
++constexpr std::size_t kHogBytes = 900ULL * 1024 * 1024;  // 900 MB
++
++std::unique_ptr<rmm::device_buffer> make_hog(cucascade::memory::memory_space* mem_space)
++{
++  return std::make_unique<rmm::device_buffer>(
++    kHogBytes, rmm::cuda_stream_default, mem_space->get_default_allocator());
++}
++
+ //------------------------------------------------------------------------------
+ // Base class for test tasks — handles the common constructor, trivial overrides,
+ // and the reservation-setup boilerplate shared by all task types.
+@@ -338,6 +385,183 @@ class xl_task : public oom_test_task_base {
+   }
+ };
+ 
++//------------------------------------------------------------------------------
++// Floor-aware task — models the production retry contract that the fail-fast rule
++// depends on: the estimator honours the OOM-derived retry floor (production does
++// this in gpu_pipeline_task::get_estimated_reservation_size_info) and the OOM
++// handler records live + requested the way gpu_pipeline_task::execute does.
++// Allocates kFloorAllocation on every attempt.
++//------------------------------------------------------------------------------
++constexpr std::size_t kFloorAllocation = 300ULL * 1024 * 1024;  // 300 MB
++
++class floor_aware_task : public oom_test_task_base {
++ public:
++  using oom_test_task_base::oom_test_task_base;
++
++  sirius::pipeline::reservation_size_info get_estimated_reservation_size_info(
++    const cucascade::memory::memory_space* /*target_space*/) const override
++  {
++    auto const& ls = _local_state->cast<sirius::pipeline::gpu_pipeline_task_local_state>();
++    sirius::pipeline::reservation_size_info info;
++    info.retry_reservation_floor = ls.get_retry_reservation_floor();
++    info.reservation_size        = std::max(kReservationSize, info.retry_reservation_floor);
++    return info;
++  }
++
++  void execute(rmm::cuda_stream_view stream) override
++  {
++    auto& global = _global_state->cast<oom_test_global_state>();
++    auto& local  = _local_state->cast<sirius::pipeline::gpu_pipeline_task_local_state>();
++
++    auto const reservation_bytes = local.get_reservation_bytes();
++    auto guard                   = setup_allocator(stream, "floor-aware test task");
++    if (!guard) { return; }
++    auto* allocator = guard->allocator;
++
++    void* allocation = nullptr;
++    try {
++      allocation = allocator->allocate(stream, kFloorAllocation, alignof(std::max_align_t));
++    } catch (const rmm::out_of_memory& oom) {
++      std::optional<std::size_t> requested;
++      if (auto const* cc_oom =
++            dynamic_cast<const cucascade::memory::cucascade_out_of_memory*>(&oom)) {
++        requested = cc_oom->requested_bytes;
++      }
++      auto const live = allocator->get_allocated_bytes(stream);
++      local.update_retry_reservation_floor_after_oom(reservation_bytes, live, requested);
++      global.oom_count.fetch_add(1, std::memory_order_relaxed);
++      throw sirius::pipeline::oom_reschedule_exception(
++        std::move(local._input_data), 0, "OOM in floor-aware test task allocation");
++    }
++
++    allocator->deallocate(stream, allocation, kFloorAllocation, alignof(std::max_align_t));
++    global.completed_count.fetch_add(1, std::memory_order_relaxed);
++  }
++
++  std::unique_ptr<gpu_pipeline_task> create_rescheduled_task(
++    uint64_t task_id,
++    std::unique_ptr<sirius::pipeline::sirius_pipeline_task_local_state> local_state) override
++  {
++    auto typed_local = std::unique_ptr<sirius::pipeline::gpu_pipeline_task_local_state>(
++      static_cast<sirius::pipeline::gpu_pipeline_task_local_state*>(local_state.release()));
++    return std::make_unique<floor_aware_task>(
++      task_id,
++      std::move(typed_local),
++      std::dynamic_pointer_cast<oom_test_global_state>(_global_state));
++  }
++};
++
++//------------------------------------------------------------------------------
++// Holder task — reserves most of the space and sleeps without allocating. The
++// reservation alone charges the pool and keeps a notifier alive on the space's
++// notification channel, so a concurrent make_reservation() blocks instead of
++// being handed a partial "upto" grant.
++//------------------------------------------------------------------------------
++constexpr std::size_t kHolderReservation = 900ULL * 1024 * 1024;  // 900 MB
++constexpr auto kHolderDuration           = std::chrono::milliseconds(300);
++
++class holder_task : public oom_test_task_base {
++ public:
++  using oom_test_task_base::oom_test_task_base;
++
++  sirius::pipeline::reservation_size_info get_estimated_reservation_size_info(
++    const cucascade::memory::memory_space* /*target_space*/) const override
++  {
++    sirius::pipeline::reservation_size_info info;
++    info.reservation_size = kHolderReservation;
++    return info;
++  }
++
++  void execute(rmm::cuda_stream_view) override
++  {
++    auto& global = _global_state->cast<oom_test_global_state>();
++    auto& local  = _local_state->cast<sirius::pipeline::gpu_pipeline_task_local_state>();
++    if (local.get_reservation_bytes() != kHolderReservation) {
++      global.add_error("Holder task did not receive its full reservation.");
++    }
++    // The reservation stays on the local state until the task is destroyed.
++    std::this_thread::sleep_for(kHolderDuration);
++    global.completed_count.fetch_add(1, std::memory_order_relaxed);
++  }
++
++  std::unique_ptr<gpu_pipeline_task> create_rescheduled_task(
++    uint64_t task_id,
++    std::unique_ptr<sirius::pipeline::sirius_pipeline_task_local_state> local_state) override
++  {
++    auto typed_local = std::unique_ptr<sirius::pipeline::gpu_pipeline_task_local_state>(
++      static_cast<sirius::pipeline::gpu_pipeline_task_local_state*>(local_state.release()));
++    return std::make_unique<holder_task>(
++      task_id,
++      std::move(typed_local),
++      std::dynamic_pointer_cast<oom_test_global_state>(_global_state));
++  }
++};
++
++//------------------------------------------------------------------------------
++// Big-estimate task — asks for more than the space can grant (the executor clamps
++// the request to the space max), then only needs a little. A first attempt on a
++// partial grant must run, not fail fast.
++//------------------------------------------------------------------------------
++constexpr std::size_t kBigEstimateBytes  = 2ULL * 1024 * 1024 * 1024;  // 2 GB (> kGpuCapacity)
++constexpr std::size_t kBigTaskAllocation = 50ULL * 1024 * 1024;        // 50 MB
++
++class big_estimate_task : public oom_test_task_base {
++ public:
++  using oom_test_task_base::oom_test_task_base;
++
++  sirius::pipeline::reservation_size_info get_estimated_reservation_size_info(
++    const cucascade::memory::memory_space* /*target_space*/) const override
++  {
++    sirius::pipeline::reservation_size_info info;
++    info.reservation_size = kBigEstimateBytes;
++    return info;
++  }
++
++  void execute(rmm::cuda_stream_view stream) override
++  {
++    auto& global = _global_state->cast<oom_test_global_state>();
++
++    auto guard = setup_allocator(stream, "big-estimate test task");
++    if (!guard) { return; }
++    auto* allocator = guard->allocator;
++
++    void* allocation = allocator->allocate(stream, kBigTaskAllocation, alignof(std::max_align_t));
++    allocator->deallocate(stream, allocation, kBigTaskAllocation, alignof(std::max_align_t));
++    global.completed_count.fetch_add(1, std::memory_order_relaxed);
++  }
++
++  std::unique_ptr<gpu_pipeline_task> create_rescheduled_task(
++    uint64_t task_id,
++    std::unique_ptr<sirius::pipeline::sirius_pipeline_task_local_state> local_state) override
++  {
++    auto typed_local = std::unique_ptr<sirius::pipeline::gpu_pipeline_task_local_state>(
++      static_cast<sirius::pipeline::gpu_pipeline_task_local_state*>(local_state.release()));
++    return std::make_unique<big_estimate_task>(
++      task_id,
++      std::move(typed_local),
++      std::dynamic_pointer_cast<oom_test_global_state>(_global_state));
++  }
++};
++
++std::unique_ptr<sirius::pipeline::gpu_pipeline_task_local_state> make_empty_local_state()
++{
++  return std::make_unique<sirius::pipeline::gpu_pipeline_task_local_state>(
++    std::make_unique<sirius::op::pipelineable_operator_data>(
++      std::vector<std::shared_ptr<cucascade::data_batch>>{}));
++}
++
++// Polls `done` every 10 ms until it holds or `timeout` elapses; returns whether it held.
++template <typename Pred>
++bool wait_until(Pred&& done, std::chrono::milliseconds timeout)
++{
++  auto const deadline = std::chrono::steady_clock::now() + timeout;
++  while (!done()) {
++    if (std::chrono::steady_clock::now() > deadline) { return false; }
++    std::this_thread::sleep_for(std::chrono::milliseconds(10));
++  }
++  return true;
++}
++
+ }  // namespace
+ 
+ // ---------------------------------------------------------------------------
+@@ -534,3 +758,202 @@ TEST_CASE("GPU pipeline executor fails after max OOM retries",
+                                      << global_state->completed_count.load()
+                                      << " small tasks completed, error correctly reported");
+ }
++
++// ---------------------------------------------------------------------------
++// Fail-fast: an OOM retry that provably cannot be granted what its last OOM
++// needed fails the query at that retry instead of replaying the OOM 100 times.
++//
++// Memory layout (capacity 1100 MB, reservation limit 1045 MB, hog 900 MB held
++// outside any reservation):
++//   attempt 0: gate grants 50 MB in full (900 + 50 <= 1045); the 300 MB allocation
++//              overflows by 250 MB -> 1200 > 1100 -> LIMIT_EXCEEDED; required = 300 MB
++//   retry 1:   floor 300 MB -> or_null fails -> IDLE -> upto 145 MB (partial); the
++//              downgrade sweeps an empty registry and frees 0; the final
++//              make_reservation grants 145 MB again; the OOM repeats
++//              (145 + 155 overflow -> 1200 > 1100); 300 MB > 145 MB granted, nothing
++//              completed, no first attempt in flight -> futile.
++// ---------------------------------------------------------------------------
++TEST_CASE("GPU pipeline executor fails the query when an OOM retry cannot make progress",
++          "[gpu_pipeline_executor][oom][futile]")
++{
++  oom_test_fixture f;
++  if (!f.setup(1, "oom-futile", /*with_downgrade_executor=*/true)) {
++    WARN("Skipping futile OOM test — no GPU available.");
++    return;
++  }
++
++  auto hog = make_hog(f.mem_space);
++  REQUIRE(f.mem_space->get_available_memory() <= kGpuCapacity - kHogBytes + (1ULL << 20));
++
++  auto global_state = std::make_shared<oom_test_global_state>();
++  auto fut          = f.completion.get_awaitable();
++
++  f.executor->start();
++  auto const start_time = std::chrono::steady_clock::now();
++  f.executor->schedule(
++    std::make_unique<floor_aware_task>(1, make_empty_local_state(), global_state));
++
++  bool const failed = wait_until([&] { return f.completion.has_error(); }, std::chrono::seconds(5));
++  auto const elapsed = std::chrono::steady_clock::now() - start_time;
++
++  f.executor->drain_and_wait();
++  f.executor->stop();
++
++  if (global_state->error_count.load(std::memory_order_relaxed) > 0) {
++    std::lock_guard<std::mutex> lock(global_state->error_mutex);
++    for (const auto& error : global_state->errors) {
++      INFO(error);
++    }
++  }
++  REQUIRE(global_state->error_count.load(std::memory_order_relaxed) == 0);
++  REQUIRE(failed);
++  REQUIRE_THROWS_WITH(fut.get(),
++                      Catch::Contains("gave up after 1 OOM retry") &&
++                        Catch::Contains("held outside any task reservation") &&
++                        Catch::Contains("freed 0 bytes"));
++
++  // First attempt + the one retry whose OOM confirmed the gate's verdict.
++  REQUIRE(global_state->oom_count.load(std::memory_order_relaxed) == 2);
++  REQUIRE(global_state->completed_count.load(std::memory_order_relaxed) == 0);
++
++  auto const metrics = f.executor->get_metrics();
++  REQUIRE(metrics.oom_reschedules == 1);
++  REQUIRE(metrics.futile_aborts == 1);
++  REQUIRE(f.executor->is_task_queue_empty());
++  REQUIRE(f.progress->inflight_first_attempts.load() == 0);
++  REQUIRE(elapsed < std::chrono::seconds(2));
++
++  hog.reset();  // after the executor is stopped
++}
++
++// ---------------------------------------------------------------------------
++// Fact A pinned: while another task holds a live reservation the space hands out
++// no partial grant, so the retry blocks until the holder finishes and is then
++// granted in full. If cucascade ever returned a partial grant while a
++// reservation is alive, the floor task would OOM more than once.
++// ---------------------------------------------------------------------------
++TEST_CASE("GPU pipeline executor keeps retrying an OOM while another task holds a live reservation",
++          "[gpu_pipeline_executor][oom][futile]")
++{
++  oom_test_fixture f;
++  if (!f.setup(2, "oom-holder", /*with_downgrade_executor=*/true)) {
++    WARN("Skipping holder OOM test — no GPU available.");
++    return;
++  }
++
++  auto global_state = std::make_shared<oom_test_global_state>();
++
++  f.executor->start();
++  f.executor->schedule(std::make_unique<holder_task>(1, make_empty_local_state(), global_state));
++  f.executor->schedule(
++    std::make_unique<floor_aware_task>(2, make_empty_local_state(), global_state));
++
++  bool const both_done = wait_until(
++    [&] {
++      return global_state->completed_count.load(std::memory_order_relaxed) >= 2 ||
++             f.completion.has_error();
++    },
++    std::chrono::seconds(10));
++
++  f.executor->drain_and_wait();
++  f.executor->stop();
++
++  if (global_state->error_count.load(std::memory_order_relaxed) > 0) {
++    std::lock_guard<std::mutex> lock(global_state->error_mutex);
++    for (const auto& error : global_state->errors) {
++      INFO(error);
++    }
++  }
++  REQUIRE(global_state->error_count.load(std::memory_order_relaxed) == 0);
++  REQUIRE(both_done);
++  REQUIRE_FALSE(f.completion.has_error());
++  REQUIRE(global_state->completed_count.load(std::memory_order_relaxed) == 2);
++  REQUIRE(global_state->oom_count.load(std::memory_order_relaxed) == 1);
++
++  auto const metrics = f.executor->get_metrics();
++  REQUIRE(metrics.oom_reschedules == 1);
++  REQUIRE(metrics.futile_aborts == 0);
++  REQUIRE(f.progress->inflight_first_attempts.load() == 0);
++}
++
++// ---------------------------------------------------------------------------
++// A first attempt on a partial grant runs to completion (rule: retry_count == 0
++// never fails fast). No downgrade executor here, covering the gate branch that
++// records downgrade_requested == false.
++// ---------------------------------------------------------------------------
++TEST_CASE("GPU pipeline executor does not fail a first attempt that runs on a partial reservation",
++          "[gpu_pipeline_executor][oom][futile]")
++{
++  oom_test_fixture f;
++  if (!f.setup(1, "oom-first", /*with_downgrade_executor=*/false)) {
++    WARN("Skipping partial-first-attempt test — no GPU available.");
++    return;
++  }
++
++  auto hog = make_hog(f.mem_space);
++  REQUIRE(f.mem_space->get_available_memory() <= kGpuCapacity - kHogBytes + (1ULL << 20));
++
++  auto global_state = std::make_shared<oom_test_global_state>();
++
++  f.executor->start();
++  f.executor->schedule(
++    std::make_unique<big_estimate_task>(1, make_empty_local_state(), global_state));
++
++  bool const done = wait_until(
++    [&] {
++      return global_state->completed_count.load(std::memory_order_relaxed) >= 1 ||
++             f.completion.has_error();
++    },
++    std::chrono::seconds(5));
++
++  f.executor->drain_and_wait();
++  f.executor->stop();
++
++  if (global_state->error_count.load(std::memory_order_relaxed) > 0) {
++    std::lock_guard<std::mutex> lock(global_state->error_mutex);
++    for (const auto& error : global_state->errors) {
++      INFO(error);
++    }
++  }
++  REQUIRE(global_state->error_count.load(std::memory_order_relaxed) == 0);
++  REQUIRE(done);
++  REQUIRE_FALSE(f.completion.has_error());
++  REQUIRE(global_state->completed_count.load(std::memory_order_relaxed) == 1);
++  REQUIRE(global_state->oom_count.load(std::memory_order_relaxed) == 0);
++
++  auto const metrics = f.executor->get_metrics();
++  REQUIRE(metrics.futile_aborts == 0);
++  REQUIRE(metrics.oom_reschedules == 0);
++
++  hog.reset();  // after the executor is stopped
++}
++
++// ---------------------------------------------------------------------------
++// Once the query has failed, queued tasks are dropped at the gate instead of
++// each costing the manager a blocking make_reservation() and a dispatch.
++// ---------------------------------------------------------------------------
++TEST_CASE("GPU pipeline executor drops queued tasks once the query has failed",
++          "[gpu_pipeline_executor][oom][futile]")
++{
++  oom_test_fixture f;
++  if (!f.setup(1, "oom-dropped")) {
++    WARN("Skipping dropped-task test — no GPU available.");
++    return;
++  }
++
++  auto global_state = std::make_shared<oom_test_global_state>();
++  f.completion.report_error("simulated earlier failure");
++  REQUIRE(f.completion.has_error());
++
++  f.executor->start();
++  f.executor->schedule(std::make_unique<small_task>(1, make_empty_local_state(), global_state));
++  std::this_thread::sleep_for(std::chrono::milliseconds(200));
++
++  f.executor->drain_and_wait();
++  f.executor->stop();
++
++  REQUIRE(global_state->error_count.load(std::memory_order_relaxed) == 0);
++  REQUIRE(global_state->completed_count.load(std::memory_order_relaxed) == 0);
++  REQUIRE(f.executor->is_task_queue_empty());
++  REQUIRE(f.executor->get_metrics().tasks_executed == 0);
++}
+diff --git a/test/cpp/pipeline/test_retry_futility.cpp b/test/cpp/pipeline/test_retry_futility.cpp
+new file mode 100644
+index 00000000..fe414305
+--- /dev/null
++++ b/test/cpp/pipeline/test_retry_futility.cpp
+@@ -0,0 +1,183 @@
++/*
++ * Copyright 2025, Sirius Contributors.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#include "catch.hpp"
++#include "pipeline/retry_futility.hpp"
++
++#include <cstddef>
++#include <cstdint>
++#include <optional>
++#include <string>
++
++using Catch::Contains;
++using sirius::pipeline::assess_retry_futility;
++using sirius::pipeline::retry_futility_input;
++using sirius::pipeline::retry_gate_observation;
++
++namespace {
++
++// The q05 chain of original task 2567 on cn1 at SF1000 (100 GiB pool): every retry gate granted
++// 3,076,488,960 of the 6,637,897,728-byte floor, the downgrade freed 0, and the OOM needed
++// live + requested = 3,376,381,184 bytes. 104,297,693,440 bytes (97.1% of the space) were held
++// outside any task reservation (parked fragment output).
++constexpr std::size_t kSpaceMax  = 107374182400ULL;
++constexpr std::size_t kRequested = 6637897728ULL;
++constexpr std::size_t kGranted   = 3076488960ULL;
++constexpr std::size_t kRequired  = 3376381184ULL;
++constexpr std::uint64_t kEpoch   = 41;
++
++retry_gate_observation q05_gate()
++{
++  return retry_gate_observation{.requested_bytes         = kRequested,
++                                .granted_bytes           = kGranted,
++                                .freed_by_downgrade      = 0,
++                                .downgrade_requested     = true,
++                                .disk_tier_configured    = false,
++                                .space_max_bytes         = kSpaceMax,
++                                .completed_epoch_at_gate = kEpoch};
++}
++
++retry_futility_input q05_futile()
++{
++  return retry_futility_input{.is_oom                      = true,
++                              .retry_count                 = 1,
++                              .oom_required_bytes          = kRequired,
++                              .gate                        = q05_gate(),
++                              .completed_epoch_now         = kEpoch,
++                              .inflight_first_attempts_now = 0};
++}
++
++}  // namespace
++
++TEST_CASE("assess_retry_futility decides from the gate observation and progress signals",
++          "[retry_futility]")
++{
++  SECTION("the q05 shape is futile and the reason names the held bytes")
++  {
++    auto const reason = assess_retry_futility(q05_futile());
++    REQUIRE(reason.has_value());
++    CHECK_THAT(*reason, Contains("held outside any task reservation"));
++    CHECK_THAT(*reason, Contains("104297693440"));
++    CHECK_THAT(*reason, Contains("97.1%"));
++    CHECK_THAT(*reason, Contains(std::to_string(kRequired)));
++    CHECK_THAT(*reason, Contains(std::to_string(kGranted)));
++    CHECK_THAT(*reason, Contains(std::to_string(kRequested)));
++    CHECK_THAT(*reason, Contains("freed 0 bytes"));
++    CHECK_THAT(*reason, Contains("disk tier not configured"));
++    CHECK_THAT(*reason, Contains("retry cap 100"));
++  }
++
++  SECTION("not an OOM: CUDA-launch reschedules keep the plain retry budget")
++  {
++    auto in   = q05_futile();
++    in.is_oom = false;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("first attempt never fails fast")
++  {
++    auto in        = q05_futile();
++    in.retry_count = 0;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("no gate observation: defensive nullopt")
++  {
++    auto in = q05_futile();
++    in.gate = std::nullopt;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("full grant: the gate was not the constraint (#732 contention shape)")
++  {
++    auto in                = q05_futile();
++    in.gate->granted_bytes = in.gate->requested_bytes;
++    in.oom_required_bytes  = in.gate->requested_bytes + 1;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("spilling progressed: the downgrade freed something")
++  {
++    auto in                     = q05_futile();
++    in.gate->freed_by_downgrade = 1;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("need unknown: no requirement was recorded by the OOM handler")
++  {
++    auto in               = q05_futile();
++    in.oom_required_bytes = 0;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("need fits in the grant")
++  {
++    auto in               = q05_futile();
++    in.oom_required_bytes = in.gate->granted_bytes;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("something completed since the gate")
++  {
++    auto in                = q05_futile();
++    in.completed_epoch_now = in.gate->completed_epoch_at_gate + 1;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("a first attempt is running somewhere")
++  {
++    auto in                        = q05_futile();
++    in.inflight_first_attempts_now = 1;
++    REQUIRE_FALSE(assess_retry_futility(in).has_value());
++  }
++
++  SECTION("clamped floor: requested == space max is still short when granted < space max")
++  {
++    auto in                  = q05_futile();
++    in.gate->requested_bytes = kSpaceMax;
++    auto const reason        = assess_retry_futility(in);
++    REQUIRE(reason.has_value());
++    CHECK_THAT(*reason, Contains("held outside any task reservation"));
++  }
++
++  SECTION("no downgrade executor attached")
++  {
++    auto in                      = q05_futile();
++    in.gate->downgrade_requested = false;
++    auto const reason            = assess_retry_futility(in);
++    REQUIRE(reason.has_value());
++    CHECK_THAT(*reason, Contains("no downgrade executor"));
++    CHECK_THAT(*reason, Contains("held outside any task reservation"));
++  }
++
++  SECTION("disk tier present but the downgrade still freed 0")
++  {
++    auto in                       = q05_futile();
++    in.gate->disk_tier_configured = true;
++    auto const reason             = assess_retry_futility(in);
++    REQUIRE(reason.has_value());
++    CHECK_THAT(*reason, Contains("freed 0 bytes"));
++    CHECK_THAT(*reason, Contains("disk tier configured"));
++    CHECK_THAT(*reason, !Contains("disk tier not configured"));
++  }
++
++  SECTION("a later retry with the same shape is also futile")
++  {
++    auto in        = q05_futile();
++    in.retry_count = 7;
++    REQUIRE(assess_retry_futility(in).has_value());
++  }
++}
+-- 
+2.43.0
+

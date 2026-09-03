@@ -1,0 +1,2314 @@
+From 63e7e0c1bdaa29e67b7a0241a071229c4de1ff20 Mon Sep 17 00:00:00 2001
+From: Alexander Victor Ocsa Mamani <aocsa.cs@gmail.com>
+Date: Thu, 3 Sep 2026 17:27:16 +0000
+Subject: [PATCH 1/2] fix(cn): retire a failed query's parked output instead of
+ wiping every query's
+
+An engine Err used to clear every parked sender output on the CN and poison
+every slot with that query's error, and nothing else ever released a dead
+query's output: q16's translation failure carried 6.6 GB into q17, and a failed
+query's queued senders kept running (up to 38 GB parked under later queries on
+the 1-CN SF1000 sweep). Parked output is now owned per query (ParkedRegistry);
+a query is retired by its own Err or by the CN's fail_fragment, and its runs
+are refused at the engine dequeue (inside run_fragment_inner so the lease sweep
+still runs), at park time, on the dispatch worker and on arrival; a
+StagedLeases guard returns the staged leases of a fragment that never runs.
+Tests: 9 registry, 5 service (both dispatch modes), 4 engine (GPU); CI trio
+green. Left: cancel_plan_fragment teardown and rendezvous purge (next commit).
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+---
+ .../starrocks/src/compute_node_service.rs     | 653 ++++++++++++++++--
+ experimental/starrocks/src/engine.rs          | 640 ++++++++++++-----
+ .../starrocks/src/fragment_executor.rs        |  15 +
+ experimental/starrocks/src/lib.rs             |   1 +
+ experimental/starrocks/src/nixl_transport.rs  |   3 +-
+ experimental/starrocks/src/parked_registry.rs | 532 ++++++++++++++
+ experimental/starrocks/src/result_store.rs    |  29 +
+ 7 files changed, 1667 insertions(+), 206 deletions(-)
+ create mode 100644 experimental/starrocks/src/parked_registry.rs
+
+diff --git a/experimental/starrocks/src/compute_node_service.rs b/experimental/starrocks/src/compute_node_service.rs
+index 3aa0a124..4d2885d9 100644
+--- a/experimental/starrocks/src/compute_node_service.rs
++++ b/experimental/starrocks/src/compute_node_service.rs
+@@ -4,9 +4,12 @@ use std::sync::{Arc, Mutex, mpsc};
+ #[cfg(test)]
+ use crate::fragment_executor::StubExecutor;
+ use crate::fragment_executor::{
+-    FragmentExecutor, FragmentLabel, FragmentResult, FragmentRun, SenderSlot, StagedBatch,
++    FragmentExecutor, FragmentLabel, FragmentResult, FragmentRun, RetireTrigger, SenderSlot,
++    StagedBatch,
++};
++use crate::local_exchange::{
++    ExchangeKey, LocalExchange, ReadyExchangeInput, ReadyFragment, SenderSource,
+ };
+-use crate::local_exchange::{ExchangeKey, LocalExchange, ReadyFragment, SenderSource};
+ use crate::nixl_transport::{DrainTicket, NixlTransport, RemoteSendSpec};
+ use crate::proto::starrocks::{
+     ExecuteCommandRequestPb, ExecuteCommandResultPb, PCancelPlanFragmentRequest,
+@@ -803,6 +806,67 @@ impl SiriusComputeNodeService {
+     }
+ }
+ 
++/// Staged remote batches this CN holds for one fragment, as `(node id, sender id, batches)`.
++///
++/// Released on drop unless handed to the engine with [`take`](Self::take): the engine releases
++/// each lease after pushing it, or in its own sweep on a failed run. Every pre-run error path --
++/// a names mismatch, a translation failure, a sink the CN refuses -- therefore returns the leases
++/// to the arena instead of pinning it for the process lifetime (arena exhaustion is a hard
++/// failure on N CNs).
++struct StagedLeases<'e> {
++    batches: Vec<(i32, i32, Vec<StagedBatch>)>,
++    executor: &'e dyn FragmentExecutor,
++}
++
++impl<'e> StagedLeases<'e> {
++    fn new(executor: &'e dyn FragmentExecutor) -> Self {
++        Self {
++            batches: Vec::new(),
++            executor,
++        }
++    }
++
++    fn push(&mut self, node_id: i32, sender_id: i32, batches: Vec<StagedBatch>) {
++        self.batches.push((node_id, sender_id, batches));
++    }
++
++    /// Hands the batches to the caller; the guard then releases nothing.
++    fn take(&mut self) -> Vec<(i32, i32, Vec<StagedBatch>)> {
++        std::mem::take(&mut self.batches)
++    }
++}
++
++impl Drop for StagedLeases<'_> {
++    fn drop(&mut self) {
++        for (_, _, batches) in &self.batches {
++            release_leases(self.executor, batches);
++        }
++    }
++}
++
++/// Returns every lease among `batches` to the arena, warning on failure; returns the count
++/// released. `len == 0` batches never held a lease (metadata-only, `StagedBatch` contract).
++fn release_leases<'a>(
++    executor: &dyn FragmentExecutor,
++    batches: impl IntoIterator<Item = &'a StagedBatch>,
++) -> usize {
++    let mut released = 0;
++    for batch in batches {
++        if batch.len == 0 {
++            continue;
++        }
++        match executor.staging_release(batch.offset) {
++            Ok(()) => released += 1,
++            Err(err) => tracing::warn!(
++                offset = batch.offset,
++                error = %err,
++                "failed to release a staged lease of a retired query"
++            ),
++        }
++    }
++    released
++}
++
+ impl ServiceCore {
+     /// Executes an `ADMIN EXECUTE` script: parse, then run each command on the fragment
+     /// executor in order, stopping at the first failure. Returns one summary line per command
+@@ -864,6 +928,23 @@ impl ServiceCore {
+     fn run_ready_fragment(&self, ready: ReadyFragment) -> Vec<ReadyFragment> {
+         let id = Self::fragment_instance_id(&ready.params);
+         let query_id = Self::query_id(&ready.params);
++        // Gate 3: a queued fragment of a query this CN already failed is skipped before
++        // translation -- no `fragment run started`, no GPU work, no follow-on receivers. Its
++        // staged remote leases go back to the arena; its local senders' parked output is
++        // dropped by the engine's retire of the query.
++        if let Some(query_id) = query_id
++            && let Some(cause) = self.results.failure_of(query_id)
++        {
++            let released_leases = self.release_staged(ready.inputs);
++            info!(
++                %query_id,
++                fragment_instance_id = ?id,
++                %cause,
++                released_leases,
++                "skipping fragment of a retired query"
++            );
++            return Vec::new();
++        }
+         let is_result_fragment = matches!(Self::is_mysql_result_sink(&ready.params), Ok(true));
+         // `join_into_ready` keeps this fragment's own remote drains inside this call, so a drain
+         // failure is attributed to the same query as any other failure of this fragment.
+@@ -890,10 +971,10 @@ impl ServiceCore {
+                                 "dispatched intermediate receiver fragment failed; failing the query's result fragments"
+                             );
+                         }
+-                        // Fails this id, every reserved result instance of the query, and
+-                        // records the failure so a result fragment arriving later fails on
+-                        // registration instead of waiting on senders that never deliver.
+-                        self.results.fail_query(query_id, id, error);
++                        // Fails this id, every reserved result instance of the query, records
++                        // the failure so a later fragment of the query is refused, and retires
++                        // the query's parked output on the executor.
++                        self.fail_fragment(id, query_id, error);
+                     }
+                     (Some(id), None) => {
+                         // Defensive: exec params carry both ids or neither, so this arm should
+@@ -910,6 +991,50 @@ impl ServiceCore {
+         }
+     }
+ 
++    /// Records a fragment failure at query level and retires the query's parked output on the
++    /// executor. `fail_query` reaches every result instance the FE polls on this CN (and fails a
++    /// result fragment that reserves later, on arrival); `retire_query` drops the query's parked
++    /// sender outputs and refuses its later runs. Idempotent against the engine's own retire, so
++    /// it doubles as the belt for an engine `Err` and is the whole fix for a failure the engine
++    /// never sees (a receiver whose translation fails after its senders parked).
++    fn fail_fragment(&self, id: FragmentInstanceId, query_id: FragmentInstanceId, error: String) {
++        self.results.fail_query(query_id, id, error.clone());
++        if let Err(err) = self
++            .executor
++            .retire_query(query_id, RetireTrigger::CnErr, &error)
++        {
++            tracing::warn!(
++                %query_id,
++                error = %err,
++                "could not retire the failed query's parked output"
++            );
++        }
++    }
++
++    /// Releases the staged leases of a ready fragment that will not run; returns the count.
++    /// Parked local slots need nothing here: the engine's retire drops them by query.
++    fn release_staged(&self, inputs: Vec<ReadyExchangeInput>) -> usize {
++        inputs
++            .into_iter()
++            .map(|input| self.release_sources(input.sources))
++            .sum()
++    }
++
++    /// [`release_staged`](Self::release_staged) over a flat source list. Non-exhaustive on
++    /// purpose: only a `Remote` source holds arena leases, and a source kind that holds no GPU
++    /// memory must not need an arm here.
++    fn release_sources(&self, sources: Vec<SenderSource>) -> usize {
++        sources
++            .iter()
++            .map(|source| match source {
++                SenderSource::Remote { batches, .. } => {
++                    release_leases(self.executor.as_ref(), batches)
++                }
++                _ => 0,
++            })
++            .sum()
++    }
++
+     /// Processes one fragment and buffers supported RESULT_SINK rows for later `fetch_data`.
+     /// Shared by single and batch dispatch; exchange receivers are registered until their local
+     /// sender output is materialized. Returns a receiver whose sender set this fragment
+@@ -929,6 +1054,24 @@ impl ServiceCore {
+             }
+             return Ok(FragmentOutcome::default());
+         }
++        // Gate 4: a fragment of a query this CN already failed is refused on arrival. A result
++        // fragment keeps the reserve-then-fail contract -- the FE's fetch_data long-poll on its
++        // id reports the cause on the first poll -- without registering a receiver that can
++        // never complete; anything else is an RPC error, which the FE ignores while it is
++        // already cancelling the query.
++        if let Some(query_id) = Self::query_id(&params)
++            && let Some(cause) = self.results.failure_of(query_id)
++        {
++            if Self::is_mysql_result_sink(&params)?
++                && let Some(id) = Self::fragment_instance_id(&params)
++            {
++                self.results.reserve(id, query_id);
++                return Ok(FragmentOutcome::default());
++            }
++            return Err(format!(
++                "query {query_id} already failed on this CN: {cause}"
++            ));
++        }
+         let expected_senders = Self::receiver_exchanges(&params)?;
+         if !expected_senders.is_empty() {
+             let fragment_instance_id = Self::fragment_instance_id(&params)
+@@ -1009,12 +1152,18 @@ impl ServiceCore {
+         params: &TExecPlanFragmentParams,
+         translated: TranslatedPlan,
+     ) -> std::result::Result<FragmentOutcome, String> {
+-        self.execute_fragment_with_inputs(params, translated, Vec::new(), Vec::new())
++        self.execute_fragment_with_inputs(
++            params,
++            translated,
++            Vec::new(),
++            StagedLeases::new(self.executor.as_ref()),
++        )
+     }
+ 
+     /// Executes a result fragment, or runs a data-stream sender and parks its output on the GPU
+     /// for its local receiver (transmitting it when the receiver is remote). `inputs` names the
+-    /// parked sender outputs this fragment consumes; `remote_inputs` the staged remote batches.
++    /// parked sender outputs this fragment consumes; `leases` holds the staged remote batches and
++    /// is only emptied into the engine call, so every validation `Err` before it releases them.
+     /// A sender that completes its receiver's sender set returns that receiver for the caller
+     /// to run or dispatch, alongside the remote drains the caller must join.
+     fn execute_fragment_with_inputs(
+@@ -1022,7 +1171,7 @@ impl ServiceCore {
+         params: &TExecPlanFragmentParams,
+         translated: TranslatedPlan,
+         inputs: Vec<(i32, Vec<SenderSlot>)>,
+-        remote_inputs: Vec<(i32, i32, Vec<StagedBatch>)>,
++        mut leases: StagedLeases<'_>,
+     ) -> std::result::Result<FragmentOutcome, String> {
+         if Self::is_mysql_result_sink(params)? {
+             let id = Self::fragment_instance_id(params).ok_or_else(|| {
+@@ -1034,7 +1183,7 @@ impl ServiceCore {
+                     FragmentRun {
+                         plan: &translated,
+                         inputs: inputs.clone(),
+-                        remote_inputs,
++                        remote_inputs: leases.take(),
+                         outputs: Vec::new(),
+                         broadcast: false,
+                         hash_keys: Vec::new(),
+@@ -1178,7 +1327,7 @@ impl ServiceCore {
+             FragmentRun {
+                 plan: &translated,
+                 inputs,
+-                remote_inputs,
++                remote_inputs: leases.take(),
+                 outputs: slots.clone(),
+                 broadcast,
+                 hash_keys,
+@@ -1326,42 +1475,18 @@ impl ServiceCore {
+         &self,
+         ready: ReadyFragment,
+     ) -> std::result::Result<FragmentOutcome, String> {
+-        let exchange_inputs = ready
+-            .inputs
+-            .iter()
+-            .map(|input| {
+-                let names = input
+-                    .sources
+-                    .first()
+-                    .map(|source| source.names().to_vec())
+-                    .ok_or_else(|| {
+-                        format!("exchange node {} has no sender source", input.node_id)
+-                    })?;
+-                // Local and remote senders alike must agree on the schema they produced; the
+-                // first source is the reference, disagreement fails the query.
+-                if input
+-                    .sources
+-                    .iter()
+-                    .any(|source| source.names() != names.as_slice())
+-                {
+-                    return Err("exchange senders produced different output names".to_string());
+-                }
+-                let stream_id = u64::try_from(input.node_id)
+-                    .map_err(|_| format!("negative exchange node id {}", input.node_id))?;
+-                Ok(ExchangeInput {
+-                    node_id: input.node_id,
+-                    stream_view: sirius_stream_view_name(stream_id),
+-                    names,
+-                })
+-            })
+-            .collect::<Result<Vec<_>, String>>()?;
+-        // A receiver translates when its sender set completes, not at arrival, so pair its plan
+-        // dump with a fresh params dump here (the arrival-time dump carried no plan yet).
+-        let dump_seq = Self::dump_fragment(&ready.params);
+-        let translated =
+-            self.translate_fragment_logged_with_inputs(&ready.params, &exchange_inputs, dump_seq)?;
++        let exchange_inputs = match Self::exchange_inputs(&ready.inputs) {
++            Ok(exchange_inputs) => exchange_inputs,
++            Err(err) => {
++                // Nothing extracted yet: hand the staged leases back before failing.
++                self.release_staged(ready.inputs);
++                return Err(err);
++            }
++        };
++        // Split the sources BEFORE translating, so the staged batches sit in a guard that
++        // releases them on every error path from here to the engine call.
+         let mut inputs: Vec<(i32, Vec<SenderSlot>)> = Vec::new();
+-        let mut remote_inputs: Vec<(i32, i32, Vec<StagedBatch>)> = Vec::new();
++        let mut leases = StagedLeases::new(self.executor.as_ref());
+         for input in ready.inputs {
+             let mut slots = Vec::new();
+             for source in input.sources {
+@@ -1373,6 +1498,8 @@ impl ServiceCore {
+                         closed,
+                         ..
+                     } => {
++                        // Into the guard first, so the error below still releases them.
++                        leases.push(input.node_id, sender_id, batches);
+                         // take_ready only releases complete sender sets; an open remote source
+                         // here is a rendezvous bug, not a recoverable state.
+                         if !closed {
+@@ -1382,7 +1509,6 @@ impl ServiceCore {
+                                 input.node_id
+                             ));
+                         }
+-                        remote_inputs.push((input.node_id, sender_id, batches));
+                     }
+                 }
+             }
+@@ -1390,7 +1516,46 @@ impl ServiceCore {
+                 inputs.push((input.node_id, slots));
+             }
+         }
+-        self.execute_fragment_with_inputs(&ready.params, translated, inputs, remote_inputs)
++        // A receiver translates when its sender set completes, not at arrival, so pair its plan
++        // dump with a fresh params dump here (the arrival-time dump carried no plan yet).
++        let dump_seq = Self::dump_fragment(&ready.params);
++        let translated =
++            self.translate_fragment_logged_with_inputs(&ready.params, &exchange_inputs, dump_seq)?;
++        self.execute_fragment_with_inputs(&ready.params, translated, inputs, leases)
++    }
++
++    /// The exchange inputs a ready receiver's plan binds its stream reads to. Local and remote
++    /// senders alike must agree on the schema they produced; the first source is the reference,
++    /// disagreement fails the query.
++    fn exchange_inputs(
++        inputs: &[ReadyExchangeInput],
++    ) -> std::result::Result<Vec<ExchangeInput>, String> {
++        inputs
++            .iter()
++            .map(|input| {
++                let names = input
++                    .sources
++                    .first()
++                    .map(|source| source.names().to_vec())
++                    .ok_or_else(|| {
++                        format!("exchange node {} has no sender source", input.node_id)
++                    })?;
++                if input
++                    .sources
++                    .iter()
++                    .any(|source| source.names() != names.as_slice())
++                {
++                    return Err("exchange senders produced different output names".to_string());
++                }
++                let stream_id = u64::try_from(input.node_id)
++                    .map_err(|_| format!("negative exchange node id {}", input.node_id))?;
++                Ok(ExchangeInput {
++                    node_id: input.node_id,
++                    stream_view: sirius_stream_view_name(stream_id),
++                    names,
++                })
++            })
++            .collect()
+     }
+ 
+     /// Finds every exchange receiver in a fragment and each expected sender count.
+@@ -2008,6 +2173,141 @@ mod tests {
+         }
+     }
+ 
++    /// Wraps any executor, recording every `retire_query` call and delegating the rest.
++    #[derive(Debug)]
++    struct Retiring<E> {
++        inner: E,
++        retired: Mutex<Vec<(FragmentInstanceId, RetireTrigger, String)>>,
++    }
++
++    impl<E> Retiring<E> {
++        fn new(inner: E) -> Self {
++            Self {
++                inner,
++                retired: Mutex::new(Vec::new()),
++            }
++        }
++
++        fn retired(&self) -> Vec<(FragmentInstanceId, RetireTrigger, String)> {
++            self.retired.lock().unwrap().clone()
++        }
++    }
++
++    impl<E: FragmentExecutor> FragmentExecutor for Retiring<E> {
++        fn run(&self, run: FragmentRun<'_>) -> Result<Option<FragmentResult>, String> {
++            self.inner.run(run)
++        }
++
++        fn staging_info(&self) -> Result<(u64, u64), String> {
++            self.inner.staging_info()
++        }
++
++        fn staging_lease(&self, len: u64) -> Result<u64, String> {
++            self.inner.staging_lease(len)
++        }
++
++        fn staging_release(&self, offset: u64) -> Result<(), String> {
++            self.inner.staging_release(offset)
++        }
++
++        fn export_packed_next(&self, slot: SenderSlot) -> Result<Option<StagedBatch>, String> {
++            self.inner.export_packed_next(slot)
++        }
++
++        fn drop_parked(&self, slot: SenderSlot) -> Result<(), String> {
++            self.inner.drop_parked(slot)
++        }
++
++        fn pin_table(
++            &self,
++            spec: &crate::fragment_executor::PinTableSpec,
++        ) -> Result<String, String> {
++            self.inner.pin_table(spec)
++        }
++
++        fn unpin_table(&self, name: &str) -> Result<String, String> {
++            self.inner.unpin_table(name)
++        }
++
++        fn retire_query(
++            &self,
++            query_id: FragmentInstanceId,
++            trigger: RetireTrigger,
++            cause: &str,
++        ) -> Result<(), String> {
++            self.retired
++                .lock()
++                .unwrap()
++                .push((query_id, trigger, cause.to_string()));
++            Ok(())
++        }
++    }
++
++    /// Records which fragment instances ran, in order, and fails the intermediate one -- so a
++    /// test can assert exactly which queued fragments the worker did and did not run.
++    #[derive(Debug, Default)]
++    struct RecordingFailingIntermediate {
++        ran: Mutex<Vec<Option<FragmentInstanceId>>>,
++    }
++
++    impl RecordingFailingIntermediate {
++        fn ran(&self) -> Vec<Option<FragmentInstanceId>> {
++            self.ran.lock().unwrap().clone()
++        }
++    }
++
++    impl FragmentExecutor for RecordingFailingIntermediate {
++        fn run(&self, run: FragmentRun<'_>) -> Result<Option<FragmentResult>, String> {
++            self.ran
++                .lock()
++                .unwrap()
++                .push(run.label.fragment_instance_id);
++            FailingIntermediateExecutor.run(run)
++        }
++    }
++
++    /// A sender-only fragment (scan into a data stream sink) of `query_id`, addressed at one
++    /// local receiver.
++    fn sender_only(
++        query_id: &TUniqueId,
++        instance_id: &TUniqueId,
++        dest_node_id: i32,
++        receiver_id: TUniqueId,
++    ) -> TExecPlanFragmentParams {
++        let mut sender = fragment_params(Some(scan_plan(0, 0)), Some(desc_table()));
++        sender.fragment.as_mut().unwrap().output_sink = Some(data_stream_sink(dest_node_id));
++        let mut exec = exec_params(query_id.clone(), instance_id.clone());
++        exec.sender_id = Some(0);
++        exec.destinations = Some(vec![local_destination(receiver_id)]);
++        sender.params = Some(exec);
++        sender
++    }
++
++    /// The `exec_plan_fragment` status for `params`, for the paths that must refuse.
++    fn exec_status(
++        service: &SiriusComputeNodeService,
++        params: &TExecPlanFragmentParams,
++    ) -> StatusPb {
++        let response = route(
++            service,
++            methods::EXEC_PLAN_FRAGMENT,
++            PExecPlanFragmentRequest {
++                attachment_protocol: Some("binary".to_string()),
++            }
++            .encode_to_vec(),
++            serialize_binary(params),
++        );
++        PExecPlanFragmentResult::decode(response.body.as_slice())
++            .unwrap()
++            .status
++    }
++
++    fn instance_ids(ids: &[&TUniqueId]) -> Vec<Option<FragmentInstanceId>> {
++        ids.iter()
++            .map(|id| Some(FragmentInstanceId::from(*id)))
++            .collect()
++    }
++
+     /// The exchange endpoint [`SiriusComputeNodeService::new`] advertises in tests.
+     fn test_identity() -> ExchangeIdentity {
+         ExchangeIdentity::new("127.0.0.1", 8060)
+@@ -3410,6 +3710,263 @@ mod tests {
+         );
+     }
+ 
++    /// Gate 3: with async dispatch on, the worker inbox still holds the failed query's other
++    /// senders when its intermediate receiver fails. They must be skipped -- no run, no parked
++    /// output -- while a queued fragment of another query still runs.
++    #[test]
++    fn queued_fragments_of_a_failed_query_are_skipped() {
++        let executor = Arc::new(Retiring::new(RecordingFailingIntermediate::default()));
++        let service = SiriusComputeNodeService::with_executor(executor.clone(), test_identity());
++        service.set_async_sender_dispatch(true);
++        let query_id = TUniqueId::new(90, 1);
++        let root_id = TUniqueId::new(90, 2);
++        let middle_id = TUniqueId::new(90, 3);
++        let leaf_id = TUniqueId::new(90, 4);
++        let (root, middle, leaf) = propagation_chain(&query_id, &root_id, &middle_id, &leaf_id);
++        // A fourth sender of the same query, queued behind the leaf; its receiver never registers.
++        let straggler_id = TUniqueId::new(90, 5);
++        let straggler = sender_only(&query_id, &straggler_id, 11, TUniqueId::new(90, 6));
++        // A sender of another query, queued last: the worker must still reach it.
++        let sentinel_id = TUniqueId::new(91, 2);
++        let sentinel = sender_only(
++            &TUniqueId::new(91, 1),
++            &sentinel_id,
++            11,
++            TUniqueId::new(91, 3),
++        );
++
++        assert_exec_ok(&service, &root);
++        assert_exec_ok(&service, &middle);
++        assert_exec_ok(&service, &leaf);
++        assert_exec_ok(&service, &straggler);
++        assert_exec_ok(&service, &sentinel);
++
++        // FIFO: the straggler sits between the leaf's chase (leaf, then middle) and the sentinel,
++        // so once three fragments ran, a fourth run could only have been the straggler.
++        wait_until("the leaf, the middle and the sentinel to run", || {
++            executor.inner.ran().len() == 3
++        });
++        assert_eq!(
++            executor.inner.ran(),
++            instance_ids(&[&leaf_id, &middle_id, &sentinel_id]),
++            "the straggler of the failed query must never run"
++        );
++        let result = fetch_error_eventually(&service, root_id.hi, root_id.lo);
++        assert!(
++            result.status.error_msgs[0].contains("intermediate receiver exploded on the GPU"),
++            "{:?}",
++            result.status.error_msgs
++        );
++        assert!(
++            service
++                .core
++                .results
++                .failure_of(FragmentInstanceId::from(&query_id))
++                .is_some()
++        );
++        let retired = executor.retired();
++        assert_eq!(retired.len(), 1, "{retired:?}");
++        assert_eq!(retired[0].0, FragmentInstanceId::from(&query_id));
++        assert_eq!(retired[0].1, RetireTrigger::CnErr);
++        assert!(
++            retired[0]
++                .2
++                .contains("intermediate receiver exploded on the GPU"),
++            "{}",
++            retired[0].2
++        );
++    }
++
++    /// Gate 4: in the default (inline) dispatch mode a sender of the failed query arriving after
++    /// the failure is refused before translation, with the RPC status naming the cause.
++    #[test]
++    fn queued_fragments_of_a_failed_query_are_skipped_inline() {
++        let executor = Arc::new(Retiring::new(RecordingFailingIntermediate::default()));
++        let service = SiriusComputeNodeService::with_executor(executor.clone(), test_identity());
++        service.set_async_sender_dispatch(false);
++        let query_id = TUniqueId::new(92, 1);
++        let root_id = TUniqueId::new(92, 2);
++        let middle_id = TUniqueId::new(92, 3);
++        let leaf_id = TUniqueId::new(92, 4);
++        let (root, middle, leaf) = propagation_chain(&query_id, &root_id, &middle_id, &leaf_id);
++        assert_exec_ok(&service, &root);
++        assert_exec_ok(&service, &middle);
++        assert_exec_ok(&service, &leaf);
++        // The middle fails on the worker; the root's poll reporting it is the "failure landed" gate.
++        fetch_error_eventually(&service, root_id.hi, root_id.lo);
++
++        let straggler = sender_only(&query_id, &TUniqueId::new(92, 5), 11, TUniqueId::new(92, 6));
++        let status = exec_status(&service, &straggler);
++        assert_eq!(
++            status.status_code,
++            TStatusCode::INTERNAL_ERROR.0,
++            "{status:?}"
++        );
++        assert!(
++            status.error_msgs[0].contains("already failed on this CN"),
++            "{:?}",
++            status.error_msgs
++        );
++        assert_eq!(
++            executor.inner.ran(),
++            instance_ids(&[&leaf_id, &middle_id]),
++            "the refused sender never ran"
++        );
++    }
++
++    /// A CN-side fragment failure retires the query on the executor exactly once, with the
++    /// fragment's own error as the cause, in both dispatch modes.
++    #[test]
++    fn a_fragment_failure_retires_the_query_on_the_executor() {
++        for (round, async_dispatch) in [false, true].into_iter().enumerate() {
++            let executor = Arc::new(Retiring::new(FailingIntermediateExecutor));
++            let service =
++                SiriusComputeNodeService::with_executor(executor.clone(), test_identity());
++            service.set_async_sender_dispatch(async_dispatch);
++            let hi = 95 + round as i64;
++            let query_id = TUniqueId::new(hi, 1);
++            let root_id = TUniqueId::new(hi, 2);
++            let (root, middle, leaf) = propagation_chain(
++                &query_id,
++                &root_id,
++                &TUniqueId::new(hi, 3),
++                &TUniqueId::new(hi, 4),
++            );
++            assert_exec_ok(&service, &root);
++            assert_exec_ok(&service, &middle);
++            assert_exec_ok(&service, &leaf);
++            fetch_error_eventually(&service, root_id.hi, root_id.lo);
++
++            let retired = executor.retired();
++            assert_eq!(retired.len(), 1, "async={async_dispatch}: {retired:?}");
++            assert_eq!(retired[0].0, FragmentInstanceId::from(&query_id));
++            assert_eq!(retired[0].1, RetireTrigger::CnErr);
++            assert!(
++                retired[0]
++                    .2
++                    .contains("intermediate receiver exploded on the GPU"),
++                "{}",
++                retired[0].2
++            );
++        }
++    }
++
++    /// A pre-run failure (here: the senders disagree on their output names, caught before
++    /// translation) must retire the query -- so the engine drops the local sender's parked slot
++    /// -- and release the staged leases of the remote sender it held in hand.
++    #[test]
++    fn translation_failure_retires_the_slots_in_hand_and_releases_remote_leases() {
++        let executor = Arc::new(Retiring::new(RecordingExecutor::default()));
++        let service = SiriusComputeNodeService::with_executor(executor.clone(), test_identity());
++        service.set_async_sender_dispatch(true);
++        let query_id = TUniqueId::new(93, 1);
++        let receiver_id = TUniqueId::new(93, 2);
++
++        let mut receiver = fragment_params(Some(exchange_plan(7, 0)), Some(desc_table()));
++        receiver.fragment.as_mut().unwrap().output_sink = Some(result_sink());
++        let mut receiver_exec = exec_params(query_id.clone(), receiver_id.clone());
++        receiver_exec.per_exch_num_senders.insert(7, 2);
++        receiver.params = Some(receiver_exec);
++        assert_exec_ok(&service, &receiver);
++
++        // Sender 0 is local (the stub parks nothing, but the CN records its LocalParked slot).
++        let local = sender_only(&query_id, &TUniqueId::new(93, 3), 7, receiver_id.clone());
++        assert_exec_ok(&service, &local);
++
++        // Sender 1 is remote, with a staged batch and different column names.
++        let data = route(
++            &service,
++            methods::TRANSMIT_PACKED,
++            transmit_params(&receiver_id, 7, 1, 0, false, 4096, 512, &["id", "other"]),
++            vec![0xAB; 16],
++        );
++        let data = PTransmitPackedResult::decode(data.body.as_slice()).unwrap();
++        assert_eq!(
++            data.status.status_code,
++            TStatusCode::OK.0,
++            "{:?}",
++            data.status.error_msgs
++        );
++        let eos = route(
++            &service,
++            methods::TRANSMIT_PACKED,
++            transmit_params(&receiver_id, 7, 1, 1, true, 0, 0, &["id", "other"]),
++            Vec::new(),
++        );
++        let eos = PTransmitPackedResult::decode(eos.body.as_slice()).unwrap();
++        assert_eq!(
++            eos.status.status_code,
++            TStatusCode::OK.0,
++            "{:?}",
++            eos.status.error_msgs
++        );
++
++        let result = fetch_error_eventually(&service, receiver_id.hi, receiver_id.lo);
++        assert!(
++            result.status.error_msgs[0].contains("different output names"),
++            "{:?}",
++            result.status.error_msgs
++        );
++        assert_eq!(
++            executor.inner.released.lock().unwrap().as_slice(),
++            &[4096],
++            "the staged lease of the never-run receiver went back to the arena"
++        );
++        assert!(
++            executor.inner.remote_inputs.lock().unwrap().is_empty(),
++            "nothing ran"
++        );
++        let retired = executor.retired();
++        assert_eq!(retired.len(), 1, "{retired:?}");
++        assert_eq!(retired[0].0, FragmentInstanceId::from(&query_id));
++        assert_eq!(retired[0].1, RetireTrigger::CnErr);
++        assert!(
++            retired[0].2.contains("different output names"),
++            "{}",
++            retired[0].2
++        );
++    }
++
++    /// Gate 4 keeps the reserve-then-fail contract for a result fragment of a dead query: its RPC
++    /// is OK and its first poll reports the cause. A non-result fragment of the same dead query
++    /// is refused on arrival instead.
++    #[test]
++    fn a_result_fragment_arriving_after_the_failure_still_reports_the_cause() {
++        let executor = Arc::new(Retiring::new(FailingIntermediateExecutor));
++        let service = SiriusComputeNodeService::with_executor(executor, test_identity());
++        service.set_async_sender_dispatch(false);
++        let query_id = TUniqueId::new(94, 1);
++        let root_id = TUniqueId::new(94, 2);
++        let middle_id = TUniqueId::new(94, 3);
++        let (root, middle, leaf) =
++            propagation_chain(&query_id, &root_id, &middle_id, &TUniqueId::new(94, 4));
++        assert_exec_ok(&service, &middle);
++        assert_exec_ok(&service, &leaf);
++        fetch_error_eventually(&service, middle_id.hi, middle_id.lo);
++
++        assert_exec_ok(&service, &root);
++        let result = fetch_error_eventually(&service, root_id.hi, root_id.lo);
++        let message = &result.status.error_msgs[0];
++        assert!(
++            message.contains(&FragmentInstanceId::from(&middle_id).to_string())
++                && message.contains("intermediate receiver exploded on the GPU"),
++            "{message}"
++        );
++
++        let straggler = sender_only(&query_id, &TUniqueId::new(94, 5), 11, TUniqueId::new(94, 6));
++        let status = exec_status(&service, &straggler);
++        assert_eq!(
++            status.status_code,
++            TStatusCode::INTERNAL_ERROR.0,
++            "{status:?}"
++        );
++        assert!(
++            status.error_msgs[0].contains("already failed on this CN"),
++            "{:?}",
++            status.error_msgs
++        );
++    }
++
+     #[test]
+     fn cancel_plan_fragment_returns_ok_and_unblocks_a_waiting_result_poll() {
+         // The route must exist (an unrouted method returns a PRPC-level error frame that poisons
+diff --git a/experimental/starrocks/src/engine.rs b/experimental/starrocks/src/engine.rs
+index 13f0925e..812ea923 100644
+--- a/experimental/starrocks/src/engine.rs
++++ b/experimental/starrocks/src/engine.rs
+@@ -19,32 +19,27 @@
+ //! into a peer's exchange stall — a fragment wedged inside `run()` starved the peer CN's
+ //! `request_staging_lease` for the PRPC timeout and failed the whole query (the q02 wedge's
+ //! second act) — so leases must never wait behind engine work.
++//!
++//! Parked output is owned per query; a query is retired (dropped, later runs refused) by its own
++//! engine error or by the CN's `retire_query`, never by another query's failure.
+ 
+-use std::collections::HashMap;
+ use std::path::PathBuf;
+-use std::sync::Mutex;
+ use std::sync::mpsc::{Receiver, Sender, channel};
++use std::sync::{Arc, Mutex, PoisonError};
+ use std::thread::JoinHandle;
+ 
+ #[cfg(test)]
+ use arrow_array::RecordBatch;
+ use sirius::SiriusContext;
+ use starrocks_plan_translator::StreamInputSchema;
+-use tracing::{info, warn};
++use tracing::{debug, info, warn};
+ 
+ use crate::engine_settings::EngineSettings;
+ use crate::fragment_executor::{
+     FragmentExecutor, FragmentLabel, FragmentResult, FragmentRun, PinTableSpec, SenderSlot,
+     StagedBatch,
+ };
+-
+-/// A sender fragment's parked output, shared by its destinations: stream i belongs to
+-/// destination i. `outstanding` counts destinations that have not yet released their stream
+-/// (drained + dropped); the fragment -- and its GPU batches -- drop when it reaches zero.
+-struct ParkedOutput<'ctx> {
+-    fragment: sirius::Fragment<'ctx>,
+-    outstanding: usize,
+-}
++use crate::parked_registry::{ParkedRegistry, QueryId, Release, RetireTrigger, RetiredQueries};
+ 
+ /// One fragment execution handed to the engine thread.
+ ///
+@@ -72,10 +67,15 @@ struct ExecuteRequest {
+     label: FragmentLabel,
+     /// Channel the engine thread sends the result (or a flattened error) back on.
+     respond: Sender<Result<Option<FragmentResult>, String>>,
++    /// Test-only: runs between `fragment.run()` and the park, standing in for a cancel or a
++    /// sibling's failure that lands while this fragment is inside the engine (the gate-2 case).
++    #[cfg(test)]
++    after_run: Option<Box<dyn Fn() + Send>>,
+ }
+ 
+ /// One message to the engine thread — the only caller of `SiriusContext`, which is `!Send`.
+-/// Every variant carries its own respond channel, so callers block for exactly their answer.
++/// Every variant that answers carries its own respond channel, so callers block for exactly
++/// their answer.
+ ///
+ /// Staging lease/release/info are deliberately NOT variants here: they are served from the
+ /// thread-safe arena handle on the caller's thread (see the module doc), because a request
+@@ -98,6 +98,17 @@ enum EngineRequest {
+         slot: SenderSlot,
+         respond: Sender<Result<(), String>>,
+     },
++    /// Drop every parked output of `query_id` and refuse its later runs. Sent by the CN when it
++    /// learns a query is over by a route the engine cannot see: a pre-run failure or an FE
++    /// cancel. No respond channel: the sender already marked the shared [`RetiredQueries`], so
++    /// the refusal is visible to the very next dequeue; the drop happens when the engine thread
++    /// is free. Fire-and-forget because the cancel RPC and the dispatch worker must never wait
++    /// behind a running fragment.
++    RetireQuery {
++        query_id: QueryId,
++        trigger: RetireTrigger,
++        cause: String,
++    },
+     /// Pin a table into the engine's scan cache (driven by `ADMIN EXECUTE ON <id> '<script>'`).
+     /// Deliberately funneled through this channel: pinning mutates the scan registry inside its
+     /// own execution window, so it must serialize with fragment runs — the staging-arena bypass
+@@ -136,6 +147,10 @@ pub struct SiriusEngine {
+     /// direct arena access (`Context::staging_release` for remote-input leases, and
+     /// `export_packed` leasing internally) — one shared C++ allocator, two entry points.
+     staging: Option<sirius::StagingArena>,
++    /// Queries retired on this CN, shared with the engine thread. The CN's `retire_query` marks
++    /// here BEFORE queueing its `RetireQuery`, so a `Run` already sitting in the FIFO ahead of it
++    /// is refused when the thread dequeues it (the same off-thread shape as `staging`).
++    retired: Arc<Mutex<RetiredQueries>>,
+ }
+ 
+ impl SiriusEngine {
+@@ -153,21 +168,23 @@ impl SiriusEngine {
+         // itself never leaves that thread, but the handle is `Send + Sync` by design so
+         // staging calls can bypass the request channel (see the module doc).
+         let (ready_tx, ready_rx) = channel::<Result<Option<sirius::StagingArena>, String>>();
++        let retired: Arc<Mutex<RetiredQueries>> = Arc::default();
++        let thread_retired = Arc::clone(&retired);
+         let thread = std::thread::Builder::new()
+             .name("sirius-engine".to_string())
+-            .spawn(move || engine_thread(settings.config, request_rx, ready_tx))
++            .spawn(move || engine_thread(settings.config, request_rx, ready_tx, thread_retired))
+             .map_err(|err| format!("failed to spawn sirius-engine thread: {err}"))?;
+         match ready_rx.recv() {
+             Ok(Ok(staging)) => Ok(Self {
+                 requests: Mutex::new(Some(request_tx)),
+                 thread: Mutex::new(Some(thread)),
+                 staging,
++                retired,
+             }),
+             Ok(Err(err)) => Err(err),
+             Err(_) => Err("sirius-engine thread exited during bring-up".to_string()),
+         }
+     }
+-
+     /// Points the embedded DuckDB context at the locally built extensions used by Substrait.
+     fn configure_duckdb_extensions() -> Result<(), String> {
+         let build_dir = std::env::var_os("SIRIUS_BUILD_DIR")
+@@ -243,6 +260,7 @@ fn engine_thread(
+     config: Option<PathBuf>,
+     requests: Receiver<EngineRequest>,
+     ready: Sender<Result<Option<sirius::StagingArena>, String>>,
++    retired: Arc<Mutex<RetiredQueries>>,
+ ) {
+     let context = match build_context(config) {
+         Ok(context) => {
+@@ -260,19 +278,10 @@ fn engine_thread(
+     };
+ 
+     // Sender fragments whose output is parked on the GPU, waiting for their receivers to be
+-    // dispatched. Parked ONCE per fragment; `parked_slots` maps each destination's SenderSlot to
+-    // (park id, its output stream). Declared after `context` so the fragments drop *first*: a
++    // dispatched, owned per query. Declared after `context` so the fragments drop *first*: a
+     // fragment borrows the engine it runs on, and the borrow checker enforces the order the C++
+     // side depends on.
+-    let mut parked: HashMap<u64, ParkedOutput<'_>> = HashMap::new();
+-    let mut parked_slots: HashMap<SenderSlot, (u64, u64)> = HashMap::new();
+-    let mut next_park_id: u64 = 0;
+-    // Why a slot's parked output went away, for the slots the blanket wipe below destroys.
+-    // Without this the wipe is silent and the NEXT export of an unrelated slot reports
+-    // "no parked sender output", which is collateral -- it masks the error that actually killed
+-    // the query. MEASURED: TPC-H q08 reported that error for weeks while the real failure was an
+-    // OOM in HASH_JOIN. Bounded: an entry is dropped as soon as the slot is parked again.
+-    let mut poisoned: HashMap<SenderSlot, String> = HashMap::new();
++    let mut registry: ParkedRegistry<sirius::Fragment<'_>> = ParkedRegistry::new();
+ 
+     info!("sirius-engine thread ready");
+     // One request at a time until the handle (and its sender) is dropped. Every respond-send
+@@ -280,52 +289,35 @@ fn engine_thread(
+     while let Ok(request) = requests.recv() {
+         match request {
+             EngineRequest::Run(request) => {
+-                let result = run_fragment(
+-                    &context,
+-                    &mut parked,
+-                    &mut parked_slots,
+-                    &poisoned,
+-                    &mut next_park_id,
+-                    &request,
+-                );
++                let result = run_fragment(&context, &mut registry, &retired, &request);
+                 if let Err(err) = &result {
+-                    // A failed query leaves its parked senders unreachable — the receiver that
+-                    // would have consumed them is the thing that just failed. Dropping them
+-                    // releases the GPU memory their batches hold rather than leaking it for the
+-                    // process's lifetime.
+-                    //
+-                    // The wipe is process-wide, so it also destroys OTHER in-flight fragments'
+-                    // parked output. Record why, and say so out loud: a drain that fails right
+-                    // after this used to report only "no parked sender output", which names the
+-                    // victim and hides the culprit.
+-                    if !parked_slots.is_empty() {
+-                        warn!(
+-                            slots = parked_slots.len(),
+-                            error = %err,
+-                            "discarding every parked sender output on this CN after a fragment failure"
+-                        );
+-                    }
+-                    // Replace, never accumulate: only the most recent wipe can explain a slot
+-                    // that is missing now, and this bounds the map by the live slot count.
+-                    poisoned.clear();
+-                    for slot in parked_slots.keys() {
+-                        poisoned.insert(slot.clone(), err.clone());
+-                    }
+-                    parked.clear();
+-                    parked_slots.clear();
++                    // The failed query's parked senders are unreachable now — the receiver that
++                    // would have consumed them is the thing that just failed — and a run of it
++                    // still queued behind this one must not park more. Retire the query; every
++                    // other query's parked output stays where it is.
++                    retire(
++                        &mut registry,
++                        &retired,
++                        request.label.query_id,
++                        &RetireTrigger::EngineErr,
++                        err,
++                    );
+                 }
+                 let _ = request.respond.send(result);
+             }
+             #[cfg(test)]
+             EngineRequest::Sleep(duration) => std::thread::sleep(duration),
+             EngineRequest::ExportNext { slot, respond } => {
+-                let result = export_next(&mut parked, &parked_slots, &poisoned, slot);
+-                let _ = respond.send(result);
++                let _ = respond.send(export_next(&mut registry, &slot));
+             }
+             EngineRequest::DropParked { slot, respond } => {
+-                let result = release_slot(&mut parked, &mut parked_slots, &poisoned, &slot);
+-                let _ = respond.send(result);
++                let _ = respond.send(drop_parked(&mut registry, &slot));
+             }
++            EngineRequest::RetireQuery {
++                query_id,
++                trigger,
++                cause,
++            } => retire(&mut registry, &retired, Some(query_id), &trigger, &cause),
+             EngineRequest::PinTable { spec, respond } => {
+                 info!(name = %spec.name, tier = spec.tier.as_str(), "pin_table starting");
+                 let started = std::time::Instant::now();
+@@ -357,41 +349,56 @@ fn engine_thread(
+         }
+     }
+     // Fragments must be gone before the context they borrow.
+-    drop(parked_slots);
+-    drop(parked);
++    drop(registry);
+     info!("sirius-engine thread shutting down");
+ }
+ 
+-/// The error for a slot whose parked output is gone. When the blanket wipe took it, name the
+-/// failure that triggered the wipe — that is the query's REAL error, and reporting only the
+-/// generic message is what made TPC-H q08 look like an exchange bug for weeks when it was an
+-/// OOM in HASH_JOIN.
+-fn missing_slot(poisoned: &HashMap<SenderSlot, String>, slot: &SenderSlot, verb: &str) -> String {
+-    match poisoned.get(slot) {
+-        Some(cause) => format!(
+-            "sender output for {slot:?} was discarded when another fragment on this CN failed: \
+-             {cause}"
+-        ),
+-        None => format!("no parked sender output to {verb} for {slot:?}"),
++/// The retired set, recovering from a poisoned mutex (a panic elsewhere must not wedge the gates).
++fn lock(retired: &Mutex<RetiredQueries>) -> std::sync::MutexGuard<'_, RetiredQueries> {
++    retired.lock().unwrap_or_else(PoisonError::into_inner)
++}
++
++/// The cause `query_id` was retired for, if it was.
++fn retired_cause(retired: &Mutex<RetiredQueries>, query_id: QueryId) -> Option<String> {
++    lock(retired).cause(query_id).map(str::to_owned)
++}
++
++/// Retires one query on the engine thread: drops its parked fragments, poisons its slots with
++/// `cause`, marks it so later runs are refused. `None` retires only unlabeled output (test
++/// fixtures) and marks nothing.
++fn retire<F>(
++    registry: &mut ParkedRegistry<F>,
++    retired: &Mutex<RetiredQueries>,
++    query_id: Option<QueryId>,
++    trigger: &RetireTrigger,
++    cause: &str,
++) {
++    let dropped = registry.retire(query_id, cause);
++    if let Some(query_id) = query_id {
++        lock(retired).mark(query_id, cause);
++    }
++    if dropped.fragments > 0 {
++        warn!(
++            query_id = ?query_id,
++            trigger = %trigger,
++            fragments = dropped.fragments,
++            slots = dropped.slots,
++            still_parked = registry.fragments(),
++            cause,
++            "retired a query's parked sender outputs"
++        );
++    } else {
++        debug!(query_id = ?query_id, trigger = %trigger, "retire found nothing parked");
+     }
+ }
+ 
+ /// Packs the next batch parked under `slot` into a fresh staging lease.
+ fn export_next(
+-    parked: &mut HashMap<u64, ParkedOutput<'_>>,
+-    parked_slots: &HashMap<SenderSlot, (u64, u64)>,
+-    poisoned: &HashMap<SenderSlot, String>,
+-    slot: SenderSlot,
++    registry: &mut ParkedRegistry<sirius::Fragment<'_>>,
++    slot: &SenderSlot,
+ ) -> Result<Option<StagedBatch>, String> {
+-    let (park_id, stream) = parked_slots
+-        .get(&slot)
+-        .copied()
+-        .ok_or_else(|| missing_slot(poisoned, &slot, "export"))?;
+-    let entry = parked
+-        .get_mut(&park_id)
+-        .ok_or_else(|| format!("parked fragment vanished under {slot:?}"))?;
+-    let batch = entry
+-        .fragment
++    let (fragment, stream) = registry.claim(slot, "export")?;
++    let batch = fragment
+         .export_packed(stream)
+         .map_err(|err| format!("failed to export a packed batch for {slot:?}: {err}"))?;
+     Ok(batch.map(|batch| StagedBatch {
+@@ -403,23 +410,16 @@ fn export_next(
+ }
+ 
+ /// Releases one destination's claim on a parked fragment; the fragment (and the GPU memory its
+-/// remaining batches hold) drops when the LAST destination releases. Exactly-once per slot: a
+-/// second release of the same slot is a loud error, never a silent double-drop.
+-fn release_slot(
+-    parked: &mut HashMap<u64, ParkedOutput<'_>>,
+-    parked_slots: &mut HashMap<SenderSlot, (u64, u64)>,
+-    poisoned: &HashMap<SenderSlot, String>,
+-    slot: &SenderSlot,
+-) -> Result<(), String> {
+-    let (park_id, _) = parked_slots
+-        .remove(slot)
+-        .ok_or_else(|| missing_slot(poisoned, slot, "drop"))?;
+-    let entry = parked
+-        .get_mut(&park_id)
+-        .ok_or_else(|| format!("parked fragment vanished under {slot:?}"))?;
+-    entry.outstanding -= 1;
+-    if entry.outstanding == 0 {
+-        parked.remove(&park_id);
++/// remaining batches hold) drops when the LAST destination releases. Exactly-once per live slot:
++/// a second release is a loud error, never a silent double-drop. A slot already retired with its
++/// query returns `Ok` once, so the transport's post-drain and failure-path drops of a dead
++/// query's output are not errors.
++fn drop_parked<F>(registry: &mut ParkedRegistry<F>, slot: &SenderSlot) -> Result<(), String> {
++    if registry.release(slot)? == Release::AlreadyTornDown {
++        debug!(
++            ?slot,
++            "drop_parked for a slot already retired with its query"
++        );
+     }
+     Ok(())
+ }
+@@ -429,10 +429,8 @@ fn release_slot(
+ /// sweep when the run fails partway (a leaked lease would pin the arena for later queries).
+ fn run_fragment<'ctx>(
+     context: &'ctx SiriusContext,
+-    parked: &mut HashMap<u64, ParkedOutput<'ctx>>,
+-    parked_slots: &mut HashMap<SenderSlot, (u64, u64)>,
+-    poisoned: &HashMap<SenderSlot, String>,
+-    next_park_id: &mut u64,
++    registry: &mut ParkedRegistry<sirius::Fragment<'ctx>>,
++    retired: &Mutex<RetiredQueries>,
+     request: &ExecuteRequest,
+ ) -> Result<Option<FragmentResult>, String> {
+     // Every engine-thread line of this run (relay, remote push, cardinality, lease sweep) carries
+@@ -450,15 +448,7 @@ fn run_fragment<'ctx>(
+     }
+     let _entered = span.enter();
+     let mut released = std::collections::HashSet::new();
+-    let result = run_fragment_inner(
+-        context,
+-        parked,
+-        parked_slots,
+-        poisoned,
+-        next_park_id,
+-        request,
+-        &mut released,
+-    );
++    let result = run_fragment_inner(context, registry, retired, request, &mut released);
+     if result.is_err() {
+         for (_, _, batches) in &request.remote_inputs {
+             for batch in batches {
+@@ -480,18 +470,37 @@ fn run_fragment<'ctx>(
+     result
+ }
+ 
++#[cfg(test)]
++fn run_after_run_hook(request: &ExecuteRequest) {
++    if let Some(hook) = &request.after_run {
++        hook();
++    }
++}
++
++#[cfg(not(test))]
++fn run_after_run_hook(_request: &ExecuteRequest) {}
++
+ /// Runs one fragment on the engine thread: declare its input streams, relay every parked sender
+ /// and push every staged remote batch into them, execute, then either park the output or return
+ /// the rows. Records each released remote-input lease offset in `released`.
+ fn run_fragment_inner<'ctx>(
+     context: &'ctx SiriusContext,
+-    parked: &mut HashMap<u64, ParkedOutput<'ctx>>,
+-    parked_slots: &mut HashMap<SenderSlot, (u64, u64)>,
+-    poisoned: &HashMap<SenderSlot, String>,
+-    next_park_id: &mut u64,
++    registry: &mut ParkedRegistry<sirius::Fragment<'ctx>>,
++    retired: &Mutex<RetiredQueries>,
+     request: &ExecuteRequest,
+     released: &mut std::collections::HashSet<u64>,
+ ) -> Result<Option<FragmentResult>, String> {
++    // Gate 1: a run of a query this CN already retired is refused before it touches the engine.
++    // Here, not at the dequeue, so `run_fragment`'s sweep still releases every remote-input
++    // lease the refused run carried.
++    if let Some(query_id) = request.label.query_id
++        && let Some(cause) = retired_cause(retired, query_id)
++    {
++        return Err(format!(
++            "query {query_id} was already retired on this CN: {cause}"
++        ));
++    }
++
+     let mut fragment = context
+         .fragment()
+         .map_err(|err| format!("failed to create fragment: {err}"))?;
+@@ -559,9 +568,8 @@ fn run_fragment_inner<'ctx>(
+         let local_rows: Option<u64> = senders
+             .iter()
+             .map(|slot| {
+-                let (park_id, sender_stream) = parked_slots.get(slot).copied()?;
+-                let entry = parked.get(&park_id)?;
+-                entry.fragment.output_row_count(sender_stream).ok()
++                let (sender, sender_stream) = registry.peek(slot)?;
++                sender.output_row_count(sender_stream).ok()
+             })
+             .sum();
+         let remote_rows: Option<u64> = request
+@@ -622,21 +630,15 @@ fn run_fragment_inner<'ctx>(
+             .map(|(_, senders)| senders.as_slice())
+             .unwrap_or_default();
+         for slot in senders {
+-            let (park_id, sender_stream) = parked_slots
+-                .get(slot)
+-                .copied()
+-                .ok_or_else(|| format!("no parked sender output for {slot:?}"))?;
+-            let sender = parked
+-                .get_mut(&park_id)
+-                .ok_or_else(|| format!("parked fragment vanished under {slot:?}"))?;
+             let sender_id = u32::try_from(slot.sender_id)
+                 .map_err(|_| format!("negative sender id {}", slot.sender_id))?;
++            let (sender, sender_stream) = registry.claim(slot, "relay")?;
+             let moved = fragment
+-                .relay_from(&mut sender.fragment, sender_stream, stream_id, sender_id)
++                .relay_from(sender, sender_stream, stream_id, sender_id)
+                 .map_err(|err| format!("failed to relay sender {sender_id}: {err}"))?;
+             // This destination's stream is drained; release its claim (the fragment drops with
+             // the last claim, freeing the GPU batches).
+-            release_slot(parked, parked_slots, poisoned, slot)?;
++            registry.release(slot)?;
+             info!(
+                 stream_id,
+                 sender_id,
+@@ -693,27 +695,23 @@ fn run_fragment_inner<'ctx>(
+     fragment
+         .run()
+         .map_err(|err| format!("failed to execute fragment: {err}"))?;
++    run_after_run_hook(request);
+ 
+     if !request.outputs.is_empty() {
+-        // Park ONCE; each destination claims (park id, its stream). A duplicate slot would let
+-        // two claims race over one stream -- refuse before inserting anything.
+-        let park_id = *next_park_id;
+-        *next_park_id += 1;
+-        for (stream, slot) in request.outputs.iter().enumerate() {
+-            if parked_slots.contains_key(slot) {
+-                return Err(format!(
+-                    "duplicate destination slot {slot:?} in one sender fan-out"
+-                ));
+-            }
+-            parked_slots.insert(slot.clone(), (park_id, stream as u64));
++        // Gate 2: the query may have been retired while this fragment ran (a cancel mid-run, or
++        // a sibling failing on another CN). Output parked now would have no owner-triggered
++        // release, so drop the fragment instead of parking it.
++        if let Some(query_id) = request.label.query_id
++            && let Some(cause) = retired_cause(retired, query_id)
++        {
++            return Err(format!(
++                "fragment of query {query_id} finished after the query was retired on this CN; \
++                 its output was dropped instead of parked: {cause}"
++            ));
+         }
+-        parked.insert(
+-            park_id,
+-            ParkedOutput {
+-                fragment,
+-                outstanding: request.outputs.len(),
+-            },
+-        );
++        // Park ONCE; each destination claims (park id, its stream). A duplicate slot would let
++        // two claims race over one stream — the registry refuses before inserting anything.
++        registry.park(request.label.query_id, &request.outputs, fragment)?;
+         return Ok(None);
+     }
+     {
+@@ -752,16 +750,21 @@ impl SiriusEngine {
+         make_request: impl FnOnce(Sender<Result<T, String>>) -> EngineRequest,
+     ) -> Result<T, String> {
+         let (respond_tx, respond_rx) = channel();
++        self.engine_send(make_request(respond_tx))?;
++        respond_rx
++            .recv()
++            .map_err(|_| "sirius-engine thread dropped the response".to_string())?
++    }
++
++    /// Sends one request without waiting for an answer.
++    fn engine_send(&self, request: EngineRequest) -> Result<(), String> {
+         self.requests
+             .lock()
+-            .unwrap_or_else(|poisoned| poisoned.into_inner())
++            .unwrap_or_else(PoisonError::into_inner)
+             .as_ref()
+             .ok_or_else(|| "sirius-engine is shutting down".to_string())?
+-            .send(make_request(respond_tx))
+-            .map_err(|_| "sirius-engine thread is not running".to_string())?;
+-        respond_rx
+-            .recv()
+-            .map_err(|_| "sirius-engine thread dropped the response".to_string())?
++            .send(request)
++            .map_err(|_| "sirius-engine thread is not running".to_string())
+     }
+ 
+     /// The staging-arena handle, or the loud not-configured error (the exact message the C++
+@@ -786,6 +789,8 @@ impl FragmentExecutor for SiriusEngine {
+                 hash_keys: run.hash_keys,
+                 label: run.label,
+                 respond,
++                #[cfg(test)]
++                after_run: None,
+             })
+         })
+     }
+@@ -818,6 +823,21 @@ impl FragmentExecutor for SiriusEngine {
+         self.engine_call(|respond| EngineRequest::DropParked { slot, respond })
+     }
+ 
++    fn retire_query(
++        &self,
++        query_id: QueryId,
++        trigger: RetireTrigger,
++        cause: &str,
++    ) -> Result<(), String> {
++        // Mark first: a Run already queued ahead of the RetireQuery is refused at its dequeue.
++        lock(&self.retired).mark(query_id, cause);
++        self.engine_send(EngineRequest::RetireQuery {
++            query_id,
++            trigger,
++            cause: cause.to_string(),
++        })
++    }
++
+     fn pin_table(&self, spec: &PinTableSpec) -> Result<String, String> {
+         let spec = spec.clone();
+         self.engine_call(|respond| EngineRequest::PinTable { spec, respond })
+@@ -1094,6 +1114,7 @@ mod tests {
+                 hash_keys: Vec::new(),
+                 label: FragmentLabel::default(),
+                 respond: respond_tx,
++                after_run: None,
+             }))
+             .unwrap();
+         let result = respond_rx
+@@ -1415,4 +1436,309 @@ mod tests {
+             .expect("second output column is the int64 id column");
+         assert_eq!(id_col.value(0), 1);
+     }
++
++    /// A run labelled with query `hi` and instance `(hi, instance)`.
++    fn labelled(hi: i64, instance: i64) -> FragmentLabel {
++        FragmentLabel {
++            query_id: Some(FragmentInstanceId::from_halves(hi, 0)),
++            fragment_instance_id: Some(FragmentInstanceId::from_halves(hi, instance)),
++        }
++    }
++
++    /// A destination slot on receiver `(100, receiver)`, exchange node `node_id`, sender 0.
++    fn slot_for(receiver: i64, node_id: i32) -> SenderSlot {
++        SenderSlot {
++            fragment_instance_id: FragmentInstanceId::from_halves(100, receiver),
++            node_id,
++            sender_id: 0,
++        }
++    }
++
++    /// Parks the users fixture (3 rows) under `slot`, labelled `label`.
++    fn park(engine: &SiriusEngine, plan: &TranslatedPlan, slot: SenderSlot, label: FragmentLabel) {
++        assert!(
++            engine
++                .run(FragmentRun {
++                    plan,
++                    inputs: Vec::new(),
++                    remote_inputs: Vec::new(),
++                    outputs: vec![slot],
++                    broadcast: false,
++                    hash_keys: Vec::new(),
++                    label,
++                })
++                .expect("run the sender fragment")
++                .is_none()
++        );
++    }
++
++    /// Runs a receiver over `slot`'s stream, labelled `label`.
++    fn receive(
++        engine: &SiriusEngine,
++        slot: SenderSlot,
++        label: FragmentLabel,
++    ) -> Result<Option<FragmentResult>, String> {
++        let receiver = stream_plan(slot.node_id, &[("id", false), ("name", true)]);
++        engine.run(FragmentRun {
++            plan: &receiver,
++            inputs: vec![(slot.node_id, vec![slot])],
++            remote_inputs: Vec::new(),
++            outputs: Vec::new(),
++            broadcast: false,
++            hash_keys: Vec::new(),
++            label,
++        })
++    }
++
++    fn row_count(result: Option<FragmentResult>) -> usize {
++        result
++            .expect("a result fragment returns rows")
++            .batches
++            .iter()
++            .map(RecordBatch::num_rows)
++            .sum()
++    }
++
++    /// A run that fails before `build()`: a stream read with no sender behind it.
++    fn failing_run(engine: &SiriusEngine, label: FragmentLabel) -> String {
++        let plan = stream_plan(99, &[("id", false)]);
++        engine
++            .run(FragmentRun {
++                plan: &plan,
++                inputs: Vec::new(),
++                remote_inputs: Vec::new(),
++                outputs: Vec::new(),
++                broadcast: false,
++                hash_keys: Vec::new(),
++                label,
++            })
++            .expect_err("a stream with no sender fails before build")
++    }
++
++    /// A run of query A fails: A's parked output is dropped and poisoned with the cause, later
++    /// runs of A are refused at gate 1 (still sweeping the remote-input leases they carried),
++    /// and query B's parked output is untouched.
++    #[test]
++    fn a_failed_run_retires_only_its_own_query() {
++        let _guard = crate::GPU_ENGINE_TEST_LOCK
++            .lock()
++            .unwrap_or_else(|err| err.into_inner());
++        ensure_parquet_extension_env();
++        // SAFETY: the GPU lock is held, so no other thread touches the environment here.
++        unsafe { std::env::set_var("SIRIUS_EXCHANGE_STAGING_BYTES", "64MiB") };
++
++        let dir = tempfile::tempdir().unwrap();
++        let path = dir.path().join("users.parquet");
++        write_users_parquet(&path);
++        let plan = local_files_plan(
++            path.to_str().unwrap(),
++            vec!["id".to_string(), "name".to_string()],
++        );
++        let engine = SiriusEngine::start(test_settings()).expect("bring up sirius engine");
++
++        let (a1, b1) = (slot_for(1, 7), slot_for(2, 8));
++        park(&engine, &plan, a1, labelled(200, 1));
++        park(&engine, &plan, b1, labelled(201, 1));
++
++        let err = failing_run(&engine, labelled(200, 2));
++        assert!(err.contains("no sender output"), "{err}");
++
++        // Gate 1: any later run of A is refused and names the original failure.
++        let err = failing_run(&engine, labelled(200, 3));
++        assert!(
++            err.contains("already retired") && err.contains("no sender output"),
++            "{err}"
++        );
++
++        // A's parked output is gone, and its slot says why.
++        let err = receive(&engine, a1, FragmentLabel::default()).unwrap_err();
++        assert!(
++            err.contains("was discarded when its query was retired"),
++            "{err}"
++        );
++        engine
++            .drop_parked(a1)
++            .expect("a slot retired with its query releases Ok once");
++        assert!(
++            engine.drop_parked(a1).is_err(),
++            "and is a loud error the second time"
++        );
++
++        // B is untouched.
++        assert_eq!(
++            row_count(receive(&engine, b1, labelled(201, 2)).unwrap()),
++            3
++        );
++
++        // A refused run still sweeps the remote-input leases it carried.
++        let lease = engine.staging_lease(4096).expect("lease");
++        let receiver = stream_plan(9, &[("id", false), ("name", true)]);
++        let err = engine
++            .run(FragmentRun {
++                plan: &receiver,
++                inputs: Vec::new(),
++                remote_inputs: vec![(
++                    9,
++                    0,
++                    vec![StagedBatch {
++                        metadata: vec![1],
++                        offset: lease,
++                        len: 4096,
++                        rows: Some(1),
++                    }],
++                )],
++                outputs: Vec::new(),
++                broadcast: false,
++                hash_keys: Vec::new(),
++                label: labelled(200, 4),
++            })
++            .expect_err("refused at gate 1");
++        assert!(err.contains("already retired"), "{err}");
++        let probe = engine.staging_lease(1024).expect("arena drained");
++        assert_eq!(probe, 0, "the sweep returned the refused run's lease");
++        engine.staging_release(probe).unwrap();
++
++        // SAFETY: the GPU lock is still held.
++        unsafe { std::env::remove_var("SIRIUS_EXCHANGE_STAGING_BYTES") };
++    }
++
++    /// The CN-side route: `retire_query` drops the query's parked output (fire-and-forget, but
++    /// FIFO ahead of the next run) and refuses its later runs with the CN's cause.
++    #[test]
++    fn retire_query_drops_parked_output_and_refuses_later_runs() {
++        let _guard = crate::GPU_ENGINE_TEST_LOCK
++            .lock()
++            .unwrap_or_else(|err| err.into_inner());
++        ensure_parquet_extension_env();
++        // SAFETY: the GPU lock is held, so no other thread touches the environment here.
++        unsafe { std::env::set_var("SIRIUS_EXCHANGE_STAGING_BYTES", "64MiB") };
++
++        let dir = tempfile::tempdir().unwrap();
++        let path = dir.path().join("users.parquet");
++        write_users_parquet(&path);
++        let plan = local_files_plan(
++            path.to_str().unwrap(),
++            vec!["id".to_string(), "name".to_string()],
++        );
++        let engine = SiriusEngine::start(test_settings()).expect("bring up sirius engine");
++
++        let c1 = slot_for(3, 7);
++        park(&engine, &plan, c1, labelled(202, 1));
++        engine
++            .retire_query(
++                FragmentInstanceId::from_halves(202, 0),
++                RetireTrigger::CnErr,
++                "translation failed",
++            )
++            .expect("retire is a non-blocking send");
++
++        let err = failing_run(&engine, labelled(202, 2));
++        assert!(
++            err.contains("already retired") && err.contains("translation failed"),
++            "{err}"
++        );
++        let err = receive(&engine, c1, FragmentLabel::default()).unwrap_err();
++        assert!(err.contains("retired: translation failed"), "{err}");
++        let probe = engine.staging_lease(1024).expect("arena untouched");
++        assert_eq!(probe, 0);
++        engine.staging_release(probe).unwrap();
++
++        // SAFETY: the GPU lock is still held.
++        unsafe { std::env::remove_var("SIRIUS_EXCHANGE_STAGING_BYTES") };
++    }
++
++    /// An unlabeled failure (test fixtures, no StarRocks ids) retires only unlabeled output.
++    #[test]
++    fn an_unlabeled_failure_retires_only_the_unlabeled_bucket() {
++        let _guard = crate::GPU_ENGINE_TEST_LOCK
++            .lock()
++            .unwrap_or_else(|err| err.into_inner());
++        ensure_parquet_extension_env();
++
++        let dir = tempfile::tempdir().unwrap();
++        let path = dir.path().join("users.parquet");
++        write_users_parquet(&path);
++        let plan = local_files_plan(
++            path.to_str().unwrap(),
++            vec!["id".to_string(), "name".to_string()],
++        );
++        let engine = SiriusEngine::start(test_settings()).expect("bring up sirius engine");
++
++        let (u1, u2, l) = (slot_for(5, 7), slot_for(6, 7), slot_for(7, 8));
++        park(&engine, &plan, u1, FragmentLabel::default());
++        park(&engine, &plan, u2, FragmentLabel::default());
++        park(&engine, &plan, l, labelled(203, 1));
++
++        failing_run(&engine, FragmentLabel::default());
++
++        for slot in [u1, u2] {
++            let err = receive(&engine, slot, FragmentLabel::default()).unwrap_err();
++            assert!(
++                err.contains("was discarded when its query was retired"),
++                "{err}"
++            );
++        }
++        assert_eq!(row_count(receive(&engine, l, labelled(203, 2)).unwrap()), 3);
++    }
++
++    /// Gate 2: a query retired while one of its senders is inside `run()` gets that sender's
++    /// output dropped, not parked -- there would be nobody left to release it.
++    #[test]
++    fn output_parked_after_a_retire_is_dropped_not_parked() {
++        let _guard = crate::GPU_ENGINE_TEST_LOCK
++            .lock()
++            .unwrap_or_else(|err| err.into_inner());
++        ensure_parquet_extension_env();
++
++        let dir = tempfile::tempdir().unwrap();
++        let path = dir.path().join("users.parquet");
++        write_users_parquet(&path);
++        let plan = local_files_plan(
++            path.to_str().unwrap(),
++            vec!["id".to_string(), "name".to_string()],
++        );
++        let engine = SiriusEngine::start(test_settings()).expect("bring up sirius engine");
++
++        let d = FragmentInstanceId::from_halves(204, 0);
++        let d1 = slot_for(8, 7);
++        let retired = Arc::clone(&engine.retired);
++        let (respond_tx, respond_rx) = channel();
++        engine
++            .requests
++            .lock()
++            .unwrap()
++            .as_ref()
++            .unwrap()
++            .send(EngineRequest::Run(ExecuteRequest {
++                plan: plan.to_substrait_bytes(),
++                stream_inputs: Vec::new(),
++                inputs: Vec::new(),
++                remote_inputs: Vec::new(),
++                outputs: vec![d1],
++                broadcast: false,
++                hash_keys: Vec::new(),
++                label: labelled(204, 1),
++                respond: respond_tx,
++                // The cancel lands while the fragment runs.
++                after_run: Some(Box::new(move || {
++                    lock(&retired).mark(d, "cancelled mid-run");
++                })),
++            }))
++            .unwrap();
++        let err = respond_rx
++            .recv()
++            .expect("engine response")
++            .expect_err("dropped instead of parked");
++        assert!(
++            err.contains("dropped instead of parked") && err.contains("cancelled mid-run"),
++            "{err}"
++        );
++
++        // Never parked: the drop is the generic loud error, not a torn-down release.
++        let err = engine.drop_parked(d1).unwrap_err();
++        assert!(err.contains("no parked sender output to drop"), "{err}");
++        // And D stays retired.
++        let err = failing_run(&engine, labelled(204, 2));
++        assert!(err.contains("already retired"), "{err}");
++    }
+ }
+diff --git a/experimental/starrocks/src/fragment_executor.rs b/experimental/starrocks/src/fragment_executor.rs
+index c7c88275..d4ddfe93 100644
+--- a/experimental/starrocks/src/fragment_executor.rs
++++ b/experimental/starrocks/src/fragment_executor.rs
+@@ -10,6 +10,7 @@ use arrow_array::{ArrayRef, RecordBatch, StringArray};
+ use arrow_schema::{DataType, Field, Schema};
+ use starrocks_plan_translator::TranslatedPlan;
+ 
++pub use crate::parked_registry::RetireTrigger;
+ use crate::result_store::FragmentInstanceId;
+ 
+ /// Output of executing one plan fragment: Arrow batches matching the fragment output schema.
+@@ -222,6 +223,20 @@ pub trait FragmentExecutor: std::fmt::Debug + Send + Sync {
+         Err("this fragment executor parks nothing to drop".to_string())
+     }
+ 
++    /// Drops every parked output of `query_id` and refuses later runs for it. Non-blocking and
++    /// idempotent. Called when the CN learns the query is over: a fragment failed before the engine
++    /// ran it, or the FE cancelled. Unlike `drop_parked` this is a sweep, not an exactly-once
++    /// release, so an executor that parks nothing succeeds trivially.
++    fn retire_query(
++        &self,
++        query_id: FragmentInstanceId,
++        trigger: RetireTrigger,
++        cause: &str,
++    ) -> Result<(), String> {
++        let _ = (query_id, trigger, cause);
++        Ok(())
++    }
++
+     /// Pins a table into the engine's scan cache (`CALL pin_table` semantics). Blocks for the
+     /// whole materialization, serialized with fragment runs on the engine thread. Returns a
+     /// one-line summary.
+diff --git a/experimental/starrocks/src/lib.rs b/experimental/starrocks/src/lib.rs
+index a2c9613c..ae83be4e 100644
+--- a/experimental/starrocks/src/lib.rs
++++ b/experimental/starrocks/src/lib.rs
+@@ -56,6 +56,7 @@ mod fragment_executor;
+ mod gpu_affinity;
+ mod local_exchange;
+ mod nixl_transport;
++mod parked_registry;
+ mod proto;
+ mod prpc;
+ mod prpc_client;
+diff --git a/experimental/starrocks/src/nixl_transport.rs b/experimental/starrocks/src/nixl_transport.rs
+index 5f353e63..2ba47895 100644
+--- a/experimental/starrocks/src/nixl_transport.rs
++++ b/experimental/starrocks/src/nixl_transport.rs
+@@ -408,7 +408,8 @@ mod agent_tier {
+                     let result = state.send_fragment(&spec);
+                     if result.is_err() {
+                         // Best-effort GPU cleanup: without it a failed transmit pins the parked
+-                        // output for the process lifetime (per-query GC is cut from Path B).
++                        // output for the process lifetime. Per-query retirement makes a late
++                        // drop idempotent: a slot already retired with its query returns Ok once.
+                         if let Err(drop_err) = state.executor.drop_parked(spec.slot) {
+                             warn!(
+                                 slot = ?spec.slot,
+diff --git a/experimental/starrocks/src/parked_registry.rs b/experimental/starrocks/src/parked_registry.rs
+new file mode 100644
+index 00000000..2522af27
+--- /dev/null
++++ b/experimental/starrocks/src/parked_registry.rs
+@@ -0,0 +1,532 @@
++//! Query-scoped bookkeeping of parked sender output.
++//!
++//! Generic over the fragment handle so the logic is unit-tested without a GPU; the engine thread
++//! instantiates it with `sirius::Fragment<'ctx>`. Without the `sirius-engine` feature nothing but
++//! the tests reaches the runtime API, hence the module-wide dead-code allowance for that build.
++#![cfg_attr(not(feature = "sirius-engine"), allow(dead_code))]
++
++use std::collections::{HashMap, HashSet, VecDeque};
++use std::fmt;
++
++use crate::fragment_executor::SenderSlot;
++use crate::result_store::FragmentInstanceId;
++
++/// The StarRocks query id every fragment instance of one query shares.
++pub(crate) type QueryId = FragmentInstanceId;
++
++/// Why a query was retired; rendered into the retire log line and the poisoned-slot message.
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub enum RetireTrigger {
++    /// A run of the query returned `Err` on the engine thread.
++    EngineErr,
++    /// A fragment of the query failed on the CN before or around the engine (translation, sink
++    /// validation, remote drain).
++    CnErr,
++}
++
++impl fmt::Display for RetireTrigger {
++    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++        match self {
++            Self::EngineErr => f.write_str("engine_err"),
++            Self::CnErr => f.write_str("cn_err"),
++        }
++    }
++}
++
++/// One sender fragment's parked output, shared by its destinations: stream i belongs to
++/// destination i.
++struct Parked<F> {
++    fragment: F,
++    /// The StarRocks query this output belongs to; `None` for unlabeled runs (test fixtures).
++    query_id: Option<QueryId>,
++    /// Destinations that have not yet released their stream (drained + dropped); the fragment
++    /// -- and its GPU batches -- drop when it reaches zero.
++    outstanding: usize,
++}
++
++/// Outcome of releasing one destination's claim.
++#[derive(Debug, PartialEq, Eq)]
++pub(crate) enum Release {
++    /// Other destinations still hold the fragment.
++    Outstanding(usize),
++    /// Last claim: the fragment (and its GPU batches) dropped.
++    Freed,
++    /// The slot was retired with its query before this release; forgotten now, so a second
++    /// release is a loud error again.
++    AlreadyTornDown,
++}
++
++/// What one `retire` removed.
++#[derive(Debug, Default, PartialEq, Eq)]
++pub(crate) struct Retired {
++    pub fragments: usize,
++    pub slots: usize,
++}
++
++/// Parked sender outputs keyed by the query they belong to.
++///
++/// Parked ONCE per fragment; `slots` maps each destination's [`SenderSlot`] to
++/// `(park id, its output stream)`. A query's outputs leave together (`retire`), never as
++/// collateral of another query's failure.
++pub(crate) struct ParkedRegistry<F> {
++    parked: HashMap<u64, Parked<F>>,
++    slots: HashMap<SenderSlot, (u64, u64)>,
++    /// Why a slot's output went away, so the next export/relay/drop of it names the query's real
++    /// error instead of the generic message (the TPC-H q08 lesson: the collateral "no parked
++    /// sender output" masked an OOM in HASH_JOIN for weeks). Bounded FIFO; an entry is removed
++    /// when the slot is parked again or released once.
++    torn_down: HashMap<SenderSlot, String>,
++    torn_down_order: VecDeque<SenderSlot>,
++    next_id: u64,
++}
++
++impl<F> Default for ParkedRegistry<F> {
++    fn default() -> Self {
++        Self::new()
++    }
++}
++
++impl<F> ParkedRegistry<F> {
++    pub const TORN_DOWN_CAPACITY: usize = 4096;
++
++    pub fn new() -> Self {
++        Self {
++            parked: HashMap::new(),
++            slots: HashMap::new(),
++            torn_down: HashMap::new(),
++            torn_down_order: VecDeque::new(),
++            next_id: 0,
++        }
++    }
++
++    /// Parks once; destination i claims `(id, stream i)`. Refuses a duplicate slot -- within
++    /// `outputs` or against a slot already parked -- before inserting anything, dropping
++    /// `fragment`. Re-parking a slot forgets its torn-down entry.
++    pub fn park(
++        &mut self,
++        query_id: Option<QueryId>,
++        outputs: &[SenderSlot],
++        fragment: F,
++    ) -> Result<(), String> {
++        for (index, slot) in outputs.iter().enumerate() {
++            if self.slots.contains_key(slot) || outputs[..index].contains(slot) {
++                return Err(format!(
++                    "duplicate destination slot {slot:?} in one sender fan-out"
++                ));
++            }
++        }
++        let id = self.next_id;
++        self.next_id += 1;
++        for (stream, slot) in outputs.iter().enumerate() {
++            self.slots.insert(*slot, (id, stream as u64));
++            self.forget_torn_down(slot);
++        }
++        self.parked.insert(
++            id,
++            Parked {
++                fragment,
++                query_id,
++                outstanding: outputs.len(),
++            },
++        );
++        Ok(())
++    }
++
++    /// The parked fragment and the stream a slot names, for relay and export. `verb` is
++    /// "relay" | "export" for the missing-slot message.
++    pub fn claim(&mut self, slot: &SenderSlot, verb: &str) -> Result<(&mut F, u64), String> {
++        let (id, stream) = self
++            .slots
++            .get(slot)
++            .copied()
++            .ok_or_else(|| self.missing(slot, verb))?;
++        let entry = self
++            .parked
++            .get_mut(&id)
++            .ok_or_else(|| format!("parked fragment vanished under {slot:?}"))?;
++        Ok((&mut entry.fragment, stream))
++    }
++
++    /// Read-only lookup for the cardinality declaration.
++    pub fn peek(&self, slot: &SenderSlot) -> Option<(&F, u64)> {
++        let (id, stream) = self.slots.get(slot).copied()?;
++        Some((&self.parked.get(&id)?.fragment, stream))
++    }
++
++    /// One destination's release; the fragment (and the GPU memory its remaining batches hold)
++    /// drops with the LAST destination. A live slot released twice is a loud error; a slot
++    /// retired with its query returns [`Release::AlreadyTornDown`] exactly once.
++    pub fn release(&mut self, slot: &SenderSlot) -> Result<Release, String> {
++        let Some((id, _)) = self.slots.remove(slot) else {
++            if self.forget_torn_down(slot) {
++                return Ok(Release::AlreadyTornDown);
++            }
++            return Err(self.missing(slot, "drop"));
++        };
++        let entry = self
++            .parked
++            .get_mut(&id)
++            .ok_or_else(|| format!("parked fragment vanished under {slot:?}"))?;
++        entry.outstanding -= 1;
++        if entry.outstanding == 0 {
++            self.parked.remove(&id);
++            return Ok(Release::Freed);
++        }
++        Ok(Release::Outstanding(entry.outstanding))
++    }
++
++    /// Drops every parked fragment of `query_id` (`None` matches only unlabeled output), records
++    /// `cause` for each of its slots, returns the counts. Idempotent: a second call returns zeros.
++    pub fn retire(&mut self, query_id: Option<QueryId>, cause: &str) -> Retired {
++        let ids: HashSet<u64> = self
++            .parked
++            .iter()
++            .filter(|(_, parked)| parked.query_id == query_id)
++            .map(|(id, _)| *id)
++            .collect();
++        if ids.is_empty() {
++            return Retired::default();
++        }
++        let mut torn = Vec::new();
++        self.slots.retain(|slot, (id, _)| {
++            if ids.contains(id) {
++                torn.push(*slot);
++                false
++            } else {
++                true
++            }
++        });
++        for slot in &torn {
++            self.remember_torn_down(*slot, cause);
++        }
++        for id in &ids {
++            self.parked.remove(id);
++        }
++        Retired {
++            fragments: ids.len(),
++            slots: torn.len(),
++        }
++    }
++
++    pub fn fragments(&self) -> usize {
++        self.parked.len()
++    }
++
++    #[cfg(test)]
++    pub fn slots(&self) -> usize {
++        self.slots.len()
++    }
++
++    /// The error for a slot whose parked output is gone: the query's real error when it was
++    /// retired, the generic message otherwise.
++    fn missing(&self, slot: &SenderSlot, verb: &str) -> String {
++        match self.torn_down.get(slot) {
++            Some(cause) => format!(
++                "sender output for {slot:?} was discarded when its query was retired: {cause}"
++            ),
++            None => format!("no parked sender output to {verb} for {slot:?}"),
++        }
++    }
++
++    fn remember_torn_down(&mut self, slot: SenderSlot, cause: &str) {
++        if self.torn_down.insert(slot, cause.to_string()).is_none() {
++            self.torn_down_order.push_back(slot);
++        }
++        while self.torn_down.len() > Self::TORN_DOWN_CAPACITY {
++            match self.torn_down_order.pop_front() {
++                Some(oldest) => {
++                    self.torn_down.remove(&oldest);
++                }
++                None => break,
++            }
++        }
++    }
++
++    /// Returns whether the slot had a torn-down entry.
++    fn forget_torn_down(&mut self, slot: &SenderSlot) -> bool {
++        if self.torn_down.remove(slot).is_none() {
++            return false;
++        }
++        self.torn_down_order.retain(|entry| entry != slot);
++        true
++    }
++}
++
++/// Queries this CN has declared over. A `Run` already queued for one of them is refused instead of
++/// re-parking output nobody will consume. Bounded FIFO: StarRocks query ids never recur, so
++/// eviction only forgets an explanation, never a live query. First cause wins (matches
++/// `ResultStore::fail_query`).
++#[derive(Debug, Default)]
++pub(crate) struct RetiredQueries {
++    order: VecDeque<QueryId>,
++    causes: HashMap<QueryId, String>,
++}
++
++impl RetiredQueries {
++    pub const CAPACITY: usize = 1024;
++
++    /// Returns `false` when the query was already marked (the earlier cause is kept).
++    pub fn mark(&mut self, query_id: QueryId, cause: &str) -> bool {
++        if self.causes.contains_key(&query_id) {
++            return false;
++        }
++        self.causes.insert(query_id, cause.to_string());
++        self.order.push_back(query_id);
++        while self.causes.len() > Self::CAPACITY {
++            match self.order.pop_front() {
++                Some(oldest) => {
++                    self.causes.remove(&oldest);
++                }
++                None => break,
++            }
++        }
++        true
++    }
++
++    pub fn cause(&self, query_id: QueryId) -> Option<&str> {
++        self.causes.get(&query_id).map(String::as_str)
++    }
++
++    #[cfg(test)]
++    pub fn len(&self) -> usize {
++        self.causes.len()
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use std::cell::Cell;
++    use std::rc::Rc;
++
++    use super::*;
++    use crate::fragment_executor::SenderSlot;
++    use crate::result_store::FragmentInstanceId;
++
++    /// A fragment stand-in that counts its own drops.
++    #[derive(Debug)]
++    struct Counted(Rc<Cell<usize>>);
++
++    impl Drop for Counted {
++        fn drop(&mut self) {
++            self.0.set(self.0.get() + 1);
++        }
++    }
++
++    fn slot(receiver: i64, node_id: i32, sender_id: i32) -> SenderSlot {
++        SenderSlot {
++            fragment_instance_id: FragmentInstanceId::from_halves(1, receiver),
++            node_id,
++            sender_id,
++        }
++    }
++
++    fn query(hi: i64) -> QueryId {
++        FragmentInstanceId::from_halves(hi, 0)
++    }
++
++    #[test]
++    fn park_then_release_last_claim_drops_the_fragment() {
++        let drops = Rc::new(Cell::new(0));
++        let mut registry = ParkedRegistry::new();
++        let (a, b) = (slot(1, 7, 0), slot(2, 7, 0));
++        registry
++            .park(Some(query(1)), &[a, b], Counted(drops.clone()))
++            .unwrap();
++        assert_eq!(registry.fragments(), 1);
++        assert_eq!(registry.slots(), 2);
++
++        assert_eq!(registry.release(&a).unwrap(), Release::Outstanding(1));
++        assert_eq!(drops.get(), 0, "one destination still holds the fragment");
++        assert_eq!(registry.release(&b).unwrap(), Release::Freed);
++        assert_eq!(drops.get(), 1, "the last claim drops the fragment");
++        assert_eq!(registry.fragments(), 0);
++        assert_eq!(registry.slots(), 0);
++    }
++
++    #[test]
++    fn second_release_of_a_live_slot_is_a_loud_error() {
++        let mut registry = ParkedRegistry::new();
++        let a = slot(1, 7, 0);
++        registry
++            .park(Some(query(1)), &[a], Counted(Rc::default()))
++            .unwrap();
++        assert_eq!(registry.release(&a).unwrap(), Release::Freed);
++        let err = registry.release(&a).unwrap_err();
++        assert!(err.contains("no parked sender output to drop"), "{err}");
++    }
++
++    #[test]
++    fn duplicate_slot_is_refused_before_anything_is_inserted() {
++        let drops = Rc::new(Cell::new(0));
++        let mut registry = ParkedRegistry::new();
++        let a = slot(1, 7, 0);
++        let err = registry
++            .park(Some(query(1)), &[a, a], Counted(drops.clone()))
++            .unwrap_err();
++        assert!(err.contains("duplicate destination slot"), "{err}");
++        assert_eq!(registry.slots(), 0);
++        assert_eq!(registry.fragments(), 0);
++        assert_eq!(
++            drops.get(),
++            1,
++            "the refused fragment is dropped, not leaked"
++        );
++
++        // The same rule against a slot another fan-out already holds.
++        registry
++            .park(Some(query(1)), &[a], Counted(drops.clone()))
++            .unwrap();
++        let err = registry
++            .park(Some(query(2)), &[slot(9, 7, 0), a], Counted(drops.clone()))
++            .unwrap_err();
++        assert!(err.contains("duplicate destination slot"), "{err}");
++        assert_eq!(registry.slots(), 1);
++        assert_eq!(registry.fragments(), 1);
++        assert_eq!(drops.get(), 2);
++    }
++
++    #[test]
++    fn retire_drops_only_that_query_and_poisons_its_slots() {
++        let drops = Rc::new(Cell::new(0));
++        let mut registry = ParkedRegistry::new();
++        let (a1, a2) = (slot(1, 7, 0), slot(2, 7, 0));
++        let (b1, b2, b3) = (slot(3, 9, 0), slot(4, 9, 0), slot(5, 9, 0));
++        registry
++            .park(Some(query(1)), &[a1, a2], Counted(drops.clone()))
++            .unwrap();
++        registry
++            .park(Some(query(2)), &[b1, b2, b3], Counted(drops.clone()))
++            .unwrap();
++
++        let retired = registry.retire(Some(query(1)), "HASH_JOIN ran out of memory");
++        assert_eq!(
++            retired,
++            Retired {
++                fragments: 1,
++                slots: 2
++            }
++        );
++        assert_eq!(drops.get(), 1, "only A's fragment dropped");
++        assert_eq!(registry.fragments(), 1);
++        assert_eq!(registry.slots(), 3);
++
++        // B is untouched.
++        let (_, stream) = registry.claim(&b2, "relay").unwrap();
++        assert_eq!(stream, 1);
++        assert!(registry.peek(&b3).is_some());
++
++        // A's slots name the query's real error instead of the generic message.
++        let err = registry.claim(&a1, "export").unwrap_err();
++        assert!(
++            err.contains("was discarded when its query was retired: HASH_JOIN ran out of memory"),
++            "{err}"
++        );
++        assert!(registry.peek(&a1).is_none());
++
++        // Idempotent.
++        assert_eq!(registry.retire(Some(query(1)), "again"), Retired::default());
++        assert_eq!(drops.get(), 1);
++    }
++
++    #[test]
++    fn retire_of_the_unlabeled_bucket_leaves_labeled_output_alone() {
++        let drops = Rc::new(Cell::new(0));
++        let mut registry = ParkedRegistry::new();
++        let (u, l) = (slot(1, 7, 0), slot(2, 7, 0));
++        registry.park(None, &[u], Counted(drops.clone())).unwrap();
++        registry
++            .park(Some(query(1)), &[l], Counted(drops.clone()))
++            .unwrap();
++
++        let retired = registry.retire(None, "fixture failed");
++        assert_eq!(
++            retired,
++            Retired {
++                fragments: 1,
++                slots: 1
++            }
++        );
++        assert_eq!(drops.get(), 1);
++        assert!(registry.claim(&u, "relay").is_err());
++        assert!(registry.claim(&l, "relay").is_ok());
++    }
++
++    #[test]
++    fn release_after_retire_is_ok_exactly_once() {
++        let mut registry = ParkedRegistry::new();
++        let a = slot(1, 7, 0);
++        registry
++            .park(Some(query(1)), &[a], Counted(Rc::default()))
++            .unwrap();
++        registry.retire(Some(query(1)), "boom");
++
++        assert_eq!(registry.release(&a).unwrap(), Release::AlreadyTornDown);
++        let err = registry.release(&a).unwrap_err();
++        assert!(err.contains("no parked sender output to drop"), "{err}");
++    }
++
++    #[test]
++    fn repark_of_a_retired_slot_forgets_its_torn_down_entry() {
++        let mut registry = ParkedRegistry::new();
++        let a = slot(1, 7, 0);
++        registry
++            .park(Some(query(1)), &[a], Counted(Rc::default()))
++            .unwrap();
++        registry.retire(Some(query(1)), "boom");
++
++        registry
++            .park(Some(query(3)), &[a], Counted(Rc::default()))
++            .unwrap();
++        assert!(registry.claim(&a, "relay").is_ok());
++        assert_eq!(registry.release(&a).unwrap(), Release::Freed);
++        // No stale cause survives the re-park: the slot is live-then-freed, so the message is
++        // the generic one, not the old query's error.
++        let err = registry.claim(&a, "export").unwrap_err();
++        assert!(err.contains("no parked sender output to export"), "{err}");
++        assert!(!err.contains("boom"), "{err}");
++    }
++
++    #[test]
++    fn torn_down_is_bounded() {
++        let mut registry = ParkedRegistry::new();
++        let capacity = ParkedRegistry::<Counted>::TORN_DOWN_CAPACITY;
++        let first = slot(0, 7, 0);
++        for i in 0..=capacity {
++            let s = slot(i as i64, 7, 0);
++            registry
++                .park(Some(query(i as i64)), &[s], Counted(Rc::default()))
++                .unwrap();
++            registry.retire(Some(query(i as i64)), "boom");
++        }
++        // The oldest explanation was evicted; the newest is still there.
++        let err = registry.claim(&first, "export").unwrap_err();
++        assert!(err.contains("no parked sender output to export"), "{err}");
++        let err = registry
++            .claim(&slot(capacity as i64, 7, 0), "export")
++            .unwrap_err();
++        assert!(
++            err.contains("was discarded when its query was retired"),
++            "{err}"
++        );
++    }
++
++    #[test]
++    fn retired_queries_keep_the_first_cause_and_evict_fifo() {
++        let mut retired = RetiredQueries::default();
++        assert!(retired.mark(query(1), "a"));
++        assert!(!retired.mark(query(1), "b"));
++        assert_eq!(retired.cause(query(1)), Some("a"));
++        assert_eq!(retired.cause(query(2)), None);
++        assert_eq!(retired.len(), 1);
++
++        for i in 2..=(RetiredQueries::CAPACITY as i64 + 1) {
++            assert!(retired.mark(query(i), "x"));
++        }
++        assert_eq!(retired.len(), RetiredQueries::CAPACITY);
++        assert_eq!(retired.cause(query(1)), None, "the first mark was evicted");
++        assert_eq!(
++            retired.cause(query(RetiredQueries::CAPACITY as i64 + 1)),
++            Some("x")
++        );
++    }
++}
+diff --git a/experimental/starrocks/src/result_store.rs b/experimental/starrocks/src/result_store.rs
+index 15c709b9..f591a81f 100644
+--- a/experimental/starrocks/src/result_store.rs
++++ b/experimental/starrocks/src/result_store.rs
+@@ -199,6 +199,12 @@ impl ResultStore {
+         self.ready.notify_all();
+     }
+ 
++    /// The first failure recorded for `query_id` (by `fail_query`), if any. The dispatch and
++    /// arrival gates consult it so no further fragment of a dead query runs on this CN.
++    pub(crate) fn failure_of(&self, query_id: FragmentInstanceId) -> Option<String> {
++        self.lock().query_failures.get(&query_id).cloned()
++    }
++
+     /// Best-effort cancellation mark: a still-`Waiting` entry becomes a failure so a
+     /// `fetch_data` long-poll returns instead of blocking out its timeout. Delivered,
+     /// drained, or already-failed entries keep their state; unknown ids are ignored.
+@@ -486,6 +492,29 @@ mod tests {
+         assert!(cause.contains("boom"), "cause: {cause}");
+     }
+ 
++    #[test]
++    fn failure_of_reports_the_first_recorded_failure() {
++        let store = ResultStore::default();
++        assert_eq!(store.failure_of(query(12)), None);
++
++        let first_id = FragmentInstanceId::from_halves(12, 1);
++        store.fail_query(query(12), first_id, "first".to_string());
++        store.fail_query(
++            query(12),
++            FragmentInstanceId::from_halves(12, 2),
++            "second".to_string(),
++        );
++        let cause = store.failure_of(query(12)).expect("recorded");
++        assert!(
++            cause.contains(&first_id.to_string()) && cause.contains("first"),
++            "cause: {cause}"
++        );
++        assert!(!cause.contains("second"), "first cause wins: {cause}");
++
++        // Another query is unaffected.
++        assert_eq!(store.failure_of(query(13)), None);
++    }
++
+     #[test]
+     fn cancel_fails_only_a_waiting_entry() {
+         let store = ResultStore::default();
+-- 
+2.43.0
+
