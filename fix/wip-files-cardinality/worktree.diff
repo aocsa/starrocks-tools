@@ -1,0 +1,704 @@
+diff --git a/.github/workflows/experimental.yml b/.github/workflows/experimental.yml
+index def3cb6a..aeecf808 100644
+--- a/.github/workflows/experimental.yml
++++ b/.github/workflows/experimental.yml
+@@ -45,16 +45,14 @@ jobs:
+         working-directory: ${{ github.workspace }}
+         run: git submodule update --init --depth=1 --jobs 2 experimental/starrocks/starrocks experimental/starrocks/brpc
+ 
+-      # The CN's build.rs refuses to build unless internal_service.proto declares the Sirius
+-      # exchange RPCs, which are not upstream. `git submodule update` above resets the tree,
+-      # so the patch has to be re-applied here. The reverse-check keeps this a no-op on a
+-      # runner that already has a patched tree.
+-      - name: Patch starrocks proto
++      # The CN's build.rs refuses to build unless internal_service.proto carries the Sirius
++      # proto patches (exchange RPCs, FILES() schema row total), which are not upstream.
++      # `git submodule update` above resets the tree, so they have to be re-applied here.
++      # The script applies every patches/*.patch (the FE-only ones are harmless for the CN
++      # build) and is idempotent on a runner that already has a patched tree.
++      - name: Patch starrocks submodule
+         working-directory: ${{ github.workspace }}
+-        run: |
+-          patch=experimental/starrocks/patches/nixl-exchange-proto.patch
+-          git -C experimental/starrocks/starrocks apply --reverse --check "$GITHUB_WORKSPACE/$patch" 2>/dev/null \
+-            || git -C experimental/starrocks/starrocks apply "$GITHUB_WORKSPACE/$patch"
++        run: bash experimental/starrocks/scripts/apply-starrocks-patches.sh
+ 
+       - uses: prefix-dev/setup-pixi@f00437f565399d418b0acc85936d12c1fb668347 # v0.10.1
+         with:
+diff --git a/experimental/starrocks/DEMO.md b/experimental/starrocks/DEMO.md
+index fdd632c2..e25b3e97 100644
+--- a/experimental/starrocks/DEMO.md
++++ b/experimental/starrocks/DEMO.md
+@@ -169,10 +169,17 @@ what to run if it is not:
+ 
+ ```bash
+ git submodule update --init --recursive experimental/starrocks/starrocks
+-# Sirius-only nixl RPCs (not upstream): re-apply after every clean submodule checkout
++# Sirius-only patches (not upstream): re-apply after every clean submodule checkout.
++#   nixl-exchange-proto          the CN's nixl exchange RPCs
++#   files-query-whole-file-ranges whole-file FILES() scan assignment for pinned tables
++#   files-scan-row-count         FILES() scans planned with real row counts instead of 1
++#   files-schema-row-count-proto the CN returns the parquet footer row total with the schema
+ experimental/starrocks/scripts/apply-starrocks-patches.sh
+ pixi run fe-build    # long
+ ```
+ 
++The row-count patch is on by default; `ADMIN SET FRONTEND CONFIG ("files_scan_estimate_row_count" = "false")`
++restores upstream's 1-row FILES() plans on a running FE (see `docs/TUNABLES.md`).
++
+ Everything else — the compute node and the Sirius engine — is built from this worktree by
+ `cn-build` → `engine-build`.
+diff --git a/experimental/starrocks/benchmarks/tpch/bench.sh b/experimental/starrocks/benchmarks/tpch/bench.sh
+index fbc95b97..49a2fa22 100755
+--- a/experimental/starrocks/benchmarks/tpch/bench.sh
++++ b/experimental/starrocks/benchmarks/tpch/bench.sh
+@@ -154,6 +154,42 @@ if [ "$ALIVE_TOTAL" -gt "$MIN_BACKENDS" ]; then
+   fi
+ fi
+ echo "cluster: $ALIVE_CN alive compute nodes + $ALIVE_BE alive backends (MIN_BACKENDS=$MIN_BACKENDS)"
++
++# Value of one FE config key, resolved from the header row of ADMIN SHOW FRONTEND CONFIG (Key,
++# AliasNames, Value, Type, IsMutable, Comment); empty when the FE does not know the key.
++frontend_config() {
++  $MYSQL -e "ADMIN SHOW FRONTEND CONFIG LIKE '$1';" 2>/dev/null | awk -F'\t' '
++    NR == 1 { for (i = 1; i <= NF; i++) if ($i == "Value") c = i; next }
++    c { print $c }'
++}
++
++# Global session variables persist in FE metadata, so whatever the last run left behind is what
++# the next run gets: set explicitly and READ IT BACK (run-abc.sh does the same for the pipeline
++# engine).
++set_global_and_verify() {
++  local name=$1 want=$2 got
++  $MYSQL -e "SET GLOBAL $name = $want;" >/dev/null 2>&1
++  got=$($MYSQL -e "SHOW GLOBAL VARIABLES LIKE '$name';" 2>/dev/null | awk -F'\t' 'NR == 2 {print tolower($2)}')
++  if [ "$got" != "$want" ]; then
++    echo "SET GLOBAL $name = $want read back as '${got:-<empty>}'" >&2
++    return 1
++  fi
++  echo "$name = $got (set and read back)"
++}
++
++# A Sirius-patched FE (patches/files-scan-row-count.patch) plans FILES() scans with real row
++# counts; the knob's state is what every plan shape below depends on, so record it. With real
++# counts the CBO can also keep a CTE materialised, which emits MULTI_CAST_DATA_STREAM_SINK -- a
++# sink the Sirius CN refuses by name. cbo_cte_reuse=false reproduces the inline plans every
++# query ran with before the FE had cardinalities. A stock FE (engine B) has no such knob and
++# keeps its own defaults.
++FILES_ROW_COUNT_KNOB=$(frontend_config files_scan_estimate_row_count)
++if [ -n "$FILES_ROW_COUNT_KNOB" ]; then
++  echo "files_scan_estimate_row_count = $FILES_ROW_COUNT_KNOB (patched FE)"
++  set_global_and_verify cbo_cte_reuse false || exit 1
++else
++  echo "files_scan_estimate_row_count: not exposed by this FE (stock front end); cbo_cte_reuse left at its default"
++fi
+ [ "$COLD" = 1 ] && echo "cold mode: run 0 is recorded (phase=cold, timeout ${COLD_TIMEOUT}s)"
+ [ "$COLD_RESTART" = 1 ] && echo "cold-restart mode: RESTART_CMD runs before every query"
+ 
+diff --git a/experimental/starrocks/benchmarks/tpch/run-abc.sh b/experimental/starrocks/benchmarks/tpch/run-abc.sh
+index f1b95873..524bff6d 100755
+--- a/experimental/starrocks/benchmarks/tpch/run-abc.sh
++++ b/experimental/starrocks/benchmarks/tpch/run-abc.sh
+@@ -803,6 +803,24 @@ set_and_verify_pipeline() {
+   [ "$got" = "$want" ]
+ }
+ 
++# Same contract for any global session variable: set, read back, publish in $GLOBAL_READBACK.
++set_and_verify_global() {
++  local name=$1 want=$2 got
++  sql "SET GLOBAL $name = $want;" >/dev/null 2>&1
++  got=$("${MYSQL[@]}" -e "SHOW GLOBAL VARIABLES LIKE '$name';" 2>/dev/null |
++        awk -F'\t' 'NR==2 {print tolower($2)}')
++  GLOBAL_READBACK=$got
++  [ "$got" = "$want" ]
++}
++
++# Value of one FE config key (ADMIN SHOW FRONTEND CONFIG: Key, AliasNames, Value, Type, IsMutable,
++# Comment), resolved from the header row; empty when the FE does not know the key.
++frontend_config() {
++  "${MYSQL[@]}" -e "ADMIN SHOW FRONTEND CONFIG LIKE '$1';" 2>/dev/null | awk -F'\t' '
++    NR == 1 { for (i = 1; i <= NF; i++) if ($i == "Value") c = i; next }
++    c { print $c }'
++}
++
+ # =================================================================================================
+ # The A/B query loop
+ #
+@@ -967,6 +985,18 @@ $BLACKLIST_TXT
+     return 1
+   fi
+   say "  enable_pipeline_engine = $PIPELINE_READBACK (set explicitly and read back)"
++
++  # The patched FE (patches/files-scan-row-count.patch) plans FILES() scans with real row counts;
++  # every plan shape in the A column depends on the knob's state, so record it. With real counts
++  # the CBO can keep a CTE materialised, which emits MULTI_CAST_DATA_STREAM_SINK -- a sink the
++  # Sirius CN refuses by name. cbo_cte_reuse=false reproduces the inline plans every query ran
++  # with before the FE had cardinalities. Engine B is stock StarRocks and keeps its defaults.
++  say "  files_scan_estimate_row_count = $(frontend_config files_scan_estimate_row_count)"
++  if ! set_and_verify_global cbo_cte_reuse false; then
++    warn "engine A: cbo_cte_reuse read back as '${GLOBAL_READBACK:-<empty>}', wanted 'false'. Aborting."
++    return 1
++  fi
++  say "  cbo_cte_reuse = $GLOBAL_READBACK (set explicitly and read back)"
+   return 0
+ }
+ 
+diff --git a/experimental/starrocks/build.rs b/experimental/starrocks/build.rs
+index d1e8109e..70fe3c61 100644
+--- a/experimental/starrocks/build.rs
++++ b/experimental/starrocks/build.rs
+@@ -32,7 +32,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
+     println!("cargo:rerun-if-changed={}", brpc_dir.display());
+     println!("cargo:rerun-if-changed={}", proto_dir.display());
+ 
+-    require_exchange_proto_patch(&manifest_dir, &proto_dir)?;
++    require_proto_patch(
++        &manifest_dir,
++        &proto_dir,
++        |contents| contents.contains("message PExchangeNixlMd"),
++        "patches/nixl-exchange-proto.patch",
++        "the Sirius exchange RPCs",
++    )?;
++    require_proto_patch(
++        &manifest_dir,
++        &proto_dir,
++        |contents| message_body(contents, "PGetFileSchemaResult").contains("num_rows"),
++        "patches/files-schema-row-count-proto.patch",
++        "the FILES() schema row total (PGetFileSchemaResult.num_rows)",
++    )?;
+ 
+     let mut protos = BRPC_PROTOS
+         .iter()
+@@ -56,34 +69,39 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
+     Ok(())
+ }
+ 
+-/// Fails the build, with the remedy in the message, when the `starrocks` submodule is missing the
+-/// Sirius exchange RPCs.
++/// Fails the build, with the remedy in the message, when the `starrocks` submodule's
++/// `internal_service.proto` is missing one of the Sirius-only patches under `patches/`.
+ ///
+-/// Those RPCs (`PExchangeNixlMd`, `PStagingLeaseRequest`, `PTransmitPackedParams`, …) are
+-/// Sirius-only extensions that live in `patches/nixl-exchange-proto.patch`, and nothing applies
+-/// the patch automatically. Without it `prost` generates a service that simply lacks three
+-/// methods, and the crate fails 200 lines later with `unresolved imports
+-/// crate::proto::starrocks::PExchangeNixlMd` and `method exchange_nixl_md is not a member of
+-/// trait PInternalService` — errors that name the symptom and give a fresh clone no way to guess
+-/// the cause. Checking here turns that into one actionable line.
++/// The exchange RPCs (`PExchangeNixlMd`, `PStagingLeaseRequest`, `PTransmitPackedParams`, …)
++/// and the FILES() schema row total (`PGetFileSchemaResult.num_rows`) are Sirius extensions,
++/// and nothing applies the patches automatically. Without them `prost` generates a service that
++/// simply lacks three methods or a struct that lacks a field, and the crate fails 200 lines
++/// later with `unresolved imports crate::proto::starrocks::PExchangeNixlMd` or `no field
++/// num_rows` — errors that name the symptom and give a fresh clone no way to guess the cause.
++/// Checking here turns that into one actionable line naming the patch.
++///
++/// `applied` decides from the proto text whether `patch_relpath` is present; one representative
++/// token per patch rather than every line, since a patch is applied whole or not at all and a
++/// single name keeps this from breaking when the patch grows.
+ ///
+ /// Same discipline as `scripts/cn-env.sh`'s missing-nixl check and `nixl_transport.rs`'s
+ /// `ENV_HINT`: fail at the earliest point that can name the fix.
+-fn require_exchange_proto_patch(
++fn require_proto_patch(
+     manifest_dir: &std::path::Path,
+     proto_dir: &std::path::Path,
++    applied: impl Fn(&str) -> bool,
++    patch_relpath: &str,
++    what: &str,
+ ) -> Result<(), Box<dyn std::error::Error>> {
+     let internal_service = proto_dir.join("internal_service.proto");
+     // A missing submodule is a different failure with a different fix, so let prost report it.
+     let Ok(contents) = std::fs::read_to_string(&internal_service) else {
+         return Ok(());
+     };
+-    // One representative message rather than all of them: the patch is applied whole or not at
+-    // all, and matching on a single name keeps this from breaking when the patch grows.
+-    if contents.contains("message PExchangeNixlMd") {
++    if applied(&contents) {
+         return Ok(());
+     }
+-    let patch = manifest_dir.join("patches/nixl-exchange-proto.patch");
++    let patch = manifest_dir.join(patch_relpath);
+     let submodule = proto_dir
+         .parent()
+         .and_then(|gensrc| gensrc.parent())
+@@ -92,8 +110,9 @@ fn require_exchange_proto_patch(
+     // script's error with `Debug`, which would print embedded newlines as literal `\n`.
+     eprintln!(
+         "\n\
+-         {} does not define the Sirius exchange RPCs, so the CN cannot be built.\n\
+-         Apply the patch to the starrocks submodule:\n\
++         {} does not define {what}, so the CN cannot be built.\n\
++         Apply the patch to the starrocks submodule (scripts/apply-starrocks-patches.sh applies\n\
++         every patch under patches/):\n\
+          \n    git -C {} apply {}\n\n\
+          The patch is not applied automatically and is not part of upstream StarRocks. Re-apply\n\
+          it after any `git submodule update` that resets the submodule working tree.\n",
+@@ -101,7 +120,19 @@ fn require_exchange_proto_patch(
+         submodule.display(),
+         patch.display(),
+     );
+-    Err("the starrocks submodule is missing patches/nixl-exchange-proto.patch (see above)".into())
++    Err(format!("the starrocks submodule is missing {patch_relpath} (see above)").into())
++}
++
++/// The text between `message <name> {` and its closing `}`, or empty when the message is absent.
++///
++/// Scoped lookups matter because a field name such as `num_rows` appears in several messages;
++/// only its presence in the named message says whether that patch is applied.
++fn message_body<'a>(contents: &'a str, name: &str) -> &'a str {
++    let Some(start) = contents.find(&format!("message {name} {{")) else {
++        return "";
++    };
++    let body = &contents[start..];
++    body.find('}').map_or(body, |end| &body[..end])
+ }
+ 
+ /// Emits an async BRPC/Tower service facade from StarRocks' protobuf service
+diff --git a/experimental/starrocks/docs/TUNABLES.md b/experimental/starrocks/docs/TUNABLES.md
+index ff506145..fce10d94 100644
+--- a/experimental/starrocks/docs/TUNABLES.md
++++ b/experimental/starrocks/docs/TUNABLES.md
+@@ -46,6 +46,21 @@ fails. There is no engine default — launchers pick a size per box.
+ GPU and host memory carve-outs are CLI flags (`--gpu-memory-limit`,
+ `--host-memory-limit`), not env vars — they become the derived Sirius YAML.
+ 
++## Front end (patched StarRocks)
++
++FE `Config` values added by `patches/*.patch`; set at runtime with
++`ADMIN SET FRONTEND CONFIG ("k" = "v")`, read with `ADMIN SHOW FRONTEND CONFIG LIKE 'k'`.
++
++| Knob | Role |
++|---|---|
++| `files_query_whole_file_ranges` | Whole-file scan assignment for FILES() queries so pinned tables can serve them (`benchmarks/pinned/README.md`). |
++| `files_scan_estimate_row_count` | Plan FILES() scans with the parquet footer row total the CN returns with the schema (or total bytes / row width when it does not) instead of 1 row. `false` reproduces upstream's data-blind plans for an `EXPLAIN COSTS` A/B on one running FE. |
++
++Session variables that start to matter once FILES() has cardinalities: `cbo_cte_reuse`
++(keep `false` until the CN implements `MULTI_CAST_DATA_STREAM_SINK`; the bench sets and
++reads it back at bring-up), `broadcast_row_limit` (15M rows, the broadcast guard),
++`exec_mem_limit` (2 GiB; a broadcast build above it costs x1000).
++
+ ## Debug
+ 
+ `SIRIUS_CN_DUMP_FRAGMENTS` writes received fragments and translated plans.
+diff --git a/experimental/starrocks/src/compute_node_service.rs b/experimental/starrocks/src/compute_node_service.rs
+index 3aa0a124..c22d998e 100644
+--- a/experimental/starrocks/src/compute_node_service.rs
++++ b/experimental/starrocks/src/compute_node_service.rs
+@@ -13,9 +13,8 @@ use crate::proto::starrocks::{
+     PCancelPlanFragmentResult, PExchangeNixlMd, PExchangeNixlMdResult,
+     PExecBatchPlanFragmentsRequest, PExecBatchPlanFragmentsResult, PExecPlanFragmentRequest,
+     PExecPlanFragmentResult, PFetchDataRequest, PFetchDataResult, PGetFileSchemaRequest,
+-    PGetFileSchemaResult, PSlotDescriptor, PStagingLeaseRequest, PStagingLeaseResult,
+-    PTransmitPackedParams, PTransmitPackedResult, StatusPb,
+-    p_internal_service_brpc::PInternalService,
++    PGetFileSchemaResult, PStagingLeaseRequest, PStagingLeaseResult, PTransmitPackedParams,
++    PTransmitPackedResult, StatusPb, p_internal_service_brpc::PInternalService,
+ };
+ use crate::result_encoder::{self, ThriftBinary};
+ use crate::result_store::{FetchOutcome, FragmentInstanceId, ResultStore};
+@@ -678,21 +677,41 @@ impl PInternalService for SiriusComputeNodeService {
+         .into())
+     }
+ 
+-    /// Infers the schema of the FILES() target so the FE can resolve the table function.
+-    #[instrument(skip_all)]
++    /// Infers the schema of the FILES() target so the FE can resolve the table function, and
++    /// returns the exact row total summed from the same footers so the FE plans the scan with
++    /// its real cardinality (`PGetFileSchemaResult.num_rows`, a Sirius extension; exact-or-absent).
++    #[instrument(skip_all, fields(files, rows))]
+     async fn get_file_schema(
+         &self,
+         _request: PGetFileSchemaRequest,
+         attachment: Vec<u8>,
+     ) -> Result<crate::prpc::Reply<PGetFileSchemaResult>, crate::prpc::Error> {
++        let started = std::time::Instant::now();
+         let result = match Self::file_schema_from_attachment(&attachment).await {
+-            Ok(schema) => PGetFileSchemaResult {
+-                status: Self::ok_status(),
+-                schema,
+-            },
++            Ok(crate::file_schema::FilesSchema {
++                slots,
++                files,
++                num_rows,
++            }) => {
++                tracing::Span::current()
++                    .record("files", files)
++                    .record("rows", num_rows);
++                tracing::info!(
++                    files,
++                    rows = num_rows,
++                    elapsed_ms = started.elapsed().as_millis() as u64,
++                    "get_file_schema: schema and footer row total"
++                );
++                PGetFileSchemaResult {
++                    status: Self::ok_status(),
++                    schema: slots,
++                    num_rows: Some(num_rows),
++                }
++            }
+             Err(err) => PGetFileSchemaResult {
+                 status: Self::internal_error(err),
+                 schema: Vec::new(),
++                num_rows: None,
+             },
+         };
+         Ok(result.into())
+@@ -1679,10 +1698,11 @@ impl SiriusComputeNodeService {
+     }
+ 
+     /// Extracts the parquet paths from the binary-thrift attachment and infers their common
+-    /// schema. The FE sends one request covering every FILES() file, one range per file.
++    /// schema and footer row total. The FE sends one request covering every FILES() file, one
++    /// range per file.
+     async fn file_schema_from_attachment(
+         attachment: &[u8],
+-    ) -> std::result::Result<Vec<PSlotDescriptor>, String> {
++    ) -> std::result::Result<crate::file_schema::FilesSchema, String> {
+         let request = Self::deserialize_binary::<TGetFileSchemaRequest>(attachment)
+             .map_err(|err| format!("failed to deserialize TGetFileSchemaRequest: {err}"))?;
+         let broker = request.scan_range.broker_scan_range.ok_or_else(|| {
+@@ -1797,7 +1817,7 @@ mod tests {
+ 
+     use super::*;
+     use crate::{
+-        file_schema::test_support::write_parquet,
++        file_schema::test_support::{write_parquet, write_parquet_rows},
+         fragment_executor::{FragmentResult, StubExecutor},
+         proto::starrocks::{
+             PFetchDataRequest, PUniqueId,
+@@ -3633,9 +3653,89 @@ mod tests {
+         std::fs::remove_file(&first).ok();
+         std::fs::remove_file(&second).ok();
+         let schema = schema.unwrap();
+-        assert_eq!(schema.len(), 2);
+-        assert_eq!(schema[0].col_name, "a");
+-        assert_eq!(schema[1].col_name, "b");
++        assert_eq!(schema.slots.len(), 2);
++        assert_eq!(schema.slots[0].col_name, "a");
++        assert_eq!(schema.slots[1].col_name, "b");
++        // Schema-only fixtures carry no row groups.
++        assert_eq!(schema.files, 2);
++        assert_eq!(schema.num_rows, 0);
++    }
++
++    #[tokio::test]
++    async fn get_file_schema_attachment_reports_num_rows() {
++        let first = write_parquet_rows("svc_rows_a", &[3, 5]);
++        let second = write_parquet_rows("svc_rows_b", &[7]);
++        let attachment = serialize_binary(&file_schema_request(vec![
++            broker_range(&first, TFileFormatType::FORMAT_PARQUET),
++            broker_range(&second, TFileFormatType::FORMAT_PARQUET),
++        ]));
++        let schema = SiriusComputeNodeService::file_schema_from_attachment(&attachment).await;
++        std::fs::remove_file(&first).ok();
++        std::fs::remove_file(&second).ok();
++        let schema = schema.unwrap();
++        assert_eq!(schema.slots.len(), 1);
++        assert_eq!(schema.slots[0].col_name, "v");
++        assert_eq!(schema.files, 2);
++        assert_eq!(schema.num_rows, 15);
++    }
++
++    #[test]
++    fn get_file_schema_route_returns_num_rows() {
++        let service = SiriusComputeNodeService::new();
++        let first = write_parquet_rows("svc_route_a", &[3, 5]);
++        let second = write_parquet_rows("svc_route_b", &[7]);
++        let attachment = serialize_binary(&file_schema_request(vec![
++            broker_range(&first, TFileFormatType::FORMAT_PARQUET),
++            broker_range(&second, TFileFormatType::FORMAT_PARQUET),
++        ]));
++        let response = route(
++            &service,
++            methods::GET_FILE_SCHEMA,
++            PGetFileSchemaRequest { pad: None }.encode_to_vec(),
++            attachment,
++        );
++        std::fs::remove_file(&first).ok();
++        std::fs::remove_file(&second).ok();
++        let result = PGetFileSchemaResult::decode(response.body.as_slice()).unwrap();
++        assert_eq!(
++            result.status.status_code,
++            TStatusCode::OK.0,
++            "{:?}",
++            result.status.error_msgs
++        );
++        assert_eq!(result.schema.len(), 1);
++        assert_eq!(result.schema[0].col_name, "v");
++        // The FE reads this as the exact FILES() row count (PGetFileSchemaResult.num_rows).
++        assert_eq!(result.num_rows, Some(15));
++    }
++
++    #[test]
++    fn get_file_schema_route_error_leaves_num_rows_unset() {
++        let service = SiriusComputeNodeService::new();
++        let first = write_parquet_rows("svc_route_err_a", &[2]);
++        let second = write_parquet_rows("svc_route_err_b", &[4]);
++        let attachment = serialize_binary(&file_schema_request(vec![
++            broker_range(&first, TFileFormatType::FORMAT_PARQUET),
++            broker_range(&second, TFileFormatType::FORMAT_CSV_PLAIN),
++        ]));
++        let response = route(
++            &service,
++            methods::GET_FILE_SCHEMA,
++            PGetFileSchemaRequest { pad: None }.encode_to_vec(),
++            attachment,
++        );
++        std::fs::remove_file(&first).ok();
++        std::fs::remove_file(&second).ok();
++        let result = PGetFileSchemaResult::decode(response.body.as_slice()).unwrap();
++        assert_eq!(result.status.status_code, TStatusCode::INTERNAL_ERROR.0);
++        assert!(
++            result.status.error_msgs[0].contains("unsupported file format"),
++            "{:?}",
++            result.status.error_msgs
++        );
++        assert!(result.schema.is_empty());
++        // Exact-or-absent: a failed inference must not hand the FE a partial sum.
++        assert_eq!(result.num_rows, None);
+     }
+ 
+     #[tokio::test]
+diff --git a/experimental/starrocks/src/file_schema.rs b/experimental/starrocks/src/file_schema.rs
+index 90ae8311..d0129159 100644
+--- a/experimental/starrocks/src/file_schema.rs
++++ b/experimental/starrocks/src/file_schema.rs
+@@ -10,8 +10,24 @@ use crate::proto::starrocks::{PScalarType, PSlotDescriptor, PTypeDesc, PTypeNode
+ /// Length reported for inferred string/binary columns (StarRocks max VARCHAR length).
+ const INFERRED_VARCHAR_LEN: i32 = 1_048_576;
+ 
+-/// Reads a parquet file's footer and maps each top-level column to a StarRocks slot descriptor.
+-pub(crate) async fn parquet_file_schema(path: &str) -> Result<Vec<PSlotDescriptor>, String> {
++/// Schema and row total of one FILES() file set, read from the footers `parquet_files_schema`
++/// already opens for the schema.
++#[derive(Clone, Debug, PartialEq)]
++pub(crate) struct FilesSchema {
++    /// One slot per top-level column, in file order.
++    pub(crate) slots: Vec<PSlotDescriptor>,
++    /// Number of files the schema and the row total cover.
++    pub(crate) files: usize,
++    /// Sum of `FileMetaData::num_rows` over every file in request order. Exact because every
++    /// footer is read (the whole-set agreement contract on `parquet_files_schema`); a future
++    /// sampling mode must report `None` upstream (`PGetFileSchemaResult.num_rows`) instead of a
++    /// partial sum.
++    pub(crate) num_rows: i64,
++}
++
++/// Reads a parquet file's footer and maps each top-level column to a StarRocks slot descriptor,
++/// with the footer's row count.
++pub(crate) async fn parquet_file_schema(path: &str) -> Result<FilesSchema, String> {
+     let local = local_file_path(path)?;
+     let file = tokio::fs::File::open(&local)
+         .await
+@@ -19,6 +35,7 @@ pub(crate) async fn parquet_file_schema(path: &str) -> Result<Vec<PSlotDescripto
+     let builder = ParquetRecordBatchStreamBuilder::new(file)
+         .await
+         .map_err(|err| format!("failed to read parquet metadata from {local}: {err}"))?;
++    let num_rows = builder.metadata().file_metadata().num_rows();
+     // Iterate the top-level fields (not physical leaves) so column names and nesting are preserved.
+     let slots = builder
+         .metadata()
+@@ -47,10 +64,14 @@ pub(crate) async fn parquet_file_schema(path: &str) -> Result<Vec<PSlotDescripto
+             ));
+         }
+     }
+-    Ok(slots)
++    Ok(FilesSchema {
++        slots,
++        files: 1,
++        num_rows,
++    })
+ }
+ 
+-/// Infers one schema for a multi-file FILES() call.
++/// Infers one schema for a multi-file FILES() call and sums the files' footer row counts.
+ ///
+ /// The schema comes from the first file; every other file must agree on column names
+ /// (ASCII case-insensitive, matching StarRocks name resolution) and types. Positional
+@@ -58,22 +79,24 @@ pub(crate) async fn parquet_file_schema(path: &str) -> Result<Vec<PSlotDescripto
+ ///
+ /// Deliberately stricter than native StarRocks, which samples `schema_sample_file_count`
+ /// files and promotes conflicting types: the scan reads every file with the inferred
+-/// schema, so whole-set agreement is the correct fail-closed contract here.
+-pub(crate) async fn parquet_files_schema(paths: &[String]) -> Result<Vec<PSlotDescriptor>, String> {
++/// schema, so whole-set agreement is the correct fail-closed contract here. Reading every
++/// footer is also what makes the row total exact rather than a sample.
++pub(crate) async fn parquet_files_schema(paths: &[String]) -> Result<FilesSchema, String> {
+     let (first, rest) = paths
+         .split_first()
+         .ok_or_else(|| "no file paths to infer a schema from".to_string())?;
+-    let slots = parquet_file_schema(first).await?;
++    let mut schema = parquet_file_schema(first).await?;
++    let slots = &schema.slots;
+     for path in rest {
+         let other = parquet_file_schema(path).await?;
+-        if other.len() != slots.len() {
++        if other.slots.len() != slots.len() {
+             return Err(format!(
+                 "FILES() schema mismatch: '{path}' has {} columns but '{first}' has {}",
+-                other.len(),
++                other.slots.len(),
+                 slots.len()
+             ));
+         }
+-        for (idx, (expected, found)) in slots.iter().zip(&other).enumerate() {
++        for (idx, (expected, found)) in slots.iter().zip(&other.slots).enumerate() {
+             if !expected.col_name.eq_ignore_ascii_case(&found.col_name) {
+                 return Err(format!(
+                     "FILES() schema mismatch: column {idx} is named '{}' in '{first}' but '{}' in '{path}'",
+@@ -87,8 +110,10 @@ pub(crate) async fn parquet_files_schema(paths: &[String]) -> Result<Vec<PSlotDe
+                 ));
+             }
+         }
++        schema.files += 1;
++        schema.num_rows += other.num_rows;
+     }
+-    Ok(slots)
++    Ok(schema)
+ }
+ 
+ /// Resolves a StarRocks file path to a local filesystem path, rejecting remote URIs.
+@@ -253,6 +278,7 @@ fn slot_descriptor(idx: i32, name: &str, scalar: PScalarType) -> PSlotDescriptor
+ pub(crate) mod test_support {
+     use std::sync::Arc;
+ 
++    use parquet::data_type::Int64Type;
+     use parquet::file::properties::WriterProperties;
+     use parquet::file::writer::SerializedFileWriter;
+     use parquet::schema::parser::parse_message_type;
+@@ -269,13 +295,36 @@ pub(crate) mod test_support {
+             .unwrap();
+         path
+     }
++
++    /// Writes `rows_per_group.len()` row groups of one `required int64 v` column,
++    /// `rows_per_group[i]` values each, to a unique temp path.
++    pub(crate) fn write_parquet_rows(tag: &str, rows_per_group: &[usize]) -> std::path::PathBuf {
++        let schema = Arc::new(parse_message_type("message m { required int64 v; }").unwrap());
++        let path = std::env::temp_dir().join(format!("sr_cn_{}_{tag}.parquet", std::process::id()));
++        let file = std::fs::File::create(&path).unwrap();
++        let props = Arc::new(WriterProperties::builder().build());
++        let mut writer = SerializedFileWriter::new(file, schema, props).unwrap();
++        for &rows in rows_per_group {
++            let values: Vec<i64> = (0..rows as i64).collect();
++            let mut group = writer.next_row_group().unwrap();
++            let mut column = group.next_column().unwrap().unwrap();
++            column
++                .typed::<Int64Type>()
++                .write_batch(&values, None, None)
++                .unwrap();
++            column.close().unwrap();
++            group.close().unwrap();
++        }
++        writer.close().unwrap();
++        path
++    }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use std::collections::HashMap;
+ 
+-    use super::test_support::write_parquet;
++    use super::test_support::{write_parquet, write_parquet_rows};
+     use super::*;
+ 
+     fn scalar(slot: &PSlotDescriptor) -> &PScalarType {
+@@ -297,7 +346,10 @@ mod tests {
+                 optional int32 l_amount (DECIMAL(9,2));
+             }",
+         );
+-        let slots = parquet_file_schema(path.to_str().unwrap()).await.unwrap();
++        let slots = parquet_file_schema(path.to_str().unwrap())
++            .await
++            .unwrap()
++            .slots;
+         std::fs::remove_file(&path).ok();
+ 
+         let by_name: HashMap<&str, &PSlotDescriptor> =
+@@ -339,7 +391,7 @@ mod tests {
+             format!("file://{bare}"),
+             format!("file://localhost{bare}"),
+         ] {
+-            let slots = parquet_file_schema(&candidate).await.unwrap();
++            let slots = parquet_file_schema(&candidate).await.unwrap().slots;
+             assert_eq!(slots.len(), 1, "{candidate}");
+             assert_eq!(slots[0].col_name, "a");
+         }
+@@ -367,7 +419,10 @@ mod tests {
+     #[tokio::test]
+     async fn maps_json_to_json_not_varchar() {
+         let path = write_parquet("json", "message j { optional binary payload (JSON); }");
+-        let slots = parquet_file_schema(path.to_str().unwrap()).await.unwrap();
++        let slots = parquet_file_schema(path.to_str().unwrap())
++            .await
++            .unwrap()
++            .slots;
+         std::fs::remove_file(&path).ok();
+         assert_eq!(scalar(&slots[0]).r#type, TPrimitiveType::JSON.0);
+     }
+@@ -398,7 +453,7 @@ mod tests {
+     }
+ 
+     /// Runs `parquet_files_schema` over already-written fixture files and removes them.
+-    async fn files_schema(paths: &[&std::path::PathBuf]) -> Result<Vec<PSlotDescriptor>, String> {
++    async fn files_schema(paths: &[&std::path::PathBuf]) -> Result<FilesSchema, String> {
+         let strings: Vec<String> = paths
+             .iter()
+             .map(|p| p.to_str().unwrap().to_string())
+@@ -417,7 +472,10 @@ mod tests {
+         let second = write_parquet("agree_b", message);
+         let single = parquet_file_schema(first.to_str().unwrap()).await.unwrap();
+         let multi = files_schema(&[&first, &second]).await.unwrap();
+-        assert_eq!(multi, single);
++        assert_eq!(multi.slots, single.slots);
++        // Schema-only fixtures: two footers, zero rows between them.
++        assert_eq!(multi.files, 2);
++        assert_eq!(multi.num_rows, 0);
+     }
+ 
+     #[tokio::test]
+@@ -472,7 +530,7 @@ mod tests {
+     async fn multi_file_accepts_case_differing_column_names() {
+         let first = write_parquet("case_a", "message m { optional int64 L_ORDERKEY; }");
+         let second = write_parquet("case_b", "message m { optional int64 l_orderkey; }");
+-        let slots = files_schema(&[&first, &second]).await.unwrap();
++        let slots = files_schema(&[&first, &second]).await.unwrap().slots;
+         // The first file wins the spelling, matching StarRocks case-insensitive resolution.
+         assert_eq!(slots[0].col_name, "L_ORDERKEY");
+     }
+@@ -490,6 +548,30 @@ mod tests {
+         );
+     }
+ 
++    #[tokio::test]
++    async fn schema_only_file_reports_zero_rows() {
++        let path = write_parquet("zero_rows", "message z { optional int64 a; }");
++        let schema = parquet_file_schema(path.to_str().unwrap()).await.unwrap();
++        std::fs::remove_file(&path).ok();
++        assert_eq!(schema.num_rows, 0);
++        assert_eq!(schema.files, 1);
++        assert_eq!(schema.slots.len(), 1);
++        assert_eq!(schema.slots[0].col_name, "a");
++    }
++
++    #[tokio::test]
++    async fn multi_file_num_rows_sums_footers() {
++        // Row groups [3, 5] and [7]: the total is the sum over every footer, not the first file's.
++        let first = write_parquet_rows("rows_a", &[3, 5]);
++        let second = write_parquet_rows("rows_b", &[7]);
++        let schema = files_schema(&[&first, &second]).await.unwrap();
++        assert_eq!(schema.num_rows, 15);
++        assert_eq!(schema.files, 2);
++        assert_eq!(schema.slots.len(), 1);
++        assert_eq!(schema.slots[0].col_name, "v");
++        assert_eq!(scalar(&schema.slots[0]).r#type, TPrimitiveType::BIGINT.0);
++    }
++
+     #[tokio::test]
+     async fn rejects_nested_columns() {
+         let path = write_parquet(
