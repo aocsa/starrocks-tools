@@ -19,7 +19,7 @@ maintenance on 2026-09-03 19:00 UTC. Paths below are that box's; every script ha
 | `perf/profile-sf1000` | perf/float-sum-canonicalize-flag | + the Quent probe commit cherry-picked (45dab3be); the build every SF1000 arm used |
 | `fix/oom-failfast` | perf/profile-sf1000 | fix 1: fail the query fast when an OOM retry cannot make progress (19f9eee4, engine, Catch2 tests) |
 | `fix/parked-bookkeeping` | perf/profile-sf1000 | fix 2: retire a failed query's parked output; cancel_plan_fragment tears the query down (63e7e0c1, 0f4b1c19) |
-| `fix/files-cardinality` | perf/profile-sf1000 | fix 3: real FILES() cardinalities in the FE (7f38171c FE patch + 00302c5c CN footer row total; review/verify pending at shutdown) |
+| `fix/files-cardinality` (NOT pushed: workflow-scope rejection; see fix/PATCHES.md) | perf/profile-sf1000 | fix 3: real FILES() cardinalities in the FE (7f38171c FE patch + 00302c5c CN footer row total; review/verify pending at shutdown) |
 | `fix/fragment-fusion` | perf/profile-sf1000 | fix 4: not started (spec in `fix/fragment-fusion-SPEC.md`) |
 
 ## Layout of this repo
