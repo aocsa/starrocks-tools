@@ -1,0 +1,56 @@
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+Filters: [downgrade_executor],[downgrade_lifecycle],[downgrade_disk],[task_scheduler],[pipeline_queue],[retry]
+
+[0/34] (0%): Downgrade task falls back to DISK when HOST is full
+[1/34] (2%): Downgrade task uses HOST when HOST has capacity
+[2/34] (5%): Downgrade task returns false when HOST full and no DISK tier
+[3/34] (8%): monitor backs off when no downgrade target is viable (no disk)
+[4/34] (11%): monitor resumes after a downgrade target frees up (no disk)
+[5/34] (14%): monitor backs off when HOST is full of stored downgraded data (no disk)
+[6/34] (17%): HOST-source monitor backs off when no disk is configured
+[7/34] (20%): Downgrade executor starts and stops cleanly
+[8/34] (23%): request_free_memory_and_wait with no repositories returns 0
+[9/34] (26%): request_free_memory_and_wait downgrades GPU batches to HOST
+[10/34] (29%): request_free_memory respects byte target via predicate
+[11/34] (32%): request_free_memory downgrades across multiple repos
+[12/34] (35%): request_free_memory iterates partitions from last to first
+[13/34] (38%): request_free_memory skips active partitions in first pass
+[14/34] (41%): request_free_memory skips batches already on HOST
+[15/34] (44%): request_free_memory returns future that resolves to bytes freed
+[16/34] (47%): request_downgrade with custom predicate stops when satisfied
+[17/34] (50%): request_free_memory partial fulfillment returns actual bytes freed
+[18/34] (52%): start_stop_cycle
+[19/34] (55%): drain_clears_pending_requests
+[20/34] (58%): drain_releases_batch_references
+[21/34] (61%): monitor_loop_triggers_downgrade
+[22/34] (64%): concurrent_api_safety
+[23/34] (67%): stop_cancels_pending_requests
+[24/34] (70%): drain_cancels_pending_requests_with_exception
+[25/34] (73%): cuda_stream_lifecycle
+[26/34] (76%): task_scheduler matches tasks to ready devices
+[27/34] (79%): retry reservation floor grows and survives reschedule
+[28/34] (82%): Task scheduler can start and stop gracefully
+[29/34] (85%): Task scheduler derives GPU executor affinity from topology
+[30/34] (88%): Task scheduler executes tasks through pipeline_queue
+[31/34] (91%): Task queue handles empty queue gracefully
+[32/34] (94%): Tasks extracted and RAII-returned while executors are parked still run
+[33/34] (97%): Task scheduler dispatches tasks with device preference
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sirius_unittest is a Catch v2.13.7 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+Task scheduler dispatches tasks with device preference
+-------------------------------------------------------------------------------
+/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/test/cpp/pipeline/test_task_scheduler.cpp:253
+...............................................................................
+
+/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/test/cpp/pipeline/test_task_scheduler.cpp:261: warning:
+  Task scheduler device-preference test requires >=2 GPUs; single-GPU host —
+  skipping
+
+
+[34/34] (100%): Task scheduler dispatches tasks with device preference
+===============================================================================
+All tests passed (155 assertions in 34 test cases)
+

@@ -1,0 +1,11 @@
+- [GB200 box nightly CI window](gb200-box-nightly-ci-window.md) — all 4 GPUs are taken 02:00–~03:50 UTC daily; never measure then
+- [Multi-CN distribution + NUMA handoff](sirius-multicn-handoff-2026-08-09.md) — paused investigation; read HANDOFF.md at the repo root first
+- [Sirius PR review env gotchas](sirius-pr-review-env-gotchas.md) — gh via `source ~/aocsa/gh-activate.sh` as aocsa; ssh key can't push to forks (use gh credential helper over https); dedicated clone sirius-mbrobbel; SIRIUS_ENABLE_TEST_OPTIONS=1; CUDA_VISIBLE_DEVICES=0 for VSS
+- [Multi-CN PR carve-up plan (2026-09-02)](sirius-multicn-pr-carveup-plan-2026-09-02.md) — ~40 stacked PRs from feat/pin-table-cn; plan + appendix in ~/.claude/plans; user decisions recorded
+- [mbrobbel translator PRs status (2026-09-02)](mbrobbel-translator-prs-status-2026-09-02.md) — #1235/#1236/#1233 merged; #1232 rebased to 663fc838 on dev c7b21ae7, green, waiting on CI; stray commit 364dc8db in shared clone
+- [PR descriptions follow pstack unslop, written for humans](pr-descriptions-unslop.md) — user rules 2026-09-02/03: unslop style, short plain testing note, no machine-log Verified lines
+- [Decimal TPC-H datasets truncate 1-0.07 on the CN path](tpch-decimal-datasets-cn-truncation.md) — use the f64 copies under /scratch/prestouser/aocsa/demo-q1q6 for oracle-exact q01
+- [StarRocks CN perf findings 2026-09-03](starrocks-cn-perf-findings-2026-09-03.md) — canonical float-sum sort (SIRIUS_CANONICAL_FLOAT_SUMS) and inline sender RPC vs FE deploy waves (SIRIUS_CN_ASYNC_SENDER_DISPATCH); Quent per-operator method
+- [Quent on the CN: session layout, enable flag, lost bring-up declarations](quent-cn-telemetry-gotchas.md) — read `task` Computing states for per-operator time; SIRIUS_CN_ENABLE_QUENT=1; engine/memory/channel files empty on CN exit
+- [Demo Q1/Q6 carve check 2026-09-03](sirius-demo-q1q6-carve-check-2026-09-03.md) — demo branch passes SF1/SF10 4-CN; Draft PR aocsa/sirius#3 (do not merge); cherry-pick plan in demo-q1q6-report.md; CN launch needs cn-env.sh, pkill self-match
+- [SF1000 planning/cardinality/backpressure facts (2026-09-03)](starrocks-sirius-sf1000-planning-findings-2026-09-03.md) — FE plans FILES() at 1 row (cardinality-blind, node-count dependent); 15/22 queries run, 6 OOM in the 100-retry loop; q15 flakes with the float-sum gate off

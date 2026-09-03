@@ -1,0 +1,25 @@
+files: experimental/starrocks/DEMO.md experimental/starrocks/benchmarks/2NODE-ENGINE-B-TUTORIAL.md experimental/starrocks/benchmarks/2NODE-REPLICATE.md experimental/starrocks/benchmarks/8GPU-NVLINK-RUNBOOK.md experimental/starrocks/benchmarks/tpch/QUERY-DEVIATIONS.md experimental/starrocks/benchmarks/tpch/README.md experimental/starrocks/src/compute_node_service.rs experimental/starrocks/src/engine.rs experimental/starrocks/src/fragment_executor.rs experimental/starrocks/src/lib.rs experimental/starrocks/src/local_exchange.rs experimental/starrocks/src/nixl_transport.rs experimental/starrocks/src/parked_registry.rs experimental/starrocks/src/result_store.rs 
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+check for added large files..........................(no files to check)Skipped
+check for case conflicts.............................(no files to check)Skipped
+check json...........................................(no files to check)Skipped
+check for merge conflicts............................(no files to check)Skipped
+check for broken symlinks............................(no files to check)Skipped
+check toml...........................................(no files to check)Skipped
+check yaml...........................................(no files to check)Skipped
+debug statements (python)............................(no files to check)Skipped
+detect destroyed symlinks............................(no files to check)Skipped
+detect private key...................................(no files to check)Skipped
+fix end of files.....................................(no files to check)Skipped
+mixed line ending....................................(no files to check)Skipped
+pretty format json...................................(no files to check)Skipped
+trim trailing whitespace.............................(no files to check)Skipped
+black................................................(no files to check)Skipped
+Fix smartquote characters............................(no files to check)Skipped
+clang-format.........................................(no files to check)Skipped
+codespell............................................(no files to check)Skipped
+cmake-format.........................................(no files to check)Skipped
+cmake-lint...........................................(no files to check)Skipped
+rumdl check --fix....................................(no files to check)Skipped
+check for orphaned test files........................(no files to check)Skipped
+exit=0

@@ -1,0 +1,424 @@
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+cd duckdb && cmake --build --preset release --target duckdb duckdb_local_extension_repo sirius_unittest
+[0/418] cd /home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/rust/crates/telemetry/bridge && /home/prestouser/aocsa/sirius-stacks/.pixi/envs/default/bin/cmake -E env CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/home/prestouser/aocsa/sirius-stacks/.pixi/envs/default/bin/aarch64-conda-linux-gnu-cc CC_aarch64-unknown-linux-gnu=/home/prestouser/aocsa/sirius-stacks/.pixi/envs/default/bin/aarch64-conda-linux-gnu-cc CXX_aarch64-unknown-linux-gnu=/home/prestouser/aocsa/sirius-stacks/.pixi/envs/default/bin/aarch64-conda-linux-gnu-c++ AR_aarch64-unknown-linux-gnu=/home/prestouser/aocsa/sirius-stacks/.pixi/envs/default/bin/aarch64-conda-linux-gnu-ar CORROSION_BUILD_DIR=/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/build/release/extension/sirius/rust/crates/telemetry/bridge CARGO_BUILD_RUSTC=/home/prestouser/aocsa/sirius-stacks/.pixi/envs/default/bin/rustc /home/prestouser/aocsa/sirius-stacks/.pixi/envs/default/bin/cargo rustc --lib --target=aarch64-unknown-linux-gnu --package telemetry-bridge --crate-type=staticlib --manifest-path /home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/rust/crates/telemetry/bridge/Cargo.toml --target-dir /home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/build/release/cargo/bridge_24420 --release -- -Cdefault-linker-libraries=yes
+   Compiling telemetry-bridge v0.1.0 (/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/rust/crates/telemetry/bridge)
+warning: telemetry-bridge@0.1.0: model component `operator` is a C++ reserved keyword — C++ namespace will be `operator_`
+    Finished `release` profile [optimized] target(s) in 17.29s
+[32/418] Linking CXX static library simpatico_codegen/libsimpatico.a
+[34/418] Copying byproducts `libtelemetry_bridge.a` to /home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/build/release/extension/sirius/rust/crates/telemetry/bridge
+[35/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/debug_utils.cpp.o
+[36/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/exec/stream_session.cpp.o
+[37/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/exec/exchange_staging_arena.cpp.o
+[38/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/late_mat_plan_pass.cpp.o
+[39/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/scan_manager/late_mat_resolver.cpp.o
+[40/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/exec/stream_bind_catalog.cpp.o
+[41/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_empty_result.cpp.o
+[42/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_partition_consumer_operator.cpp.o
+[43/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/exec/stream_session.cpp.o
+[44/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/exec/exchange_staging_arena.cpp.o
+[45/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/telemetry/memory_context.cpp.o
+[46/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/scan_manager/round_robin_strategy.cpp.o
+[47/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_projection_utils.cpp.o
+[48/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/telemetry/scan_telemetry.cpp.o
+[49/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/order/gpu_order_impl.cpp.o
+[50/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/telemetry/batch_telemetry.cpp.o
+[51/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_order.cpp.o
+[52/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/merge/gpu_merge_impl.cpp.o
+[53/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_projection.cpp.o
+[54/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_column_data_get.cpp.o
+[55/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_filter.cpp.o
+[56/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_merge_sort.cpp.o
+[57/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_dummy_scan.cpp.o
+[58/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_delim_get.cpp.o
+[59/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_empty_result.cpp.o
+[60/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_limit.cpp.o
+[61/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_order.cpp.o
+[62/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_recursive_cte.cpp.o
+[63/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/exec/stream_bind_catalog.cpp.o
+[64/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_cte.cpp.o
+[65/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/io/cache/prefetching_cache.cpp.o
+[66/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_limit.cpp.o
+[67/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/io/sirius_datasource.cpp.o
+[68/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/exec/stream_plan_bindings.cpp.o
+[69/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_gpu_values.cpp.o
+[70/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_dummy_scan.cpp.o
+[71/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_expression_get.cpp.o
+[72/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/io/rest/rest_ioctx.cpp.o
+[73/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/io/io_context.cpp.o
+[74/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/exec/stream_plan_bindings.cpp.o
+[75/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_filter.cpp.o
+[76/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/debug_utils.cpp.o
+[77/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_cte.cpp.o
+[78/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/sirius_meta_pipeline.cpp.o
+[79/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_sort_partition.cpp.o
+[80/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/partition/gpu_partition_impl.cpp.o
+[81/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_operator.cpp.o
+[82/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/aggregate/gpu_aggregate_impl.cpp.o
+[83/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_streaming_sink.cpp.o
+[84/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/telemetry/staging_arena_telemetry.cpp.o
+[85/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/data_size_estimator.cpp.o
+[86/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/order/gpu_order_impl.cpp.o
+[87/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/scan_manager/memory_prefetcher.cpp.o
+[88/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_projection.cpp.o
+[89/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_top_n.cpp.o
+[90/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_empty_result.cpp.o
+[91/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/io/io_context.cpp.o
+[92/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/merge/gpu_merge_impl.cpp.o
+[93/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/parallel/task_executor.cpp.o
+[94/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/partition/gpu_partition_impl.cpp.o
+[95/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/aggregate/gpu_aggregate_impl.cpp.o
+[96/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_grouped_aggregate_merge.cpp.o
+[97/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_dense_count_join.cpp.o
+[98/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/scan/sirius_physical_dynamic_filter.cpp.o
+[99/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/query_index.cpp.o
+[100/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/scan/sirius_physical_dynamic_filter.cpp.o
+[101/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/io/rest/rest_ioctx.cpp.o
+[102/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/io/uring/uring_ioctx.cpp.o
+[103/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/query.cpp.o
+[104/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/io/datasource_factory.cpp.o
+[105/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_sort_sample.cpp.o
+[106/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/repository_wiring_materializer.cpp.o
+[107/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/scan/sirius_gpu_scan_operator_data.cpp.o
+[108/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_top_n.cpp.o
+[109/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/io/cache/prefetching_cache.cpp.o
+[110/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_grouped_aggregate.cpp.o
+[111/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/io/datasource_factory.cpp.o
+[112/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/io/sirius_datasource.cpp.o
+[113/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_cte.cpp.o
+[114/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/sirius_pipeline_itask.cpp.o
+[115/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/io/uring/uring_ioctx.cpp.o
+[116/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_streaming_sink.cpp.o
+[117/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/scan/gpu_ingestible.cpp.o
+[118/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_delim_join.cpp.o
+[119/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_streaming_source.cpp.o
+[120/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_nested_loop_join.cpp.o
+[121/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_ungrouped_aggregate.cpp.o
+[122/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_table_scan.cpp.o
+[123/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_column_data_scan.cpp.o
+[124/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/scan/sirius_gpu_scan_operator_data.cpp.o
+[125/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_hash_join.cpp.o
+[126/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/scan/gpu_ingestible.cpp.o
+[127/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_concat.cpp.o
+[128/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/scan_manager/split_connector.cpp.o
+[129/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/scan_manager/load_balancing_scan_batch_coalescer.cpp.o
+[130/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/late_mat_plan_pass.cpp.o
+[131/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_streaming_source.cpp.o
+[132/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/scan/duckdb_native_gpu_ingestible.cpp.o
+[133/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/scan_manager/split_provider.cpp.o
+[134/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_column_data_scan.cpp.o
+[135/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_partition_consumer_operator.cpp.o
+[136/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/scan/parquet_gpu_ingestible.cpp.o
+[137/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/sirius_plan_printer.cpp.o
+[138/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_concat.cpp.o
+[139/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/scan/duckdb_native_gpu_ingestible.cpp.o
+[140/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/scan_manager/late_mat_resolver.cpp.o
+[141/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_narrowing_policy.cpp.o
+[142/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_dummy_scan.cpp.o
+[143/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/scan_manager/insert_delta_job.cpp.o
+[144/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/sirius_pipeline.cpp.o
+[145/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/vss/pinned_column.cpp.o
+[146/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_delim_join.cpp.o
+[147/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_dense_count_join.cpp.o
+[148/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/dynamic_filter/dynamic_filter_target_discovery.cpp.o
+[149/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/sirius_pipeline_converter.cpp.o
+[150/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_filter.cpp.o
+[151/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_compressed_schema.cpp.o
+[152/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pin_table.cpp.o
+[153/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/telemetry/telemetry_context.cpp.o
+[154/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/scan/parquet_gpu_ingestible.cpp.o
+[155/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_delim_join.cpp.o
+[156/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/scan_manager/sirius_scan_manager.cpp.o
+[157/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_empty_result.cpp.o
+[158/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_projection_utils.cpp.o
+[159/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_gpu_values.cpp.o
+[160/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_dummy_scan.cpp.o
+[161/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_filter.cpp.o
+[162/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/telemetry/memory_context.cpp.o
+[163/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_column_data_get.cpp.o
+[164/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_projection.cpp.o
+[165/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_delim_get.cpp.o
+[166/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_order.cpp.o
+[167/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_limit.cpp.o
+[168/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/scan_manager/round_robin_strategy.cpp.o
+[169/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_limit.cpp.o
+[170/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_recursive_cte.cpp.o
+[171/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/telemetry/scan_telemetry.cpp.o
+[172/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_operator.cpp.o
+[173/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_merge_sort.cpp.o
+[174/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/telemetry/batch_telemetry.cpp.o
+[175/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_cte.cpp.o
+[176/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_projection.cpp.o
+[177/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_order.cpp.o
+[178/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_expression_get.cpp.o
+[179/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/sirius_pipeline_itask.cpp.o
+[180/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/parallel/task_executor.cpp.o
+[181/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_sort_partition.cpp.o
+[182/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/sirius_meta_pipeline.cpp.o
+[183/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_grouped_aggregate.cpp.o
+[184/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_sort_sample.cpp.o
+[185/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_top_n.cpp.o
+[186/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/data_size_estimator.cpp.o
+[187/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/query.cpp.o
+[188/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_grouped_aggregate_merge.cpp.o
+[189/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/repository_wiring_materializer.cpp.o
+[190/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_ungrouped_aggregate.cpp.o
+[191/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_hash_join.cpp.o
+[192/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_table_scan.cpp.o
+[193/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/query_index.cpp.o
+[194/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_nested_loop_join.cpp.o
+[195/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_top_n.cpp.o
+[196/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/scan_manager/memory_prefetcher.cpp.o
+[197/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/telemetry/staging_arena_telemetry.cpp.o
+[198/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/exec/test_stream_bind_catalog.cpp.o
+[199/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/dynamic_filter/dynamic_filter_target_discovery.cpp.o
+[200/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/sirius_plan_printer.cpp.o
+[201/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/sirius_pipeline.cpp.o
+[202/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/scan_manager/load_balancing_scan_batch_coalescer.cpp.o
+[203/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/sirius_pipeline_converter.cpp.o
+[204/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/scan_manager/split_provider.cpp.o
+[205/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/scan_manager/split_connector.cpp.o
+[206/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_narrowing_policy.cpp.o
+[207/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_compressed_schema.cpp.o
+[208/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/scan_manager/insert_delta_job.cpp.o
+[209/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_delim_join.cpp.o
+[210/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pin_table.cpp.o
+[211/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/telemetry/telemetry_context.cpp.o
+[212/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/vss/pinned_column.cpp.o
+[213/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/scan_manager/sirius_scan_manager.cpp.o
+[214/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/late_mat/test_late_mat_plan_pass.cpp.o
+[215/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_cross_schedule.cpp.o
+[216/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/late_mat/test_port_materialize.cpp.o
+[217/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_memory_prefetcher_accounting.cpp.o
+[218/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/parallel/test_task_executor.cpp.o
+[219/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_s3_routing_cutover.cpp.o
+[220/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_build_probe_scheduling.cpp.o
+[221/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_pinned_entry_column_lookup.cpp.o
+/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/test/cpp/scan_manager/test_pinned_entry_column_lookup.cpp: In function 'void {anonymous}::pin_metadata_entry(sirius::scan_manager::sirius_scan_manager&, const std::string&, const std::vector<long unsigned int>&)':
+/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/test/cpp/scan_manager/test_pinned_entry_column_lookup.cpp:97:30: warning: ignoring return value of 'std::vector<std::__cxx11::basic_string<char> > sirius::scan_manager::sirius_scan_manager::insert_pinned_entry(const std::string&, sirius::scan_manager::cache_entry_info, std::vector<std::unique_ptr<cudf::table> >, std::vector<cucascade::memory::memory_space*>, duckdb::vector<duckdb::LogicalType>, std::vector<std::vector<duckdb::unique_ptr<duckdb::BaseStatistics> > >, sirius::pinned_column_storage_matrix, std::vector<std::vector<std::__cxx11::basic_string<char> > >)', declared with attribute 'nodiscard' [-Wunused-result]
+   97 |   manager.insert_pinned_entry(name, make_cache_info(primary_indices), {}, {}, {}, {}, {});
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/test/cpp/scan_manager/test_pinned_entry_column_lookup.cpp:24:
+/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/src/include/scan_manager/sirius_scan_manager.hpp:574:42: note: declared here
+  574 |   [[nodiscard]] std::vector<std::string> insert_pinned_entry(
+      |                                          ^~~~~~~~~~~~~~~~~~~
+/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/test/cpp/scan_manager/test_pinned_entry_column_lookup.cpp: In function 'void {anonymous}::pin_typed_entry(sirius::scan_manager::sirius_scan_manager&, sirius::memory::sirius_memory_reservation_manager&, const std::string&, const std::vector<long unsigned int>&, cudf::data_type)':
+/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/test/cpp/scan_manager/test_pinned_entry_column_lookup.cpp:144:30: warning: ignoring return value of 'std::vector<std::__cxx11::basic_string<char> > sirius::scan_manager::sirius_scan_manager::insert_pinned_entry(const std::string&, sirius::scan_manager::cache_entry_info, std::vector<std::unique_ptr<cudf::table> >, std::vector<cucascade::memory::memory_space*>, duckdb::vector<duckdb::LogicalType>, std::vector<std::vector<duckdb::unique_ptr<duckdb::BaseStatistics> > >, sirius::pinned_column_storage_matrix, std::vector<std::vector<std::__cxx11::basic_string<char> > >)', declared with attribute 'nodiscard' [-Wunused-result]
+  144 |   manager.insert_pinned_entry(
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+  145 |     name,
+      |     ~~~~~                     
+  146 |     make_cache_info(primary_indices),
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  147 |     one_int64_chunk(primary_indices.size()),
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  148 |     std::vector<cucascade::memory::memory_space*>{
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  149 |       sirius::scan_test_utils::get_space(memory, cucascade::memory::Tier::GPU)},
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  150 |     {},
+      |     ~~~                       
+  151 |     {},
+      |     ~~~                       
+  152 |     std::move(storage));
+      |     ~~~~~~~~~~~~~~~~~~~       
+/home/prestouser/aocsa/sirius-stacks-wt/fix-oom-failfast/src/include/scan_manager/sirius_scan_manager.hpp:574:42: note: declared here
+  574 |   [[nodiscard]] std::vector<std::string> insert_pinned_entry(
+      |                                          ^~~~~~~~~~~~~~~~~~~
+[222/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_no_history_peak_memory_estimate.cpp.o
+[223/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_projection_fold.cpp.o
+[224/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_dynamic_filter_target_discovery.cpp.o
+[225/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_dense_count_join_detection.cpp.o
+[226/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_compressed_schema_propagation.cpp.o
+[227/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_query_index.cpp.o
+[228/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_join_expression_key.cpp.o
+[229/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_query_id.cpp.o
+[230/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_distinct_hash_join_detection.cpp.o
+[231/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_tier_narrowing_policy.cpp.o
+[232/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_completion_signal.cpp.o
+[233/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_data_size_estimator.cpp.o
+[234/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_get_next_ports_after_sink.cpp.o
+[235/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_partition_build_pipelines.cpp.o
+[236/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_pipeline_schedule_canonical.cpp.o
+[237/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_retry_futility.cpp.o
+[238/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_repository_wiring_materializer.cpp.o
+[239/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/task_request.cpp.o
+[240/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/task_request.cpp.o
+[241/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_can_serve_with_columns.cpp.o
+[242/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_duckdb_native_empty_split_decode.cpp.o
+[243/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_duckdb_native_host_backed_decode.cpp.o
+[244/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_locality.cpp.o
+[245/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/downgrade/downgrade_executor.cpp.o
+[246/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_parquet_byte_range.cpp.o
+[247/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_parquet_null_count_pruning.cpp.o
+[248/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/gpu_pipeline_executor.cpp.o
+[249/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_parquet_scan_sizing.cpp.o
+[250/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/downgrade/downgrade_executor.cpp.o
+[251/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_stream_lineage_item5.cpp.o
+[252/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/gpu_pipeline_task.cpp.o
+[253/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/telemetry/test_batch_stream_hop_telemetry.cpp.o
+[254/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/telemetry/test_staging_arena_telemetry.cpp.o
+[255/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/telemetry/test_scan_split_read_telemetry.cpp.o
+[256/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/telemetry/test_telemetry_context.cpp.o
+[257/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/pipeline/task_scheduler.cpp.o
+[258/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/io/s3/sirius_httpfs.cpp.o
+[259/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/task_scheduler.cpp.o
+[260/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_task_scheduler_routing.cpp.o
+[261/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/vss/test_vector_search.cpp.o
+[262/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/gpu_pipeline_task.cpp.o
+[263/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/vss/vector_search.cpp.o
+[264/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/exec/streaming_fragment.cpp.o
+[265/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/exec/streaming_fragment.cpp.o
+[266/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/io/rest/test_rest_ioctx_integration.cpp.o
+[267/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/gpu_admission.cpp.o
+[268/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_describe_parquet_s3.cpp.o
+[269/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/pipeline/gpu_pipeline_executor.cpp.o
+[270/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/transparent/sirius_optimizer_extension.cpp.o
+[271/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/sirius_interface.cpp.o
+[272/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/gpu_admission.cpp.o
+[273/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/vss/vector_search.cpp.o
+[274/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_aggregate.cpp.o
+[275/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/transparent/physical_sirius_execution.cpp.o
+[276/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/transparent/sirius_optimizer_extension.cpp.o
+[277/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_join_nulls.cpp.o
+[278/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_gpu_pipeline_executor.cpp.o
+[279/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/sirius_interface.cpp.o
+[280/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_result_collector.cpp.o
+[281/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/creator/test_task_creator.cpp.o
+[282/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/io/s3/sirius_httpfs.cpp.o
+[283/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/scan/sirius_gpu_scan_operator.cpp.o
+[284/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_tpcds_nulls.cpp.o
+[285/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_parquet_null_predicate_pushdown.cpp.o
+[286/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/sirius_engine.cpp.o
+[287/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_filter_nulls.cpp.o
+[288/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_pin_table_mvcc_delete.cpp.o
+[289/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_partition.cpp.o
+[290/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/scan/duckdb_native_decoder.cpp.o
+[291/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_dynamic_filter_sip.cpp.o
+[292/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_unique_join.cpp.o
+[293/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_null_safe_join.cpp.o
+[294/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_semantic_cast_fallback.cpp.o
+[295/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_array.cpp.o
+[296/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_allnull_scan.cpp.o
+[297/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_dynamic_filter_native.cpp.o
+[298/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_order_nulls.cpp.o
+[299/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_oom_reschedule.cpp.o
+[300/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_aggregate.cpp.o
+[301/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_pin_table_merge_columns.cpp.o
+[302/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/late_mat/test_pin_handle_lifecycle.cpp.o
+[303/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_pin_table_host_streaming.cpp.o
+[304/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_multi_format.cpp.o
+[305/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/scan/duckdb_native_decoder.cpp.o
+[306/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_parquet_nulls.cpp.o
+[307/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_grouped_aggregate_merge_mgpu.cpp.o
+[308/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_compressed_materialization_gate.cpp.o
+[309/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/op/sirius_physical_result_collector.cpp.o
+[310/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/sirius_physical_partition.cpp.o
+[311/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/exec/test_stream_session.cpp.o
+[312/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_dense_count_join.cpp.o
+[313/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_pin_table_zone_map_pruning.cpp.o
+[314/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/downgrade/test_downgrade_lifecycle.cpp.o
+[315/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_pin_table_type_drift.cpp.o
+[316/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_pin_table_mvcc_foundation.cpp.o
+[317/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/data/test_convertible_data_batch.cpp.o
+[318/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_hash_join_mgpu.cpp.o
+[319/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_partition_memspace_mgpu.cpp.o
+[320/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_vector_search.cpp.o
+[321/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/io/test_parquet_helpers.cpp.o
+[322/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/creator/task_creator.cpp.o
+[323/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_pin_table_mvcc_insert.cpp.o
+[324/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/late_mat/test_late_mat_resolver.cpp.o
+[325/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/expression_evaluator/test_expression_evaluator_ast_equivalence.cpp.o
+[326/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/exec/test_batch_stream.cpp.o
+[327/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_pin_table_mvcc_update.cpp.o
+[328/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/sirius_engine.cpp.o
+[329/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/creator/task_creator.cpp.o
+[330/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_merge_sort.cpp.o
+[331/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_get.cpp.o
+[332/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_mvcc_mask_job.cpp.o
+[333/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_pipeline_dynamic_filter_native_shape.cpp.o
+[334/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_top_n.cpp.o
+[335/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/downgrade/test_downgrade_disk.cpp.o
+[336/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_transparent_runtime_fallback.cpp.o
+[337/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_pin_table_multi_gpu.cpp.o
+[338/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_aggregate_nulls.cpp.o
+[339/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_plan_comparison_join.cpp.o
+[340/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_late_mat_native_filter.cpp.o
+[341/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_gpu_pipeline_disk_readback.cpp.o
+[342/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_sort_sample.cpp.o
+[343/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_sirius_dynamic_filter_mgpu.cpp.o
+[344/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/transparent/physical_sirius_execution.cpp.o
+[345/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/op/scan/sirius_gpu_scan_operator.cpp.o
+[346/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_merge_pipeline_fusion.cpp.o
+[347/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/downgrade/test_downgrade_executor.cpp.o
+[348/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_order.cpp.o
+[349/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/late_mat/test_pin_uniqueness.cpp.o
+[350/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/exec/test_streaming_fragment.cpp.o
+[351/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_comparison_join.cpp.o
+[352/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_plan_get.cpp.o
+[353/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_dynamic_filter_publication_claim.cpp.o
+[354/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_host_table_chunk_reader.cpp.o
+[355/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_insert_delta_job.cpp.o
+[356/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_order_mgpu.cpp.o
+[357/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_filter.cpp.o
+[358/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_gpu_partition_impl.cpp.o
+[359/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_compressed_materialization_partition.cpp.o
+[360/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_result_collector.cpp.o
+[361/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/aggregate/test_group_key_labels.cpp.o
+[362/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/compression/test_compression.cpp.o
+[363/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_limit.cpp.o
+[364/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/data/test_convertible_gpu_pipeline_task.cpp.o
+[365/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_pinned_chunk_stats.cpp.o
+[366/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_streaming_source.cpp.o
+[367/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_dense_count_join.cpp.o
+[368/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_streaming_sink.cpp.o
+[369/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_streaming_sink_root.cpp.o
+[370/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/planner/sirius_physical_plan_generator.cpp.o
+[371/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_ungrouped_aggregate.cpp.o
+[372/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_dynamic_filter_publisher.cpp.o
+[373/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_projection.cpp.o
+[374/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_dynamic_filter_discovery_parity.cpp.o
+[375/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_batch_lock_utils.cpp.o
+[376/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/sirius_ffi.cpp.o
+[377/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/sirius_context.cpp.o
+[378/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_plan_printer.cpp.o
+[379/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/aggregate/test_physical_grouped_aggregate_count_distinct.cpp.o
+[380/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_mark_join.cpp.o
+[381/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/aggregate/test_gpu_merge_impl.cpp.o
+[382/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_query_lifecycle_slot.cpp.o
+[383/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/planner/sirius_physical_plan_generator.cpp.o
+[384/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_table_scan.cpp.o
+[385/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/sirius_context.cpp.o
+[386/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/config/test_context.cpp.o
+[387/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_partition.cpp.o
+[388/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_gpu_pipeline_task_history.cpp.o
+[389/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/sirius_ffi.cpp.o
+[390/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/aggregate/test_physical_grouped_aggregate.cpp.o
+[391/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan_manager/test_cached_serving_hardening.cpp.o
+[392/418] Building CXX object extension/sirius/CMakeFiles/sirius_extension.dir/src/sirius_extension.cpp.o
+[393/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/pipeline/test_task_scheduler.cpp.o
+[394/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/aggregate/test_physical_grouped_aggregate_merge.cpp.o
+[395/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_duckdb_native_walker.cpp.o
+[396/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/utils/test_gpu_execution_comparator.cpp.o
+[397/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/utils/utils.cpp.o
+[398/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/operator/test_physical_concat.cpp.o
+[399/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_scan_schema_normalization.cpp.o
+[400/418] Building CXX object extension/sirius/CMakeFiles/sirius_loadable_extension.dir/src/sirius_extension.cpp.o
+[401/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_s3_tpch.cpp.o
+[402/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/scan/test_host_keep_mask.cpp.o
+[403/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/io/s3/test_sirius_httpfs.cpp.o
+[404/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/vss/test_pinned_column.cpp.o
+[405/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/planner/test_plan_tree_shape.cpp.o
+[406/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/vss/test_enn_top_k.cpp.o
+[407/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/vss/test_cuvs_index_cache.cpp.o
+[408/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/utils/pipeline_conversion_test_utils.cpp.o
+[409/418] Linking CXX static library extension/sirius/CMakeFiles/sirius_extension.dir/cmake_device_link.o
+[410/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_gpu_execution_tpch.cpp.o
+[411/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/expression_evaluator/test_expression_evaluator.cpp.o
+[412/418] Linking CXX static library extension/sirius/libsirius_extension.a
+[413/418] Linking CXX executable duckdb
+[414/418] Linking CXX shared library extension/sirius/CMakeFiles/sirius_loadable_extension.dir/cmake_device_link.o
+[415/418] Linking CXX shared library extension/sirius/sirius.duckdb_extension
+[416/418] Building CXX object extension/sirius/CMakeFiles/sirius_unittest.dir/test/cpp/integration/test_s3_sql_surface.cpp.o
+[417/418] repository
+[418/418] Linking CXX executable extension/sirius/test/cpp/sirius_unittest
+BUILD_EXIT=0

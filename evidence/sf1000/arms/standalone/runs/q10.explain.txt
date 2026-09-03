@@ -1,0 +1,93 @@
+┌───────────────────────────┐
+│           TOP_N           │
+│    ────────────────────   │
+│          Top: 20          │
+│                           │
+│         Order By:         │
+│       sum((lineitem       │
+│  .l_extendedprice * (1 -  │
+│   lineitem.l_discount)))  │
+│            DESC           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         c_custkey         │
+│           c_name          │
+│          revenue          │
+│         c_acctbal         │
+│           n_name          │
+│         c_address         │
+│          c_phone          │
+│         c_comment         │
+│                           │
+│     ~244,433,107 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│    ────────────────────   │
+│          Groups:          │
+│             #0            │
+│             #1            │
+│             #2            │
+│             #3            │
+│             #4            │
+│             #5            │
+│             #6            │
+│                           │
+│    Aggregates: sum(#7)    │
+│                           │
+│     ~244,433,107 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         c_custkey         │
+│           c_name          │
+│         c_acctbal         │
+│          c_phone          │
+│           n_name          │
+│         c_address         │
+│         c_comment         │
+│ (l_extendedprice * (1.00 -│
+│        l_discount))       │
+│                           │
+│     ~244,433,107 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        ├───────────────────────────────────────────┐
+│   c_custkey = o_custkey   │                                           │
+│                           │                                           │
+│     ~244,433,107 rows     │                                           │
+└─────────────┬─────────────┘                                           │
+┌─────────────┴─────────────┐                             ┌─────────────┴─────────────┐
+│         HASH_JOIN         │                             │         HASH_JOIN         │
+│    ────────────────────   │                             │    ────────────────────   │
+│      Join Type: INNER     │                             │      Join Type: INNER     │
+│                           │                             │                           │
+│        Conditions:        ├──────────────┐              │        Conditions:        ├──────────────┐
+│ c_nationkey = n_nationkey │              │              │  l_orderkey = o_orderkey  │              │
+│                           │              │              │                           │              │
+│     ~151,574,782 rows     │              │              │     ~244,433,107 rows     │              │
+└─────────────┬─────────────┘              │              └─────────────┬─────────────┘              │
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│        READ_PARQUET       ││        READ_PARQUET       ││        READ_PARQUET       ││        READ_PARQUET       │
+│    ────────────────────   ││    ────────────────────   ││    ────────────────────   ││    ────────────────────   │
+│         Function:         ││         Function:         ││         Function:         ││         Function:         │
+│        READ_PARQUET       ││        READ_PARQUET       ││        READ_PARQUET       ││        READ_PARQUET       │
+│                           ││                           ││                           ││                           │
+│        Projections:       ││        Projections:       ││        Projections:       ││        Projections:       │
+│         c_custkey         ││        n_nationkey        ││         l_orderkey        ││         o_orderkey        │
+│           c_name          ││           n_name          ││      l_extendedprice      ││         o_custkey         │
+│         c_address         ││                           ││         l_discount        ││                           │
+│        c_nationkey        ││                           ││                           ││          Filters:         │
+│          c_phone          ││                           ││          Filters:         ││ o_orderdate>='1993-10-01':│
+│         c_acctbal         ││                           ││      l_returnflag='R'     ││   :DATE AND o_orderdate<  │
+│         c_comment         ││                           ││                           ││     '1994-01-01'::DATE    │
+│                           ││                           ││                           ││                           │
+│     ~151,574,782 rows     ││          ~25 rows         ││    ~1,222,165,536 rows    ││     ~308,087,214 rows     │
+└───────────────────────────┘└───────────────────────────┘└───────────────────────────┘└───────────────────────────┘

@@ -1,0 +1,136 @@
+┌───────────────────────────┐
+│    UNGROUPED_AGGREGATE    │
+│    ────────────────────   │
+│    Aggregates: sum(#0)    │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│ (l_extendedprice * (1.00 -│
+│        l_discount))       │
+│                           │
+│      ~9,777,324 rows      │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│             #1            │
+│             #2            │
+│                           │
+│      ~9,777,324 rows      │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│           FILTER          │
+│    ────────────────────   │
+│ (((l_quantity >= 1.00) AND│
+│  (l_quantity <= 11.00) AND│
+│     ((p_size >= 1) AND    │
+│    (p_size <= 5)) AND     │
+│ (p_brand = 'Brand#12') AND│
+│  (p_container IN ('SM CASE│
+│  ', 'SM BOX', 'SM PACK',  │
+│      'SM PKG'))) OR (     │
+│ (l_quantity >= 10.00) AND │
+│ (l_quantity <= 20.00) AND │
+│ ((p_size >= 1) AND (p_size│
+│   <= 10)) AND (p_brand =  │
+│      'Brand#23') AND      │
+│ (p_container IN ('MED BAG'│
+│  , 'MED BOX', 'MED PKG',  │
+│     'MED PACK'))) OR (    │
+│ (l_quantity >= 20.00) AND │
+│ (l_quantity <= 30.00) AND │
+│ ((p_size >= 1) AND (p_size│
+│   <= 15)) AND (p_brand =  │
+│      'Brand#34') AND      │
+│ (p_container IN ('LG CASE'│
+│ , 'LG BOX', 'LG PACK', 'LG│
+│          PKG'))))         │
+│                           │
+│      ~9,777,324 rows      │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        ├──────────────┐
+│   l_partkey = p_partkey   │              │
+│                           │              │
+│      ~9,777,324 rows      │              │
+└─────────────┬─────────────┘              │
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│         PROJECTION        ││           FILTER          │
+│    ────────────────────   ││    ────────────────────   │
+│             #0            ││    (((p_size <= 5) AND    │
+│             #1            ││ (p_brand = 'Brand#12') AND│
+│             #2            ││  (p_container IN ('SM CASE│
+│             #3            ││  ', 'SM BOX', 'SM PACK',  │
+│                           ││ 'SM PKG'))) OR ((p_size <=│
+│                           ││  10) AND (p_brand = 'Brand│
+│                           ││ #23') AND (p_container IN │
+│                           ││  ('MED BAG', 'MED BOX',   │
+│                           ││  'MED PKG', 'MED PACK'))) │
+│                           ││   OR ((p_size <= 15) AND  │
+│                           ││ (p_brand = 'Brand#34') AND│
+│                           ││  (p_container IN ('LG CASE│
+│                           ││  ', 'LG BOX', 'LG PACK',  │
+│                           ││        'LG PKG'))))       │
+│                           ││                           │
+│     ~244,433,107 rows     ││      ~8,134,748 rows      │
+└─────────────┬─────────────┘└─────────────┬─────────────┘
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│           FILTER          ││        READ_PARQUET       │
+│    ────────────────────   ││    ────────────────────   │
+│ (((l_quantity >= 1.00) OR ││         Function:         │
+│ (l_quantity >= 10.00) OR  ││        READ_PARQUET       │
+│ (l_quantity >= 20.00)) AND││                           │
+│   (l_shipmode IN ('AIR',  ││        Projections:       │
+│        'AIR REG')))       ││         p_partkey         │
+│                           ││          p_brand          │
+│                           ││           p_size          │
+│                           ││        p_container        │
+│                           ││                           │
+│                           ││          Filters:         │
+│                           ││  (((p_brand = 'Brand#12') │
+│                           ││  OR (p_brand = 'Brand#23')│
+│                           ││ ) OR (p_brand = 'Brand#34'│
+│                           ││             ))            │
+│                           ││ (((p_size <= 5) OR (p_size│
+│                           ││ <= 10)) OR (p_size <= 15))│
+│                           ││   (((p_container IN ('SM  │
+│                           ││  CASE', 'SM BOX', 'SM PACK│
+│                           ││     ', 'SM PKG')) OR      │
+│                           ││ (p_container IN ('MED BAG'│
+│                           ││  , 'MED BOX', 'MED PKG',  │
+│                           ││     'MED PACK'))) OR      │
+│                           ││ (p_container IN ('LG CASE'│
+│                           ││ , 'LG BOX', 'LG PACK', 'LG│
+│                           ││           PKG')))         │
+│                           ││                           │
+│     ~244,433,107 rows     ││      ~40,673,740 rows     │
+└─────────────┬─────────────┘└───────────────────────────┘
+┌─────────────┴─────────────┐
+│        READ_PARQUET       │
+│    ────────────────────   │
+│         Function:         │
+│        READ_PARQUET       │
+│                           │
+│        Projections:       │
+│         l_partkey         │
+│         l_quantity        │
+│      l_extendedprice      │
+│         l_discount        │
+│         l_shipmode        │
+│                           │
+│          Filters:         │
+│ optional: l_quantity>=1.00│
+│   OR l_quantity>=10.00 OR │
+│      l_quantity>=20.00    │
+│ l_shipinstruct='DELIVER IN│
+│           PERSON'         │
+│ optional: l_shipmode IN ( │
+│     'AIR', 'AIR REG')     │
+│                           │
+│    ~1,222,165,536 rows    │
+└───────────────────────────┘

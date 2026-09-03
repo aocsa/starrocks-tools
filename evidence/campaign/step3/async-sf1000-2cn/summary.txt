@@ -1,0 +1,84 @@
+== async-sf1000-2cn  worktree=/home/prestouser/aocsa/sirius-stacks-wt/perf  dataset=/scratch/sirius/datasets/tpch_sf1000  Thu Sep  3 06:46:28 UTC 2026
+== env: NUM_CNS=2 GPU_MEM=100GiB STAGING=16GiB SIRIUS_EXCHANGE_STAGING_BYTES=16GiB SIRIUS_QUERY_WATCHDOG_SECS=60 CUDA_VISIBLE_DEVICES=<unset>
+cluster launcher pid=3593033 log=/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/async-sf1000-2cn/cluster.log
+== alive compute nodes after 24s: 2
+   cn heartbeat=9100 alive=true
+   cn heartbeat=9110 alive=true
+   cn heartbeat=9120 alive=false
+   cn heartbeat=9130 alive=false
+== nvidia-smi:
+0, 119513 MiB 1, 119509 MiB 2, 3 MiB 3, 9 MiB 
+== one CN pid per GPU:
+      1 GPU-4243ea2a-f191-d075-d3e5-905970e32d5f, 3593056
+      1 GPU-cbe29b1b-f0e4-d8fe-ef58-25e9de2a6fed, 3593057
+== blacklist:
+ComputeNodeId	AddBlackListType	LostConnectionTime	LostConnectionNumberInPeriod	CheckTimePeriod(s)
+12002	AUTO	2026-09-03 06:46:37	1	5
+12003	AUTO	2026-09-03 06:46:43	1	5
+== EXPLAIN q01:
+PARTITION: UNPARTITIONED
+6:MERGING-EXCHANGE
+PARTITION: HASH_PARTITIONED: 9: l_returnflag, 10: l_linestatus
+EXCHANGE ID: 06
+UNPARTITIONED
+5:SORT
+4:AGGREGATE (merge finalize)
+3:EXCHANGE
+PARTITION: RANDOM
+EXCHANGE ID: 03
+HASH_PARTITIONED: 9: l_returnflag, 10: l_linestatus
+2:AGGREGATE (update serialize)
+== EXPLAIN q06:
+PARTITION: UNPARTITIONED
+4:AGGREGATE (merge finalize)
+3:EXCHANGE
+PARTITION: RANDOM
+EXCHANGE ID: 03
+UNPARTITIONED
+2:AGGREGATE (update serialize)
+== WARM bench:
+cluster: 2 alive compute nodes + 0 alive backends (MIN_BACKENDS=2)
+q01 r0 cold pass 3169ms rows=4
+q01 r1 warm pass 3119ms rows=4
+q01 r2 warm pass 3568ms rows=4
+q01 r3 warm pass 3070ms rows=4
+q06 r0 cold pass 1392ms rows=1
+q06 r1 warm pass 1397ms rows=1
+q06 r2 warm pass 1419ms rows=1
+q06 r3 warm pass 1444ms rows=1
+== bench complete: /tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/async-sf1000-2cn/warm/out.csv ==
+== WARM compare:
+q01    VALUES-DIFFER  rows=4 maxreldiff=9.570e-04 badcells=8
+q06    MATCH          rows=1 maxreldiff=0.000e+00
+
+1/2 match the DuckDB oracle within rel tol 1e-06
+== COLD-RESTART bench:
+cluster: 2 alive compute nodes + 0 alive backends (MIN_BACKENDS=2)
+restarting cluster...
+q01 r0 cold pass 4761ms rows=4
+q01 r1 warm pass 3315ms rows=4
+restarting cluster...
+q06 r0 cold pass 3540ms rows=1
+q06 r1 warm pass 1584ms rows=1
+== bench complete: /tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/async-sf1000-2cn/cold/out.csv ==
+== COLD compare:
+q01    VALUES-DIFFER  rows=4 maxreldiff=9.570e-04 badcells=8
+q06    MATCH          rows=1 maxreldiff=0.000e+00
+
+1/2 match the DuckDB oracle within rel tol 1e-06
+== log checks (cluster.log, current process generation):
+      1 peer=127.0.0.1:9102 gbps="83.6"
+      1 peer=127.0.0.1:9112 gbps="97.2"
+      2 stream_id=3 sender_id=0 dest=127.0.0.1:9112 batches=1 bytes=64
+negative markers: needs-transport-tier=0 row-count-unknown=0 fail_stalled=0 errorCode62=0 ERROR-lines=0
+== cn-distribution (rows):
+WORK DISTRIBUTION -- distinct entities (the real unit of work; share% on 'task')
+CN    run-uuid                  operator         task   data_batch        query      channel    share%
+------------------------------------------------------------------------------------------------------
+.cn0  01a06606-4e71..83023a            0           68          200            0            0     24.5%
+.cn1  01a06606-4e6d..b6db0f            0           76          204            0            0     27.4%
+.cn2  01a065fc-8953..9624f1            0           69           49            0            0     24.9%
+.cn3  01a065fc-8953..b371f1            0           64           37            0            0     23.1%
+TOTAL                                   0          277          490            0            0
+stopped
+== done Thu Sep  3 06:48:38 UTC 2026

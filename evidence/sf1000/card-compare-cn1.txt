@@ -1,0 +1,126 @@
+q    exch FE type      FE est     actual rows      ratio  consumed as build side of
+q01  3    SHUFFLE           1               4         4x  
+q01  6    GATHER            1               4         4x  
+q02  3    BROADCAST         1     800,000,000 800,000,000x  4:INNER JOIN (BROADCAST)
+q02  6    SHUFFLE           1       3,191,000 3,191,000x  
+q02  8    SHUFFLE           1      10,000,000 10,000,000x  9:INNER JOIN (PARTITIONED)
+q02  12   BROADCAST         1              25        25x  13:INNER JOIN (BROADCAST)
+q02  16   BROADCAST         1               1         1x  17:INNER JOIN (BROADCAST)
+q02  21   BROADCAST         1      10,000,000 10,000,000x  22:INNER JOIN (BROADCAST)
+q02  25   BROADCAST         1              25        25x  26:INNER JOIN (BROADCAST)
+q02  28   SHUFFLE           1     800,000,000 800,000,000x  
+q02  30   SHUFFLE           1               1         1x  31:INNER JOIN (PARTITIONED)
+q02  34   SHUFFLE           1     118,065,576 118,065,576x  
+q02  36   BROADCAST         1     118,065,576 118,065,576x  37:INNER JOIN (BROADCAST)
+q02  40   GATHER            1             100       100x  
+q03  5    BROADCAST         1      29,998,152 29,998,152x  6:INNER JOIN (BROADCAST)
+q03  8    BROADCAST         1     145,769,513 145,769,513x  9:INNER JOIN (BROADCAST)
+q03  12   SHUFFLE           1      11,326,372 11,326,372x  
+q03  15   GATHER            1              10        10x  
+q04  4    BROADCAST         1   3,793,363,900 3,793,363,900x  5:LEFT SEMI JOIN (BROADCAST)
+q04  8    SHUFFLE           1               5         5x  
+q04  11   GATHER            1               5         5x  
+q05  1    SHUFFLE           1     150,000,000 150,000,000x  
+q05  4    SHUFFLE           1     227,571,151 227,571,151x  5:INNER JOIN (PARTITIONED)
+q05  7    SHUFFLE           1               -             
+q05  9    SHUFFLE           1               -             10:INNER JOIN (PARTITIONED)
+q05  13   BROADCAST         1               -             14:INNER JOIN (BROADCAST)
+q05  16   SHUFFLE           1               -             
+q05  18   SHUFFLE           1               -             19:INNER JOIN (PARTITIONED)
+q05  23   BROADCAST         1               -             24:INNER JOIN (BROADCAST)
+q05  27   SHUFFLE           1               -             
+q05  30   GATHER            1               -             
+q06  3    GATHER            1               1         1x  
+q07  1    SHUFFLE           1      10,000,000 10,000,000x  
+q07  3    SHUFFLE           1               2         2x  4:INNER JOIN (PARTITIONED)
+q07  6    SHUFFLE           1         799,746   799,746x  
+q07  8    SHUFFLE           1   1,822,871,264 1,822,871,264x  9:INNER JOIN (PARTITIONED)
+q07  12   BROADCAST         1   1,500,000,000 1,500,000,000x  13:INNER JOIN (BROADCAST)
+q07  16   BROADCAST         1     150,000,000 150,000,000x  17:INNER JOIN (BROADCAST)
+q07  20   BROADCAST         1               2         2x  21:INNER JOIN (BROADCAST)
+q07  24   SHUFFLE           1               4         4x  
+q07  27   GATHER            1               4         4x  
+q08  2    SHUFFLE           1               -             
+q08  4    SHUFFLE           1               -             5:INNER JOIN (PARTITIONED)
+q08  8    BROADCAST         1               -             9:INNER JOIN (BROADCAST)
+q08  12   BROADCAST         1               -             13:INNER JOIN (BROADCAST)
+q08  16   BROADCAST         1               -             17:INNER JOIN (BROADCAST)
+q08  20   BROADCAST         1               -             21:INNER JOIN (BROADCAST)
+q08  24   BROADCAST         1               -             25:INNER JOIN (BROADCAST)
+q08  29   BROADCAST         1               -             30:INNER JOIN (BROADCAST)
+q08  33   SHUFFLE           1               -             
+q08  37   GATHER            1               -             
+q09  2    SHUFFLE           1               -             
+q09  4    SHUFFLE           1               -             5:INNER JOIN (PARTITIONED)
+q09  8    BROADCAST         1               -             9:INNER JOIN (BROADCAST)
+q09  12   BROADCAST         1               -             13:INNER JOIN (BROADCAST)
+q09  16   BROADCAST         1               -             17:INNER JOIN (BROADCAST)
+q09  20   BROADCAST         1               -             21:INNER JOIN (BROADCAST)
+q09  24   SHUFFLE           1               -             
+q09  27   GATHER            1               -             
+q10  2    BROADCAST         1              25        25x  3:INNER JOIN (BROADCAST)
+q10  9    BROADCAST         1      57,358,391 57,358,391x  10:INNER JOIN (BROADCAST)
+q10  12   BROADCAST         1     114,711,320 114,711,320x  13:INNER JOIN (BROADCAST)
+q10  16   SHUFFLE           1      44,528,891 44,528,891x  
+q10  19   GATHER            1              20        20x  
+q11  3    BROADCAST         1      10,000,000 10,000,000x  4:INNER JOIN (BROADCAST)
+q11  6    BROADCAST         1         399,948   399,948x  7:INNER JOIN (BROADCAST)
+q11  10   SHUFFLE           1      30,129,021 30,129,021x  
+q11  15   BROADCAST         1      10,000,000 10,000,000x  16:INNER JOIN (BROADCAST)
+q11  18   BROADCAST         1         399,948   399,948x  19:INNER JOIN (BROADCAST)
+q11  22   GATHER            1               1         1x  
+q11  25   BROADCAST         1               1         1x  26:INNER JOIN
+q11  29   GATHER            1               0         0x  
+q12  3    BROADCAST         1      31,162,904 31,162,904x  4:INNER JOIN (BROADCAST)
+q12  7    SHUFFLE           1               2         2x  
+q12  10   GATHER            1               2         2x  
+q13  2    SHUFFLE           1   1,483,831,048 1,483,831,048x  
+q13  4    SHUFFLE           1     150,000,000 150,000,000x  5:RIGHT OUTER JOIN (PARTITIONED)
+q13  10   SHUFFLE           1              30        30x  
+q13  13   GATHER            1              30        30x  
+q14  3    BROADCAST         1     200,000,000 200,000,000x  4:INNER JOIN (BROADCAST)
+q14  7    GATHER            1               1         1x  
+q15  4    SHUFFLE           1      10,000,000 10,000,000x  
+q15  9    SHUFFLE           1      10,000,000 10,000,000x  
+q15  13   GATHER            1               1         1x  
+q15  15   BROADCAST         1               1         1x  16:INNER JOIN (BROADCAST)
+q15  18   BROADCAST         1               1         1x  19:INNER JOIN (BROADCAST)
+q15  22   GATHER            1               1         1x  
+q16  2    BROADCAST         1               -             3:INNER JOIN (BROADCAST)
+q16  7    BROADCAST         1               -             8:NULL AWARE LEFT ANTI JOIN (BROADCAST)
+q16  11   SHUFFLE           1               -             
+q16  14   GATHER            1               -             
+q17  1    SHUFFLE           1               -             
+q17  4    SHUFFLE           1               -             5:INNER JOIN (PARTITIONED)
+q17  9    SHUFFLE           1               -             
+q17  14   GATHER            1               -             
+q18  1    SHUFFLE           1               -             
+q18  4    SHUFFLE           1               -             
+q18  10   SHUFFLE           1               -             11:INNER JOIN (BUCKET_SHUFFLE(S))
+q18  13   SHUFFLE           1               -             
+q18  15   SHUFFLE           1               -             16:INNER JOIN (PARTITIONED)
+q18  20   GATHER            1               -             
+q19  3    BROADCAST         1     128,557,109 128,557,109x  4:INNER JOIN (BROADCAST)
+q19  7    GATHER            1               1         1x  
+q20  3    BROADCAST         1               1         1x  4:INNER JOIN (BROADCAST)
+q20  9    SHUFFLE           1     304,124,949 304,124,949x  
+q20  12   SHUFFLE           1     800,000,000 800,000,000x  
+q20  15   SHUFFLE           1       2,172,291 2,172,291x  16:LEFT SEMI JOIN (PARTITIONED)
+q20  18   SHUFFLE           1       8,689,164 8,689,164x  19:INNER JOIN (BUCKET_SHUFFLE(S))
+q20  21   BROADCAST         1       3,289,180 3,289,180x  22:LEFT SEMI JOIN (BROADCAST)
+q20  25   GATHER            1         112,013   112,013x  
+q21  2    SHUFFLE           1               -             
+q21  6    BROADCAST         1     730,806,711 730,806,711x  7:INNER JOIN (BROADCAST)
+q21  9    SHUFFLE           1               -             10:RIGHT ANTI JOIN (PARTITIONED)
+q21  13   SHUFFLE           1               -             14:LEFT SEMI JOIN (BUCKET_SHUFFLE(S))
+q21  16   BROADCAST         1               -             17:INNER JOIN (BROADCAST)
+q21  21   BROADCAST         1               -             22:INNER JOIN (BROADCAST)
+q21  25   SHUFFLE           1               -             
+q21  28   GATHER            1               -             
+q22  4    GATHER            1               1         1x  
+q22  6    BROADCAST         1               1         1x  7:INNER JOIN
+q22  10   BROADCAST         1   1,500,000,000 1,500,000,000x  11:LEFT ANTI JOIN (BROADCAST)
+q22  14   SHUFFLE           1               7         7x  
+q22  17   GATHER            1               7         7x  
+
+exchanges carrying >= 100M rows: q02/exch3=800M, q02/exch28=800M, q02/exch34=118M, q02/exch36=118M, q03/exch8=146M, q04/exch4=3,793M, q05/exch1=150M, q05/exch4=228M, q07/exch8=1,823M, q07/exch12=1,500M, q07/exch16=150M, q10/exch12=115M, q13/exch2=1,484M, q13/exch4=150M, q14/exch3=200M, q19/exch3=129M, q20/exch9=304M, q20/exch12=800M, q21/exch6=731M, q22/exch10=1,500M

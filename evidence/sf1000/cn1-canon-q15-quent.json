@@ -1,0 +1,2909 @@
+{
+ "q15.r0": {
+  "fragments": [
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-9d59-7ee6-a703-9dbe1d713b25:01a06775-9d59-7ee6-a703-9dbe1d713b2c",
+    "wall_s": 9.237891688,
+    "t0": 1788442157383773194,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 169.1192,
+     "Routing": 0.0003,
+     "Reserving": 0.0017,
+     "Preparing": 0.0028,
+     "Computing": 26.6001,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      25.8458,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.525,
+      2.751355308
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.136,
+      4.623414132
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0923,
+      2.218557292
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.0009,
+      2.218557292
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.838438944,
+    "reserve_peak_est_GB": 292.838438944,
+    "peak_alloc_sum_GB": 237.996347904,
+    "input_GB": 126.686897394,
+    "batches": 169,
+    "batch_GB": 9.713326732,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 184.8599,
+     "max": 5.9873
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-9d59-7ee6-a703-9dbe1d713b25:01a06775-9d59-7ee6-a703-9dbe1d713b2b",
+    "wall_s": 2.412123457,
+    "t0": 1788442164190124635,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0003,
+     "Queued": 60.7821,
+     "Routing": 0.0001,
+     "Reserving": 0.0016,
+     "Preparing": 0.0024,
+     "Computing": 9.2674,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      8.4649,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.6238,
+      2.751355116
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0915,
+      2.219567876
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.0861,
+      4.623413556
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.0011,
+      2.219567876
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.569779031,
+    "reserve_peak_est_GB": 292.569779031,
+    "peak_alloc_sum_GB": 237.999022592,
+    "input_GB": 126.688918562,
+    "batches": 169,
+    "batch_GB": 9.714336548,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 65.2259,
+     "max": 2.2775
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-9d59-7ee6-a703-9dbe1d713b25:01a06775-9d59-7ee6-a703-9dbe1d713b2a",
+    "wall_s": 0.013461861,
+    "t0": 1788442166602131132,
+    "tasks": 5,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0092,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "UNGROUPED_AGGREGATE(5)",
+      1,
+      0.0052,
+      0.08
+     ],
+     [
+      "HASH_GROUP_BY(1)",
+      1,
+      0.0039,
+      0.12
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(2)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_GROUP_BY(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PROJECTION(4)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_AGGREGATE(6)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(7)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 0.720000032,
+    "reserve_peak_est_GB": 0.720000032,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.360000016,
+    "batches": 3,
+    "batch_GB": 0.200000008,
+    "batch_dwell_s": {
+     "n": 3,
+     "sum": 0.0149,
+     "max": 0.0055
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-9d59-7ee6-a703-9dbe1d713b25:01a06775-9d59-7ee6-a703-9dbe1d713b29",
+    "wall_s": 0.006218033,
+    "t0": 1788442166615498113,
+    "tasks": 3,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0005,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "UNGROUPED_AGGREGATE(1)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "FILTER(3)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "MERGE_AGGREGATE(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(4)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 4.8e-08,
+    "reserve_peak_est_GB": 4.8e-08,
+    "peak_alloc_sum_GB": 2.048e-06,
+    "input_GB": 2.4e-08,
+    "batches": 2,
+    "batch_GB": 1.6e-08,
+    "batch_dwell_s": {
+     "n": 2,
+     "sum": 0.0138,
+     "max": 0.0134
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-9d59-7ee6-a703-9dbe1d713b25:01a06775-9d59-7ee6-a703-9dbe1d713b28",
+    "wall_s": 0.021769885,
+    "t0": 1788442166621538258,
+    "tasks": 9,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0002,
+     "Computing": 0.0073,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(4)",
+      1,
+      0.0038,
+      0.12
+     ],
+     [
+      "HASH_JOIN(10)",
+      1,
+      0.0029,
+      0.120000008
+     ],
+     [
+      "FILTER(7)",
+      1,
+      0.0003,
+      0.12
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(5)",
+      1,
+      0.0,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 1.440000056,
+    "reserve_peak_est_GB": 1.440000056,
+    "peak_alloc_sum_GB": 1.024e-06,
+    "input_GB": 0.720000032,
+    "batches": 4,
+    "batch_GB": 0.24,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.1004,
+     "max": 0.0483
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-9d59-7ee6-a703-9dbe1d713b25:01a06775-9d59-7ee6-a703-9dbe1d713b27",
+    "wall_s": 0.038362636,
+    "t0": 1788442166643166830,
+    "tasks": 10,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0002,
+     "Routing": 0.0,
+     "Reserving": 0.0002,
+     "Preparing": 0.0002,
+     "Computing": 0.0312,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(3)",
+      1,
+      0.0309,
+      0.745016697
+     ],
+     [
+      "HASH_JOIN(6)",
+      1,
+      0.0002,
+      0.745016913
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "PARTITION(4)",
+      1,
+      0.0,
+      0.745016913
+     ],
+     [
+      "CONCAT(5)",
+      1,
+      0.0,
+      0.745016913
+     ],
+     [
+      "PROJECTION(7)",
+      1,
+      0.0,
+      0.0
+     ]
+    ],
+    "reserve_requested_GB": 10.430235054,
+    "reserve_peak_est_GB": 10.430235054,
+    "peak_alloc_sum_GB": 5.12e-07,
+    "input_GB": 2.980067436,
+    "batches": 4,
+    "batch_GB": 0.745016913,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.0045,
+     "max": 0.0038
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 1,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-9d59-7ee6-a703-9dbe1d713b25:01a06775-9d59-7ee6-a703-9dbe1d713b26",
+    "wall_s": 0.000746498,
+    "t0": 1788442166681577658,
+    "tasks": 4,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0001,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "ORDER_BY(1)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "SORT_SAMPLE(2)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "SORT_PARTITION(3)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "MERGE_SORT(4)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "RESULT_COLLECTOR(5)",
+      1,
+      0.0,
+      0.0
+     ]
+    ],
+    "reserve_requested_GB": 0.0,
+    "reserve_peak_est_GB": 0.0,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.0,
+    "batches": 1,
+    "batch_GB": 0.0,
+    "batch_dwell_s": {
+     "n": 1,
+     "sum": 0.0003,
+     "max": 0.0003
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   }
+  ]
+ },
+ "q15.r1": {
+  "fragments": [
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-c5ba-7d45-a373-9db447bfe891:01a06775-c5ba-7d45-a373-9db447bfe898",
+    "wall_s": 4.852714931,
+    "t0": 1788442166942721909,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 61.387,
+     "Routing": 0.0001,
+     "Reserving": 0.0016,
+     "Preparing": 0.0026,
+     "Computing": 9.4091,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      8.6094,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.5619,
+      2.751355116
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.1452,
+      4.623413556
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0913,
+      2.218959664
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.0012,
+      2.218959664
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.709073376,
+    "reserve_peak_est_GB": 292.709073376,
+    "peak_alloc_sum_GB": 237.997414912,
+    "input_GB": 126.687702138,
+    "batches": 169,
+    "batch_GB": 9.713728336,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 68.9429,
+     "max": 2.4114
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-c5ba-7d45-a373-9db447bfe891:01a06775-c5ba-7d45-a373-9db447bfe897",
+    "wall_s": 2.354944385,
+    "t0": 1788442169425673437,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 58.9717,
+     "Routing": 0.0001,
+     "Reserving": 0.0015,
+     "Preparing": 0.0027,
+     "Computing": 8.9279,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      8.1731,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.5458,
+      2.751354988
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.1163,
+      4.623413172
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0914,
+      2.219320968
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.0012,
+      2.219320968
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.843043267,
+    "reserve_peak_est_GB": 292.843043267,
+    "peak_alloc_sum_GB": 237.998369792,
+    "input_GB": 126.688424746,
+    "batches": 169,
+    "batch_GB": 9.714089128,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 63.9336,
+     "max": 2.2113
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-c5ba-7d45-a373-9db447bfe891:01a06775-c5ba-7d45-a373-9db447bfe896",
+    "wall_s": 0.0085718,
+    "t0": 1788442171780495070,
+    "tasks": 5,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0042,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(1)",
+      1,
+      0.0038,
+      0.12
+     ],
+     [
+      "UNGROUPED_AGGREGATE(5)",
+      1,
+      0.0002,
+      0.08
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(2)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_GROUP_BY(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PROJECTION(4)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_AGGREGATE(6)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(7)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 0.720000032,
+    "reserve_peak_est_GB": 0.720000032,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.360000016,
+    "batches": 3,
+    "batch_GB": 0.200000008,
+    "batch_dwell_s": {
+     "n": 3,
+     "sum": 0.005,
+     "max": 0.0043
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-c5ba-7d45-a373-9db447bfe891:01a06775-c5ba-7d45-a373-9db447bfe895",
+    "wall_s": 0.006513619,
+    "t0": 1788442171788978229,
+    "tasks": 3,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0004,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "UNGROUPED_AGGREGATE(1)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "FILTER(3)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "MERGE_AGGREGATE(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(4)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 4.8e-08,
+    "reserve_peak_est_GB": 4.8e-08,
+    "peak_alloc_sum_GB": 2.048e-06,
+    "input_GB": 2.4e-08,
+    "batches": 2,
+    "batch_GB": 1.6e-08,
+    "batch_dwell_s": {
+     "n": 2,
+     "sum": 0.0122,
+     "max": 0.0118
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-c5ba-7d45-a373-9db447bfe891:01a06775-c5ba-7d45-a373-9db447bfe894",
+    "wall_s": 0.020219801,
+    "t0": 1788442171795309447,
+    "tasks": 9,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0002,
+     "Computing": 0.0053,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(4)",
+      1,
+      0.0038,
+      0.12
+     ],
+     [
+      "HASH_JOIN(10)",
+      1,
+      0.001,
+      0.120000008
+     ],
+     [
+      "FILTER(7)",
+      1,
+      0.0003,
+      0.12
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(5)",
+      1,
+      0.0,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 1.440000056,
+    "reserve_peak_est_GB": 1.440000056,
+    "peak_alloc_sum_GB": 1.792e-06,
+    "input_GB": 0.720000032,
+    "batches": 4,
+    "batch_GB": 0.240000032,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.0982,
+     "max": 0.0482
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-c5ba-7d45-a373-9db447bfe891:01a06775-c5ba-7d45-a373-9db447bfe893",
+    "wall_s": 0.038063211,
+    "t0": 1788442171815385663,
+    "tasks": 10,
+    "state_s": {
+     "Created": 0.0001,
+     "Queued": 0.0002,
+     "Routing": 0.0,
+     "Reserving": 0.0002,
+     "Preparing": 0.0002,
+     "Computing": 0.0334,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(3)",
+      1,
+      0.0267,
+      0.745016697
+     ],
+     [
+      "ORDER_BY(8)",
+      1,
+      0.005,
+      3.37e-07
+     ],
+     [
+      "HASH_JOIN(6)",
+      1,
+      0.0015,
+      0.745016925
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      1.2e-08
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      1.2e-08
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      1.2e-08
+     ],
+     [
+      "PARTITION(4)",
+      1,
+      0.0,
+      0.745016913
+     ],
+     [
+      "CONCAT(5)",
+      1,
+      0.0,
+      0.745016913
+     ]
+    ],
+    "reserve_requested_GB": 10.43023716,
+    "reserve_peak_est_GB": 10.43023716,
+    "peak_alloc_sum_GB": 4.352e-06,
+    "input_GB": 2.980068495,
+    "batches": 4,
+    "batch_GB": 0.745017928,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.0165,
+     "max": 0.0051
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 1,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-c5ba-7d45-a373-9db447bfe891:01a06775-c5ba-7d45-a373-9db447bfe892",
+    "wall_s": 0.001425764,
+    "t0": 1788442171853496970,
+    "tasks": 4,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0007,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "ORDER_BY(1)",
+      1,
+      0.0004,
+      3.37e-07
+     ],
+     [
+      "RESULT_COLLECTOR(5)",
+      1,
+      0.0003,
+      3.37e-07
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      3.37e-07
+     ],
+     [
+      "SORT_SAMPLE(2)",
+      1,
+      0.0,
+      3.37e-07
+     ],
+     [
+      "SORT_PARTITION(3)",
+      1,
+      0.0,
+      3.37e-07
+     ],
+     [
+      "MERGE_SORT(4)",
+      1,
+      0.0,
+      3.37e-07
+     ]
+    ],
+    "reserve_requested_GB": 2.696e-06,
+    "reserve_peak_est_GB": 2.696e-06,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 1.348e-06,
+    "batches": 2,
+    "batch_GB": 6.89e-07,
+    "batch_dwell_s": {
+     "n": 2,
+     "sum": 0.0006,
+     "max": 0.0005
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   }
+  ]
+ },
+ "q15.r2": {
+  "fragments": [
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-d9e6-7bbc-8395-f668a90786db:01a06775-d9e6-7bbc-8395-f668a90786e2",
+    "wall_s": 4.891576735,
+    "t0": 1788442172096947028,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 61.5166,
+     "Routing": 0.0001,
+     "Reserving": 0.0016,
+     "Preparing": 0.0024,
+     "Computing": 9.4374,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      8.6633,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.4975,
+      2.751355116
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.184,
+      4.623413556
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0915,
+      2.219275392
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.0011,
+      2.219275392
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.708876712,
+    "reserve_peak_est_GB": 292.708876712,
+    "peak_alloc_sum_GB": 237.998239744,
+    "input_GB": 126.688333594,
+    "batches": 169,
+    "batch_GB": 9.714044064,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 69.15,
+     "max": 2.443
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-d9e6-7bbc-8395-f668a90786db:01a06775-d9e6-7bbc-8395-f668a90786e1",
+    "wall_s": 2.385659192,
+    "t0": 1788442174588126642,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 60.6016,
+     "Routing": 0.0001,
+     "Reserving": 0.0016,
+     "Preparing": 0.0026,
+     "Computing": 9.1576,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      8.3362,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.5784,
+      2.751355052
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.1499,
+      4.623413364
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0916,
+      2.218699544
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.0014,
+      2.218699544
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.570055952,
+    "reserve_peak_est_GB": 292.570055952,
+    "peak_alloc_sum_GB": 237.996726016,
+    "input_GB": 126.687181898,
+    "batches": 169,
+    "batch_GB": 9.71346796,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 63.9271,
+     "max": 2.2418
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-d9e6-7bbc-8395-f668a90786db:01a06775-d9e6-7bbc-8395-f668a90786e0",
+    "wall_s": 0.008671481,
+    "t0": 1788442176973662025,
+    "tasks": 5,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0042,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(1)",
+      1,
+      0.0039,
+      0.12
+     ],
+     [
+      "UNGROUPED_AGGREGATE(5)",
+      1,
+      0.0002,
+      0.08
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(2)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_GROUP_BY(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PROJECTION(4)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_AGGREGATE(6)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(7)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 0.720000032,
+    "reserve_peak_est_GB": 0.720000032,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.360000016,
+    "batches": 3,
+    "batch_GB": 0.200000008,
+    "batch_dwell_s": {
+     "n": 3,
+     "sum": 0.0051,
+     "max": 0.0043
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-d9e6-7bbc-8395-f668a90786db:01a06775-d9e6-7bbc-8395-f668a90786df",
+    "wall_s": 0.00634181,
+    "t0": 1788442176982240193,
+    "tasks": 3,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0005,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "UNGROUPED_AGGREGATE(1)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "FILTER(3)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "MERGE_AGGREGATE(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(4)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 4.8e-08,
+    "reserve_peak_est_GB": 4.8e-08,
+    "peak_alloc_sum_GB": 2.048e-06,
+    "input_GB": 2.4e-08,
+    "batches": 2,
+    "batch_GB": 1.6e-08,
+    "batch_dwell_s": {
+     "n": 2,
+     "sum": 0.0115,
+     "max": 0.0111
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-d9e6-7bbc-8395-f668a90786db:01a06775-d9e6-7bbc-8395-f668a90786de",
+    "wall_s": 0.019268789,
+    "t0": 1788442176988393907,
+    "tasks": 9,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0002,
+     "Computing": 0.0048,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(4)",
+      1,
+      0.0038,
+      0.12
+     ],
+     [
+      "HASH_JOIN(10)",
+      1,
+      0.0005,
+      0.120000008
+     ],
+     [
+      "FILTER(7)",
+      1,
+      0.0003,
+      0.12
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(5)",
+      1,
+      0.0,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 1.440000056,
+    "reserve_peak_est_GB": 1.440000056,
+    "peak_alloc_sum_GB": 1.024e-06,
+    "input_GB": 0.720000032,
+    "batches": 4,
+    "batch_GB": 0.24,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.0865,
+     "max": 0.0426
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-d9e6-7bbc-8395-f668a90786db:01a06775-d9e6-7bbc-8395-f668a90786dd",
+    "wall_s": 0.033037981,
+    "t0": 1788442177007505480,
+    "tasks": 10,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0002,
+     "Routing": 0.0,
+     "Reserving": 0.0002,
+     "Preparing": 0.0002,
+     "Computing": 0.0283,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(3)",
+      1,
+      0.0279,
+      0.745016697
+     ],
+     [
+      "HASH_JOIN(6)",
+      1,
+      0.0002,
+      0.745016913
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "PARTITION(4)",
+      1,
+      0.0,
+      0.745016913
+     ],
+     [
+      "CONCAT(5)",
+      1,
+      0.0,
+      0.745016913
+     ],
+     [
+      "PROJECTION(7)",
+      1,
+      0.0,
+      0.0
+     ]
+    ],
+    "reserve_requested_GB": 10.430235054,
+    "reserve_peak_est_GB": 10.430235054,
+    "peak_alloc_sum_GB": 5.12e-07,
+    "input_GB": 2.980067436,
+    "batches": 4,
+    "batch_GB": 0.745016913,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.005,
+     "max": 0.0042
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 1,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-d9e6-7bbc-8395-f668a90786db:01a06775-d9e6-7bbc-8395-f668a90786dc",
+    "wall_s": 0.00083869,
+    "t0": 1788442177040592997,
+    "tasks": 4,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0001,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "ORDER_BY(1)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "SORT_SAMPLE(2)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "SORT_PARTITION(3)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "MERGE_SORT(4)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "RESULT_COLLECTOR(5)",
+      1,
+      0.0,
+      0.0
+     ]
+    ],
+    "reserve_requested_GB": 0.0,
+    "reserve_peak_est_GB": 0.0,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.0,
+    "batches": 1,
+    "batch_GB": 0.0,
+    "batch_dwell_s": {
+     "n": 1,
+     "sum": 0.0003,
+     "max": 0.0003
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   }
+  ]
+ },
+ "q15.r3": {
+  "fragments": [
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-ee28-7a58-9dc9-f56445f7eb86:01a06775-ee28-7a58-9dc9-f56445f7eb8d",
+    "wall_s": 4.713192875,
+    "t0": 1788442177282040041,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 60.2561,
+     "Routing": 0.0001,
+     "Reserving": 0.0016,
+     "Preparing": 0.0029,
+     "Computing": 9.1254,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      8.3095,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.6146,
+      2.751354924
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.1088,
+      4.62341298
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0915,
+      2.219145276
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.001,
+      2.219145276
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.57006414,
+    "reserve_peak_est_GB": 292.57006414,
+    "peak_alloc_sum_GB": 237.997914368,
+    "input_GB": 126.688073362,
+    "batches": 169,
+    "batch_GB": 9.71391318,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 66.2031,
+     "max": 2.3464
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-ee28-7a58-9dc9-f56445f7eb86:01a06775-ee28-7a58-9dc9-f56445f7eb8c",
+    "wall_s": 2.289628235,
+    "t0": 1788442179691001345,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 57.3067,
+     "Routing": 0.0001,
+     "Reserving": 0.0016,
+     "Preparing": 0.0027,
+     "Computing": 8.7853,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      7.9675,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.5932,
+      2.751354988
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.132,
+      4.623413172
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0914,
+      2.218689236
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.001,
+      2.218689236
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.576925556,
+    "reserve_peak_est_GB": 292.576925556,
+    "peak_alloc_sum_GB": 237.996704256,
+    "input_GB": 126.687161282,
+    "batches": 169,
+    "batch_GB": 9.713457396,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 62.2231,
+     "max": 2.1671
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-ee28-7a58-9dc9-f56445f7eb86:01a06775-ee28-7a58-9dc9-f56445f7eb8b",
+    "wall_s": 0.008629272,
+    "t0": 1788442181980510667,
+    "tasks": 5,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0042,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(1)",
+      1,
+      0.0038,
+      0.12
+     ],
+     [
+      "UNGROUPED_AGGREGATE(5)",
+      1,
+      0.0002,
+      0.08
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(2)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_GROUP_BY(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PROJECTION(4)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_AGGREGATE(6)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(7)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 0.720000032,
+    "reserve_peak_est_GB": 0.720000032,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.360000016,
+    "batches": 3,
+    "batch_GB": 0.200000008,
+    "batch_dwell_s": {
+     "n": 3,
+     "sum": 0.0051,
+     "max": 0.0043
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-ee28-7a58-9dc9-f56445f7eb86:01a06775-ee28-7a58-9dc9-f56445f7eb8a",
+    "wall_s": 0.006241778,
+    "t0": 1788442181989047011,
+    "tasks": 3,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0004,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "UNGROUPED_AGGREGATE(1)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "FILTER(3)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "MERGE_AGGREGATE(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(4)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 4.8e-08,
+    "reserve_peak_est_GB": 4.8e-08,
+    "peak_alloc_sum_GB": 2.048e-06,
+    "input_GB": 2.4e-08,
+    "batches": 2,
+    "batch_GB": 1.6e-08,
+    "batch_dwell_s": {
+     "n": 2,
+     "sum": 0.0114,
+     "max": 0.011
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-ee28-7a58-9dc9-f56445f7eb86:01a06775-ee28-7a58-9dc9-f56445f7eb89",
+    "wall_s": 0.01935743,
+    "t0": 1788442181995111668,
+    "tasks": 9,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0002,
+     "Computing": 0.0048,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(4)",
+      1,
+      0.0038,
+      0.12
+     ],
+     [
+      "HASH_JOIN(10)",
+      1,
+      0.0005,
+      0.120000008
+     ],
+     [
+      "FILTER(7)",
+      1,
+      0.0003,
+      0.12
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(5)",
+      1,
+      0.0,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 1.440000056,
+    "reserve_peak_est_GB": 1.440000056,
+    "peak_alloc_sum_GB": 1.024e-06,
+    "input_GB": 0.720000032,
+    "batches": 4,
+    "batch_GB": 0.24,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.0853,
+     "max": 0.042
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-ee28-7a58-9dc9-f56445f7eb86:01a06775-ee28-7a58-9dc9-f56445f7eb88",
+    "wall_s": 0.03206873,
+    "t0": 1788442182014334698,
+    "tasks": 10,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0002,
+     "Routing": 0.0,
+     "Reserving": 0.0002,
+     "Preparing": 0.0002,
+     "Computing": 0.0276,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(3)",
+      1,
+      0.0272,
+      0.745016697
+     ],
+     [
+      "HASH_JOIN(6)",
+      1,
+      0.0002,
+      0.745016913
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "PARTITION(4)",
+      1,
+      0.0,
+      0.745016913
+     ],
+     [
+      "CONCAT(5)",
+      1,
+      0.0,
+      0.745016913
+     ],
+     [
+      "PROJECTION(7)",
+      1,
+      0.0,
+      0.0
+     ]
+    ],
+    "reserve_requested_GB": 10.430235054,
+    "reserve_peak_est_GB": 10.430235054,
+    "peak_alloc_sum_GB": 5.12e-07,
+    "input_GB": 2.980067436,
+    "batches": 4,
+    "batch_GB": 0.745016913,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.0047,
+     "max": 0.004
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 1,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06775-ee28-7a58-9dc9-f56445f7eb86:01a06775-ee28-7a58-9dc9-f56445f7eb87",
+    "wall_s": 0.000811938,
+    "t0": 1788442182046451716,
+    "tasks": 4,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0001,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "ORDER_BY(1)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "SORT_SAMPLE(2)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "SORT_PARTITION(3)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "MERGE_SORT(4)",
+      1,
+      0.0,
+      0.0
+     ],
+     [
+      "RESULT_COLLECTOR(5)",
+      1,
+      0.0,
+      0.0
+     ]
+    ],
+    "reserve_requested_GB": 0.0,
+    "reserve_peak_est_GB": 0.0,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.0,
+    "batches": 1,
+    "batch_GB": 0.0,
+    "batch_dwell_s": {
+     "n": 1,
+     "sum": 0.0003,
+     "max": 0.0003
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   }
+  ]
+ },
+ "q15.r4": {
+  "fragments": [
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-01b7-718c-ac5a-8ce664414ed5:01a06776-01b7-718c-ac5a-8ce664414edc",
+    "wall_s": 4.592281657,
+    "t0": 1788442182280676500,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 59.0411,
+     "Routing": 0.0001,
+     "Reserving": 0.0033,
+     "Preparing": 0.0031,
+     "Computing": 8.9553,
+     "Finalizing": 0.0002,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      8.1444,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.6128,
+      2.751354988
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.1055,
+      4.623413172
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0914,
+      2.219127924
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.0012,
+      2.219127924
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.574927217,
+    "reserve_peak_est_GB": 292.574927217,
+    "peak_alloc_sum_GB": 237.997859328,
+    "input_GB": 126.688038658,
+    "batches": 169,
+    "batch_GB": 9.713896084,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 65.2632,
+     "max": 2.2658
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-01b7-718c-ac5a-8ce664414ed5:01a06776-01b7-718c-ac5a-8ce664414edb",
+    "wall_s": 2.208712392,
+    "t0": 1788442184649737436,
+    "tasks": 113,
+    "state_s": {
+     "Created": 0.0004,
+     "Queued": 55.5805,
+     "Routing": 0.0001,
+     "Reserving": 0.0016,
+     "Preparing": 0.0025,
+     "Computing": 8.4579,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(0)",
+      56,
+      7.6784,
+      122.24978281
+     ],
+     [
+      "HASH_GROUP_BY(2)",
+      56,
+      0.5994,
+      2.75135486
+     ],
+     [
+      "MERGE_GROUP_BY(4)",
+      1,
+      0.0915,
+      2.218865348
+     ],
+     [
+      "PROJECTION(1)",
+      56,
+      0.0872,
+      4.623412788
+     ],
+     [
+      "PARTITION(3)",
+      56,
+      0.0014,
+      2.218865348
+     ],
+     [
+      "STREAMING_SINK(5)",
+      1,
+      0.0001,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 292.574080513,
+    "reserve_peak_est_GB": 292.574080513,
+    "peak_alloc_sum_GB": 237.997165312,
+    "input_GB": 126.687513506,
+    "batches": 169,
+    "batch_GB": 9.713632996,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 59.7009,
+     "max": 2.0941
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 56,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-01b7-718c-ac5a-8ce664414ed5:01a06776-01b7-718c-ac5a-8ce664414eda",
+    "wall_s": 0.008491,
+    "t0": 1788442186858330116,
+    "tasks": 5,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0042,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(1)",
+      1,
+      0.0038,
+      0.12
+     ],
+     [
+      "UNGROUPED_AGGREGATE(5)",
+      1,
+      0.0002,
+      0.08
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(2)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_GROUP_BY(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PROJECTION(4)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "MERGE_AGGREGATE(6)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(7)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 0.720000032,
+    "reserve_peak_est_GB": 0.720000032,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.360000016,
+    "batches": 3,
+    "batch_GB": 0.200000008,
+    "batch_dwell_s": {
+     "n": 3,
+     "sum": 0.0049,
+     "max": 0.0042
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-01b7-718c-ac5a-8ce664414ed5:01a06776-01b7-718c-ac5a-8ce664414ed9",
+    "wall_s": 0.006279634,
+    "t0": 1788442186866732411,
+    "tasks": 3,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0,
+     "Routing": 0.0,
+     "Reserving": 0.0,
+     "Preparing": 0.0001,
+     "Computing": 0.0004,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "UNGROUPED_AGGREGATE(1)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "FILTER(3)",
+      1,
+      0.0002,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "MERGE_AGGREGATE(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SINK(4)",
+      1,
+      0.0,
+      8e-09
+     ]
+    ],
+    "reserve_requested_GB": 4.8e-08,
+    "reserve_peak_est_GB": 4.8e-08,
+    "peak_alloc_sum_GB": 2.048e-06,
+    "input_GB": 2.4e-08,
+    "batches": 2,
+    "batch_GB": 1.6e-08,
+    "batch_dwell_s": {
+     "n": 2,
+     "sum": 0.012,
+     "max": 0.0116
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-01b7-718c-ac5a-8ce664414ed5:01a06776-01b7-718c-ac5a-8ce664414ed8",
+    "wall_s": 0.019789016,
+    "t0": 1788442186872815468,
+    "tasks": 9,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0002,
+     "Computing": 0.0053,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "HASH_GROUP_BY(4)",
+      1,
+      0.0039,
+      0.12
+     ],
+     [
+      "HASH_JOIN(10)",
+      1,
+      0.001,
+      0.120000008
+     ],
+     [
+      "FILTER(7)",
+      1,
+      0.0003,
+      0.12
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      8e-09
+     ],
+     [
+      "STREAMING_SOURCE(3)",
+      1,
+      0.0,
+      0.12
+     ],
+     [
+      "PARTITION(5)",
+      1,
+      0.0,
+      0.12
+     ]
+    ],
+    "reserve_requested_GB": 1.440000056,
+    "reserve_peak_est_GB": 1.440000056,
+    "peak_alloc_sum_GB": 1.792e-06,
+    "input_GB": 0.720000032,
+    "batches": 4,
+    "batch_GB": 0.240000032,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.0882,
+     "max": 0.0432
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-01b7-718c-ac5a-8ce664414ed5:01a06776-01b7-718c-ac5a-8ce664414ed7",
+    "wall_s": 0.033366174,
+    "t0": 1788442186892467363,
+    "tasks": 10,
+    "state_s": {
+     "Created": 0.0001,
+     "Queued": 0.0002,
+     "Routing": 0.0,
+     "Reserving": 0.0002,
+     "Preparing": 0.0002,
+     "Computing": 0.0289,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(3)",
+      1,
+      0.027,
+      0.745016697
+     ],
+     [
+      "HASH_JOIN(6)",
+      1,
+      0.0014,
+      0.745016925
+     ],
+     [
+      "ORDER_BY(8)",
+      1,
+      0.0004,
+      3.37e-07
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      1.2e-08
+     ],
+     [
+      "PARTITION(1)",
+      1,
+      0.0,
+      1.2e-08
+     ],
+     [
+      "CONCAT(2)",
+      1,
+      0.0,
+      1.2e-08
+     ],
+     [
+      "PARTITION(4)",
+      1,
+      0.0,
+      0.745016913
+     ],
+     [
+      "CONCAT(5)",
+      1,
+      0.0,
+      0.745016913
+     ]
+    ],
+    "reserve_requested_GB": 10.43023716,
+    "reserve_peak_est_GB": 10.43023716,
+    "peak_alloc_sum_GB": 4.352e-06,
+    "input_GB": 2.980068495,
+    "batches": 4,
+    "batch_GB": 0.745017928,
+    "batch_dwell_s": {
+     "n": 4,
+     "sum": 0.0068,
+     "max": 0.0043
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 1,
+     "bytes": 0,
+     "ns": 0
+    }
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-01b7-718c-ac5a-8ce664414ed5:01a06776-01b7-718c-ac5a-8ce664414ed6",
+    "wall_s": 0.001424132,
+    "t0": 1788442186925879169,
+    "tasks": 4,
+    "state_s": {
+     "Created": 0.0,
+     "Queued": 0.0001,
+     "Routing": 0.0,
+     "Reserving": 0.0001,
+     "Preparing": 0.0001,
+     "Computing": 0.0007,
+     "Finalizing": 0.0,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "ORDER_BY(1)",
+      1,
+      0.0004,
+      3.37e-07
+     ],
+     [
+      "RESULT_COLLECTOR(5)",
+      1,
+      0.0003,
+      3.37e-07
+     ],
+     [
+      "STREAMING_SOURCE(0)",
+      1,
+      0.0,
+      3.37e-07
+     ],
+     [
+      "SORT_SAMPLE(2)",
+      1,
+      0.0,
+      3.37e-07
+     ],
+     [
+      "SORT_PARTITION(3)",
+      1,
+      0.0,
+      3.37e-07
+     ],
+     [
+      "MERGE_SORT(4)",
+      1,
+      0.0,
+      3.37e-07
+     ]
+    ],
+    "reserve_requested_GB": 2.696e-06,
+    "reserve_peak_est_GB": 2.696e-06,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 1.348e-06,
+    "batches": 2,
+    "batch_GB": 6.89e-07,
+    "batch_dwell_s": {
+     "n": 2,
+     "sum": 0.0007,
+     "max": 0.0005
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   }
+  ]
+ },
+ "q15.r5": {
+  "fragments": [
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-14c7-78f8-ac03-84c632921ca0:01a06776-14c7-78f8-ac03-84c632921ca7",
+    "wall_s": 8.6305e-05,
+    "t0": 1788442187169614411,
+    "tasks": 0,
+    "state_s": {},
+    "top_ops": [],
+    "reserve_requested_GB": 0.0,
+    "reserve_peak_est_GB": 0.0,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.0,
+    "batches": 0,
+    "batch_GB": 0.0,
+    "batch_dwell_s": {
+     "n": 0,
+     "sum": 0,
+     "max": 0
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-14c7-78f8-ac03-84c632921ca0:01a06776-14c7-78f8-ac03-84c632921ca6",
+    "wall_s": 2.225270166,
+    "t0": 1788442189448476696,
+    "tasks": 0,
+    "state_s": {},
+    "top_ops": [],
+    "reserve_requested_GB": 0.0,
+    "reserve_peak_est_GB": 0.0,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.0,
+    "batches": 0,
+    "batch_GB": 0.0,
+    "batch_dwell_s": {
+     "n": 0,
+     "sum": 0,
+     "max": 0
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-14c7-78f8-ac03-84c632921ca0:01a06776-14c7-78f8-ac03-84c632921ca5",
+    "wall_s": 0.008575832,
+    "t0": 1788442191673629390,
+    "tasks": 0,
+    "state_s": {},
+    "top_ops": [],
+    "reserve_requested_GB": 0.0,
+    "reserve_peak_est_GB": 0.0,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.0,
+    "batches": 0,
+    "batch_GB": 0.0,
+    "batch_dwell_s": {
+     "n": 0,
+     "sum": 0,
+     "max": 0
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   },
+   {
+    "cn": ".cn0",
+    "session": "299290cf45d8",
+    "label": "01a06776-14c7-78f8-ac03-84c632921ca0:01a06776-14c7-78f8-ac03-84c632921ca4",
+    "wall_s": 0.000118337,
+    "t0": 1788442191682116421,
+    "tasks": 0,
+    "state_s": {},
+    "top_ops": [],
+    "reserve_requested_GB": 0.0,
+    "reserve_peak_est_GB": 0.0,
+    "peak_alloc_sum_GB": 0.0,
+    "input_GB": 0.0,
+    "batches": 0,
+    "batch_GB": 0.0,
+    "batch_dwell_s": {
+     "n": 0,
+     "sum": 0,
+     "max": 0
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": null
+   }
+  ]
+ },
+ "_session_.cn0_299290cf45d8": {
+  "hops": {
+   "stream_relayed": [
+    36,
+    1.440000794
+   ]
+  },
+  "leases_total": 0,
+  "lease_max_concurrent": 0
+ }
+}

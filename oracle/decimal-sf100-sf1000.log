@@ -1,0 +1,5 @@
+q01 ok rows=4 1.5s
+q06 ok rows=1 0.1s
+q01 ok rows=4 50.4s
+q06 ok rows=1 20.6s
+done 05:40:07

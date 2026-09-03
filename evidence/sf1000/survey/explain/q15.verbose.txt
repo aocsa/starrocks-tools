@@ -1,0 +1,183 @@
+Explain String
+RESOURCE GROUP: default_wg
+
+PLAN COST
+  CPU: 446.0
+  Memory: 277.6
+
+PLAN FRAGMENT 0(F08)
+  Fragment Cost: 288.0
+  Output Exprs:19: s_suppkey | 20: s_name | 21: s_address | 23: s_phone | 43: sum
+  Input Partition: UNPARTITIONED
+  RESULT SINK
+
+  22:MERGING-EXCHANGE
+     distribution type: GATHER
+     cardinality: 1
+
+PLAN FRAGMENT 1(F00)
+  Fragment Cost: 790.2
+
+  Input Partition: RANDOM
+  OutPut Partition: UNPARTITIONED
+  OutPut Exchange Id: 22
+
+  21:SORT
+  |  order by: [19, INT, true] ASC
+  |  offset: 0
+  |  cardinality: 1
+  |  
+  20:Project
+  |  output columns:
+  |  19 <-> [19: s_suppkey, INT, true]
+  |  20 <-> [20: s_name, VARCHAR(1048576), true]
+  |  21 <-> [21: s_address, VARCHAR(1048576), true]
+  |  23 <-> [23: s_phone, VARCHAR(1048576), true]
+  |  43 <-> [43: sum, DECIMAL128(38,4), true]
+  |  cardinality: 1
+  |  
+  19:HASH JOIN
+  |  join op: INNER JOIN (BROADCAST)
+  |  equal join conjunct: [19: s_suppkey, INT, true] = [28: l_suppkey, INT, true]
+  |  build runtime filters:
+  |  - filter_id = 1, build_expr = (28: l_suppkey), remote = false
+  |  output columns: 19, 20, 21, 23, 43
+  |  can local shuffle: false
+  |  cardinality: 1
+  |  
+  |----18:EXCHANGE
+  |       distribution type: BROADCAST
+  |       cardinality: 1
+  |    
+  0:FileScanNode
+     BROKER: 
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 1, probe_expr = (19: s_suppkey)
+
+PLAN FRAGMENT 2(F02)
+  Fragment Cost: 178.0
+
+  Input Partition: HASH_PARTITIONED: 28: l_suppkey
+  OutPut Partition: UNPARTITIONED
+  OutPut Exchange Id: 18
+
+  17:Project
+  |  output columns:
+  |  28 <-> [28: l_suppkey, INT, true]
+  |  43 <-> [43: sum, DECIMAL128(38,4), true]
+  |  cardinality: 1
+  |  
+  16:HASH JOIN
+  |  join op: INNER JOIN (BROADCAST)
+  |  equal join conjunct: [43: sum, DECIMAL128(38,4), true] = [62: max, DECIMAL128(38,4), true]
+  |  build runtime filters:
+  |  - filter_id = 0, build_expr = (62: max), remote = false
+  |  output columns: 28, 43
+  |  can local shuffle: true
+  |  cardinality: 1
+  |  
+  |----15:EXCHANGE
+  |       distribution type: BROADCAST
+  |       cardinality: 1
+  |    
+  5:AGGREGATE (merge finalize)
+  |  aggregate: sum[([43: sum, DECIMAL128(38,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  group by: [28: l_suppkey, INT, true]
+  |  having: [43: sum, DECIMAL128(38,4), true] IS NOT NULL
+  |  cardinality: 1
+  |  probe runtime filters:
+  |  - filter_id = 0, probe_expr = (43: sum)
+  |  
+  4:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [28: l_suppkey, INT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 3(F05)
+  Fragment Cost: 71.99999999999999
+
+  Input Partition: UNPARTITIONED
+  OutPut Partition: UNPARTITIONED
+  OutPut Exchange Id: 15
+
+  14:AGGREGATE (merge finalize)
+  |  aggregate: max[([62: max, DECIMAL128(38,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  having: [62: max, DECIMAL128(38,4), true] IS NOT NULL
+  |  cardinality: 1
+  |  
+  13:EXCHANGE
+     distribution type: GATHER
+     cardinality: 1
+
+PLAN FRAGMENT 4(F04)
+  Fragment Cost: 58.2
+
+  Input Partition: HASH_PARTITIONED: 46: l_suppkey
+  OutPut Partition: UNPARTITIONED
+  OutPut Exchange Id: 13
+
+  12:AGGREGATE (update serialize)
+  |  aggregate: max[([61: sum, DECIMAL128(38,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  cardinality: 1
+  |  
+  11:Project
+  |  output columns:
+  |  61 <-> [61: sum, DECIMAL128(38,4), true]
+  |  cardinality: 1
+  |  
+  10:AGGREGATE (merge finalize)
+  |  aggregate: sum[([61: sum, DECIMAL128(38,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  group by: [46: l_suppkey, INT, true]
+  |  cardinality: 1
+  |  
+  9:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [46: l_suppkey, INT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 5(F03)
+  Fragment Cost: 6.0
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 46: l_suppkey
+  OutPut Exchange Id: 09
+
+  8:AGGREGATE (update serialize)
+  |  STREAMING
+  |  aggregate: sum[([60: expr, DECIMAL128(31,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  group by: [46: l_suppkey, INT, true]
+  |  cardinality: 1
+  |  
+  7:Project
+  |  output columns:
+  |  46 <-> [46: l_suppkey, INT, true]
+  |  60 <-> cast([49: l_extendedprice, DECIMAL64(15,2), true] as DECIMAL128(15,2)) * cast(1 - [50: l_discount, DECIMAL64(15,2), true] as DECIMAL128(16,2))
+  |  cardinality: 1
+  |  
+  6:FileScanNode
+     BROKER: 
+     cardinality: 1
+
+PLAN FRAGMENT 6(F01)
+  Fragment Cost: 6.0
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 28: l_suppkey
+  OutPut Exchange Id: 04
+
+  3:AGGREGATE (update serialize)
+  |  STREAMING
+  |  aggregate: sum[([42: expr, DECIMAL128(31,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  group by: [28: l_suppkey, INT, true]
+  |  cardinality: 1
+  |  
+  2:Project
+  |  output columns:
+  |  28 <-> [28: l_suppkey, INT, true]
+  |  42 <-> cast([31: l_extendedprice, DECIMAL64(15,2), true] as DECIMAL128(15,2)) * cast(1 - [32: l_discount, DECIMAL64(15,2), true] as DECIMAL128(16,2))
+  |  cardinality: 1
+  |  
+  1:FileScanNode
+     BROKER: 
+     cardinality: 1

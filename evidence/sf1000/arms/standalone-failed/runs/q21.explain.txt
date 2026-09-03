@@ -1,0 +1,136 @@
+┌─────────────────┐
+│      TOP_N      │
+│    ──────────   │
+│     Top: 100    │
+│                 │
+│    Order By:    │
+│count_star() DESC│
+│ supplier.s_name │
+│        ASC      │
+└────────┬────────┘
+┌────────┴────────┐
+│  HASH_GROUP_BY  │
+│    ──────────   │
+│    Groups: #0   │
+│                 │
+│   Aggregates:   │
+│   count_star()  │
+│                 │
+│ ~1,746,753 rows │
+└────────┬────────┘
+┌────────┴────────┐
+│    PROJECTION   │
+│    ──────────   │
+│      s_name     │
+│                 │
+│ ~1,919,785 rows │
+└────────┬────────┘
+┌────────┴────────┐
+│ RIGHT_DELIM_JOIN│
+│    ──────────   │
+│    Join Type:   │
+│    RIGHT_ANTI   │
+│                 │
+│   Conditions:   │
+│ l_suppkey IS NOT│
+│   DISTINCT FROM │
+│     l_suppkey   ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬────────────────────────────────────────────────────────┐
+│  l_orderkey IS  │                                                                                                                                              │                                                        │
+│   NOT DISTINCT  │                                                                                                                                              │                                                        │
+│  FROM l_orderkey│                                                                                                                                              │                                                        │
+│                 │                                                                                                                                              │                                                        │
+│                 │                                                                                                                                              │                                                        │
+│                 │                                                                                                                                              │                                                        │
+│   Delim Index:  │                                                                                                                                              │                                                        │
+│        2        │                                                                                                                                              │                                                        │
+└────────┬────────┘                                                                                                                                              │                                                        │
+┌────────┴────────┐                                                                                                                                     ┌────────┴────────┐                                      ┌────────┴────────┐
+│ RIGHT_DELIM_JOIN│                                                                                                                                     │    HASH_JOIN    │                                      │  HASH_GROUP_BY  │
+│    ──────────   │                                                                                                                                     │    ──────────   │                                      │    ──────────   │
+│    Join Type:   │                                                                                                                                     │    Join Type:   │                                      │     Groups:     │
+│    RIGHT_SEMI   │                                                                                                                                     │    RIGHT_ANTI   │                                      │        #1       │
+│                 │                                                                                                                                     │                 │                                      │        #0       │
+│   Conditions:   │                                                                                                                                     │   Conditions:   │                                      │                 │
+│ l_suppkey IS NOT│                                                                                                                                     │ l_suppkey IS NOT│                                      │                 │
+│   DISTINCT FROM │                                                                                                                                     │   DISTINCT FROM │                                      │                 │
+│     l_suppkey   ├──────────────────────────────────────────────────────────────────┬────────────────────────────────────────────────────────┐         │     l_suppkey   ├────────────────────────────┐         │                 │
+│  l_orderkey IS  │                                                                  │                                                        │         │  l_orderkey IS  │                            │         │                 │
+│   NOT DISTINCT  │                                                                  │                                                        │         │   NOT DISTINCT  │                            │         │                 │
+│  FROM l_orderkey│                                                                  │                                                        │         │  FROM l_orderkey│                            │         │                 │
+│                 │                                                                  │                                                        │         │                 │                            │         │                 │
+│                 │                                                                  │                                                        │         │                 │                            │         │                 │
+│                 │                                                                  │                                                        │         │                 │                            │         │                 │
+│   Delim Index:  │                                                                  │                                                        │         │                 │                            │         │                 │
+│        1        │                                                                  │                                                        │         │ ~1,919,785 rows │                            │         │ ~9,598,927 rows │
+└────────┬────────┘                                                                  │                                                        │         └────────┬────────┘                            │         └─────────────────┘
+┌────────┴────────┐                                                         ┌────────┴────────┐                                      ┌────────┴────────┐┌────────┴────────┐                   ┌────────┴────────┐
+│    HASH_JOIN    │                                                         │    HASH_JOIN    │                                      │  HASH_GROUP_BY  ││    PROJECTION   │                   │    DUMMY_SCAN   │
+│    ──────────   │                                                         │    ──────────   │                                      │    ──────────   ││    ──────────   │                   │                 │
+│    Join Type:   │                                                         │    Join Type:   │                                      │     Groups:     ││    l_suppkey    │                   │                 │
+│      INNER      │                                                         │    RIGHT_SEMI   │                                      │        #1       ││    l_orderkey   │                   │                 │
+│                 │                                                         │                 │                                      │        #0       ││                 │                   │                 │
+│   Conditions:   │                                                         │   Conditions:   │                                      │                 ││                 │                   │                 │
+│   l_suppkey =   │                                                         │ l_suppkey IS NOT│                                      │                 ││                 │                   │                 │
+│     s_suppkey   ├────────────────────────────┐                            │   DISTINCT FROM ├────────────────────────────┐         │                 ││                 │                   │                 │
+│                 │                            │                            │     l_suppkey   │                            │         │                 ││                 │                   │                 │
+│                 │                            │                            │  l_orderkey IS  │                            │         │                 ││                 │                   │                 │
+│                 │                            │                            │   NOT DISTINCT  │                            │         │                 ││                 │                   │                 │
+│                 │                            │                            │  FROM l_orderkey│                            │         │                 ││                 │                   │                 │
+│                 │                            │                            │                 │                            │         │                 ││                 │                   │                 │
+│ ~47,994,641 rows│                            │                            │ ~9,598,928 rows │                            │         │ ~47,994,628 rows││~248,135,433...  │                   │                 │
+└────────┬────────┘                            │                            └────────┬────────┘                            │         └─────────────────┘└────────┬────────┘                   └─────────────────┘
+┌────────┴────────┐                   ┌────────┴────────┐                   ┌────────┴────────┐                   ┌────────┴────────┐                   ┌────────┴────────┐
+│    HASH_JOIN    │                   │    HASH_JOIN    │                   │    PROJECTION   │                   │    DUMMY_SCAN   │                   │    HASH_JOIN    │
+│    ──────────   │                   │    ──────────   │                   │    ──────────   │                   │                 │                   │    ──────────   │
+│    Join Type:   │                   │    Join Type:   │                   │    l_suppkey    │                   │                 │                   │    Join Type:   │
+│      INNER      │                   │      INNER      │                   │    l_orderkey   │                   │                 │                   │      INNER      │
+│                 │                   │                 │                   │                 │                   │                 │                   │                 │
+│   Conditions:   │                   │   Conditions:   │                   │                 │                   │                 │                   │   Conditions:   │
+│   l_orderkey =  ├─────────┐         │  s_nationkey =  ├─────────┐         │                 │                   │                 │                   │   l_orderkey =  ├─────────┐
+│    o_orderkey   │         │         │    n_nationkey  │         │         │                 │                   │                 │                   │    l_orderkey   │         │
+│                 │         │         │                 │         │         │                 │                   │                 │                   │   l_suppkey !=  │         │
+│                 │         │         │                 │         │         │                 │                   │                 │                   │     l_suppkey   │         │
+│                 │         │         │                 │         │         │                 │                   │                 │                   │                 │         │
+│~239,973,208 rows│         │         │ ~2,000,000 rows │         │         │~6,203,384,9...  │                   │                 │                   │~248,135,433...  │         │
+└────────┬────────┘         │         └────────┬────────┘         │         └────────┬────────┘                   └─────────────────┘                   └────────┬────────┘         │
+┌────────┴────────┐┌────────┴────────┐┌────────┴────────┐┌────────┴────────┐┌────────┴────────┐                                                         ┌────────┴────────┐┌────────┴────────┐
+│    PROJECTION   ││   READ_PARQUET  ││   READ_PARQUET  ││   READ_PARQUET  ││    HASH_JOIN    │                                                         │    PROJECTION   ││    DELIM_SCAN   │
+│    ──────────   ││    ──────────   ││    ──────────   ││    ──────────   ││    ──────────   │                                                         │    ──────────   ││    ──────────   │
+│        #0       ││    Function:    ││    Function:    ││    Function:    ││    Join Type:   │                                                         │        #0       ││   Delim Index:  │
+│        #1       ││   READ_PARQUET  ││   READ_PARQUET  ││   READ_PARQUET  ││      INNER      │                                                         │        #1       ││        2        │
+│                 ││                 ││                 ││                 ││                 │                                                         │                 ││                 │
+│                 ││   Projections:  ││   Projections:  ││   Projections:  ││   Conditions:   │                                                         │                 ││                 │
+│                 ││    o_orderkey   ││    s_suppkey    ││   n_nationkey   ││   l_orderkey =  ├─────────┐                                               │                 ││                 │
+│                 ││                 ││      s_name     ││                 ││    l_orderkey   │         │                                               │                 ││                 │
+│                 ││     Filters:    ││   s_nationkey   ││     Filters:    ││   l_suppkey !=  │         │                                               │                 ││                 │
+│                 ││o_orderstatus='F'││                 ││  n_name='SAUDI  ││     l_suppkey   │         │                                               │                 ││                 │
+│                 ││                 ││                 ││      ARABIA'    ││                 │         │                                               │                 ││                 │
+│                 ││                 ││                 ││                 ││                 │         │                                               │                 ││                 │
+│~1,199,866,0...  ││~308,087,214 rows││ ~10,000,000 rows││     ~5 rows     ││~6,203,384,9...  │         │                                               │~1,199,866,0...  ││ ~9,598,927 rows │
+└────────┬────────┘└─────────────────┘└─────────────────┘└─────────────────┘└────────┬────────┘         │                                               └────────┬────────┘└─────────────────┘
+┌────────┴────────┐                                                         ┌────────┴────────┐┌────────┴────────┐                                      ┌────────┴────────┐
+│      FILTER     │                                                         │   READ_PARQUET  ││    DELIM_SCAN   │                                      │      FILTER     │
+│    ──────────   │                                                         │    ──────────   ││    ──────────   │                                      │    ──────────   │
+│ (l_receiptdate >│                                                         │    Function:    ││   Delim Index:  │                                      │ (l_receiptdate >│
+│   l_commitdate) │                                                         │   READ_PARQUET  ││        1        │                                      │   l_commitdate) │
+│                 │                                                         │                 ││                 │                                      │                 │
+│                 │                                                         │   Projections:  ││                 │                                      │                 │
+│                 │                                                         │    l_orderkey   ││                 │                                      │                 │
+│                 │                                                         │    l_suppkey    ││                 │                                      │                 │
+│                 │                                                         │                 ││                 │                                      │                 │
+│~1,199,866,0...  │                                                         │~5,999,330,2...  ││ ~47,994,628 rows│                                      │~1,199,866,0...  │
+└────────┬────────┘                                                         └─────────────────┘└─────────────────┘                                      └────────┬────────┘
+┌────────┴────────┐                                                                                                                                     ┌────────┴────────┐
+│   READ_PARQUET  │                                                                                                                                     │   READ_PARQUET  │
+│    ──────────   │                                                                                                                                     │    ──────────   │
+│    Function:    │                                                                                                                                     │    Function:    │
+│   READ_PARQUET  │                                                                                                                                     │   READ_PARQUET  │
+│                 │                                                                                                                                     │                 │
+│   Projections:  │                                                                                                                                     │   Projections:  │
+│    l_orderkey   │                                                                                                                                     │    l_orderkey   │
+│    l_suppkey    │                                                                                                                                     │    l_suppkey    │
+│   l_commitdate  │                                                                                                                                     │   l_commitdate  │
+│  l_receiptdate  │                                                                                                                                     │  l_receiptdate  │
+│                 │                                                                                                                                     │                 │
+│~5,999,330,2...  │                                                                                                                                     │~5,999,330,2...  │
+└─────────────────┘                                                                                                                                     └─────────────────┘

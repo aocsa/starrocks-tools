@@ -1,0 +1,120 @@
+trace sf1000-4cn-warm.json: 4 CN sessions, executor threads {0: 4, 1: 4, 2: 4, 3: 4}, 8 runs
+constants (ms): build_ms=20.0, build_recv_ms=2.0, teardown_ms=3.0, drain_ms=3.0, dispatch_ms=1.0, barrier_ms=0.1, fe_phase_gap_ms=2.0, fe_overhead_ms=175.0, nixl_gbps=350.0
+
+== q01 run0  (FE measured 7488.0 ms)
+    cn0 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  6886.9 meas=  6885.8 (  +1.1)  rpc_ret pred=  6898.9 meas(Exit)=  7289.3
+    cn1 scan  tasks= 27 start pred=    2.0 meas=    0.1  compute_end pred=  7074.1 meas=  7073.3 (  +0.8)  rpc_ret pred=  7086.1 meas(Exit)=  7288.2
+    cn2 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  6785.9 meas=  6785.9 (  -0.0)  rpc_ret pred=  6797.9 meas(Exit)=  7288.2
+    cn3 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  7274.6 meas=  7274.7 (  -0.0)  rpc_ret pred=  7286.6 meas(Exit)=  7286.0
+    cn0 recv  start pred=  7283.6 meas(Init)=  7289.2  end pred=  7303.5 meas=  7308.9
+    cn1 recv  start pred=  7286.6 meas(Init)=  7288.1  end pred=  7286.6 meas=  7288.1
+    cn2 recv  start pred=  7289.6 meas(Init)=  7288.1  end pred=  7310.7 meas=  7309.6
+    cn3 recv  start pred=  7280.6 meas(Init)=  7283.8  end pred=  7280.6 meas=  7283.8
+    cn0 result end pred=  7328.9 meas(Exit)=  7322.8   straggler pred=cn3 meas=cn3
+    query wall: predicted    7504 ms   measured FE 7488.0 ms   (trace span + fe_overhead = 7498)   counterfactual async sender dispatch:    7504 ms
+
+== q01 run1  (FE measured 7430.0 ms)
+    cn0 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  6722.1 meas=  6721.1 (  +1.0)  rpc_ret pred=  6734.1 meas(Exit)=  7222.1
+    cn1 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  7194.0 meas=  7192.9 (  +1.1)  rpc_ret pred=  7206.0 meas(Exit)=  7218.7
+    cn2 scan  tasks= 27 start pred=    2.0 meas=    0.4  compute_end pred=  6995.3 meas=  6995.4 (  -0.1)  rpc_ret pred=  7007.3 meas(Exit)=  7222.1
+    cn3 scan  tasks= 27 start pred=    2.0 meas=    0.2  compute_end pred=  7053.6 meas=  7053.5 (  +0.2)  rpc_ret pred=  7065.6 meas(Exit)=  7222.1
+    cn0 recv  start pred=  7203.0 meas(Init)=  7222.0  end pred=  7211.2 meas=  7230.2
+    cn1 recv  start pred=  7200.0 meas(Init)=  7198.3  end pred=  7219.5 meas=  7217.7
+    cn2 recv  start pred=  7206.0 meas(Init)=  7222.0  end pred=  7206.0 meas=  7222.0
+    cn3 recv  start pred=  7209.0 meas(Init)=  7222.0  end pred=  7209.0 meas=  7222.0
+    cn2 result end pred=  7238.1 meas(Exit)=  7243.8   straggler pred=cn1 meas=cn1
+    query wall: predicted    7413 ms   measured FE 7430.0 ms   (trace span + fe_overhead = 7419)   counterfactual async sender dispatch:    7413 ms
+
+== q01 run2  (FE measured 7088.0 ms)
+    cn0 scan  tasks= 27 start pred=    2.0 meas=    0.3  compute_end pred=  6641.4 meas=  6640.9 (  +0.5)  rpc_ret pred=  6653.4 meas(Exit)=  6877.0
+    cn1 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  6524.8 meas=  6523.8 (  +1.0)  rpc_ret pred=  6536.8 meas(Exit)=  6877.9
+    cn2 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  6867.0 meas=  6866.7 (  +0.4)  rpc_ret pred=  6879.0 meas(Exit)=  6874.7
+    cn3 scan  tasks= 27 start pred=    2.0 meas=    0.2  compute_end pred=  6494.0 meas=  6494.0 (  +0.0)  rpc_ret pred=  6506.0 meas(Exit)=  6877.1
+    cn0 recv  start pred=  6876.0 meas(Init)=  6876.9  end pred=  6876.0 meas=  6876.9
+    cn1 recv  start pred=  6879.0 meas(Init)=  6877.8  end pred=  6888.7 meas=  6887.4
+    cn2 recv  start pred=  6873.0 meas(Init)=  6872.8  end pred=  6873.0 meas=  6872.8
+    cn3 recv  start pred=  6882.0 meas(Init)=  6877.0  end pred=  6902.8 meas=  6898.1
+    cn0 result end pred=  6914.6 meas(Exit)=  6904.7   straggler pred=cn2 meas=cn2
+    query wall: predicted    7090 ms   measured FE 7088.0 ms   (trace span + fe_overhead = 7080)   counterfactual async sender dispatch:    7090 ms
+
+== q01 run3  (FE measured 6893.0 ms)
+    cn0 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  6500.5 meas=  6499.4 (  +1.1)  rpc_ret pred=  6512.5 meas(Exit)=  6684.5
+    cn1 scan  tasks= 27 start pred=    2.0 meas=    0.0  compute_end pred=  6525.5 meas=  6524.1 (  +1.3)  rpc_ret pred=  6537.5 meas(Exit)=  6684.4
+    cn2 scan  tasks= 27 start pred=    2.0 meas=    0.6  compute_end pred=  6519.4 meas=  6519.7 (  -0.3)  rpc_ret pred=  6531.4 meas(Exit)=  6684.5
+    cn3 scan  tasks= 27 start pred=    2.0 meas=    0.8  compute_end pred=  6662.9 meas=  6663.2 (  -0.4)  rpc_ret pred=  6674.9 meas(Exit)=  6681.5
+    cn0 recv  start pred=  6671.9 meas(Init)=  6684.4  end pred=  6671.9 meas=  6684.4
+    cn1 recv  start pred=  6674.9 meas(Init)=  6684.3  end pred=  6683.6 meas=  6693.1
+    cn2 recv  start pred=  6677.9 meas(Init)=  6684.4  end pred=  6677.9 meas=  6684.4
+    cn3 recv  start pred=  6668.9 meas(Init)=  6669.3  end pred=  6679.5 meas=  6680.3
+    cn2 result end pred=  6696.2 meas(Exit)=  6700.4   straggler pred=cn3 meas=cn3
+    query wall: predicted    6871 ms   measured FE 6893.0 ms   (trace span + fe_overhead = 6875)   counterfactual async sender dispatch:    6871 ms
+
+== q06 run0  (FE measured 1332.0 ms)
+    cn0 scan  tasks= 17 start pred=  729.7 meas=  726.3  compute_end pred=  1164.6 meas=  1161.7 (  +3.0)  rpc_ret pred=  1167.6 meas(Exit)=  1165.2
+    cn1 scan  tasks= 17 start pred=    0.0 meas=    0.0  compute_end pred=   512.8 meas=   513.3 (  -0.5)  rpc_ret pred=   518.8 meas(Exit)=   515.4
+    cn2 scan  tasks= 16 start pred=    0.0 meas=    0.0  compute_end pred=   721.5 meas=   722.1 (  -0.6)  rpc_ret pred=   727.5 meas(Exit)=   724.4
+    cn3 scan  tasks= 16 start pred=    0.0 meas=    0.0  compute_end pred=   721.7 meas=   722.4 (  -0.7)  rpc_ret pred=   727.7 meas(Exit)=   724.4
+    cn0 result end pred=  1172.0 meas(Exit)=  1167.1   straggler pred=cn0 meas=cn0
+    query wall: predicted    1347 ms   measured FE 1332.0 ms   (trace span + fe_overhead = 1342)   counterfactual async sender dispatch:     907 ms
+
+== q06 run1  (FE measured 1219.0 ms)
+    cn0 scan  tasks= 16 start pred=    0.0 meas=    0.5  compute_end pred=   568.4 meas=   569.4 (  -1.0)  rpc_ret pred=   574.4 meas(Exit)=   571.4
+    cn1 scan  tasks= 17 start pred=    0.0 meas=    0.0  compute_end pred=   581.3 meas=   581.6 (  -0.3)  rpc_ret pred=   587.3 meas(Exit)=   583.0
+    cn2 scan  tasks= 16 start pred=  599.2 meas=  596.1  compute_end pred=  1054.5 meas=  1052.2 (  +2.3)  rpc_ret pred=  1057.5 meas(Exit)=  1056.1
+    cn3 scan  tasks= 17 start pred=    0.0 meas=    0.5  compute_end pred=   591.2 meas=   592.5 (  -1.2)  rpc_ret pred=   597.2 meas(Exit)=   594.3
+    cn2 result end pred=  1062.1 meas(Exit)=  1058.7   straggler pred=cn2 meas=cn2
+    query wall: predicted    1237 ms   measured FE 1219.0 ms   (trace span + fe_overhead = 1234)   counterfactual async sender dispatch:     777 ms
+
+== q06 run2  (FE measured 1331.0 ms)
+    cn0 scan  tasks= 17 start pred=  692.1 meas=  688.0  compute_end pred=  1161.5 meas=  1157.7 (  +3.8)  rpc_ret pred=  1164.5 meas(Exit)=  1161.2
+    cn1 scan  tasks= 16 start pred=    0.0 meas=    0.0  compute_end pred=   535.0 meas=   535.7 (  -0.6)  rpc_ret pred=   541.0 meas(Exit)=   537.6
+    cn2 scan  tasks= 17 start pred=    0.0 meas=    0.0  compute_end pred=   625.7 meas=   626.4 (  -0.7)  rpc_ret pred=   631.7 meas(Exit)=   628.7
+    cn3 scan  tasks= 16 start pred=    0.0 meas=    0.0  compute_end pred=   684.1 meas=   684.8 (  -0.7)  rpc_ret pred=   690.1 meas(Exit)=   686.7
+    cn0 result end pred=  1168.8 meas(Exit)=  1163.0   straggler pred=cn0 meas=cn0
+    query wall: predicted    1344 ms   measured FE 1331.0 ms   (trace span + fe_overhead = 1338)   counterfactual async sender dispatch:     869 ms
+
+== q06 run3  (FE measured 1245.0 ms)
+    cn0 scan  tasks= 16 start pred=    0.0 meas=    0.0  compute_end pred=   627.0 meas=   627.4 (  -0.4)  rpc_ret pred=   633.0 meas(Exit)=   628.9
+    cn1 scan  tasks= 16 start pred=    0.0 meas=    0.1  compute_end pred=   587.3 meas=   587.8 (  -0.4)  rpc_ret pred=   593.3 meas(Exit)=   589.6
+    cn2 scan  tasks= 17 start pred=  635.0 meas=  630.0  compute_end pred=  1074.0 meas=  1069.7 (  +4.4)  rpc_ret pred=  1077.0 meas(Exit)=  1073.3
+    cn3 scan  tasks= 17 start pred=    0.0 meas=    0.1  compute_end pred=   517.8 meas=   518.6 (  -0.9)  rpc_ret pred=   523.8 meas(Exit)=   521.4
+    cn2 result end pred=  1081.7 meas(Exit)=  1075.8   straggler pred=cn2 meas=cn2
+    query wall: predicted    1257 ms   measured FE 1245.0 ms   (trace span + fe_overhead = 1251)   counterfactual async sender dispatch:     813 ms
+
+== summary (ms)
+q    run  FE_meas  pred   err%   pred_async_sender
+q01  r0    7488.0   7504    0.2     7504
+q01  r1    7430.0   7413   -0.2     7413
+q01  r2    7088.0   7090    0.0     7090
+q01  r3    6893.0   6871   -0.3     6871
+q06  r0    1332.0   1347    1.1      907
+q06  r1    1219.0   1237    1.5      777
+q06  r2    1331.0   1344    1.0      869
+q06  r3    1245.0   1257    0.9      813
+
+== N-CN prediction from the 1-CN trace sf1000-1cn-warm.json (4 executor threads)
+  q01: 107 scan tasks, service mean 1002 ms, median 958, max 1562, sum 107.2 s; measured scan fragment compute 26994 ms
+    N=1: per-CN tasks [107], predicted scan compute per CN [27010], predicted FE wall 27217 ms
+    N=2: per-CN tasks [53, 54], predicted scan compute per CN [13968, 13495], predicted FE wall 14178 ms
+    N=4: per-CN tasks [26, 27, 27, 27], predicted scan compute per CN [7161, 7148, 7419, 6752], predicted FE wall 7635 ms
+    N=8: per-CN tasks [13, 13, 14, 13, 13, 14, 13, 14], predicted scan compute per CN [3564, 3880, 4226, 3881, 3785, 3956, 3722, 3829], predicted FE wall 4454 ms
+  q01: 107 scan tasks, service mean 947 ms, median 956, max 1083, sum 101.3 s; measured scan fragment compute 25562 ms
+    N=1: per-CN tasks [107], predicted scan compute per CN [25578], predicted FE wall 25785 ms
+    N=2: per-CN tasks [53, 54], predicted scan compute per CN [12886, 13015], predicted FE wall 13225 ms
+    N=4: per-CN tasks [26, 27, 27, 27], predicted scan compute per CN [6856, 6743, 6730, 6718], predicted FE wall 7072 ms
+    N=8: per-CN tasks [13, 13, 14, 13, 13, 14, 13, 14], predicted scan compute per CN [3317, 3859, 3863, 3873, 3860, 3861, 3856, 3455], predicted FE wall 4101 ms
+  q01: 107 scan tasks, service mean 946 ms, median 956, max 1072, sum 101.3 s; measured scan fragment compute 25551 ms
+    N=1: per-CN tasks [107], predicted scan compute per CN [25568], predicted FE wall 25775 ms
+    N=2: per-CN tasks [53, 54], predicted scan compute per CN [12868, 13017], predicted FE wall 13227 ms
+    N=4: per-CN tasks [26, 27, 27, 27], predicted scan compute per CN [6850, 6735, 6734, 6701], predicted FE wall 7066 ms
+    N=8: per-CN tasks [13, 13, 14, 13, 13, 14, 13, 14], predicted scan compute per CN [3307, 3863, 3864, 3862, 3862, 3866, 3855, 3457], predicted FE wall 4094 ms
+  q01: 107 scan tasks, service mean 946 ms, median 956, max 1082, sum 101.3 s; measured scan fragment compute 25550 ms
+    N=1: per-CN tasks [107], predicted scan compute per CN [25568], predicted FE wall 25775 ms
+    N=2: per-CN tasks [53, 54], predicted scan compute per CN [12873, 13013], predicted FE wall 13223 ms
+    N=4: per-CN tasks [26, 27, 27, 27], predicted scan compute per CN [6858, 6727, 6726, 6701], predicted FE wall 7074 ms
+    N=8: per-CN tasks [13, 13, 14, 13, 13, 14, 13, 14], predicted scan compute per CN [3319, 3861, 3859, 3855, 3860, 3857, 3864, 3451], predicted FE wall 4092 ms
+  q06: 65 scan tasks, service mean 107 ms, median 119, max 142, sum 6.9 s; measured scan fragment compute 1785 ms
+    N=1: per-CN tasks [65], predicted scan compute per CN [1802], predicted FE wall 1985 ms  (async sender dispatch: 1988)
+    N=2: per-CN tasks [32, 33], predicted scan compute per CN [1026, 894], predicted FE wall 2111 ms  (async sender dispatch: 1212)
+    N=4: per-CN tasks [16, 16, 16, 17], predicted scan compute per CN [555, 522, 495, 474], predicted FE wall 1267 ms  (async sender dispatch: 741)
+    N=8: per-CN tasks [8, 8, 8, 8, 8, 8, 8, 9], predicted scan compute per CN [312, 295, 283, 292, 283, 283, 307, 277], predicted FE wall 810 ms  (async sender dispatch: 498)

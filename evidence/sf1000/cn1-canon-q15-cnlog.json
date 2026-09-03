@@ -1,0 +1,584 @@
+{
+ "q15.r0": {
+  "status": "pass",
+  "ms": 10331,
+  "rows": 0,
+  "query_ids": [
+   "9dbe1d713b25"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6788
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2425
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    40
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    12
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    10
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "9dbe1d713b2a",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "9dbe1d713b29",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "9dbe1d713b28",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "9dbe1d713b28",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "9dbe1d713b27",
+    "stream": 18,
+    "rows": 0
+   },
+   {
+    "fid": "9dbe1d713b26",
+    "stream": 22,
+    "rows": 0
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0
+  }
+ },
+ "q15.r1": {
+  "status": "pass",
+  "ms": 5161,
+  "rows": 1,
+  "query_ids": [
+   "9db447bfe891"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2465
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2368
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    40
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "9db447bfe896",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "9db447bfe895",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "9db447bfe894",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "9db447bfe894",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "9db447bfe893",
+    "stream": 18,
+    "rows": 1
+   },
+   {
+    "fid": "9db447bfe892",
+    "stream": 22,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0
+  }
+ },
+ "q15.r2": {
+  "status": "pass",
+  "ms": 5182,
+  "rows": 0,
+  "query_ids": [
+   "f668a90786db"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2472
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2399
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    35
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "f668a90786e0",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "f668a90786df",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "f668a90786de",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "f668a90786de",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "f668a90786dd",
+    "stream": 18,
+    "rows": 0
+   },
+   {
+    "fid": "f668a90786dc",
+    "stream": 22,
+    "rows": 0
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0
+  }
+ },
+ "q15.r3": {
+  "status": "pass",
+  "ms": 5002,
+  "rows": 0,
+  "query_ids": [
+   "f56445f7eb86"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2391
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2303
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    34
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "f56445f7eb8b",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "f56445f7eb8a",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "f56445f7eb89",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "f56445f7eb89",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "f56445f7eb88",
+    "stream": 18,
+    "rows": 0
+   },
+   {
+    "fid": "f56445f7eb87",
+    "stream": 22,
+    "rows": 0
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0
+  }
+ },
+ "q15.r4": {
+  "status": "pass",
+  "ms": 4876,
+  "rows": 1,
+  "query_ids": [
+   "8ce664414ed5"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2351
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2222
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    35
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "8ce664414eda",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "8ce664414ed9",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "8ce664414ed8",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "8ce664414ed8",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "8ce664414ed7",
+    "stream": 18,
+    "rows": 1
+   },
+   {
+    "fid": "8ce664414ed6",
+    "stream": 22,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0
+  }
+ },
+ "q15.r5": {
+  "status": "pass",
+  "ms": 4809,
+  "rows": 0,
+  "query_ids": [
+   "84c632921ca0"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2260
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2239
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    33
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "84c632921ca5",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "84c632921ca4",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "84c632921ca3",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "84c632921ca3",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "84c632921ca2",
+    "stream": 18,
+    "rows": 0
+   },
+   {
+    "fid": "84c632921ca1",
+    "stream": 22,
+    "rows": 0
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 1
+  }
+ }
+}

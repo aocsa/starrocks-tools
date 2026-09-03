@@ -1,0 +1,1125 @@
+{
+ "sf1000-standalone:q05.r0": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q05.r0",
+    "wall_s": 5.167915013,
+    "t0": 1788442079414925397,
+    "tasks": 194,
+    "state_s": {
+     "Created": 0.0009,
+     "Queued": 264.4022,
+     "Routing": 0.0004,
+     "Reserving": 0.0036,
+     "Preparing": 0.0163,
+     "Computing": 19.5723,
+     "Finalizing": 0.0002,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(27)",
+      65,
+      17.0296,
+      170.999696692
+     ],
+     [
+      "GPU_SCAN(20)",
+      10,
+      2.0457,
+      18.374998576
+     ],
+     [
+      "DYNAMIC_FILTER(28)",
+      65,
+      0.1223,
+      170.999714412
+     ],
+     [
+      "HASH_JOIN(31)",
+      3,
+      0.1116,
+      6.506002662
+     ],
+     [
+      "HASH_JOIN(34)",
+      3,
+      0.0837,
+      6.30779831
+     ],
+     [
+      "GPU_SCAN(13)",
+      1,
+      0.0314,
+      1.23749996
+     ],
+     [
+      "GPU_SCAN(0)",
+      1,
+      0.0307,
+      0.082499994
+     ],
+     [
+      "HASH_GROUP_BY(36)",
+      3,
+      0.0161,
+      0.132557537
+     ]
+    ],
+    "reserve_requested_GB": 442.260252252,
+    "reserve_peak_est_GB": 441.155701656,
+    "peak_alloc_sum_GB": 266.84777728,
+    "input_GB": 232.906453366,
+    "batches": 178,
+    "batch_GB": 195.545731233,
+    "batch_dwell_s": {
+     "n": 176,
+     "sum": 127.3563,
+     "max": 4.0171
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 79,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q05.r1": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q05.r1",
+    "wall_s": 2.761562036,
+    "t0": 1788442084607614143,
+    "tasks": 194,
+    "state_s": {
+     "Created": 0.0006,
+     "Queued": 130.4315,
+     "Routing": 0.0004,
+     "Reserving": 0.0031,
+     "Preparing": 0.0206,
+     "Computing": 10.4489,
+     "Finalizing": 0.0001,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(27)",
+      65,
+      8.4356,
+      170.999696692
+     ],
+     [
+      "GPU_SCAN(20)",
+      10,
+      1.6734,
+      18.374998576
+     ],
+     [
+      "DYNAMIC_FILTER(28)",
+      65,
+      0.1456,
+      170.999714668
+     ],
+     [
+      "HASH_JOIN(31)",
+      3,
+      0.0611,
+      6.506002662
+     ],
+     [
+      "HASH_JOIN(34)",
+      3,
+      0.0486,
+      6.30779831
+     ],
+     [
+      "GPU_SCAN(13)",
+      1,
+      0.0257,
+      1.23749996
+     ],
+     [
+      "HASH_JOIN(24)",
+      1,
+      0.0156,
+      1.106550521
+     ],
+     [
+      "CONCAT(30)",
+      3,
+      0.0103,
+      5.408126004
+     ]
+    ],
+    "reserve_requested_GB": 441.068649994,
+    "reserve_peak_est_GB": 439.964099398,
+    "peak_alloc_sum_GB": 266.847766016,
+    "input_GB": 232.906457718,
+    "batches": 178,
+    "batch_GB": 195.545733793,
+    "batch_dwell_s": {
+     "n": 176,
+     "sum": 65.6969,
+     "max": 2.0078
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 79,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q08.r0": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q08.r0",
+    "wall_s": 3.805911679,
+    "t0": 1788442087415878678,
+    "tasks": 216,
+    "state_s": {
+     "Created": 0.0006,
+     "Queued": 219.412,
+     "Routing": 0.0005,
+     "Reserving": 0.0033,
+     "Preparing": 0.0184,
+     "Computing": 14.5538,
+     "Finalizing": 0.0002,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(37)",
+      74,
+      12.2244,
+      195.749651738
+     ],
+     [
+      "GPU_SCAN(30)",
+      10,
+      1.6558,
+      24.562497864
+     ],
+     [
+      "DYNAMIC_FILTER(38)",
+      74,
+      0.279,
+      195.749674848
+     ],
+     [
+      "GPU_SCAN(11)",
+      3,
+      0.2204,
+      0.825
+     ],
+     [
+      "GPU_SCAN(23)",
+      1,
+      0.0733,
+      1.23749996
+     ],
+     [
+      "HASH_JOIN(34)",
+      1,
+      0.0217,
+      1.825558076
+     ],
+     [
+      "DYNAMIC_FILTER(24)",
+      1,
+      0.0135,
+      1.237500032
+     ],
+     [
+      "DYNAMIC_FILTER(31)",
+      10,
+      0.0126,
+      7.46234328
+     ]
+    ],
+    "reserve_requested_GB": 498.048122802,
+    "reserve_peak_est_GB": 495.33137009,
+    "peak_alloc_sum_GB": 318.891615488,
+    "input_GB": 236.712393312,
+    "batches": 193,
+    "batch_GB": 211.083142992,
+    "batch_dwell_s": {
+     "n": 189,
+     "sum": 110.1093,
+     "max": 2.9665
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 91,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q08.r1": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q08.r1",
+    "wall_s": 3.644050298,
+    "t0": 1788442091252205131,
+    "tasks": 216,
+    "state_s": {
+     "Created": 0.0005,
+     "Queued": 214.052,
+     "Routing": 0.0008,
+     "Reserving": 0.0033,
+     "Preparing": 0.0215,
+     "Computing": 14.0604,
+     "Finalizing": 0.0002,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(37)",
+      74,
+      11.9666,
+      195.749651738
+     ],
+     [
+      "GPU_SCAN(30)",
+      10,
+      1.622,
+      24.562497864
+     ],
+     [
+      "DYNAMIC_FILTER(38)",
+      74,
+      0.1924,
+      195.749675808
+     ],
+     [
+      "GPU_SCAN(11)",
+      3,
+      0.1352,
+      0.825
+     ],
+     [
+      "GPU_SCAN(23)",
+      1,
+      0.0429,
+      1.23749996
+     ],
+     [
+      "GPU_SCAN(0)",
+      1,
+      0.029,
+      2.446e-06
+     ],
+     [
+      "HASH_JOIN(34)",
+      1,
+      0.0216,
+      1.825558076
+     ],
+     [
+      "HASH_JOIN(27)",
+      1,
+      0.0105,
+      0.247465968
+     ]
+    ],
+    "reserve_requested_GB": 498.050465128,
+    "reserve_peak_est_GB": 495.328216244,
+    "peak_alloc_sum_GB": 318.896943872,
+    "input_GB": 236.712225632,
+    "batches": 193,
+    "batch_GB": 211.08314344,
+    "batch_dwell_s": {
+     "n": 186,
+     "sum": 108.8147,
+     "max": 2.9292
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 91,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q09.r0": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q09.r0",
+    "wall_s": 6.789759937,
+    "t0": 1788442094941851301,
+    "tasks": 329,
+    "state_s": {
+     "Created": 0.0011,
+     "Queued": 361.7668,
+     "Routing": 0.0017,
+     "Reserving": 0.0052,
+     "Preparing": 0.8786,
+     "Computing": 24.9765,
+     "Finalizing": 0.0004,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(21)",
+      93,
+      15.7942,
+      244.49956562
+     ],
+     [
+      "GPU_SCAN(15)",
+      7,
+      1.9503,
+      18.374998576
+     ],
+     [
+      "GPU_SCAN(18)",
+      4,
+      1.4987,
+      0.825
+     ],
+     [
+      "HASH_JOIN(31)",
+      9,
+      1.139,
+      36.604911624
+     ],
+     [
+      "GPU_SCAN(9)",
+      5,
+      1.1209,
+      13.1
+     ],
+     [
+      "HASH_JOIN(28)",
+      7,
+      0.753,
+      31.04590528
+     ],
+     [
+      "HASH_JOIN(12)",
+      5,
+      0.5429,
+      13.253295444
+     ],
+     [
+      "PARTITION(16)",
+      7,
+      0.4134,
+      18.375000448
+     ]
+    ],
+    "reserve_requested_GB": 1001.104702183,
+    "reserve_peak_est_GB": 960.515331411,
+    "peak_alloc_sum_GB": 387.102579712,
+    "input_GB": 551.770636879,
+    "batches": 491,
+    "batch_GB": 506.47923382,
+    "batch_dwell_s": {
+     "n": 468,
+     "sum": 154.1238,
+     "max": 2.9778
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 111,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q09.r1": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q09.r1",
+    "wall_s": 5.397265863,
+    "t0": 1788442101762010332,
+    "tasks": 329,
+    "state_s": {
+     "Created": 0.0011,
+     "Queued": 309.7014,
+     "Routing": 0.0005,
+     "Reserving": 0.0053,
+     "Preparing": 0.8598,
+     "Computing": 20.0916,
+     "Finalizing": 0.0003,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(21)",
+      93,
+      13.6735,
+      244.49956562
+     ],
+     [
+      "HASH_JOIN(31)",
+      9,
+      1.1391,
+      36.604911624
+     ],
+     [
+      "GPU_SCAN(15)",
+      7,
+      0.9881,
+      18.374998576
+     ],
+     [
+      "GPU_SCAN(9)",
+      5,
+      0.9025,
+      13.1
+     ],
+     [
+      "HASH_JOIN(28)",
+      7,
+      0.7558,
+      31.04590528
+     ],
+     [
+      "HASH_JOIN(12)",
+      5,
+      0.6762,
+      13.253295444
+     ],
+     [
+      "GPU_SCAN(18)",
+      4,
+      0.53,
+      0.825
+     ],
+     [
+      "PARTITION(13)",
+      5,
+      0.2814,
+      22.063597332
+     ]
+    ],
+    "reserve_requested_GB": 990.720023538,
+    "reserve_peak_est_GB": 951.012941918,
+    "peak_alloc_sum_GB": 386.236522496,
+    "input_GB": 551.786878911,
+    "batches": 491,
+    "batch_GB": 506.479236492,
+    "batch_dwell_s": {
+     "n": 474,
+     "sum": 169.4662,
+     "max": 3.2711
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 111,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q17.r0": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q17.r0",
+    "wall_s": 4.368096966,
+    "t0": 1788442107190877467,
+    "tasks": 391,
+    "state_s": {
+     "Created": 0.0011,
+     "Queued": 105.1197,
+     "Routing": 0.0059,
+     "Reserving": 0.1837,
+     "Preparing": 3.8561,
+     "Computing": 11.4127,
+     "Finalizing": 0.0003,
+     "Exit": 0.0,
+     "Downgrading": 0.1304
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(3)",
+      46,
+      10.0556,
+      122.24978281
+     ],
+     [
+      "HASH_JOIN(18)",
+      46,
+      0.7231,
+      120.883837472
+     ],
+     [
+      "DYNAMIC_FILTER(5)",
+      46,
+      0.3255,
+      120.88304026
+     ],
+     [
+      "HASH_GROUP_BY(20)",
+      46,
+      0.1395,
+      0.072353868
+     ],
+     [
+      "GPU_SCAN(0)",
+      3,
+      0.1284,
+      0.825
+     ],
+     [
+      "HASH_GROUP_BY(10)",
+      1,
+      0.0142,
+      0.143531928
+     ],
+     [
+      "UNGROUPED_AGGREGATE(31)",
+      1,
+      0.0058,
+      0.004184696
+     ],
+     [
+      "HASH_JOIN(8)",
+      1,
+      0.004,
+      0.120407152
+     ]
+    ],
+    "reserve_requested_GB": 610.727132407,
+    "reserve_peak_est_GB": 398.267664971,
+    "peak_alloc_sum_GB": 451.629095168,
+    "input_GB": 730.16453807,
+    "batches": 245,
+    "batch_GB": 123.071274636,
+    "batch_dwell_s": {
+     "n": 169,
+     "sum": 71.5845,
+     "max": 3.7976
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 49,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q17.r1": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q17.r1",
+    "wall_s": 3.766499506,
+    "t0": 1788442111578592503,
+    "tasks": 391,
+    "state_s": {
+     "Created": 0.016,
+     "Queued": 105.1573,
+     "Routing": 0.0008,
+     "Reserving": 0.1844,
+     "Preparing": 3.5199,
+     "Computing": 10.1598,
+     "Finalizing": 0.0003,
+     "Exit": 0.0,
+     "Downgrading": 0.132
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(3)",
+      46,
+      8.7035,
+      122.24978281
+     ],
+     [
+      "HASH_JOIN(18)",
+      46,
+      0.6409,
+      120.54035792
+     ],
+     [
+      "DYNAMIC_FILTER(5)",
+      46,
+      0.3639,
+      120.88305274
+     ],
+     [
+      "HASH_GROUP_BY(20)",
+      46,
+      0.2645,
+      0.07212526
+     ],
+     [
+      "GPU_SCAN(0)",
+      3,
+      0.1484,
+      0.825
+     ],
+     [
+      "HASH_GROUP_BY(10)",
+      1,
+      0.0135,
+      0.143531928
+     ],
+     [
+      "HASH_JOIN(8)",
+      1,
+      0.0124,
+      0.120407152
+     ],
+     [
+      "PROJECTION(19)",
+      46,
+      0.0016,
+      0.096047248
+     ]
+    ],
+    "reserve_requested_GB": 610.099438327,
+    "reserve_peak_est_GB": 407.386158083,
+    "peak_alloc_sum_GB": 441.436321536,
+    "input_GB": 730.164368782,
+    "batches": 245,
+    "batch_GB": 123.070708112,
+    "batch_dwell_s": {
+     "n": 163,
+     "sum": 42.1237,
+     "max": 3.1636
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 49,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q18.r0": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q18.r0",
+    "wall_s": 2.727523412,
+    "t0": 1788442115398603135,
+    "tasks": 222,
+    "state_s": {
+     "Created": 0.001,
+     "Queued": 42.185,
+     "Routing": 0.0004,
+     "Reserving": 0.0041,
+     "Preparing": 0.0284,
+     "Computing": 9.9526,
+     "Finalizing": 0.0002,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(10)",
+      14,
+      2.5417,
+      36.749997152
+     ],
+     [
+      "GPU_SCAN(3)",
+      37,
+      2.5265,
+      97.499827764
+     ],
+     [
+      "GPU_SCAN(20)",
+      37,
+      2.1713,
+      97.499827764
+     ],
+     [
+      "HASH_GROUP_BY(4)",
+      37,
+      1.0382,
+      97.499834832
+     ],
+     [
+      "MERGE_GROUP_BY(6)",
+      14,
+      0.9785,
+      36.0
+     ],
+     [
+      "PARTITION(5)",
+      37,
+      0.2258,
+      36.187501568
+     ],
+     [
+      "GPU_SCAN(0)",
+      2,
+      0.2194,
+      3.93749996
+     ],
+     [
+      "DYNAMIC_FILTER(21)",
+      37,
+      0.1005,
+      97.499835088
+     ]
+    ],
+    "reserve_requested_GB": 860.043281925,
+    "reserve_peak_est_GB": 855.543281917,
+    "peak_alloc_sum_GB": 380.782517248,
+    "input_GB": 320.29854102,
+    "batches": 736,
+    "batch_GB": 348.449431304,
+    "batch_dwell_s": {
+     "n": 735,
+     "sum": 138.8129,
+     "max": 0.8405
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 90,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q18.r1": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q18.r1",
+    "wall_s": 2.650529469,
+    "t0": 1788442118165010080,
+    "tasks": 222,
+    "state_s": {
+     "Created": 0.0052,
+     "Queued": 41.9385,
+     "Routing": 0.0008,
+     "Reserving": 0.0084,
+     "Preparing": 0.0312,
+     "Computing": 9.7535,
+     "Finalizing": 0.0004,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(3)",
+      37,
+      2.4367,
+      97.499827764
+     ],
+     [
+      "GPU_SCAN(10)",
+      14,
+      2.4337,
+      36.749997152
+     ],
+     [
+      "GPU_SCAN(20)",
+      37,
+      2.159,
+      97.499827764
+     ],
+     [
+      "HASH_GROUP_BY(4)",
+      37,
+      1.1494,
+      97.49983496
+     ],
+     [
+      "MERGE_GROUP_BY(6)",
+      14,
+      0.9674,
+      36.0
+     ],
+     [
+      "PARTITION(5)",
+      37,
+      0.2252,
+      36.187501568
+     ],
+     [
+      "GPU_SCAN(0)",
+      2,
+      0.1624,
+      3.93749996
+     ],
+     [
+      "DYNAMIC_FILTER(21)",
+      37,
+      0.0859,
+      97.499834704
+     ]
+    ],
+    "reserve_requested_GB": 860.040734599,
+    "reserve_peak_est_GB": 855.540734591,
+    "peak_alloc_sum_GB": 380.782516224,
+    "input_GB": 320.298541788,
+    "batches": 736,
+    "batch_GB": 348.449431432,
+    "batch_dwell_s": {
+     "n": 735,
+     "sum": 139.155,
+     "max": 0.8486
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 90,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q21.r0": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q21.r0",
+    "wall_s": 6.490212667,
+    "t0": 1788442120888291592,
+    "tasks": 314,
+    "state_s": {
+     "Created": 0.0064,
+     "Queued": 217.2381,
+     "Routing": 0.0011,
+     "Reserving": 0.0114,
+     "Preparing": 0.1234,
+     "Computing": 24.3024,
+     "Finalizing": 0.0006,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(47)",
+      46,
+      8.8582,
+      122.99977902
+     ],
+     [
+      "GPU_SCAN(13)",
+      46,
+      8.7224,
+      122.99977902
+     ],
+     [
+      "GPU_SCAN(30)",
+      28,
+      4.6462,
+      73.499868928
+     ],
+     [
+      "GPU_SCAN(10)",
+      8,
+      0.6975,
+      12.187499288
+     ],
+     [
+      "HASH_JOIN(18)",
+      3,
+      0.2562,
+      7.669476504
+     ],
+     [
+      "DYNAMIC_FILTER(48)",
+      46,
+      0.2077,
+      122.999794948
+     ],
+     [
+      "HASH_JOIN(52)",
+      2,
+      0.1746,
+      4.6194993
+     ],
+     [
+      "DYNAMIC_FILTER(14)",
+      46,
+      0.1607,
+      122.99979418
+     ]
+    ],
+    "reserve_requested_GB": 907.988134124,
+    "reserve_peak_est_GB": 895.503210376,
+    "peak_alloc_sum_GB": 470.106500608,
+    "input_GB": 433.39825647,
+    "batches": 539,
+    "batch_GB": 396.898586244,
+    "batch_dwell_s": {
+     "n": 531,
+     "sum": 114.7858,
+     "max": 2.1498
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 130,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "sf1000-standalone:q21.r1": {
+  "fragments": [
+   {
+    "cn": "quent",
+    "session": "f62b76ba4ab4",
+    "label": "sf1000-standalone:q21.r1",
+    "wall_s": 6.355581026,
+    "t0": 1788442127424237635,
+    "tasks": 314,
+    "state_s": {
+     "Created": 0.0032,
+     "Queued": 208.8062,
+     "Routing": 0.0004,
+     "Reserving": 0.0049,
+     "Preparing": 0.1224,
+     "Computing": 23.8422,
+     "Finalizing": 0.0003,
+     "Exit": 0.0
+    },
+    "top_ops": [
+     [
+      "GPU_SCAN(47)",
+      46,
+      8.7204,
+      122.99977902
+     ],
+     [
+      "GPU_SCAN(13)",
+      46,
+      8.4527,
+      122.99977902
+     ],
+     [
+      "GPU_SCAN(30)",
+      28,
+      4.5538,
+      73.499868928
+     ],
+     [
+      "GPU_SCAN(10)",
+      8,
+      0.7012,
+      12.187499288
+     ],
+     [
+      "HASH_JOIN(18)",
+      3,
+      0.2759,
+      7.669476504
+     ],
+     [
+      "DYNAMIC_FILTER(48)",
+      46,
+      0.2319,
+      122.999795204
+     ],
+     [
+      "DYNAMIC_FILTER(14)",
+      46,
+      0.2012,
+      122.999794436
+     ],
+     [
+      "HASH_JOIN(52)",
+      2,
+      0.1745,
+      4.6194993
+     ]
+    ],
+    "reserve_requested_GB": 907.988275971,
+    "reserve_peak_est_GB": 895.503352223,
+    "peak_alloc_sum_GB": 470.106564352,
+    "input_GB": 433.398256278,
+    "batches": 539,
+    "batch_GB": 396.89858746,
+    "batch_dwell_s": {
+     "n": 531,
+     "sum": 121.0595,
+     "max": 2.1228
+    },
+    "leases": 0,
+    "lease_GB": 0.0,
+    "lease_held_s": 0,
+    "lease_intransit_s": 0,
+    "lease_max_concurrent": 0,
+    "scan_reads": {
+     "n": 130,
+     "bytes": 0,
+     "ns": 0
+    }
+   }
+  ]
+ },
+ "_session_quent_f62b76ba4ab4": {
+  "hops": {},
+  "leases_total": 0,
+  "lease_max_concurrent": 0
+ }
+}

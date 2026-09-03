@@ -1,0 +1,17 @@
+query  verdict        detail
+q01    VALUES-DIFFER  rows=4 maxreldiff=9.570e-04 badcells=8
+q02    MATCH          rows=100 maxreldiff=0.000e+00
+q03    VALUES-DIFFER  rows=10 maxreldiff=1.766e-03 badcells=4
+q04    MATCH          rows=5 maxreldiff=0.000e+00
+q06    MATCH          rows=1 maxreldiff=0.000e+00
+q07    VALUES-DIFFER  rows=4 maxreldiff=9.558e-04 badcells=4
+q10    VALUES-DIFFER  rows=20 maxreldiff=1.229e+01 badcells=48
+q11    EMPTY          no output
+q12    MATCH          rows=2 maxreldiff=0.000e+00
+q13    MATCH          rows=30 maxreldiff=0.000e+00
+q14    MATCH          rows=1 maxreldiff=1.720e-07
+q15    VALUES-DIFFER  rows=1 maxreldiff=1.126e-03 badcells=1
+q19    VALUES-DIFFER  rows=1 maxreldiff=9.552e-04 badcells=1
+q20    MATCH          rows=112013 maxreldiff=0.000e+00
+q22    MATCH          rows=7 maxreldiff=5.593e-16
+8/15 match the DuckDB oracle within rel tol 1e-06

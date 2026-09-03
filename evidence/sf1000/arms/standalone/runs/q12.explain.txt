@@ -1,0 +1,93 @@
+┌───────────────────────────┐
+│          ORDER_BY         │
+│    ────────────────────   │
+│  lineitem.l_shipmode ASC  │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│    ────────────────────   │
+│         Groups: #0        │
+│                           │
+│        Aggregates:        │
+│          sum(#1)          │
+│          sum(#2)          │
+│                           │
+│     ~239,608,980 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         l_shipmode        │
+│       CASE  WHEN ((       │
+│   (o_orderpriority = '1   │
+│       -URGENT') OR        │
+│ (o_orderpriority = '2-HIGH│
+│  '))) THEN (1) ELSE 0 END │
+│       CASE  WHEN ((       │
+│   (o_orderpriority != '1  │
+│       -URGENT') AND       │
+│   (o_orderpriority != '2  │
+│ -HIGH'))) THEN (1) ELSE 0 │
+│             END           │
+│                           │
+│     ~244,433,107 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        ├──────────────┐
+│  o_orderkey = l_orderkey  │              │
+│                           │              │
+│     ~244,433,107 rows     │              │
+└─────────────┬─────────────┘              │
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│        READ_PARQUET       ││         PROJECTION        │
+│    ────────────────────   ││    ────────────────────   │
+│         Function:         ││             #0            │
+│        READ_PARQUET       ││             #4            │
+│                           ││                           │
+│        Projections:       ││                           │
+│         o_orderkey        ││                           │
+│      o_orderpriority      ││                           │
+│                           ││                           │
+│    ~1,540,436,070 rows    ││     ~244,433,107 rows     │
+└───────────────────────────┘└─────────────┬─────────────┘
+                             ┌─────────────┴─────────────┐
+                             │           FILTER          │
+                             │    ────────────────────   │
+                             │      ((l_commitdate <     │
+                             │     l_receiptdate) AND    │
+                             │ (l_shipdate < l_commitdate│
+                             │   ) AND (l_shipmode IN (  │
+                             │     'MAIL', 'SHIP')))     │
+                             │                           │
+                             │     ~244,433,107 rows     │
+                             └─────────────┬─────────────┘
+                             ┌─────────────┴─────────────┐
+                             │        READ_PARQUET       │
+                             │    ────────────────────   │
+                             │         Function:         │
+                             │        READ_PARQUET       │
+                             │                           │
+                             │        Projections:       │
+                             │         l_orderkey        │
+                             │         l_shipdate        │
+                             │        l_commitdate       │
+                             │       l_receiptdate       │
+                             │         l_shipmode        │
+                             │                           │
+                             │          Filters:         │
+                             │  l_shipdate<'1995-01-01': │
+                             │           :DATE           │
+                             │ l_commitdate<'1995-01-01':│
+                             │           :DATE           │
+                             │ l_receiptdate>='1994-01-01│
+                             │ '::DATE AND l_receiptdate<│
+                             │     '1995-01-01'::DATE    │
+                             │ optional: l_shipmode IN ( │
+                             │      'MAIL', 'SHIP')      │
+                             │                           │
+                             │    ~1,222,165,536 rows    │
+                             └───────────────────────────┘

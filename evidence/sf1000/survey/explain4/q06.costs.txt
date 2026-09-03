@@ -1,0 +1,50 @@
+Explain String
+PLAN COST
+  CPU: 36.4
+  Memory: 17.6
+
+PLAN FRAGMENT 0(F01)
+  Output Exprs:18: sum
+  Input Partition: UNPARTITIONED
+  RESULT SINK
+
+  4:AGGREGATE (merge finalize)
+  |  aggregate: sum[([18: sum, DECIMAL128(38,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  3:EXCHANGE
+     distribution type: GATHER
+     cardinality: 1
+
+PLAN FRAGMENT 1(F00)
+
+  Input Partition: RANDOM
+  OutPut Partition: UNPARTITIONED
+  OutPut Exchange Id: 03
+
+  2:AGGREGATE (update serialize)
+  |  aggregate: sum[(cast([6: l_extendedprice, DECIMAL64(15,2), true] as DECIMAL128(15,2)) * cast([7: l_discount, DECIMAL64(15,2), true] as DECIMAL128(15,2))); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  1:Project
+  |  output columns:
+  |  6 <-> [6: l_extendedprice, DECIMAL64(15,2), true]
+  |  7 <-> [7: l_discount, DECIMAL64(15,2), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[0.05, 0.07, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  0:FileScanNode
+     BROKER: 
+     cardinality: 1
+     column statistics: 
+     * l_quantity-->[-Infinity, 24.0, 0.0, 1.0, 1.0] UNKNOWN
+     * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * l_discount-->[0.05, 0.07, 0.0, 1.0, 1.0] UNKNOWN
+     * l_shipdate-->[7.573824E8, 7.889184E8, 0.0, 1.0, 1.0] UNKNOWN
+     * expr-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN

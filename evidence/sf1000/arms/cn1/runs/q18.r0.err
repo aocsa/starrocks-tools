@@ -1,0 +1,1 @@
+ERROR 1064 (HY000) at line 1: fragment instance 01a06768-7ff3-7016-bdd3-eb862509ad98 failed: fragment instance 01a06768-7ff3-7016-bdd3-eb862509ad9c failed: failed to execute fragment: GPU pipeline task exceeded maximum retry limit (100) for original task 21817: OOM at operator GPU_SCAN (index 0)

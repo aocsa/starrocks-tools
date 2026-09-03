@@ -1,0 +1,1 @@
+ERROR 1064 (HY000) at line 1: fragment instance 01a06766-e880-72a0-9538-34a4b4e9ff83 failed: fragment instance 01a06766-e880-72a0-9538-34a4b4e9ff85 failed: malformed plan: two-phase aggregation supports only sum/count/min/max/avg; "multi_distinct_count" has a partial state this translator does not model (SET new_planner_agg_stage = 1)

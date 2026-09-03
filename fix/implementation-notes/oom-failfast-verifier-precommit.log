@@ -1,0 +1,23 @@
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+check for added large files..............................................Passed
+check for case conflicts.................................................Passed
+check json...........................................(no files to check)Skipped
+check for merge conflicts................................................Passed
+check for broken symlinks............................(no files to check)Skipped
+check toml...........................................(no files to check)Skipped
+check yaml...........................................(no files to check)Skipped
+debug statements (python)............................(no files to check)Skipped
+detect destroyed symlinks................................................Passed
+detect private key.......................................................Passed
+fix end of files.........................................................Passed
+mixed line ending........................................................Passed
+pretty format json...................................(no files to check)Skipped
+trim trailing whitespace.................................................Passed
+black................................................(no files to check)Skipped
+Fix smartquote characters................................................Passed
+clang-format.............................................................Passed
+codespell................................................................Passed
+cmake-format.............................................................Passed
+cmake-lint...............................................................Passed
+rumdl check --fix........................................................Passed
+check for orphaned test files............................................Passed

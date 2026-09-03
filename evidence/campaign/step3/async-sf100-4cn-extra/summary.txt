@@ -1,0 +1,95 @@
+== async-sf100-4cn-extra  worktree=/home/prestouser/aocsa/sirius-stacks-wt/perf  dataset=/scratch/sirius/datasets/tpch_sf100  Thu Sep  3 06:55:34 UTC 2026
+== env: NUM_CNS=4 GPU_MEM=100GiB STAGING=16GiB SIRIUS_EXCHANGE_STAGING_BYTES=16GiB SIRIUS_QUERY_WATCHDOG_SECS=60 CUDA_VISIBLE_DEVICES=<unset>
+cluster launcher pid=3699743 log=/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/async-sf100-4cn-extra/cluster.log
+== alive compute nodes after 9s: 4
+   cn heartbeat=9100 alive=true
+   cn heartbeat=9110 alive=true
+   cn heartbeat=9120 alive=true
+   cn heartbeat=9130 alive=true
+== nvidia-smi:
+0, 119519 MiB 1, 119519 MiB 2, 119519 MiB 3, 119516 MiB 
+== one CN pid per GPU:
+      1 GPU-2d570fef-b284-0a3f-1d9d-c036d917ac2f, 3699769
+      1 GPU-4243ea2a-f191-d075-d3e5-905970e32d5f, 3699766
+      1 GPU-c04b294e-4a07-b8df-e8c0-2a1ea5d028cd, 3699768
+      1 GPU-cbe29b1b-f0e4-d8fe-ef58-25e9de2a6fed, 3699767
+== blacklist:
+ComputeNodeId	AddBlackListType	LostConnectionTime	LostConnectionNumberInPeriod	CheckTimePeriod(s)
+10001	AUTO	2026-09-03 06:55:41	1	5
+12002	AUTO	2026-09-03 06:55:41	1	5
+== EXPLAIN q01:
+== EXPLAIN q06:
+== WARM bench:
+cluster: 4 alive compute nodes + 0 alive backends (MIN_BACKENDS=4)
+q03 r0 cold pass 1088ms rows=10
+q03 r1 warm pass 349ms rows=10
+q03 r2 warm pass 328ms rows=10
+q03 r3 warm pass 340ms rows=10
+q12 r0 cold pass 342ms rows=2
+q12 r1 warm pass 302ms rows=2
+q12 r2 warm pass 293ms rows=2
+q12 r3 warm pass 291ms rows=2
+q14 r0 cold pass 329ms rows=1
+q14 r1 warm pass 279ms rows=1
+q14 r2 warm pass 296ms rows=1
+q14 r3 warm pass 264ms rows=1
+== bench complete: /tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/async-sf100-4cn-extra/warm/out.csv ==
+== WARM compare:
+q12    MATCH          rows=2 maxreldiff=0.000e+00
+q14    VALUES-DIFFER  rows=1 maxreldiff=5.500e-06 badcells=1
+
+1/3 match the DuckDB oracle within rel tol 1e-06
+== COLD-RESTART bench:
+cluster: 4 alive compute nodes + 0 alive backends (MIN_BACKENDS=4)
+restarting cluster...
+q03 r0 cold pass 2067ms rows=10
+q03 r1 warm pass 370ms rows=10
+restarting cluster...
+q12 r0 cold pass 1226ms rows=2
+q12 r1 warm pass 313ms rows=2
+restarting cluster...
+q14 r0 cold pass 1818ms rows=1
+q14 r1 warm pass 290ms rows=1
+== bench complete: /tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/async-sf100-4cn-extra/cold/out.csv ==
+== COLD compare:
+q12    MATCH          rows=2 maxreldiff=0.000e+00
+q14    VALUES-DIFFER  rows=1 maxreldiff=5.500e-06 badcells=1
+
+1/3 match the DuckDB oracle within rel tol 1e-06
+== log checks (cluster.log, current process generation):
+      1 peer=127.0.0.1:9102 gbps="392.1"
+      1 peer=127.0.0.1:9102 gbps="393.9"
+      1 peer=127.0.0.1:9102 gbps="88.9"
+      1 peer=127.0.0.1:9112 gbps="379.4"
+      1 peer=127.0.0.1:9112 gbps="390.4"
+      1 peer=127.0.0.1:9112 gbps="404.2"
+      1 peer=127.0.0.1:9122 gbps="344.7"
+      1 peer=127.0.0.1:9122 gbps="364.1"
+      1 peer=127.0.0.1:9122 gbps="403.0"
+      1 peer=127.0.0.1:9132 gbps="395.7"
+      1 peer=127.0.0.1:9132 gbps="404.2"
+      1 peer=127.0.0.1:9132 gbps="420.1"
+      1 stream_id=2 sender_id=0 dest=127.0.0.1:9112 batches=2 bytes=9268352
+      1 stream_id=2 sender_id=0 dest=127.0.0.1:9112 batches=2 bytes=9337152
+      1 stream_id=2 sender_id=0 dest=127.0.0.1:9122 batches=2 bytes=9292800
+      1 stream_id=2 sender_id=0 dest=127.0.0.1:9122 batches=2 bytes=9374592
+      1 stream_id=2 sender_id=0 dest=127.0.0.1:9132 batches=2 bytes=9279872
+      1 stream_id=2 sender_id=0 dest=127.0.0.1:9132 batches=2 bytes=9357504
+      1 stream_id=2 sender_id=1 dest=127.0.0.1:9102 batches=2 bytes=9292864
+      1 stream_id=2 sender_id=1 dest=127.0.0.1:9102 batches=2 bytes=9374720
+      1 stream_id=2 sender_id=1 dest=127.0.0.1:9112 batches=2 bytes=9268352
+      1 stream_id=2 sender_id=1 dest=127.0.0.1:9112 batches=2 bytes=9337152
+      1 stream_id=2 sender_id=1 dest=127.0.0.1:9132 batches=2 bytes=9279872
+      1 stream_id=2 sender_id=1 dest=127.0.0.1:9132 batches=2 bytes=9357632
+negative markers: needs-transport-tier=0 row-count-unknown=0 fail_stalled=0 errorCode62=0 ERROR-lines=0
+== cn-distribution (rows):
+WORK DISTRIBUTION -- distinct entities (the real unit of work; share% on 'task')
+CN    run-uuid                  operator         task   data_batch        query      channel    share%
+------------------------------------------------------------------------------------------------------
+.cn0  01a0660e-af30..44cf87            0           62           37            0            0     23.3%
+.cn1  01a0660e-af3f..d728cf            0           70           48            0            0     26.3%
+.cn2  01a0660e-af91..77247d            0           70           49            0            0     26.3%
+.cn3  01a0660e-af6e..2ef726            0           64           37            0            0     24.1%
+TOTAL                                   0          266          171            0            0
+stopped
+== done Thu Sep  3 06:57:41 UTC 2026

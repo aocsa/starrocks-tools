@@ -1,0 +1,105 @@
+┌───────────────────────────┐
+│          ORDER_BY         │
+│    ────────────────────   │
+│       sum((lineitem       │
+│  .l_extendedprice * (1 -  │
+│   lineitem.l_discount)))  │
+│            DESC           │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│    ────────────────────   │
+│         Groups: #0        │
+│    Aggregates: sum(#1)    │
+│                           │
+│     ~121,356,253 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│           n_name          │
+│ (l_extendedprice * (1.00 -│
+│        l_discount))       │
+│                           │
+│     ~244,433,107 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ c_nationkey = s_nationkey │                                                                                                                                  │
+│   l_suppkey = s_suppkey   │                                                                                                                                  │
+│                           │                                                                                                                                  │
+│     ~244,433,107 rows     │                                                                                                                                  │
+└─────────────┬─────────────┘                                                                                                                                  │
+┌─────────────┴─────────────┐                                                                                                                    ┌─────────────┴─────────────┐
+│         HASH_JOIN         │                                                                                                                    │        READ_PARQUET       │
+│    ────────────────────   │                                                                                                                    │    ────────────────────   │
+│      Join Type: INNER     │                                                                                                                    │         Function:         │
+│                           │                                                                                                                    │        READ_PARQUET       │
+│        Conditions:        │                                                                                                                    │                           │
+│  l_orderkey = o_orderkey  ├──────────────┐                                                                                                     │        Projections:       │
+│                           │              │                                                                                                     │         s_suppkey         │
+│                           │              │                                                                                                     │        s_nationkey        │
+│                           │              │                                                                                                     │                           │
+│     ~244,433,107 rows     │              │                                                                                                     │      ~10,000,000 rows     │
+└─────────────┬─────────────┘              │                                                                                                     └───────────────────────────┘
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│        READ_PARQUET       ││         HASH_JOIN         │
+│    ────────────────────   ││    ────────────────────   │
+│         Function:         ││      Join Type: INNER     │
+│        READ_PARQUET       ││                           │
+│                           ││        Conditions:        │
+│        Projections:       ││   o_custkey = c_custkey   │
+│         l_orderkey        ││                           ├──────────────┐
+│         l_suppkey         ││                           │              │
+│      l_extendedprice      ││                           │              │
+│         l_discount        ││                           │              │
+│                           ││                           │              │
+│    ~6,110,827,680 rows    ││      ~61,617,442 rows     │              │
+└───────────────────────────┘└─────────────┬─────────────┘              │
+                             ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+                             │        READ_PARQUET       ││         HASH_JOIN         │
+                             │    ────────────────────   ││    ────────────────────   │
+                             │         Function:         ││      Join Type: INNER     │
+                             │        READ_PARQUET       ││                           │
+                             │                           ││        Conditions:        │
+                             │        Projections:       ││ c_nationkey = n_nationkey │
+                             │         o_orderkey        ││                           │
+                             │         o_custkey         ││                           ├──────────────┐
+                             │                           ││                           │              │
+                             │          Filters:         ││                           │              │
+                             │ o_orderdate>='1994-01-01':││                           │              │
+                             │   :DATE AND o_orderdate<  ││                           │              │
+                             │     '1995-01-01'::DATE    ││                           │              │
+                             │                           ││                           │              │
+                             │     ~308,087,214 rows     ││      ~30,314,956 rows     │              │
+                             └───────────────────────────┘└─────────────┬─────────────┘              │
+                                                          ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+                                                          │        READ_PARQUET       ││         HASH_JOIN         │
+                                                          │    ────────────────────   ││    ────────────────────   │
+                                                          │         Function:         ││      Join Type: INNER     │
+                                                          │        READ_PARQUET       ││                           │
+                                                          │                           ││        Conditions:        │
+                                                          │        Projections:       ││ n_regionkey = r_regionkey ├──────────────┐
+                                                          │         c_custkey         ││                           │              │
+                                                          │        c_nationkey        ││                           │              │
+                                                          │                           ││                           │              │
+                                                          │     ~151,574,782 rows     ││          ~5 rows          │              │
+                                                          └───────────────────────────┘└─────────────┬─────────────┘              │
+                                                                                       ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+                                                                                       │        READ_PARQUET       ││        READ_PARQUET       │
+                                                                                       │    ────────────────────   ││    ────────────────────   │
+                                                                                       │         Function:         ││         Function:         │
+                                                                                       │        READ_PARQUET       ││        READ_PARQUET       │
+                                                                                       │                           ││                           │
+                                                                                       │        Projections:       ││        Projections:       │
+                                                                                       │        n_nationkey        ││        r_regionkey        │
+                                                                                       │           n_name          ││                           │
+                                                                                       │        n_regionkey        ││          Filters:         │
+                                                                                       │                           ││       r_name='ASIA'       │
+                                                                                       │                           ││                           │
+                                                                                       │          ~25 rows         ││           ~1 row          │
+                                                                                       └───────────────────────────┘└───────────────────────────┘

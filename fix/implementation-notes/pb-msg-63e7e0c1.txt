@@ -1,0 +1,16 @@
+fix(cn): retire a failed query's parked output instead of wiping every query's
+
+An engine Err used to clear every parked sender output on the CN and poison
+every slot with that query's error, and nothing else ever released a dead
+query's output: q16's translation failure carried 6.6 GB into q17, and a failed
+query's queued senders kept running (up to 38 GB parked under later queries on
+the 1-CN SF1000 sweep). Parked output is now owned per query (ParkedRegistry);
+a query is retired by its own Err or by the CN's fail_fragment, and its runs
+are refused at the engine dequeue (inside run_fragment_inner so the lease sweep
+still runs), at park time, on the dispatch worker and on arrival; a
+StagedLeases guard returns the staged leases of a fragment that never runs.
+Tests: 9 registry, 5 service (both dispatch modes), 4 engine (GPU); CI trio
+green. Left: cancel_plan_fragment teardown and rendezvous purge (next commit).
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+

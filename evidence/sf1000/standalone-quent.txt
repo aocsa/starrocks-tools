@@ -1,0 +1,271 @@
+## sf1000-standalone:q01.r0 [alone:q01.r0]: fragments=1 span=5.897s tasks=218 leases=0 lease_GB=0.00 lease_held=0.000s batches=432 dwell_sum=310.548s
+   [quent] sf1000-standalone:q01.r0                 wall=5.897s tasks=218 Q=301.923 Rsv=0.003 Prep=0.006 Comp=23.043 Fin=0.000 req=793.2GB est=793.2GB alloc=743.1GB in=256.5GB leases=0/0.00GB held=0.000s maxconc=0 batches=432 dwell_max=5.476s
+        GPU_SCAN(0)            n=107  sum=  16.209s in= 256.50GB
+        HASH_GROUP_BY(3)       n=107  sum=   5.888s in= 300.96GB
+        PROJECTION(2)          n=107  sum=   0.483s in= 300.96GB
+        PROJECTION(1)          n=107  sum=   0.450s in= 252.89GB
+## sf1000-standalone:q01.r1 [alone:q01.r1]: fragments=1 span=4.845s tasks=218 leases=0 lease_GB=0.00 lease_held=0.000s batches=432 dwell_sum=268.399s
+   [quent] sf1000-standalone:q01.r1                 wall=4.845s tasks=218 Q=243.332 Rsv=0.003 Prep=0.006 Comp=18.993 Fin=0.000 req=793.2GB est=793.2GB alloc=743.1GB in=256.5GB leases=0/0.00GB held=0.000s maxconc=0 batches=432 dwell_max=4.631s
+        GPU_SCAN(0)            n=107  sum=  12.319s in= 256.50GB
+        HASH_GROUP_BY(3)       n=107  sum=   5.906s in= 300.96GB
+        PROJECTION(2)          n=107  sum=   0.426s in= 300.96GB
+        PROJECTION(1)          n=107  sum=   0.334s in= 252.89GB
+## sf1000-standalone:q01.r2 [alone:q01.r2]: fragments=1 span=4.893s tasks=218 leases=0 lease_GB=0.00 lease_held=0.000s batches=432 dwell_sum=266.793s
+   [quent] sf1000-standalone:q01.r2                 wall=4.893s tasks=218 Q=248.756 Rsv=0.004 Prep=0.006 Comp=19.302 Fin=0.000 req=793.2GB est=793.2GB alloc=743.1GB in=256.5GB leases=0/0.00GB held=0.000s maxconc=0 batches=432 dwell_max=4.676s
+        GPU_SCAN(0)            n=107  sum=  12.693s in= 256.50GB
+        HASH_GROUP_BY(3)       n=107  sum=   5.708s in= 300.96GB
+        PROJECTION(2)          n=107  sum=   0.509s in= 300.96GB
+        PROJECTION(1)          n=107  sum=   0.385s in= 252.89GB
+## sf1000-standalone:q02.r0 [alone:q02.r0]: fragments=1 span=0.795s tasks=83 leases=0 lease_GB=0.00 lease_held=0.000s batches=55 dwell_sum=0.481s
+   [quent] sf1000-standalone:q02.r0                 wall=0.795s tasks=83 Q=0.464 Rsv=0.001 Prep=0.005 Comp=2.726 Fin=0.000 req=239.7GB est=239.2GB alloc=44.0GB in=35.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=55 dwell_max=0.120s
+        GPU_SCAN(37)           n=5    sum=   1.010s in=  13.10GB
+        GPU_SCAN(51)           n=5    sum=   0.783s in=  13.10GB
+        GPU_SCAN(17)           n=4    sum=   0.782s in=   4.45GB
+        GPU_SCAN(30)           n=1    sum=   0.045s in=   1.53GB
+## sf1000-standalone:q02.r1 [alone:q02.r1]: fragments=1 span=0.546s tasks=83 leases=0 lease_GB=0.00 lease_held=0.000s batches=55 dwell_sum=0.393s
+   [quent] sf1000-standalone:q02.r1                 wall=0.546s tasks=83 Q=0.363 Rsv=0.001 Prep=0.005 Comp=1.826 Fin=0.000 req=239.7GB est=239.2GB alloc=44.0GB in=35.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=55 dwell_max=0.095s
+        GPU_SCAN(51)           n=5    sum=   0.765s in=  13.10GB
+        GPU_SCAN(37)           n=5    sum=   0.757s in=  13.10GB
+        GPU_SCAN(17)           n=4    sum=   0.203s in=   4.45GB
+        GPU_SCAN(30)           n=1    sum=   0.044s in=   1.53GB
+## sf1000-standalone:q02.r2 [alone:q02.r2]: fragments=1 span=0.553s tasks=83 leases=0 lease_GB=0.00 lease_held=0.000s batches=55 dwell_sum=0.373s
+   [quent] sf1000-standalone:q02.r2                 wall=0.553s tasks=83 Q=0.400 Rsv=0.001 Prep=0.006 Comp=1.895 Fin=0.000 req=239.7GB est=239.2GB alloc=44.0GB in=35.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=55 dwell_max=0.098s
+        GPU_SCAN(37)           n=5    sum=   0.786s in=  13.10GB
+        GPU_SCAN(51)           n=5    sum=   0.770s in=  13.10GB
+        GPU_SCAN(17)           n=4    sum=   0.222s in=   4.45GB
+        GPU_SCAN(30)           n=1    sum=   0.044s in=   1.53GB
+## sf1000-standalone:q03.r0 [alone:q03.r0]: fragments=1 span=2.788s tasks=169 leases=0 lease_GB=0.00 lease_held=0.000s batches=168 dwell_sum=60.394s
+   [quent] sf1000-standalone:q03.r0                 wall=2.788s tasks=169 Q=112.996 Rsv=0.002 Prep=0.004 Comp=10.396 Fin=0.000 req=546.8GB est=546.8GB alloc=397.1GB in=198.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=168 dwell_max=1.832s
+        GPU_SCAN(10)           n=65   sum=   7.036s in= 146.25GB
+        GPU_SCAN(3)            n=12   sum=   3.104s in=  30.75GB
+        DYNAMIC_FILTER(11)     n=65   sum=   0.108s in=  78.84GB
+        GPU_SCAN(0)            n=1    sum=   0.054s in=   0.62GB
+## sf1000-standalone:q03.r1 [alone:q03.r1]: fragments=1 span=2.458s tasks=169 leases=0 lease_GB=0.00 lease_held=0.000s batches=168 dwell_sum=59.513s
+   [quent] sf1000-standalone:q03.r1                 wall=2.458s tasks=169 Q=113.613 Rsv=0.002 Prep=0.004 Comp=9.215 Fin=0.000 req=546.2GB est=546.2GB alloc=397.1GB in=198.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=168 dwell_max=1.863s
+        GPU_SCAN(10)           n=65   sum=   7.197s in= 146.25GB
+        GPU_SCAN(3)            n=12   sum=   1.768s in=  30.75GB
+        DYNAMIC_FILTER(11)     n=65   sum=   0.110s in=  78.84GB
+        GPU_SCAN(0)            n=1    sum=   0.041s in=   0.62GB
+## sf1000-standalone:q03.r2 [alone:q03.r2]: fragments=1 span=3.600s tasks=169 leases=0 lease_GB=0.00 lease_held=0.000s batches=168 dwell_sum=112.168s
+   [quent] sf1000-standalone:q03.r2                 wall=3.600s tasks=169 Q=182.227 Rsv=0.002 Prep=0.004 Comp=13.775 Fin=0.000 req=546.4GB est=546.4GB alloc=397.1GB in=198.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=168 dwell_max=2.983s
+        GPU_SCAN(10)           n=65   sum=  11.235s in= 146.25GB
+        GPU_SCAN(3)            n=12   sum=   1.768s in=  30.75GB
+        DYNAMIC_FILTER(11)     n=65   sum=   0.557s in=  78.84GB
+        GPU_SCAN(0)            n=1    sum=   0.084s in=   0.62GB
+## sf1000-standalone:q04.r0 [alone:q04.r0]: fragments=1 span=1.755s tasks=158 leases=0 lease_GB=0.00 lease_held=0.000s batches=148 dwell_sum=20.431s
+   [quent] sf1000-standalone:q04.r0                 wall=1.755s tasks=158 Q=43.753 Rsv=0.002 Prep=0.026 Comp=6.555 Fin=0.000 req=336.1GB est=334.4GB alloc=194.0GB in=144.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=148 dwell_max=1.152s
+        GPU_SCAN(7)            n=37   sum=   5.212s in=  98.25GB
+        GPU_SCAN(0)            n=14   sum=   1.088s in=  30.97GB
+        DYNAMIC_FILTER(8)      n=37   sum=   0.137s in=  98.25GB
+        FILTER(9)              n=37   sum=   0.055s in=   3.88GB
+## sf1000-standalone:q04.r1 [alone:q04.r1]: fragments=1 span=2.093s tasks=158 leases=0 lease_GB=0.00 lease_held=0.000s batches=148 dwell_sum=21.471s
+   [quent] sf1000-standalone:q04.r1                 wall=2.093s tasks=158 Q=43.529 Rsv=0.006 Prep=0.026 Comp=7.884 Fin=0.000 req=335.8GB est=334.1GB alloc=194.0GB in=144.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=148 dwell_max=1.178s
+        GPU_SCAN(7)            n=37   sum=   4.809s in=  98.25GB
+        GPU_SCAN(0)            n=14   sum=   2.831s in=  30.97GB
+        DYNAMIC_FILTER(8)      n=37   sum=   0.111s in=  98.25GB
+        FILTER(9)              n=37   sum=   0.079s in=   3.88GB
+## sf1000-standalone:q04.r2 [alone:q04.r2]: fragments=1 span=1.659s tasks=158 leases=0 lease_GB=0.00 lease_held=0.000s batches=148 dwell_sum=21.299s
+   [quent] sf1000-standalone:q04.r2                 wall=1.659s tasks=158 Q=42.084 Rsv=0.005 Prep=0.026 Comp=6.163 Fin=0.000 req=336.0GB est=334.3GB alloc=194.0GB in=144.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=148 dwell_max=1.185s
+        GPU_SCAN(7)            n=37   sum=   4.858s in=  98.25GB
+        GPU_SCAN(0)            n=14   sum=   1.059s in=  30.97GB
+        DYNAMIC_FILTER(8)      n=37   sum=   0.111s in=  98.25GB
+        FILTER(9)              n=37   sum=   0.082s in=   3.88GB
+## sf1000-standalone:q06.r0 [alone:q06.r0]: fragments=1 span=1.947s tasks=67 leases=0 lease_GB=0.00 lease_held=0.000s batches=197 dwell_sum=57.740s
+   [quent] sf1000-standalone:q06.r0                 wall=1.947s tasks=67 Q=57.853 Rsv=0.001 Prep=0.002 Comp=7.700 Fin=0.000 req=277.8GB est=277.8GB alloc=239.5GB in=97.5GB leases=0/0.00GB held=0.000s maxconc=0 batches=197 dwell_max=1.778s
+        GPU_SCAN(0)            n=65   sum=   7.507s in=  97.50GB
+        PROJECTION(1)          n=65   sum=   0.116s in=   1.86GB
+        UNGROUPED_AGGREGATE(2) n=65   sum=   0.077s in=   0.93GB
+        MERGE_AGGREGATE(3)     n=1    sum=   0.001s in=   0.00GB
+## sf1000-standalone:q06.r1 [alone:q06.r1]: fragments=1 span=2.006s tasks=67 leases=0 lease_GB=0.00 lease_held=0.000s batches=197 dwell_sum=58.071s
+   [quent] sf1000-standalone:q06.r1                 wall=2.006s tasks=67 Q=59.693 Rsv=0.003 Prep=0.002 Comp=7.715 Fin=0.000 req=277.8GB est=277.8GB alloc=239.5GB in=97.5GB leases=0/0.00GB held=0.000s maxconc=0 batches=197 dwell_max=1.844s
+        GPU_SCAN(0)            n=65   sum=   7.469s in=  97.50GB
+        UNGROUPED_AGGREGATE(2) n=65   sum=   0.124s in=   0.93GB
+        PROJECTION(1)          n=65   sum=   0.122s in=   1.86GB
+        MERGE_AGGREGATE(3)     n=1    sum=   0.001s in=   0.00GB
+## sf1000-standalone:q06.r2 [alone:q06.r2]: fragments=1 span=1.914s tasks=67 leases=0 lease_GB=0.00 lease_held=0.000s batches=197 dwell_sum=52.645s
+   [quent] sf1000-standalone:q06.r2                 wall=1.914s tasks=67 Q=59.320 Rsv=0.002 Prep=0.002 Comp=7.356 Fin=0.000 req=277.8GB est=277.8GB alloc=239.5GB in=97.5GB leases=0/0.00GB held=0.000s maxconc=0 batches=197 dwell_max=1.751s
+        GPU_SCAN(0)            n=65   sum=   7.169s in=  97.50GB
+        PROJECTION(1)          n=65   sum=   0.108s in=   1.86GB
+        UNGROUPED_AGGREGATE(2) n=65   sum=   0.078s in=   0.93GB
+        MERGE_AGGREGATE(3)     n=1    sum=   0.001s in=   0.00GB
+## sf1000-standalone:q07.r0 [alone:q07.r0]: fragments=1 span=3.359s tasks=206 leases=0 lease_GB=0.00 lease_held=0.000s batches=219 dwell_sum=100.080s
+   [quent] sf1000-standalone:q07.r0                 wall=3.359s tasks=206 Q=188.356 Rsv=0.003 Prep=0.085 Comp=12.687 Fin=0.000 req=557.0GB est=551.2GB alloc=376.2GB in=253.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=219 dwell_max=2.676s
+        GPU_SCAN(23)           n=74   sum=  10.305s in= 195.75GB
+        GPU_SCAN(30)           n=7    sum=   1.885s in=  18.37GB
+        GPU_SCAN(6)            n=1    sum=   0.133s in=   1.24GB
+        DYNAMIC_FILTER(24)     n=74   sum=   0.098s in=  59.47GB
+## sf1000-standalone:q07.r1 [alone:q07.r1]: fragments=1 span=3.220s tasks=206 leases=0 lease_GB=0.00 lease_held=0.000s batches=219 dwell_sum=99.911s
+   [quent] sf1000-standalone:q07.r1                 wall=3.220s tasks=206 Q=189.241 Rsv=0.003 Prep=0.083 Comp=12.196 Fin=0.000 req=557.4GB est=551.6GB alloc=376.2GB in=253.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=219 dwell_max=2.728s
+        GPU_SCAN(23)           n=74   sum=  10.495s in= 195.75GB
+        GPU_SCAN(30)           n=7    sum=   1.158s in=  18.37GB
+        GPU_SCAN(6)            n=1    sum=   0.143s in=   1.24GB
+        DYNAMIC_FILTER(24)     n=74   sum=   0.127s in=  59.47GB
+## sf1000-standalone:q07.r2 [alone:q07.r2]: fragments=1 span=3.262s tasks=206 leases=0 lease_GB=0.00 lease_held=0.000s batches=219 dwell_sum=99.829s
+   [quent] sf1000-standalone:q07.r2                 wall=3.262s tasks=206 Q=190.918 Rsv=0.003 Prep=0.086 Comp=12.279 Fin=0.000 req=574.1GB est=568.3GB alloc=376.2GB in=253.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=219 dwell_max=2.774s
+        GPU_SCAN(23)           n=74   sum=  10.716s in= 195.75GB
+        GPU_SCAN(30)           n=7    sum=   1.148s in=  18.37GB
+        DYNAMIC_FILTER(24)     n=74   sum=   0.118s in=  59.47GB
+        GPU_SCAN(6)            n=1    sum=   0.085s in=   1.24GB
+## sf1000-standalone:q10.r0 [alone:q10.r0]: fragments=1 span=3.058s tasks=214 leases=0 lease_GB=0.00 lease_held=0.000s batches=220 dwell_sum=58.004s
+   [quent] sf1000-standalone:q10.r0                 wall=3.058s tasks=214 Q=105.851 Rsv=0.003 Prep=0.005 Comp=11.897 Fin=0.000 req=670.8GB est=670.8GB alloc=408.2GB in=267.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=220 dwell_max=1.666s
+        GPU_SCAN(3)            n=67   sum=   6.493s in= 146.25GB
+        GPU_SCAN(13)           n=10   sum=   2.105s in=  24.51GB
+        GPU_SCAN(0)            n=10   sum=   1.871s in=  18.37GB
+        HASH_GROUP_BY(22)      n=4    sum=   0.396s in=  20.80GB
+## sf1000-standalone:q10.r1 [alone:q10.r1]: fragments=1 span=3.028s tasks=214 leases=0 lease_GB=0.00 lease_held=0.000s batches=220 dwell_sum=57.404s
+   [quent] sf1000-standalone:q10.r1                 wall=3.028s tasks=214 Q=105.017 Rsv=0.003 Prep=0.007 Comp=11.800 Fin=0.000 req=666.8GB est=666.8GB alloc=408.2GB in=267.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=220 dwell_max=1.655s
+        GPU_SCAN(3)            n=67   sum=   6.453s in= 146.25GB
+        GPU_SCAN(13)           n=10   sum=   2.047s in=  24.51GB
+        GPU_SCAN(0)            n=10   sum=   1.873s in=  18.37GB
+        HASH_GROUP_BY(22)      n=4    sum=   0.467s in=  20.80GB
+## sf1000-standalone:q10.r2 [alone:q10.r2]: fragments=1 span=3.074s tasks=214 leases=0 lease_GB=0.00 lease_held=0.000s batches=220 dwell_sum=58.120s
+   [quent] sf1000-standalone:q10.r2                 wall=3.074s tasks=214 Q=104.883 Rsv=0.003 Prep=0.006 Comp=11.988 Fin=0.000 req=674.9GB est=674.9GB alloc=408.2GB in=267.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=220 dwell_max=1.653s
+        GPU_SCAN(3)            n=67   sum=   6.421s in= 146.25GB
+        GPU_SCAN(13)           n=10   sum=   2.193s in=  24.51GB
+        GPU_SCAN(0)            n=10   sum=   1.914s in=  18.37GB
+        HASH_GROUP_BY(22)      n=4    sum=   0.472s in=  20.80GB
+## sf1000-standalone:q11.r0 [alone:q11.r0]: fragments=1 span=0.344s tasks=73 leases=0 lease_GB=0.00 lease_held=0.000s batches=43 dwell_sum=1.434s
+   [quent] sf1000-standalone:q11.r0                 wall=0.344s tasks=73 Q=0.666 Rsv=0.001 Prep=0.002 Comp=1.096 Fin=0.000 req=130.5GB est=130.5GB alloc=32.8GB in=56.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=43 dwell_max=0.321s
+        GPU_SCAN(13)           n=7    sum=   0.941s in=  16.40GB
+        DYNAMIC_FILTER(37)     n=7    sum=   0.037s in=  16.40GB
+        DYNAMIC_FILTER(15)     n=7    sum=   0.032s in=  16.40GB
+        HASH_JOIN(18)          n=1    sum=   0.025s in=   0.68GB
+## sf1000-standalone:q11.r1 [alone:q11.r1]: fragments=1 span=0.324s tasks=73 leases=0 lease_GB=0.00 lease_held=0.000s batches=43 dwell_sum=1.427s
+   [quent] sf1000-standalone:q11.r1                 wall=0.324s tasks=73 Q=0.650 Rsv=0.001 Prep=0.002 Comp=1.054 Fin=0.000 req=128.8GB est=128.8GB alloc=32.8GB in=56.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=43 dwell_max=0.310s
+        GPU_SCAN(13)           n=7    sum=   0.906s in=  16.40GB
+        DYNAMIC_FILTER(37)     n=7    sum=   0.039s in=  16.40GB
+        DYNAMIC_FILTER(15)     n=7    sum=   0.034s in=  16.40GB
+        HASH_JOIN(18)          n=1    sum=   0.025s in=   0.68GB
+## sf1000-standalone:q11.r2 [alone:q11.r2]: fragments=1 span=0.331s tasks=73 leases=0 lease_GB=0.00 lease_held=0.000s batches=43 dwell_sum=1.440s
+   [quent] sf1000-standalone:q11.r2                 wall=0.331s tasks=73 Q=0.675 Rsv=0.001 Prep=0.002 Comp=1.067 Fin=0.000 req=130.5GB est=130.5GB alloc=32.8GB in=56.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=43 dwell_max=0.314s
+        GPU_SCAN(13)           n=7    sum=   0.914s in=  16.40GB
+        DYNAMIC_FILTER(37)     n=7    sum=   0.038s in=  16.40GB
+        DYNAMIC_FILTER(15)     n=7    sum=   0.034s in=  16.40GB
+        HASH_JOIN(18)          n=1    sum=   0.025s in=   0.68GB
+## sf1000-standalone:q12.r0 [alone:q12.r0]: fragments=1 span=2.137s tasks=162 leases=0 lease_GB=0.00 lease_held=0.000s batches=161 dwell_sum=57.969s
+   [quent] sf1000-standalone:q12.r0                 wall=2.137s tasks=162 Q=59.025 Rsv=0.002 Prep=0.004 Comp=8.272 Fin=0.000 req=468.4GB est=468.4GB alloc=320.2GB in=207.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=161 dwell_max=1.760s
+        GPU_SCAN(0)            n=65   sum=   7.482s in= 173.46GB
+        GPU_SCAN(4)            n=12   sum=   0.572s in=  30.97GB
+        FILTER(1)              n=65   sum=   0.142s in=  25.62GB
+        DYNAMIC_FILTER(5)      n=12   sum=   0.050s in=  30.97GB
+## sf1000-standalone:q12.r1 [alone:q12.r1]: fragments=1 span=2.192s tasks=162 leases=0 lease_GB=0.00 lease_held=0.000s batches=161 dwell_sum=58.751s
+   [quent] sf1000-standalone:q12.r1                 wall=2.192s tasks=162 Q=60.562 Rsv=0.002 Prep=0.004 Comp=8.403 Fin=0.000 req=468.4GB est=468.4GB alloc=320.2GB in=207.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=161 dwell_max=1.830s
+        GPU_SCAN(0)            n=65   sum=   7.611s in= 173.46GB
+        GPU_SCAN(4)            n=12   sum=   0.574s in=  30.97GB
+        FILTER(1)              n=65   sum=   0.139s in=  25.62GB
+        DYNAMIC_FILTER(5)      n=12   sum=   0.056s in=  30.97GB
+## sf1000-standalone:q12.r2 [alone:q12.r2]: fragments=1 span=2.232s tasks=162 leases=0 lease_GB=0.00 lease_held=0.000s batches=161 dwell_sum=62.125s
+   [quent] sf1000-standalone:q12.r2                 wall=2.232s tasks=162 Q=60.461 Rsv=0.005 Prep=0.005 Comp=8.628 Fin=0.000 req=468.4GB est=468.4GB alloc=320.2GB in=207.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=161 dwell_max=1.864s
+        GPU_SCAN(0)            n=65   sum=   7.827s in= 173.46GB
+        GPU_SCAN(4)            n=12   sum=   0.565s in=  30.97GB
+        FILTER(1)              n=65   sum=   0.147s in=  25.62GB
+        DYNAMIC_FILTER(5)      n=12   sum=   0.066s in=  30.97GB
+## sf1000-standalone:q13.r0 [alone:q13.r0]: fragments=1 span=1.804s tasks=86 leases=0 lease_GB=0.00 lease_held=0.000s batches=123 dwell_sum=35.096s
+   [quent] sf1000-standalone:q13.r0                 wall=1.804s tasks=86 Q=28.364 Rsv=0.041 Prep=0.008 Comp=6.687 Fin=0.000 req=549.8GB est=548.9GB alloc=0.9GB in=58.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=123 dwell_max=1.671s
+        GPU_SCAN(2)            n=37   sum=   6.492s in=  18.37GB
+        PARTITION(3)           n=37   sum=   0.103s in=  18.18GB
+        DENSE_COUNT_JOIN(4)    n=2    sum=   0.071s in=  18.41GB
+        GPU_SCAN(0)            n=1    sum=   0.011s in=   0.62GB
+## sf1000-standalone:q13.r1 [alone:q13.r1]: fragments=1 span=1.814s tasks=86 leases=0 lease_GB=0.00 lease_held=0.000s batches=123 dwell_sum=34.896s
+   [quent] sf1000-standalone:q13.r1                 wall=1.814s tasks=86 Q=28.714 Rsv=0.035 Prep=0.007 Comp=6.750 Fin=0.000 req=549.8GB est=548.9GB alloc=0.9GB in=58.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=123 dwell_max=1.686s
+        GPU_SCAN(2)            n=37   sum=   6.557s in=  18.37GB
+        PARTITION(3)           n=37   sum=   0.106s in=  18.18GB
+        DENSE_COUNT_JOIN(4)    n=2    sum=   0.066s in=  18.41GB
+        GPU_SCAN(0)            n=1    sum=   0.013s in=   0.62GB
+## sf1000-standalone:q13.r2 [alone:q13.r2]: fragments=1 span=1.803s tasks=86 leases=0 lease_GB=0.00 lease_held=0.000s batches=123 dwell_sum=34.672s
+   [quent] sf1000-standalone:q13.r2                 wall=1.803s tasks=86 Q=28.587 Rsv=0.035 Prep=0.007 Comp=6.709 Fin=0.000 req=549.8GB est=548.9GB alloc=0.9GB in=58.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=123 dwell_max=1.676s
+        GPU_SCAN(2)            n=37   sum=   6.517s in=  18.37GB
+        PARTITION(3)           n=37   sum=   0.106s in=  18.18GB
+        DENSE_COUNT_JOIN(4)    n=2    sum=   0.066s in=  18.41GB
+        GPU_SCAN(0)            n=1    sum=   0.011s in=   0.62GB
+## sf1000-standalone:q14.r0 [alone:q14.r0]: fragments=1 span=2.772s tasks=129 leases=0 lease_GB=0.00 lease_held=0.000s batches=254 dwell_sum=79.133s
+   [quent] sf1000-standalone:q14.r0                 wall=2.772s tasks=129 Q=132.978 Rsv=0.002 Prep=0.004 Comp=10.640 Fin=0.000 req=369.9GB est=369.9GB alloc=5.4GB in=149.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=254 dwell_max=2.647s
+        GPU_SCAN(3)            n=56   sum=  10.306s in= 122.25GB
+        HASH_JOIN(6)           n=3    sum=   0.133s in=   7.22GB
+        PARTITION(1)           n=3    sum=   0.070s in=   5.77GB
+        GPU_SCAN(0)            n=3    sum=   0.065s in=   5.77GB
+## sf1000-standalone:q14.r1 [alone:q14.r1]: fragments=1 span=2.654s tasks=129 leases=0 lease_GB=0.00 lease_held=0.000s batches=254 dwell_sum=72.334s
+   [quent] sf1000-standalone:q14.r1                 wall=2.654s tasks=129 Q=128.449 Rsv=0.002 Prep=0.006 Comp=10.204 Fin=0.000 req=370.2GB est=370.2GB alloc=5.4GB in=149.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=254 dwell_max=2.528s
+        GPU_SCAN(3)            n=56   sum=   9.850s in= 122.25GB
+        HASH_JOIN(6)           n=3    sum=   0.134s in=   7.22GB
+        PARTITION(1)           n=3    sum=   0.070s in=   5.77GB
+        GPU_SCAN(0)            n=3    sum=   0.066s in=   5.77GB
+## sf1000-standalone:q14.r2 [alone:q14.r2]: fragments=1 span=2.765s tasks=129 leases=0 lease_GB=0.00 lease_held=0.000s batches=254 dwell_sum=77.124s
+   [quent] sf1000-standalone:q14.r2                 wall=2.765s tasks=129 Q=133.299 Rsv=0.002 Prep=0.004 Comp=10.819 Fin=0.000 req=369.9GB est=369.9GB alloc=5.4GB in=149.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=254 dwell_max=2.639s
+        GPU_SCAN(3)            n=56   sum=  10.290s in= 122.25GB
+        GPU_SCAN(0)            n=3    sum=   0.233s in=   5.77GB
+        HASH_JOIN(6)           n=3    sum=   0.134s in=   7.22GB
+        PARTITION(1)           n=3    sum=   0.070s in=   5.77GB
+## sf1000-standalone:q15.r0 [alone:q15.r0]: fragments=1 span=2.637s tasks=137 leases=0 lease_GB=0.00 lease_held=0.000s batches=296 dwell_sum=70.143s
+   [quent] sf1000-standalone:q15.r0                 wall=2.637s tasks=137 Q=66.440 Rsv=0.002 Prep=0.005 Comp=10.096 Fin=0.000 req=314.8GB est=314.8GB alloc=232.2GB in=133.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=296 dwell_max=2.545s
+        GPU_SCAN(3)            n=56   sum=   9.742s in= 122.25GB
+        PROJECTION(4)          n=56   sum=   0.144s in=   4.62GB
+        HASH_GROUP_BY(5)       n=56   sum=   0.078s in=   2.78GB
+        MERGE_GROUP_BY(7)      n=2    sum=   0.042s in=   3.66GB
+## sf1000-standalone:q15.r1 [alone:q15.r1]: fragments=1 span=2.608s tasks=137 leases=0 lease_GB=0.00 lease_held=0.000s batches=296 dwell_sum=69.334s
+   [quent] sf1000-standalone:q15.r1                 wall=2.608s tasks=137 Q=65.956 Rsv=0.002 Prep=0.006 Comp=10.067 Fin=0.000 req=315.0GB est=315.0GB alloc=232.2GB in=133.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=296 dwell_max=2.518s
+        GPU_SCAN(3)            n=56   sum=   9.709s in= 122.25GB
+        PROJECTION(4)          n=56   sum=   0.123s in=   4.62GB
+        HASH_GROUP_BY(5)       n=56   sum=   0.078s in=   2.78GB
+        GPU_SCAN(0)            n=1    sum=   0.075s in=   0.75GB
+## sf1000-standalone:q15.r2 [alone:q15.r2]: fragments=1 span=2.615s tasks=137 leases=0 lease_GB=0.00 lease_held=0.000s batches=296 dwell_sum=69.303s
+   [quent] sf1000-standalone:q15.r2                 wall=2.615s tasks=137 Q=66.207 Rsv=0.002 Prep=0.005 Comp=10.054 Fin=0.000 req=315.0GB est=315.0GB alloc=232.2GB in=133.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=296 dwell_max=2.522s
+        GPU_SCAN(3)            n=56   sum=   9.699s in= 122.25GB
+        PROJECTION(4)          n=56   sum=   0.128s in=   4.62GB
+        HASH_GROUP_BY(5)       n=56   sum=   0.103s in=   2.78GB
+        GPU_SCAN(0)            n=1    sum=   0.043s in=   0.75GB
+## sf1000-standalone:q19.r0 [alone:q19.r0]: fragments=1 span=3.062s tasks=251 leases=0 lease_GB=0.00 lease_held=0.000s batches=373 dwell_sum=168.350s
+   [quent] sf1000-standalone:q19.r0                 wall=3.062s tasks=251 Q=333.446 Rsv=0.003 Prep=0.007 Comp=11.900 Fin=0.000 req=618.8GB est=618.8GB alloc=530.5GB in=228.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=373 dwell_max=2.892s
+        GPU_SCAN(4)            n=120  sum=  11.232s in= 221.46GB
+        GPU_SCAN(0)            n=3    sum=   0.387s in=   6.42GB
+        DYNAMIC_FILTER(5)      n=120  sum=   0.178s in=  55.36GB
+        FILTER(6)              n=120  sum=   0.091s in=   0.13GB
+## sf1000-standalone:q19.r1 [alone:q19.r1]: fragments=1 span=3.232s tasks=251 leases=0 lease_GB=0.00 lease_held=0.000s batches=373 dwell_sum=175.511s
+   [quent] sf1000-standalone:q19.r1                 wall=3.232s tasks=251 Q=346.010 Rsv=0.004 Prep=0.005 Comp=12.377 Fin=0.000 req=618.8GB est=618.8GB alloc=530.5GB in=228.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=373 dwell_max=3.060s
+        GPU_SCAN(4)            n=120  sum=  11.775s in= 221.46GB
+        GPU_SCAN(0)            n=3    sum=   0.295s in=   6.42GB
+        DYNAMIC_FILTER(5)      n=120  sum=   0.188s in=  55.36GB
+        FILTER(6)              n=120  sum=   0.106s in=   0.13GB
+## sf1000-standalone:q19.r2 [alone:q19.r2]: fragments=1 span=3.099s tasks=251 leases=0 lease_GB=0.00 lease_held=0.000s batches=373 dwell_sum=169.784s
+   [quent] sf1000-standalone:q19.r2                 wall=3.099s tasks=251 Q=335.159 Rsv=0.003 Prep=0.005 Comp=11.894 Fin=0.000 req=618.8GB est=618.8GB alloc=530.5GB in=228.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=373 dwell_max=2.933s
+        GPU_SCAN(4)            n=120  sum=  11.310s in= 221.46GB
+        GPU_SCAN(0)            n=3    sum=   0.276s in=   6.42GB
+        DYNAMIC_FILTER(5)      n=120  sum=   0.184s in=  55.36GB
+        FILTER(6)              n=120  sum=   0.102s in=   0.13GB
+## sf1000-standalone:q20.r0 [alone:q20.r0]: fragments=1 span=2.882s tasks=141 leases=0 lease_GB=0.00 lease_held=0.000s batches=122 dwell_sum=60.288s
+   [quent] sf1000-standalone:q20.r0                 wall=2.882s tasks=141 Q=100.975 Rsv=0.002 Prep=0.003 Comp=10.942 Fin=0.000 req=379.3GB est=379.3GB alloc=244.1GB in=111.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=122 dwell_max=2.783s
+        GPU_SCAN(24)           n=46   sum=   9.719s in=  98.25GB
+        GPU_SCAN(13)           n=4    sum=   0.582s in=   9.90GB
+        GPU_SCAN(10)           n=4    sum=   0.530s in=   0.82GB
+        DYNAMIC_FILTER(25)     n=46   sum=   0.045s in=  14.91GB
+## sf1000-standalone:q20.r1 [alone:q20.r1]: fragments=1 span=2.958s tasks=141 leases=0 lease_GB=0.00 lease_held=0.000s batches=122 dwell_sum=61.948s
+   [quent] sf1000-standalone:q20.r1                 wall=2.958s tasks=141 Q=101.597 Rsv=0.005 Prep=0.004 Comp=11.059 Fin=0.000 req=379.3GB est=379.3GB alloc=244.1GB in=111.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=122 dwell_max=2.859s
+        GPU_SCAN(24)           n=46   sum=   9.821s in=  98.25GB
+        GPU_SCAN(13)           n=4    sum=   0.603s in=   9.90GB
+        GPU_SCAN(10)           n=4    sum=   0.503s in=   0.82GB
+        DYNAMIC_FILTER(25)     n=46   sum=   0.066s in=  14.91GB
+## sf1000-standalone:q20.r2 [alone:q20.r2]: fragments=1 span=2.963s tasks=141 leases=0 lease_GB=0.00 lease_held=0.000s batches=122 dwell_sum=62.697s
+   [quent] sf1000-standalone:q20.r2                 wall=2.963s tasks=141 Q=103.774 Rsv=0.002 Prep=0.004 Comp=11.117 Fin=0.000 req=379.3GB est=379.3GB alloc=244.1GB in=111.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=122 dwell_max=2.864s
+        GPU_SCAN(24)           n=46   sum=   9.888s in=  98.25GB
+        GPU_SCAN(13)           n=4    sum=   0.584s in=   9.90GB
+        GPU_SCAN(10)           n=4    sum=   0.526s in=   0.82GB
+        DYNAMIC_FILTER(25)     n=46   sum=   0.053s in=  14.91GB
+## sf1000-standalone:q22.r0 [alone:q22.r0]: fragments=1 span=0.484s tasks=40 leases=0 lease_GB=0.00 lease_held=0.000s batches=31 dwell_sum=0.778s
+   [quent] sf1000-standalone:q22.r0                 wall=0.484s tasks=40 Q=0.001 Rsv=0.001 Prep=0.001 Comp=1.188 Fin=0.000 req=114.3GB est=114.3GB alloc=33.7GB in=26.2GB leases=0/0.00GB held=0.000s maxconc=0 batches=31 dwell_max=0.312s
+        GPU_SCAN(23)           n=3    sum=   0.801s in=   6.19GB
+        GPU_SCAN(0)            n=2    sum=   0.282s in=   4.71GB
+        FILTER(11)             n=2    sum=   0.026s in=   1.32GB
+        FILTER(2)              n=2    sum=   0.025s in=   1.32GB
+## sf1000-standalone:q22.r1 [alone:q22.r1]: fragments=1 span=0.481s tasks=40 leases=0 lease_GB=0.00 lease_held=0.000s batches=31 dwell_sum=0.766s
+   [quent] sf1000-standalone:q22.r1                 wall=0.481s tasks=40 Q=0.002 Rsv=0.002 Prep=0.001 Comp=1.171 Fin=0.000 req=114.3GB est=114.3GB alloc=33.7GB in=26.2GB leases=0/0.00GB held=0.000s maxconc=0 batches=31 dwell_max=0.311s
+        GPU_SCAN(23)           n=3    sum=   0.797s in=   6.19GB
+        GPU_SCAN(0)            n=2    sum=   0.280s in=   4.71GB
+        FILTER(11)             n=2    sum=   0.026s in=   1.32GB
+        FILTER(2)              n=2    sum=   0.025s in=   1.32GB
+## sf1000-standalone:q22.r2 [alone:q22.r2]: fragments=1 span=0.481s tasks=40 leases=0 lease_GB=0.00 lease_held=0.000s batches=31 dwell_sum=0.779s
+   [quent] sf1000-standalone:q22.r2                 wall=0.481s tasks=40 Q=0.002 Rsv=0.001 Prep=0.001 Comp=1.178 Fin=0.000 req=114.3GB est=114.3GB alloc=33.7GB in=26.2GB leases=0/0.00GB held=0.000s maxconc=0 batches=31 dwell_max=0.316s
+        GPU_SCAN(23)           n=3    sum=   0.814s in=   6.19GB
+        GPU_SCAN(0)            n=2    sum=   0.270s in=   4.71GB
+        FILTER(11)             n=2    sum=   0.026s in=   1.32GB
+        FILTER(2)              n=2    sum=   0.025s in=   1.32GB
+## _session_quent_03005b085a94: {"hops": {}, "leases_total": 0, "lease_max_concurrent": 0}

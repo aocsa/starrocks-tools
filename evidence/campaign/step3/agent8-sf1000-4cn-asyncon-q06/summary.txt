@@ -1,0 +1,72 @@
+== sf1000-4cn-asyncon-q06  worktree=/home/prestouser/aocsa/sirius-stacks-wt/perf  dataset=/scratch/sirius/datasets/tpch_sf1000  runs=14  Thu Sep  3 07:22:00 UTC 2026
+== env: NUM_CNS=4 GPU_MEM=100GiB STAGING=16GiB HOST_MEM=160GiB SIRIUS_EXCHANGE_STAGING_BYTES=16GiB SIRIUS_CN_ASYNC_SENDER_DISPATCH=1 CUDA_VISIBLE_DEVICES=<unset>
+== nvidia-smi before:
+0, 17 MiB 1, 20 MiB 2, 11 MiB 3, 4 MiB 
+cluster launcher pid=4048426 log=/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/agent8-sf1000-4cn-asyncon-q06/cluster.log
+== alive compute nodes after 9s: 4
+== WARM bench:
+cluster: 4 alive compute nodes + 0 alive backends (MIN_BACKENDS=4)
+q06 r0 cold pass 2566ms rows=1
+q06 r1 warm pass 1958ms rows=1
+q06 r2 warm pass 1387ms rows=1
+q06 r3 warm pass 896ms rows=1
+q06 r4 warm pass 862ms rows=1
+q06 r5 warm pass 851ms rows=1
+q06 r6 warm pass 896ms rows=1
+q06 r7 warm pass 845ms rows=1
+q06 r8 warm pass 890ms rows=1
+q06 r9 warm pass 812ms rows=1
+q06 r10 warm pass 878ms rows=1
+q06 r11 warm pass 825ms rows=1
+q06 r12 warm pass 843ms rows=1
+q06 r13 warm pass 876ms rows=1
+q06 r14 warm pass 858ms rows=1
+== bench complete: /tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/agent8-sf1000-4cn-asyncon-q06/out.csv ==
+== compare:
+query  verdict  detail
+q06    MATCH  rows=1 maxreldiff=0.000e+00
+
+1/1 match the DuckDB oracle within rel tol 1e-06
+== log checks (cluster.log):
+      1 peer=127.0.0.1:9102 gbps="234.7"
+      1 peer=127.0.0.1:9102 gbps="248.4"
+      1 peer=127.0.0.1:9102 gbps="92.8"
+      1 peer=127.0.0.1:9112 gbps="237.3"
+      1 peer=127.0.0.1:9112 gbps="242.8"
+      1 peer=127.0.0.1:9112 gbps="409.6"
+      1 peer=127.0.0.1:9122 gbps="226.5"
+      1 peer=127.0.0.1:9122 gbps="408.3"
+      1 peer=127.0.0.1:9122 gbps="76.7"
+      1 peer=127.0.0.1:9132 gbps="230.4"
+      1 peer=127.0.0.1:9132 gbps="297.9"
+      1 peer=127.0.0.1:9132 gbps="325.0"
+      8 stream_id=3 sender_id=0 dest=127.0.0.1:9112 batches=1 bytes=64
+      7 stream_id=3 sender_id=0 dest=127.0.0.1:9122 batches=1 bytes=64
+      8 stream_id=3 sender_id=1 dest=127.0.0.1:9112 batches=1 bytes=64
+      8 stream_id=3 sender_id=2 dest=127.0.0.1:9112 batches=1 bytes=64
+      7 stream_id=3 sender_id=2 dest=127.0.0.1:9122 batches=1 bytes=64
+      7 stream_id=3 sender_id=3 dest=127.0.0.1:9122 batches=1 bytes=64
+negative markers: needs-transport-tier=0 row-count-unknown=0 fail_stalled=0 errorCode62=0 ERROR-lines=4
+== graceful CN stop (ONE SIGTERM, wait per pid, FE untouched until CNs exit) Thu Sep  3 07:22:26 UTC 2026
+CN pids: 4048449 4048450 4048451 4048452 
+/home/prestouser/aocsa/sirius-stacks-wt/perf/experimental/starrocks/target/release/sirius-starrocks-cn --gpu-device 0 --heartbeat-port 9100 --thrift-port 9101 -
+
+/home/prestouser/aocsa/sirius-stacks-wt/perf/experimental/starrocks/target/release/sirius-starrocks-cn --gpu-device 1 --heartbeat-port 9110 --thrift-port 9111 -
+
+/home/prestouser/aocsa/sirius-stacks-wt/perf/experimental/starrocks/target/release/sirius-starrocks-cn --gpu-device 2 --heartbeat-port 9120 --thrift-port 9121 -
+
+/home/prestouser/aocsa/sirius-stacks-wt/perf/experimental/starrocks/target/release/sirius-starrocks-cn --gpu-device 3 --heartbeat-port 9130 --thrift-port 9131 -
+
+CN processes gone after 9s (SIGKILL fallback below if any remain)
+      2 2026-09-03T07:22:26.105680Z  INFO compute_node: sirius_starrocks_cn: shutdown signal received signal="sigterm"
+      1 2026-09-03T07:22:26.105689Z  INFO compute_node: sirius_starrocks_cn: shutdown signal received signal="sigterm"
+      1 2026-09-03T07:22:26.105701Z  INFO compute_node: sirius_starrocks_cn: shutdown signal received signal="sigterm"
+      1 2026-09-03T07:22:26.116179Z  INFO sirius_starrocks_cn::engine: sirius-engine thread shutting down
+      1 2026-09-03T07:22:26.116443Z  INFO sirius_starrocks_cn::engine: sirius-engine thread shutting down
+stopped
+== newest Quent session per CN:
+cn0 /home/prestouser/aocsa/sirius-stacks-wt/perf/experimental/starrocks/.cn0/telemetry/01a06625-721d-7350-bf1c-775e3a5d9568 q_init=14 q_exit=14 tasks=275 engine_bytes=0
+cn1 /home/prestouser/aocsa/sirius-stacks-wt/perf/experimental/starrocks/.cn1/telemetry/01a06625-71ff-7400-88a5-304dddec8fd3 q_init=15 q_exit=14 tasks=327 engine_bytes=0
+cn2 /home/prestouser/aocsa/sirius-stacks-wt/perf/experimental/starrocks/.cn2/telemetry/01a06625-724a-7ad0-b764-1f6fff401d18 q_init=15 q_exit=14 tasks=321 engine_bytes=0
+cn3 /home/prestouser/aocsa/sirius-stacks-wt/perf/experimental/starrocks/.cn3/telemetry/01a06625-7290-7190-8eca-3a3205976129 q_init=14 q_exit=14 tasks=272 engine_bytes=0
+== done Thu Sep  3 07:22:37 UTC 2026

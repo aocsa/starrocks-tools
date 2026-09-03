@@ -1,0 +1,186 @@
+## 01a06776-4774-79fc-abb4-4c54c797b9b8 [4c54c797b9b8]: fragments=7 span=9.602s tasks=257 leases=0 lease_GB=0.00 lease_held=0.000s batches=352 dwell_sum=258.258s
+   [.cn0] 9b8:01a06776-4774-79fc-abb4-4c54c797b9bf wall=9.429s tasks=113 Q=178.143 Rsv=0.002 Prep=0.002 Comp=27.727 Fin=0.000 req=292.7GB est=292.7GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=6.560s
+        GPU_SCAN(0)            n=56   sum=  27.258s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.264s in=   2.22GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.105s in=   2.75GB
+        PROJECTION(1)          n=56   sum=   0.100s in=   4.62GB
+   [.cn0] 9b8:01a06776-4774-79fc-abb4-4c54c797b9be wall=2.197s tasks=113 Q=52.801 Rsv=0.002 Prep=0.003 Comp=8.184 Fin=0.000 req=292.6GB est=292.6GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.077s
+        GPU_SCAN(0)            n=56   sum=   7.832s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        PROJECTION(1)          n=56   sum=   0.105s in=   4.62GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.075s in=   2.75GB
+   [.cn0] 9b8:01a06776-4774-79fc-abb4-4c54c797b9bd wall=0.011s tasks=5 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.007 Fin=0.000 req=0.7GB est=0.7GB alloc=0.0GB in=0.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.006s
+        UNGROUPED_AGGREGATE(5) n=1    sum=   0.005s in=   0.08GB
+        HASH_GROUP_BY(1)       n=1    sum=   0.002s in=   0.12GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.12GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.12GB
+   [.cn0] 9b8:01a06776-4774-79fc-abb4-4c54c797b9bc wall=0.006s tasks=3 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.011s
+        UNGROUPED_AGGREGATE(1) n=1    sum=   0.000s in=   0.00GB
+        FILTER(3)              n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        MERGE_AGGREGATE(2)     n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 9b8:01a06776-4774-79fc-abb4-4c54c797b9bb wall=0.020s tasks=9 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.005 Fin=0.000 req=1.4GB est=1.4GB alloc=0.0GB in=0.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.162s
+        HASH_JOIN(10)          n=1    sum=   0.003s in=   0.12GB
+        HASH_GROUP_BY(4)       n=1    sum=   0.002s in=   0.12GB
+        FILTER(7)              n=1    sum=   0.000s in=   0.12GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 9b8:01a06776-4774-79fc-abb4-4c54c797b9ba wall=0.153s tasks=10 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.145 Fin=0.000 req=10.4GB est=10.4GB alloc=0.0GB in=3.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.004s
+        GPU_SCAN(3)            n=1    sum=   0.144s in=   0.75GB
+        HASH_JOIN(6)           n=1    sum=   0.000s in=   0.75GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(1)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 9b8:01a06776-4774-79fc-abb4-4c54c797b9b9 wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+        SORT_PARTITION(3)      n=1    sum=   0.000s in=   0.00GB
+## 01a06776-70c8-7115-a91e-335b6aef84cf [335b6aef84cf]: fragments=7 span=4.537s tasks=257 leases=0 lease_GB=0.00 lease_held=0.000s batches=352 dwell_sum=126.544s
+   [.cn0] 4cf:01a06776-70c8-7115-a91e-335b6aef84d6 wall=4.487s tasks=113 Q=53.736 Rsv=0.002 Prep=0.003 Comp=8.415 Fin=0.000 req=292.6GB est=292.6GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.238s
+        GPU_SCAN(0)            n=56   sum=   8.060s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.091s in=   2.75GB
+        PROJECTION(1)          n=56   sum=   0.091s in=   4.62GB
+   [.cn0] 4cf:01a06776-70c8-7115-a91e-335b6aef84d5 wall=2.185s tasks=113 Q=52.481 Rsv=0.002 Prep=0.003 Comp=8.134 Fin=0.000 req=292.7GB est=292.7GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.061s
+        GPU_SCAN(0)            n=56   sum=   7.791s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        PROJECTION(1)          n=56   sum=   0.092s in=   4.62GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.078s in=   2.75GB
+   [.cn0] 4cf:01a06776-70c8-7115-a91e-335b6aef84d4 wall=0.006s tasks=5 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.7GB est=0.7GB alloc=0.0GB in=0.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.004s
+        HASH_GROUP_BY(1)       n=1    sum=   0.002s in=   0.12GB
+        UNGROUPED_AGGREGATE(5) n=1    sum=   0.000s in=   0.08GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.12GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.12GB
+   [.cn0] 4cf:01a06776-70c8-7115-a91e-335b6aef84d3 wall=0.006s tasks=3 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.009s
+        UNGROUPED_AGGREGATE(1) n=1    sum=   0.000s in=   0.00GB
+        FILTER(3)              n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        MERGE_AGGREGATE(2)     n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 4cf:01a06776-70c8-7115-a91e-335b6aef84d2 wall=0.017s tasks=9 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.003 Fin=0.000 req=1.4GB est=1.4GB alloc=0.0GB in=0.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.043s
+        HASH_GROUP_BY(4)       n=1    sum=   0.002s in=   0.12GB
+        HASH_JOIN(10)          n=1    sum=   0.001s in=   0.12GB
+        FILTER(7)              n=1    sum=   0.000s in=   0.12GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 4cf:01a06776-70c8-7115-a91e-335b6aef84d1 wall=0.033s tasks=10 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.028 Fin=0.000 req=10.4GB est=10.4GB alloc=0.0GB in=3.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.004s
+        GPU_SCAN(3)            n=1    sum=   0.028s in=   0.75GB
+        HASH_JOIN(6)           n=1    sum=   0.000s in=   0.75GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(1)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 4cf:01a06776-70c8-7115-a91e-335b6aef84d0 wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+        SORT_PARTITION(3)      n=1    sum=   0.000s in=   0.00GB
+## 01a06776-8385-70d3-8a32-4b1a34cef855 [4b1a34cef855]: fragments=7 span=4.608s tasks=257 leases=0 lease_GB=0.00 lease_held=0.000s batches=353 dwell_sum=126.697s
+   [.cn0] 855:01a06776-8385-70d3-8a32-4b1a34cef85c wall=4.550s tasks=113 Q=55.329 Rsv=0.002 Prep=0.003 Comp=8.456 Fin=0.000 req=292.6GB est=292.6GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.291s
+        GPU_SCAN(0)            n=56   sum=   8.085s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        PROJECTION(1)          n=56   sum=   0.101s in=   4.62GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.098s in=   2.75GB
+   [.cn0] 855:01a06776-8385-70d3-8a32-4b1a34cef85b wall=2.238s tasks=113 Q=54.125 Rsv=0.002 Prep=0.003 Comp=8.343 Fin=0.000 req=292.6GB est=292.6GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.103s
+        GPU_SCAN(0)            n=56   sum=   7.980s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.098s in=   2.75GB
+        PROJECTION(1)          n=56   sum=   0.093s in=   4.62GB
+   [.cn0] 855:01a06776-8385-70d3-8a32-4b1a34cef85a wall=0.006s tasks=5 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.7GB est=0.7GB alloc=0.0GB in=0.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.004s
+        HASH_GROUP_BY(1)       n=1    sum=   0.002s in=   0.12GB
+        UNGROUPED_AGGREGATE(5) n=1    sum=   0.000s in=   0.08GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.12GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.12GB
+   [.cn0] 855:01a06776-8385-70d3-8a32-4b1a34cef859 wall=0.006s tasks=3 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.009s
+        UNGROUPED_AGGREGATE(1) n=1    sum=   0.000s in=   0.00GB
+        FILTER(3)              n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        MERGE_AGGREGATE(2)     n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 855:01a06776-8385-70d3-8a32-4b1a34cef858 wall=0.018s tasks=9 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.003 Fin=0.000 req=1.4GB est=1.4GB alloc=0.0GB in=0.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.049s
+        HASH_GROUP_BY(4)       n=1    sum=   0.002s in=   0.12GB
+        HASH_JOIN(10)          n=1    sum=   0.001s in=   0.12GB
+        FILTER(7)              n=1    sum=   0.000s in=   0.12GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 855:01a06776-8385-70d3-8a32-4b1a34cef857 wall=0.039s tasks=10 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.035 Fin=0.000 req=10.4GB est=10.4GB alloc=0.0GB in=3.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.005s
+        GPU_SCAN(3)            n=1    sum=   0.028s in=   0.75GB
+        ORDER_BY(8)            n=1    sum=   0.005s in=   0.00GB
+        HASH_JOIN(6)           n=1    sum=   0.002s in=   0.75GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 855:01a06776-8385-70d3-8a32-4b1a34cef856 wall=0.002s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(5)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+## 01a06776-9677-749f-aac7-17c44bfd1097 [17c44bfd1097]: fragments=7 span=4.573s tasks=257 leases=0 lease_GB=0.00 lease_held=0.000s batches=352 dwell_sum=126.774s
+   [.cn0] 097:01a06776-9677-749f-aac7-17c44bfd109e wall=4.522s tasks=113 Q=53.931 Rsv=0.002 Prep=0.003 Comp=8.367 Fin=0.000 req=292.6GB est=292.6GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.287s
+        GPU_SCAN(0)            n=56   sum=   8.033s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        PROJECTION(1)          n=56   sum=   0.082s in=   4.62GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.080s in=   2.75GB
+   [.cn0] 097:01a06776-9677-749f-aac7-17c44bfd109d wall=2.234s tasks=113 Q=53.907 Rsv=0.002 Prep=0.003 Comp=8.324 Fin=0.000 req=292.6GB est=292.6GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.089s
+        GPU_SCAN(0)            n=56   sum=   7.972s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        PROJECTION(1)          n=56   sum=   0.097s in=   4.62GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.082s in=   2.75GB
+   [.cn0] 097:01a06776-9677-749f-aac7-17c44bfd109c wall=0.007s tasks=5 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.7GB est=0.7GB alloc=0.0GB in=0.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.004s
+        HASH_GROUP_BY(1)       n=1    sum=   0.002s in=   0.12GB
+        UNGROUPED_AGGREGATE(5) n=1    sum=   0.000s in=   0.08GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.12GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.12GB
+   [.cn0] 097:01a06776-9677-749f-aac7-17c44bfd109b wall=0.007s tasks=3 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.009s
+        UNGROUPED_AGGREGATE(1) n=1    sum=   0.000s in=   0.00GB
+        FILTER(3)              n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        MERGE_AGGREGATE(2)     n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 097:01a06776-9677-749f-aac7-17c44bfd109a wall=0.017s tasks=9 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.003 Fin=0.000 req=1.4GB est=1.4GB alloc=0.0GB in=0.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.043s
+        HASH_GROUP_BY(4)       n=1    sum=   0.002s in=   0.12GB
+        HASH_JOIN(10)          n=1    sum=   0.001s in=   0.12GB
+        FILTER(7)              n=1    sum=   0.000s in=   0.12GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 097:01a06776-9677-749f-aac7-17c44bfd1099 wall=0.033s tasks=10 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.028 Fin=0.000 req=10.4GB est=10.4GB alloc=0.0GB in=3.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.004s
+        GPU_SCAN(3)            n=1    sum=   0.028s in=   0.75GB
+        HASH_JOIN(6)           n=1    sum=   0.000s in=   0.75GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(1)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] 097:01a06776-9677-749f-aac7-17c44bfd1098 wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+        SORT_PARTITION(3)      n=1    sum=   0.000s in=   0.00GB
+## 01a06776-a93b-7ca7-9921-9c9c7aab1f1d [9c9c7aab1f1d]: fragments=7 span=4.439s tasks=257 leases=0 lease_GB=0.00 lease_held=0.000s batches=352 dwell_sum=124.352s
+   [.cn0] f1d:01a06776-a93b-7ca7-9921-9c9c7aab1f24 wall=4.388s tasks=113 Q=51.117 Rsv=0.002 Prep=0.003 Comp=8.027 Fin=0.000 req=292.6GB est=292.6GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.238s
+        GPU_SCAN(0)            n=56   sum=   7.693s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.081s in=   2.75GB
+        PROJECTION(1)          n=56   sum=   0.080s in=   4.62GB
+   [.cn0] f1d:01a06776-a93b-7ca7-9921-9c9c7aab1f23 wall=2.184s tasks=113 Q=52.096 Rsv=0.002 Prep=0.003 Comp=8.122 Fin=0.000 req=292.6GB est=292.6GB alloc=238.0GB in=126.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=169 dwell_max=2.061s
+        GPU_SCAN(0)            n=56   sum=   7.754s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=1    sum=   0.171s in=   2.22GB
+        PROJECTION(1)          n=56   sum=   0.099s in=   4.62GB
+        HASH_GROUP_BY(2)       n=56   sum=   0.095s in=   2.75GB
+   [.cn0] f1d:01a06776-a93b-7ca7-9921-9c9c7aab1f22 wall=0.006s tasks=5 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.7GB est=0.7GB alloc=0.0GB in=0.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.004s
+        HASH_GROUP_BY(1)       n=1    sum=   0.002s in=   0.12GB
+        UNGROUPED_AGGREGATE(5) n=1    sum=   0.000s in=   0.08GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.12GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.12GB
+   [.cn0] f1d:01a06776-a93b-7ca7-9921-9c9c7aab1f21 wall=0.006s tasks=3 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.009s
+        UNGROUPED_AGGREGATE(1) n=1    sum=   0.000s in=   0.00GB
+        FILTER(3)              n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        MERGE_AGGREGATE(2)     n=1    sum=   0.000s in=   0.00GB
+   [.cn0] f1d:01a06776-a93b-7ca7-9921-9c9c7aab1f20 wall=0.017s tasks=9 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.003 Fin=0.000 req=1.4GB est=1.4GB alloc=0.0GB in=0.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.043s
+        HASH_GROUP_BY(4)       n=1    sum=   0.002s in=   0.12GB
+        HASH_JOIN(10)          n=1    sum=   0.001s in=   0.12GB
+        FILTER(7)              n=1    sum=   0.000s in=   0.12GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] f1d:01a06776-a93b-7ca7-9921-9c9c7aab1f1f wall=0.033s tasks=10 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.029 Fin=0.000 req=10.4GB est=10.4GB alloc=0.0GB in=3.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.004s
+        GPU_SCAN(3)            n=1    sum=   0.028s in=   0.75GB
+        HASH_JOIN(6)           n=1    sum=   0.000s in=   0.75GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(1)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] f1d:01a06776-a93b-7ca7-9921-9c9c7aab1f1e wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+        SORT_PARTITION(3)      n=1    sum=   0.000s in=   0.00GB
+## 01a06776-bb73-7cfb-b3c2-57327227bcfc [57327227bcfc]: fragments=4 span=4.513s tasks=0 leases=0 lease_GB=0.00 lease_held=0.000s batches=0 dwell_sum=0.000s
+   [.cn0] cfc:01a06776-bb73-7cfb-b3c2-57327227bd03 wall=0.000s tasks=0 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=0 dwell_max=0.000s
+   [.cn0] cfc:01a06776-bb73-7cfb-b3c2-57327227bd02 wall=2.226s tasks=0 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=0 dwell_max=0.000s
+   [.cn0] cfc:01a06776-bb73-7cfb-b3c2-57327227bd01 wall=0.006s tasks=0 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=0 dwell_max=0.000s
+   [.cn0] cfc:01a06776-bb73-7cfb-b3c2-57327227bd00 wall=0.000s tasks=0 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=0 dwell_max=0.000s
+## _session_.cn0_fdf3ab7b0115: {"hops": {"stream_relayed": [36, 1.440000445]}, "leases_total": 0, "lease_max_concurrent": 0}

@@ -1,0 +1,13 @@
+sirius:
+  topology:
+    num_gpus: 1
+  memory:
+    gpu:
+      usage_limit_bytes: "100GiB"
+      reservation_limit_fraction: 1.0
+    host:
+      capacity_bytes: "160GiB"
+  telemetry:
+    enable_quent: true
+    exporter: ndjson
+    output_directory: "/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/perf/sf1000/standalone/quent"

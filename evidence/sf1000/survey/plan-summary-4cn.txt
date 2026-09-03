@@ -1,0 +1,44 @@
+q01 frags=3 scans=1 card_all_one=True aggs=4:merge finalize,2:update serialize exch=6:GATHER,3:SHUFFLE
+    joins: 
+q02 frags=16 scans=9 card_all_one=True aggs=38:merge finalize,36:update serialize exch=43:GATHER,7:SHUFFLE,37:SHUFFLE,31:SHUFFLE,26:SHUFFLE,21:SHUFFLE,2:SHUFFLE
+    joins: 40:INNER JOIN (BROADCAST) build=39:EXCHANGE probe=18:HASH JOIN; 18:INNER JOIN (BROADCAST) build=17:EXCHANGE<-region probe=14:HASH JOIN; 14:INNER JOIN (BROADCAST) build=13:EXCHANGE<-nation probe=10:HASH JOIN; 10:INNER JOIN (PARTITIONED) build=9:EXCHANGE<-supplier probe=7:EXCHANGE; 34:INNER JOIN (PARTITIONED) build=33:EXCHANGE<-region probe=31:EXCHANGE; 29:INNER JOIN (PARTITIONED) build=28:EXCHANGE<-nation probe=26:EXCHANGE; 24:INNER JOIN (PARTITIONED) build=23:EXCHANGE<-supplier probe=21:EXCHANGE<-partsupp; 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-partsupp probe=2:EXCHANGE<-part
+q03 frags=5 scans=3 card_all_one=True aggs=12:update finalize exch=14:GATHER,2:SHUFFLE
+    joins: 10:INNER JOIN (PARTITIONED) build=9:EXCHANGE<-orders probe=2:EXCHANGE<-lineitem; 7:INNER JOIN (BROADCAST) build=6:EXCHANGE<-customer probe=?
+q04 frags=5 scans=2 card_all_one=True aggs=10:merge finalize,8:update serialize exch=12:GATHER,9:SHUFFLE,2:SHUFFLE
+    joins: 6:LEFT SEMI JOIN (PARTITIONED) build=5:EXCHANGE<-lineitem probe=2:EXCHANGE<-orders
+q05 frags=12 scans=6 card_all_one=True aggs=29:merge finalize,27:update serialize exch=31:GATHER,28:SHUFFLE,17:SHUFFLE,12:SHUFFLE,7:SHUFFLE,1:SHUFFLE
+    joins: 25:INNER JOIN (BROADCAST) build=24:EXCHANGE<-region probe=20:HASH JOIN; 20:INNER JOIN (PARTITIONED) build=19:EXCHANGE<-nation probe=17:EXCHANGE; 15:INNER JOIN (PARTITIONED) build=14:EXCHANGE<-supplier probe=12:EXCHANGE; 10:INNER JOIN (PARTITIONED) build=9:EXCHANGE<-lineitem probe=7:EXCHANGE; 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-orders probe=1:EXCHANGE<-customer
+q06 frags=2 scans=1 card_all_one=True aggs=4:merge finalize,2:update serialize exch=3:GATHER
+    joins: 
+q07 frags=12 scans=6 card_all_one=True aggs=27:merge finalize,25:update serialize exch=29:GATHER,26:SHUFFLE,20:SHUFFLE,11:SHUFFLE,6:SHUFFLE,1:SHUFFLE
+    joins: 23:INNER JOIN (PARTITIONED) build=22:EXCHANGE<-nation probe=20:EXCHANGE; 18:INNER JOIN (BROADCAST) build=17:EXCHANGE<-customer probe=14:HASH JOIN; 14:INNER JOIN (PARTITIONED) build=13:EXCHANGE<-orders probe=11:EXCHANGE; 9:INNER JOIN (PARTITIONED) build=8:EXCHANGE<-lineitem probe=6:EXCHANGE; 4:INNER JOIN (PARTITIONED) build=3:EXCHANGE<-nation probe=1:EXCHANGE<-supplier
+q08 frags=16 scans=8 card_all_one=True aggs=39:merge finalize,37:update serialize exch=42:GATHER,38:SHUFFLE,27:SHUFFLE,22:SHUFFLE,17:SHUFFLE,12:SHUFFLE,7:SHUFFLE,2:SHUFFLE
+    joins: 35:INNER JOIN (BROADCAST) build=34:EXCHANGE<-region probe=30:HASH JOIN; 30:INNER JOIN (PARTITIONED) build=29:EXCHANGE<-nation probe=27:EXCHANGE; 25:INNER JOIN (PARTITIONED) build=24:EXCHANGE<-nation probe=22:EXCHANGE; 20:INNER JOIN (PARTITIONED) build=19:EXCHANGE<-customer probe=17:EXCHANGE; 15:INNER JOIN (PARTITIONED) build=14:EXCHANGE<-orders probe=12:EXCHANGE; 10:INNER JOIN (PARTITIONED) build=9:EXCHANGE<-supplier probe=7:EXCHANGE; 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-lineitem probe=2:EXCHANGE<-part
+q09 frags=12 scans=6 card_all_one=True aggs=28:merge finalize,26:update serialize exch=30:GATHER,27:SHUFFLE,21:SHUFFLE,16:SHUFFLE,7:SHUFFLE,2:SHUFFLE
+    joins: 24:INNER JOIN (PARTITIONED) build=23:EXCHANGE<-nation probe=21:EXCHANGE; 19:INNER JOIN (PARTITIONED) build=18:EXCHANGE<-orders probe=16:EXCHANGE; 14:INNER JOIN (BUCKET_SHUFFLE(S)) build=13:EXCHANGE<-partsupp probe=10:HASH JOIN; 10:INNER JOIN (PARTITIONED) build=9:EXCHANGE<-supplier probe=7:EXCHANGE; 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-lineitem probe=2:EXCHANGE<-part
+q10 frags=7 scans=4 card_all_one=True aggs=17:update finalize exch=19:GATHER,5:SHUFFLE,8:SHUFFLE
+    joins: 15:INNER JOIN (PARTITIONED) build=14:EXCHANGE probe=5:EXCHANGE<-customer; 12:INNER JOIN (PARTITIONED) build=11:EXCHANGE<-orders probe=8:EXCHANGE<-lineitem; 3:INNER JOIN (BROADCAST) build=2:EXCHANGE<-nation probe=?
+q11 frags=11 scans=6 card_all_one=True aggs=12:merge finalize,25:merge finalize,23:update serialize,10:update serialize exch=31:GATHER,11:SHUFFLE,24:GATHER,15:SHUFFLE,2:SHUFFLE
+    joins: 28:INNER JOIN build=27:EXCHANGE probe=12:AGGREGATE; 21:INNER JOIN (BROADCAST) build=20:EXCHANGE probe=18:HASH JOIN; 18:INNER JOIN (PARTITIONED) build=17:EXCHANGE<-supplier probe=15:EXCHANGE<-nation; 8:INNER JOIN (BROADCAST) build=7:EXCHANGE probe=5:HASH JOIN; 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-supplier probe=2:EXCHANGE<-nation
+q12 frags=5 scans=2 card_all_one=True aggs=9:merge finalize,7:update serialize exch=11:GATHER,8:SHUFFLE,1:SHUFFLE
+    joins: 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-lineitem probe=1:EXCHANGE<-orders
+q13 frags=5 scans=2 card_all_one=True aggs=11:merge finalize,9:update serialize,7:update finalize exch=13:GATHER,10:SHUFFLE,2:SHUFFLE
+    joins: 5:RIGHT OUTER JOIN (PARTITIONED) build=4:EXCHANGE<-customer probe=2:EXCHANGE<-orders
+q14 frags=4 scans=2 card_all_one=True aggs=9:merge finalize,7:update serialize exch=8:GATHER,2:SHUFFLE
+    joins: 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-part probe=2:EXCHANGE<-lineitem
+q15 frags=7 scans=3 card_all_one=True aggs=6:merge finalize,15:merge finalize,13:update serialize,11:merge finalize,9:update serialize,4:update serialize exch=22:GATHER,1:SHUFFLE,14:GATHER,10:SHUFFLE
+    joins: 19:INNER JOIN (BUCKET_SHUFFLE(S)) build=? probe=1:EXCHANGE<-supplier
+q16 frags=5 scans=3 card_all_one=True aggs=13:update finalize,12:merge serialize,10:update serialize exch=15:GATHER,11:SHUFFLE
+    joins: 8:NULL AWARE LEFT ANTI JOIN (BROADCAST) build=7:EXCHANGE<-supplier probe=3:HASH JOIN; 3:INNER JOIN (BROADCAST) build=2:EXCHANGE<-partsupp probe=?
+q17 frags=5 scans=3 card_all_one=True aggs=15:merge finalize,13:update serialize,10:merge finalize,8:update serialize exch=14:GATHER,1:SHUFFLE
+    joins: 11:INNER JOIN (BUCKET_SHUFFLE(S)) build=10:AGGREGATE probe=5:HASH JOIN; 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-part probe=1:EXCHANGE<-lineitem
+q18 frags=7 scans=4 card_all_one=True aggs=18:update finalize,5:merge finalize,3:update serialize exch=20:GATHER,13:SHUFFLE,1:SHUFFLE
+    joins: 16:INNER JOIN (PARTITIONED) build=15:EXCHANGE<-customer probe=13:EXCHANGE; 11:INNER JOIN (BUCKET_SHUFFLE(S)) build=10:EXCHANGE<-lineitem probe=7:HASH JOIN; 7:LEFT SEMI JOIN (BUCKET_SHUFFLE(S)) build=? probe=1:EXCHANGE<-orders
+q19 frags=4 scans=2 card_all_one=True aggs=9:merge finalize,7:update serialize exch=8:GATHER,1:SHUFFLE
+    joins: 5:INNER JOIN (PARTITIONED) build=4:EXCHANGE<-lineitem probe=1:EXCHANGE<-part
+q20 frags=8 scans=5 card_all_one=True aggs=10:merge finalize,8:update serialize exch=25:GATHER,9:SHUFFLE,12:SHUFFLE
+    joins: 22:LEFT SEMI JOIN (BROADCAST) build=21:EXCHANGE probe=4:HASH JOIN; 4:INNER JOIN (BROADCAST) build=3:EXCHANGE<-nation probe=19:HASH JOIN; 19:INNER JOIN (BUCKET_SHUFFLE(S)) build=18:EXCHANGE probe=10:AGGREGATE; 16:LEFT SEMI JOIN (PARTITIONED) build=15:EXCHANGE<-part probe=12:EXCHANGE<-partsupp
+q21 frags=9 scans=6 card_all_one=True aggs=26:merge finalize,24:update serialize exch=28:GATHER,25:SHUFFLE,2:SHUFFLE
+    joins: 22:INNER JOIN (BROADCAST) build=21:EXCHANGE<-nation probe=17:HASH JOIN; 17:INNER JOIN (BROADCAST) build=16:EXCHANGE probe=14:HASH JOIN; 14:LEFT SEMI JOIN (BUCKET_SHUFFLE(S)) build=13:EXCHANGE<-lineitem probe=10:HASH JOIN; 10:RIGHT ANTI JOIN (BUCKET_SHUFFLE(S)) build=? probe=2:EXCHANGE<-lineitem
+q22 frags=6 scans=3 card_all_one=True aggs=15:merge finalize,13:update serialize,5:merge finalize,3:update serialize exch=17:GATHER,14:SHUFFLE,4:GATHER
+    joins: 11:LEFT ANTI JOIN (BROADCAST) build=10:EXCHANGE<-orders probe=7:NESTLOOP JOIN; 7:INNER JOIN build=6:EXCHANGE probe=5:AGGREGATE

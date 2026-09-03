@@ -1,0 +1,134 @@
+Explain String
+PLAN COST
+  CPU: 173.60000000000002
+  Memory: 82.4
+
+PLAN FRAGMENT 0(F06)
+  Output Exprs:6: o_orderpriority | 27: count
+  Input Partition: UNPARTITIONED
+  RESULT SINK
+
+  12:MERGING-EXCHANGE
+     distribution type: GATHER
+     cardinality: 1
+     column statistics: 
+     * o_orderpriority-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * count-->[-Infinity, Infinity, 0.0, 8.0, 1.0] ESTIMATE
+
+PLAN FRAGMENT 1(F05)
+
+  Input Partition: HASH_PARTITIONED: 6: o_orderpriority
+  OutPut Partition: UNPARTITIONED
+  OutPut Exchange Id: 12
+
+  11:SORT
+  |  order by: [6, VARCHAR(1048576), true] ASC
+  |  offset: 0
+  |  cardinality: 1
+  |  column statistics: 
+  |  * o_orderpriority-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * count-->[-Infinity, Infinity, 0.0, 8.0, 1.0] ESTIMATE
+  |  
+  10:AGGREGATE (merge finalize)
+  |  aggregate: count[([27: count, BIGINT, false]); args: ; result: BIGINT; args nullable: true; result nullable: false]
+  |  group by: [6: o_orderpriority, VARCHAR(1048576), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * o_orderpriority-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * count-->[-Infinity, Infinity, 0.0, 8.0, 1.0] ESTIMATE
+  |  
+  9:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [6: o_orderpriority, VARCHAR(1048576), true]
+     cardinality: 1
+
+PLAN FRAGMENT 2(F04)
+
+  Input Partition: HASH_PARTITIONED: 1: o_orderkey
+  OutPut Partition: HASH_PARTITIONED: 6: o_orderpriority
+  OutPut Exchange Id: 09
+
+  8:AGGREGATE (update serialize)
+  |  STREAMING
+  |  aggregate: count[(*); args: ; result: BIGINT; args nullable: false; result nullable: false]
+  |  group by: [6: o_orderpriority, VARCHAR(1048576), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * o_orderpriority-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * count-->[-Infinity, Infinity, 0.0, 8.0, 1.0] ESTIMATE
+  |  
+  7:Project
+  |  output columns:
+  |  6 <-> [6: o_orderpriority, VARCHAR(1048576), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * o_orderpriority-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  6:HASH JOIN
+  |  join op: LEFT SEMI JOIN (PARTITIONED)
+  |  equal join conjunct: [1: o_orderkey, BIGINT, true] = [10: l_orderkey, BIGINT, true]
+  |  build runtime filters:
+  |  - filter_id = 0, build_expr = (10: l_orderkey), remote = true
+  |  output columns: 6
+  |  can local shuffle: true
+  |  cardinality: 1
+  |  column statistics: 
+  |  * o_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderpriority-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----5:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       partition exprs: [10: l_orderkey, BIGINT, true]
+  |       cardinality: 1
+  |    
+  2:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [1: o_orderkey, BIGINT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 3(F02)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 10: l_orderkey
+  OutPut Exchange Id: 05
+
+  4:Project
+  |  output columns:
+  |  10 <-> [10: l_orderkey, BIGINT, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  3:FileScanNode
+     BROKER: 
+     cardinality: 1
+     column statistics: 
+     * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * l_commitdate-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * l_receiptdate-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 4(F00)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 1: o_orderkey
+  OutPut Exchange Id: 02
+
+  1:Project
+  |  output columns:
+  |  1 <-> [1: o_orderkey, BIGINT, true]
+  |  6 <-> [6: o_orderpriority, VARCHAR(1048576), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * o_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderpriority-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  0:FileScanNode
+     BROKER: 
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 0, probe_expr = (1: o_orderkey)
+     column statistics: 
+     * o_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * o_orderdate-->[7.414848E8, 7.494336E8, 0.0, 1.0, 1.0] UNKNOWN
+     * o_orderpriority-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN

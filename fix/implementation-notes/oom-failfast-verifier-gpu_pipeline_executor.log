@@ -1,0 +1,21 @@
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+Filters: [gpu_pipeline_executor]
+
+[0/7] (0%): GPU pipeline executor schedules GPU tasks directly (push-model)0.048 s: GPU pipeline executor schedules GPU tasks directly (push-model)
+
+[1/7] (14%): GPU pipeline executor reschedules tasks on OOM0.142 s: GPU pipeline executor reschedules tasks on OOM
+
+[2/7] (28%): GPU pipeline executor fails after max OOM retries5.144 s: GPU pipeline executor fails after max OOM retries
+
+[3/7] (42%): GPU pipeline executor fails the query when an OOM retry cannot make progress0.092 s: GPU pipeline executor fails the query when an OOM retry cannot make progress
+
+[4/7] (57%): GPU pipeline executor keeps retrying an OOM while another task holds a live reservation0.341 s: GPU pipeline executor keeps retrying an OOM while another task holds a live reservation
+
+[5/7] (71%): GPU pipeline executor does not fail a first attempt that runs on a partial reservation0.049 s: GPU pipeline executor does not fail a first attempt that runs on a partial reservation
+
+[6/7] (85%): GPU pipeline executor drops queued tasks once the query has failed0.239 s: GPU pipeline executor drops queued tasks once the query has failed
+
+[7/7] (100%): GPU pipeline executor drops queued tasks once the query has failed
+===============================================================================
+All tests passed (53 assertions in 7 test cases)
+

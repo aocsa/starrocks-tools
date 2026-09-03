@@ -1,0 +1,17 @@
+fix(pipeline): fail the query fast when an OOM retry cannot make progress
+
+At SF1000 on one CN, q05 q08 q09 q17 q18 q21 each replayed a certain OOM 100
+times (54-232 s, 775 s of a 910 s sweep): the pool was full of parked fragment
+output the downgrade cannot see, so every retry gate granted the same partial
+reservation, and the error named the retry cap rather than the cause.
+The reschedule path now consults a pure predicate (retry_futility.hpp): partial
+grant, downgrade freed 0, OOM needed more than the grant, nothing completed or
+running anywhere since the gate -> the query fails at that retry with a message
+naming bytes needed vs granted and bytes held outside any task reservation vs
+the pool. First attempts, CUDA-launch reschedules and full-grant OOMs (#732)
+keep MAX_RETRIES=100 and the 50 ms backoff; a failed query's queued tasks are
+dropped at the gate. Tests: GPU-free predicate table plus four component cases;
+full Catch2 suite green except a pre-existing float-sum case that needs
+SIRIUS_CANONICAL_FLOAT_SUMS=1. Left: 2-GPU q11 contention check, SF1000 arms.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>

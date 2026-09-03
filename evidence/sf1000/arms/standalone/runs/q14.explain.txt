@@ -1,0 +1,55 @@
+┌───────────────────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│       promo_revenue       │
+│                           │
+│           ~1 row          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│    UNGROUPED_AGGREGATE    │
+│    ────────────────────   │
+│        Aggregates:        │
+│          sum(#0)          │
+│          sum(#1)          │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│ CASE  WHEN (prefix(p_type,│
+│      'PROMO')) THEN (     │
+│ (l_extendedprice * (1.00 -│
+│  l_discount))) ELSE 0.0000│
+│             END           │
+│ (l_extendedprice * (1.00 -│
+│        l_discount))       │
+│                           │
+│    ~1,222,165,536 rows    │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        ├──────────────┐
+│   l_partkey = p_partkey   │              │
+│                           │              │
+│    ~1,222,165,536 rows    │              │
+└─────────────┬─────────────┘              │
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│        READ_PARQUET       ││        READ_PARQUET       │
+│    ────────────────────   ││    ────────────────────   │
+│         Function:         ││         Function:         │
+│        READ_PARQUET       ││        READ_PARQUET       │
+│                           ││                           │
+│        Projections:       ││        Projections:       │
+│         l_partkey         ││         p_partkey         │
+│      l_extendedprice      ││           p_type          │
+│         l_discount        ││                           │
+│                           ││                           │
+│          Filters:         ││                           │
+│ l_shipdate>='1995-09-01': ││                           │
+│ :DATE AND l_shipdate<'1995││                           │
+│       -10-01'::DATE       ││                           │
+│                           ││                           │
+│    ~1,222,165,536 rows    ││     ~203,368,700 rows     │
+└───────────────────────────┘└───────────────────────────┘

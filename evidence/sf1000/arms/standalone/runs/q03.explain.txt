@@ -1,0 +1,90 @@
+┌───────────────────────────┐
+│           TOP_N           │
+│    ────────────────────   │
+│          Top: 10          │
+│                           │
+│         Order By:         │
+│       sum((lineitem       │
+│  .l_extendedprice * (1 -  │
+│   lineitem.l_discount)))  │
+│            DESC           │
+│   orders.o_orderdate ASC  │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         l_orderkey        │
+│          revenue          │
+│        o_orderdate        │
+│       o_shippriority      │
+│                           │
+│      ~48,886,620 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│    ────────────────────   │
+│          Groups:          │
+│             #0            │
+│             #1            │
+│             #2            │
+│                           │
+│    Aggregates: sum(#3)    │
+│                           │
+│      ~48,886,620 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│         l_orderkey        │
+│        o_orderdate        │
+│       o_shippriority      │
+│ (l_extendedprice * (1.00 -│
+│        l_discount))       │
+│                           │
+│      ~48,886,620 rows     │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         HASH_JOIN         │
+│    ────────────────────   │
+│      Join Type: INNER     │
+│                           │
+│        Conditions:        ├──────────────┐
+│  l_orderkey = o_orderkey  │              │
+│                           │              │
+│      ~48,886,620 rows     │              │
+└─────────────┬─────────────┘              │
+┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+│        READ_PARQUET       ││         HASH_JOIN         │
+│    ────────────────────   ││    ────────────────────   │
+│         Function:         ││      Join Type: INNER     │
+│        READ_PARQUET       ││                           │
+│                           ││        Conditions:        │
+│        Projections:       ││   o_custkey = c_custkey   │
+│         l_orderkey        ││                           │
+│      l_extendedprice      ││                           ├──────────────┐
+│         l_discount        ││                           │              │
+│                           ││                           │              │
+│          Filters:         ││                           │              │
+│  l_shipdate>'1995-03-15': ││                           │              │
+│           :DATE           ││                           │              │
+│                           ││                           │              │
+│    ~1,222,165,536 rows    ││      ~61,617,441 rows     │              │
+└───────────────────────────┘└─────────────┬─────────────┘              │
+                             ┌─────────────┴─────────────┐┌─────────────┴─────────────┐
+                             │        READ_PARQUET       ││        READ_PARQUET       │
+                             │    ────────────────────   ││    ────────────────────   │
+                             │         Function:         ││         Function:         │
+                             │        READ_PARQUET       ││        READ_PARQUET       │
+                             │                           ││                           │
+                             │        Projections:       ││        Projections:       │
+                             │         o_orderkey        ││         c_custkey         │
+                             │         o_custkey         ││                           │
+                             │        o_orderdate        ││          Filters:         │
+                             │       o_shippriority      ││  c_mktsegment='BUILDING'  │
+                             │                           ││                           │
+                             │          Filters:         ││                           │
+                             │ o_orderdate<'1995-03-15': ││                           │
+                             │           :DATE           ││                           │
+                             │                           ││                           │
+                             │     ~308,087,214 rows     ││      ~30,314,956 rows     │
+                             └───────────────────────────┘└───────────────────────────┘

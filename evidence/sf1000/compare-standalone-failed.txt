@@ -1,0 +1,7 @@
+q05    MATCH  rows=5 maxreldiff=0.000e+00
+q08    MATCH  rows=2 maxreldiff=0.000e+00
+q09    MATCH  rows=175 maxreldiff=0.000e+00
+q17    MATCH  rows=1 maxreldiff=0.000e+00
+q18    MATCH  rows=100 maxreldiff=0.000e+00
+q21    MATCH  rows=100 maxreldiff=0.000e+00
+6/6 match the DuckDB oracle within rel tol 1e-06

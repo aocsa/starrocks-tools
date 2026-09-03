@@ -1,0 +1,527 @@
+Explain String
+PLAN COST
+  CPU: 975.1999999999999
+  Memory: 253.4
+
+PLAN FRAGMENT 0(F28)
+  Output Exprs:65: year | 70: expr
+  Input Partition: UNPARTITIONED
+  RESULT SINK
+
+  42:MERGING-EXCHANGE
+     distribution type: GATHER
+     cardinality: 1
+     column statistics: 
+     * year-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * expr-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 1(F27)
+
+  Input Partition: HASH_PARTITIONED: 65: year
+  OutPut Partition: UNPARTITIONED
+  OutPut Exchange Id: 42
+
+  41:SORT
+  |  order by: [65, SMALLINT, true] ASC
+  |  offset: 0
+  |  cardinality: 1
+  |  column statistics: 
+  |  * year-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * expr-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  40:Project
+  |  output columns:
+  |  65 <-> [65: year, SMALLINT, true]
+  |  70 <-> [68: sum, DECIMAL128(38,4), true] / [69: sum, DECIMAL128(38,4), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * year-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * expr-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  39:AGGREGATE (merge finalize)
+  |  aggregate: sum[([68: sum, DECIMAL128(38,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true], sum[([69: sum, DECIMAL128(38,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  group by: [65: year, SMALLINT, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * year-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * expr-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  38:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [65: year, SMALLINT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 2(F24)
+
+  Input Partition: HASH_PARTITIONED: 33: s_nationkey
+  OutPut Partition: HASH_PARTITIONED: 65: year
+  OutPut Exchange Id: 38
+
+  37:AGGREGATE (update serialize)
+  |  STREAMING
+  |  aggregate: sum[([67: case, DECIMAL128(31,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true], sum[([66: expr, DECIMAL128(31,4), true]); args: DECIMAL128; result: DECIMAL128(38,4); args nullable: true; result nullable: true]
+  |  group by: [65: year, SMALLINT, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * year-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * sum-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  36:Project
+  |  output columns:
+  |  65 <-> year[([41: o_orderdate, DATE, true]); args: DATE; result: SMALLINT; args nullable: true; result nullable: true]
+  |  66 <-> [75: multiply, DECIMAL128(31,4), true]
+  |  67 <-> if[([59: n_name, VARCHAR(1048576), true] = 'BRAZIL', [75: multiply, DECIMAL128(31,4), true], 0); args: BOOLEAN,DECIMAL128,DECIMAL128; result: DECIMAL128(31,4); args nullable: true; result nullable: true]
+  |  common expressions:
+  |  71 <-> cast([19: l_extendedprice, DECIMAL64(15,2), true] as DECIMAL128(15,2))
+  |  72 <-> [20: l_discount, DECIMAL64(15,2), true]
+  |  73 <-> 1 - [72: cast, DECIMAL64(16,2), true]
+  |  74 <-> cast([73: subtract, DECIMAL64(16,2), true] as DECIMAL128(16,2))
+  |  75 <-> [71: cast, DECIMAL128(15,2), true] * [74: cast, DECIMAL128(16,2), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * year-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * expr-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * case-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  35:HASH JOIN
+  |  join op: INNER JOIN (BROADCAST)
+  |  equal join conjunct: [56: n_regionkey, INT, true] = [62: r_regionkey, INT, true]
+  |  build runtime filters:
+  |  - filter_id = 6, build_expr = (62: r_regionkey), remote = true
+  |  output columns: 19, 20, 41, 59
+  |  can local shuffle: true
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_name-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * r_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * year-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * expr-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * case-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----34:EXCHANGE
+  |       distribution type: BROADCAST
+  |       cardinality: 1
+  |    
+  31:Project
+  |  output columns:
+  |  19 <-> [19: l_extendedprice, DECIMAL64(15,2), true]
+  |  20 <-> [20: l_discount, DECIMAL64(15,2), true]
+  |  41 <-> [41: o_orderdate, DATE, true]
+  |  56 <-> [56: n_regionkey, INT, true]
+  |  59 <-> [59: n_name, VARCHAR(1048576), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_name-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  30:HASH JOIN
+  |  join op: INNER JOIN (PARTITIONED)
+  |  equal join conjunct: [33: s_nationkey, INT, true] = [58: n_nationkey, INT, true]
+  |  build runtime filters:
+  |  - filter_id = 5, build_expr = (58: n_nationkey), remote = true
+  |  output columns: 19, 20, 41, 56, 59
+  |  can local shuffle: false
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_name-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----29:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       partition exprs: [58: n_nationkey, INT, true]
+  |       cardinality: 1
+  |    
+  27:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [33: s_nationkey, INT, true]
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 6, probe_expr = (56: n_regionkey)
+
+PLAN FRAGMENT 3(F25)
+
+  Input Partition: RANDOM
+  OutPut Partition: UNPARTITIONED
+  OutPut Exchange Id: 34
+
+  33:Project
+  |  output columns:
+  |  62 <-> [62: r_regionkey, INT, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * r_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  32:FileScanNode
+     BROKER: 
+     cardinality: 1
+     column statistics: 
+     * r_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * r_name-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 4(F22)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 58: n_nationkey
+  OutPut Exchange Id: 29
+
+  28:FileScanNode
+     BROKER: 
+     cardinality: 1
+     column statistics: 
+     * n_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * n_name-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 5(F20)
+
+  Input Partition: HASH_PARTITIONED: 49: c_nationkey
+  OutPut Partition: HASH_PARTITIONED: 33: s_nationkey
+  OutPut Exchange Id: 27
+
+  26:Project
+  |  output columns:
+  |  19 <-> [19: l_extendedprice, DECIMAL64(15,2), true]
+  |  20 <-> [20: l_discount, DECIMAL64(15,2), true]
+  |  33 <-> [33: s_nationkey, INT, true]
+  |  41 <-> [41: o_orderdate, DATE, true]
+  |  56 <-> [56: n_regionkey, INT, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  25:HASH JOIN
+  |  join op: INNER JOIN (PARTITIONED)
+  |  equal join conjunct: [49: c_nationkey, INT, true] = [54: n_nationkey, INT, true]
+  |  build runtime filters:
+  |  - filter_id = 4, build_expr = (54: n_nationkey), remote = true
+  |  output columns: 19, 20, 33, 41, 56
+  |  can local shuffle: true
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  * c_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * n_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----24:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       partition exprs: [54: n_nationkey, INT, true]
+  |       cardinality: 1
+  |    
+  22:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [49: c_nationkey, INT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 6(F18)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 54: n_nationkey
+  OutPut Exchange Id: 24
+
+  23:FileScanNode
+     BROKER: 
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 6, probe_expr = (56: n_regionkey)
+     column statistics: 
+     * n_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * n_regionkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 7(F16)
+
+  Input Partition: HASH_PARTITIONED: 38: o_custkey
+  OutPut Partition: HASH_PARTITIONED: 49: c_nationkey
+  OutPut Exchange Id: 22
+
+  21:Project
+  |  output columns:
+  |  19 <-> [19: l_extendedprice, DECIMAL64(15,2), true]
+  |  20 <-> [20: l_discount, DECIMAL64(15,2), true]
+  |  33 <-> [33: s_nationkey, INT, true]
+  |  41 <-> [41: o_orderdate, DATE, true]
+  |  49 <-> [49: c_nationkey, INT, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  * c_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  20:HASH JOIN
+  |  join op: INNER JOIN (PARTITIONED)
+  |  equal join conjunct: [38: o_custkey, INT, true] = [46: c_custkey, INT, true]
+  |  build runtime filters:
+  |  - filter_id = 3, build_expr = (46: c_custkey), remote = true
+  |  output columns: 19, 20, 33, 41, 49
+  |  can local shuffle: true
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_custkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  * c_custkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * c_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----19:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       partition exprs: [46: c_custkey, INT, true]
+  |       cardinality: 1
+  |    
+  17:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [38: o_custkey, INT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 8(F14)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 46: c_custkey
+  OutPut Exchange Id: 19
+
+  18:FileScanNode
+     BROKER: 
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 4, probe_expr = (49: c_nationkey)
+     column statistics: 
+     * c_custkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * c_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 9(F12)
+
+  Input Partition: HASH_PARTITIONED: 14: l_orderkey
+  OutPut Partition: HASH_PARTITIONED: 38: o_custkey
+  OutPut Exchange Id: 17
+
+  16:Project
+  |  output columns:
+  |  19 <-> [19: l_extendedprice, DECIMAL64(15,2), true]
+  |  20 <-> [20: l_discount, DECIMAL64(15,2), true]
+  |  33 <-> [33: s_nationkey, INT, true]
+  |  38 <-> [38: o_custkey, INT, true]
+  |  41 <-> [41: o_orderdate, DATE, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_custkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  15:HASH JOIN
+  |  join op: INNER JOIN (PARTITIONED)
+  |  equal join conjunct: [14: l_orderkey, BIGINT, true] = [37: o_orderkey, BIGINT, true]
+  |  build runtime filters:
+  |  - filter_id = 2, build_expr = (37: o_orderkey), remote = true
+  |  output columns: 19, 20, 33, 38, 41
+  |  can local shuffle: true
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_custkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----14:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       partition exprs: [37: o_orderkey, BIGINT, true]
+  |       cardinality: 1
+  |    
+  12:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [14: l_orderkey, BIGINT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 10(F10)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 37: o_orderkey
+  OutPut Exchange Id: 14
+
+  13:FileScanNode
+     BROKER: 
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 3, probe_expr = (38: o_custkey)
+     column statistics: 
+     * o_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * o_custkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * o_orderdate-->[7.889184E8, 8.519904E8, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 11(F08)
+
+  Input Partition: HASH_PARTITIONED: 16: l_suppkey
+  OutPut Partition: HASH_PARTITIONED: 14: l_orderkey
+  OutPut Exchange Id: 12
+
+  11:Project
+  |  output columns:
+  |  14 <-> [14: l_orderkey, BIGINT, true]
+  |  19 <-> [19: l_extendedprice, DECIMAL64(15,2), true]
+  |  20 <-> [20: l_discount, DECIMAL64(15,2), true]
+  |  33 <-> [33: s_nationkey, INT, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  10:HASH JOIN
+  |  join op: INNER JOIN (PARTITIONED)
+  |  equal join conjunct: [16: l_suppkey, INT, true] = [30: s_suppkey, INT, true]
+  |  build runtime filters:
+  |  - filter_id = 1, build_expr = (30: s_suppkey), remote = true
+  |  output columns: 14, 19, 20, 33
+  |  can local shuffle: true
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_suppkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_suppkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----9:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       partition exprs: [30: s_suppkey, INT, true]
+  |       cardinality: 1
+  |    
+  7:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [16: l_suppkey, INT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 12(F06)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 30: s_suppkey
+  OutPut Exchange Id: 09
+
+  8:FileScanNode
+     BROKER: 
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 5, probe_expr = (33: s_nationkey)
+     column statistics: 
+     * s_suppkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * s_nationkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 13(F04)
+
+  Input Partition: HASH_PARTITIONED: 5: p_partkey
+  OutPut Partition: HASH_PARTITIONED: 16: l_suppkey
+  OutPut Exchange Id: 07
+
+  6:Project
+  |  output columns:
+  |  14 <-> [14: l_orderkey, BIGINT, true]
+  |  16 <-> [16: l_suppkey, INT, true]
+  |  19 <-> [19: l_extendedprice, DECIMAL64(15,2), true]
+  |  20 <-> [20: l_discount, DECIMAL64(15,2), true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_suppkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  5:HASH JOIN
+  |  join op: INNER JOIN (PARTITIONED)
+  |  equal join conjunct: [5: p_partkey, INT, true] = [15: l_partkey, INT, true]
+  |  build runtime filters:
+  |  - filter_id = 0, build_expr = (15: l_partkey), remote = true
+  |  output columns: 14, 16, 19, 20
+  |  can local shuffle: true
+  |  cardinality: 1
+  |  column statistics: 
+  |  * p_partkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_partkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_suppkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----4:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       partition exprs: [15: l_partkey, INT, true]
+  |       cardinality: 1
+  |    
+  2:EXCHANGE
+     distribution type: SHUFFLE
+     partition exprs: [5: p_partkey, INT, true]
+     cardinality: 1
+
+PLAN FRAGMENT 14(F02)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 15: l_partkey
+  OutPut Exchange Id: 04
+
+  3:FileScanNode
+     BROKER: 
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 1, probe_expr = (16: l_suppkey)
+     - filter_id = 2, probe_expr = (14: l_orderkey)
+     column statistics: 
+     * l_orderkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * l_partkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * l_suppkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * l_extendedprice-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * l_discount-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+
+PLAN FRAGMENT 15(F00)
+
+  Input Partition: RANDOM
+  OutPut Partition: HASH_PARTITIONED: 5: p_partkey
+  OutPut Exchange Id: 02
+
+  1:Project
+  |  output columns:
+  |  5 <-> [5: p_partkey, INT, true]
+  |  cardinality: 1
+  |  column statistics: 
+  |  * p_partkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  0:FileScanNode
+     BROKER: 
+     cardinality: 1
+     probe runtime filters:
+     - filter_id = 0, probe_expr = (5: p_partkey)
+     column statistics: 
+     * p_partkey-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+     * p_type-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN

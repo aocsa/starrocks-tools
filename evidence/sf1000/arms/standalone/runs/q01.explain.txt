@@ -1,0 +1,74 @@
+┌───────────────────────────┐
+│          ORDER_BY         │
+│    ────────────────────   │
+│ lineitem.l_returnflag ASC │
+│ lineitem.l_linestatus ASC │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│       HASH_GROUP_BY       │
+│    ────────────────────   │
+│          Groups:          │
+│             #0            │
+│             #1            │
+│                           │
+│        Aggregates:        │
+│          sum(#2)          │
+│          sum(#3)          │
+│          sum(#4)          │
+│          sum(#5)          │
+│          avg(#6)          │
+│          avg(#7)          │
+│          avg(#8)          │
+│        count_star()       │
+│                           │
+│    ~1,222,164,545 rows    │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│        l_returnflag       │
+│        l_linestatus       │
+│         l_quantity        │
+│      l_extendedprice      │
+│             #4            │
+│   (#4 * (1.00 + l_tax))   │
+│         l_quantity        │
+│      l_extendedprice      │
+│         l_discount        │
+│                           │
+│    ~1,222,165,536 rows    │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│         PROJECTION        │
+│    ────────────────────   │
+│        l_returnflag       │
+│        l_linestatus       │
+│         l_quantity        │
+│      l_extendedprice      │
+│ (l_extendedprice * (1.00 -│
+│        l_discount))       │
+│           l_tax           │
+│         l_discount        │
+│                           │
+│    ~1,222,165,536 rows    │
+└─────────────┬─────────────┘
+┌─────────────┴─────────────┐
+│        READ_PARQUET       │
+│    ────────────────────   │
+│         Function:         │
+│        READ_PARQUET       │
+│                           │
+│        Projections:       │
+│         l_quantity        │
+│      l_extendedprice      │
+│         l_discount        │
+│           l_tax           │
+│        l_returnflag       │
+│        l_linestatus       │
+│                           │
+│          Filters:         │
+│ l_shipdate<='1998-09-02': │
+│           :DATE           │
+│                           │
+│    ~1,222,165,536 rows    │
+└───────────────────────────┘

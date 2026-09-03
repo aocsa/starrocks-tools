@@ -1,0 +1,4684 @@
+{
+ "q01.r0": {
+  "status": "pass",
+  "ms": 9359,
+  "rows": 4,
+  "query_ids": [
+   "f6d63e7048a0"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8451
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    17
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "f6d63e7048a2",
+    "stream": 3,
+    "rows": 4
+   },
+   {
+    "fid": "f6d63e7048a1",
+    "stream": 6,
+    "rows": 4
+   }
+  ],
+  "relayed_batches": 2,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q01.r1": {
+  "status": "pass",
+  "ms": 5190,
+  "rows": 4,
+  "query_ids": [
+   "a1065c781f6e"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4956
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "a1065c781f70",
+    "stream": 3,
+    "rows": 4
+   },
+   {
+    "fid": "a1065c781f6f",
+    "stream": 6,
+    "rows": 4
+   }
+  ],
+  "relayed_batches": 2,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q01.r2": {
+  "status": "pass",
+  "ms": 4956,
+  "rows": 4,
+  "query_ids": [
+   "07501f08e60c"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4715
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "07501f08e60e",
+    "stream": 3,
+    "rows": 4
+   },
+   {
+    "fid": "07501f08e60d",
+    "stream": 6,
+    "rows": 4
+   }
+  ],
+  "relayed_batches": 2,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q02.r0": {
+  "status": "pass",
+  "ms": 1707,
+  "rows": 100,
+  "query_ids": [
+   "000eaf9aadfc"
+  ],
+  "fragments": 13,
+  "roles": {
+   "sender": 12,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    453
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    271
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    197
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    116
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    53
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    41
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    16
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "000eaf9aae08",
+    "stream": 3,
+    "rows": 800000000
+   },
+   {
+    "fid": "000eaf9aae02",
+    "stream": 21,
+    "rows": 10000000
+   },
+   {
+    "fid": "000eaf9aae02",
+    "stream": 25,
+    "rows": 25
+   },
+   {
+    "fid": "000eaf9aae00",
+    "stream": 28,
+    "rows": 800000000
+   },
+   {
+    "fid": "000eaf9aae00",
+    "stream": 30,
+    "rows": 1
+   },
+   {
+    "fid": "000eaf9aadff",
+    "stream": 34,
+    "rows": 118065576
+   },
+   {
+    "fid": "000eaf9aadfe",
+    "stream": 6,
+    "rows": 3191000
+   },
+   {
+    "fid": "000eaf9aadfe",
+    "stream": 8,
+    "rows": 10000000
+   },
+   {
+    "fid": "000eaf9aadfe",
+    "stream": 12,
+    "rows": 25
+   },
+   {
+    "fid": "000eaf9aadfe",
+    "stream": 16,
+    "rows": 1
+   },
+   {
+    "fid": "000eaf9aadfe",
+    "stream": 36,
+    "rows": 118065576
+   },
+   {
+    "fid": "000eaf9aadfd",
+    "stream": 40,
+    "rows": 100
+   }
+  ],
+  "relayed_batches": 20,
+  "relayed_streams": 12,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 13,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q02.r1": {
+  "status": "pass",
+  "ms": 1264,
+  "rows": 100,
+  "query_ids": [
+   "1f317ab0f560"
+  ],
+  "fragments": 13,
+  "roles": {
+   "sender": 12,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    443
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    204
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    112
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    81
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    46
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    40
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    16
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "1f317ab0f56c",
+    "stream": 3,
+    "rows": 800000000
+   },
+   {
+    "fid": "1f317ab0f566",
+    "stream": 21,
+    "rows": 10000000
+   },
+   {
+    "fid": "1f317ab0f566",
+    "stream": 25,
+    "rows": 25
+   },
+   {
+    "fid": "1f317ab0f564",
+    "stream": 28,
+    "rows": 800000000
+   },
+   {
+    "fid": "1f317ab0f564",
+    "stream": 30,
+    "rows": 1
+   },
+   {
+    "fid": "1f317ab0f563",
+    "stream": 34,
+    "rows": 118065576
+   },
+   {
+    "fid": "1f317ab0f562",
+    "stream": 6,
+    "rows": 3191000
+   },
+   {
+    "fid": "1f317ab0f562",
+    "stream": 8,
+    "rows": 10000000
+   },
+   {
+    "fid": "1f317ab0f562",
+    "stream": 12,
+    "rows": 25
+   },
+   {
+    "fid": "1f317ab0f562",
+    "stream": 16,
+    "rows": 1
+   },
+   {
+    "fid": "1f317ab0f562",
+    "stream": 36,
+    "rows": 118065576
+   },
+   {
+    "fid": "1f317ab0f561",
+    "stream": 40,
+    "rows": 100
+   }
+  ],
+  "relayed_batches": 20,
+  "relayed_streams": 12,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 13,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q02.r2": {
+  "status": "pass",
+  "ms": 1227,
+  "rows": 100,
+  "query_ids": [
+   "d2241646f805"
+  ],
+  "fragments": 13,
+  "roles": {
+   "sender": 12,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    435
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    183
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    113
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    79
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    44
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    41
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    16
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "d2241646f811",
+    "stream": 3,
+    "rows": 800000000
+   },
+   {
+    "fid": "d2241646f80b",
+    "stream": 21,
+    "rows": 10000000
+   },
+   {
+    "fid": "d2241646f80b",
+    "stream": 25,
+    "rows": 25
+   },
+   {
+    "fid": "d2241646f809",
+    "stream": 28,
+    "rows": 800000000
+   },
+   {
+    "fid": "d2241646f809",
+    "stream": 30,
+    "rows": 1
+   },
+   {
+    "fid": "d2241646f808",
+    "stream": 34,
+    "rows": 118065576
+   },
+   {
+    "fid": "d2241646f807",
+    "stream": 6,
+    "rows": 3191000
+   },
+   {
+    "fid": "d2241646f807",
+    "stream": 8,
+    "rows": 10000000
+   },
+   {
+    "fid": "d2241646f807",
+    "stream": 12,
+    "rows": 25
+   },
+   {
+    "fid": "d2241646f807",
+    "stream": 16,
+    "rows": 1
+   },
+   {
+    "fid": "d2241646f807",
+    "stream": 36,
+    "rows": 118065576
+   },
+   {
+    "fid": "d2241646f806",
+    "stream": 40,
+    "rows": 100
+   }
+  ],
+  "relayed_batches": 20,
+  "relayed_streams": 12,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 13,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q03.r0": {
+  "status": "pass",
+  "ms": 4547,
+  "rows": 10,
+  "query_ids": [
+   "ce4a13bb6756"
+  ],
+  "fragments": 5,
+  "roles": {
+   "sender": 4,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3360
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    891
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    52
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    13
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "ce4a13bb675a",
+    "stream": 5,
+    "rows": 29998152
+   },
+   {
+    "fid": "ce4a13bb6759",
+    "stream": 8,
+    "rows": 145769513
+   },
+   {
+    "fid": "ce4a13bb6758",
+    "stream": 12,
+    "rows": 11326372
+   },
+   {
+    "fid": "ce4a13bb6757",
+    "stream": 15,
+    "rows": 10
+   }
+  ],
+  "relayed_batches": 9,
+  "relayed_streams": 4,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 5,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q03.r1": {
+  "status": "pass",
+  "ms": 3031,
+  "rows": 10,
+  "query_ids": [
+   "67f5da21a205"
+  ],
+  "fragments": 5,
+  "roles": {
+   "sender": 4,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2193
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    509
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    44
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    13
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "67f5da21a209",
+    "stream": 5,
+    "rows": 29998152
+   },
+   {
+    "fid": "67f5da21a208",
+    "stream": 8,
+    "rows": 145769513
+   },
+   {
+    "fid": "67f5da21a207",
+    "stream": 12,
+    "rows": 11326372
+   },
+   {
+    "fid": "67f5da21a206",
+    "stream": 15,
+    "rows": 10
+   }
+  ],
+  "relayed_batches": 9,
+  "relayed_streams": 4,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 5,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q03.r2": {
+  "status": "pass",
+  "ms": 3181,
+  "rows": 10,
+  "query_ids": [
+   "c87004a58bef"
+  ],
+  "fragments": 5,
+  "roles": {
+   "sender": 4,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2292
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    569
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    42
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    13
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "c87004a58bf3",
+    "stream": 5,
+    "rows": 29998152
+   },
+   {
+    "fid": "c87004a58bf2",
+    "stream": 8,
+    "rows": 145769513
+   },
+   {
+    "fid": "c87004a58bf1",
+    "stream": 12,
+    "rows": 11326372
+   },
+   {
+    "fid": "c87004a58bf0",
+    "stream": 15,
+    "rows": 10
+   }
+  ],
+  "relayed_batches": 9,
+  "relayed_streams": 4,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 5,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q04.r0": {
+  "status": "pass",
+  "ms": 1930,
+  "rows": 5,
+  "query_ids": [
+   "87d7723258c2"
+  ],
+  "fragments": 4,
+  "roles": {
+   "sender": 3,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1210
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    498
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "87d7723258c5",
+    "stream": 4,
+    "rows": 3793363900
+   },
+   {
+    "fid": "87d7723258c4",
+    "stream": 8,
+    "rows": 5
+   },
+   {
+    "fid": "87d7723258c3",
+    "stream": 11,
+    "rows": 5
+   }
+  ],
+  "relayed_batches": 39,
+  "relayed_streams": 3,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 4,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q04.r1": {
+  "status": "pass",
+  "ms": 1836,
+  "rows": 5,
+  "query_ids": [
+   "08c6c9d5847d"
+  ],
+  "fragments": 4,
+  "roles": {
+   "sender": 3,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1151
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    467
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "08c6c9d58480",
+    "stream": 4,
+    "rows": 3793363900
+   },
+   {
+    "fid": "08c6c9d5847f",
+    "stream": 8,
+    "rows": 5
+   },
+   {
+    "fid": "08c6c9d5847e",
+    "stream": 11,
+    "rows": 5
+   }
+  ],
+  "relayed_batches": 39,
+  "relayed_streams": 3,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 4,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q04.r2": {
+  "status": "pass",
+  "ms": 1864,
+  "rows": 5,
+  "query_ids": [
+   "9e9cd1591561"
+  ],
+  "fragments": 4,
+  "roles": {
+   "sender": 3,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1165
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    488
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "9e9cd1591564",
+    "stream": 4,
+    "rows": 3793363900
+   },
+   {
+    "fid": "9e9cd1591563",
+    "stream": 8,
+    "rows": 5
+   },
+   {
+    "fid": "9e9cd1591562",
+    "stream": 11,
+    "rows": 5
+   }
+  ],
+  "relayed_batches": 39,
+  "relayed_streams": 3,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 4,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q05.r0": {
+  "status": "fail",
+  "ms": 101460,
+  "rows": 0,
+  "query_ids": [
+   "70d5745d576c"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 7
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    101193
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    582
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    73
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    33
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    9
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "70d5745d5775",
+    "stream": 1,
+    "rows": 150000000
+   },
+   {
+    "fid": "70d5745d5775",
+    "stream": 4,
+    "rows": 227571151
+   }
+  ],
+  "relayed_batches": 11,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [
+   "failed to execute fragment: GPU pipeline task exceeded maximum retry limit (100) for original task 2567: OOM at operator GPU_SCAN (index 0)"
+  ],
+  "cancels": 11,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 2500,
+   "oom_ops": {
+    "GPU_SCAN": 2500
+   },
+   "retry_exhausted": 1,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 2503,
+   "futile_aborts": 0,
+   "partial_proceed": 2503
+  }
+ },
+ "q06.r0": {
+  "status": "pass",
+  "ms": 2453,
+  "rows": 1,
+  "query_ids": [
+   "fb6c215a2a03"
+  ],
+  "fragments": 2,
+  "roles": {
+   "sender": 1,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1724
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "fb6c215a2a04",
+    "stream": 3,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 1,
+  "relayed_streams": 1,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 2,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q06.r1": {
+  "status": "pass",
+  "ms": 1909,
+  "rows": 1,
+  "query_ids": [
+   "3c6cef52afc1"
+  ],
+  "fragments": 2,
+  "roles": {
+   "sender": 1,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1715
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "3c6cef52afc2",
+    "stream": 3,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 1,
+  "relayed_streams": 1,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 2,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q06.r2": {
+  "status": "pass",
+  "ms": 1924,
+  "rows": 1,
+  "query_ids": [
+   "8904b1f3b2f3"
+  ],
+  "fragments": 2,
+  "roles": {
+   "sender": 1,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1739
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "8904b1f3b2f4",
+    "stream": 3,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 1,
+  "relayed_streams": 1,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 2,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q07.r0": {
+  "status": "pass",
+  "ms": 3593,
+  "rows": 4,
+  "query_ids": [
+   "1328ae980c23"
+  ],
+  "fragments": 10,
+  "roles": {
+   "sender": 9,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2469
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    411
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    382
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    33
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "1328ae980c2b",
+    "stream": 1,
+    "rows": 10000000
+   },
+   {
+    "fid": "1328ae980c2b",
+    "stream": 3,
+    "rows": 2
+   },
+   {
+    "fid": "1328ae980c26",
+    "stream": 6,
+    "rows": 799746
+   },
+   {
+    "fid": "1328ae980c26",
+    "stream": 8,
+    "rows": 1822871264
+   },
+   {
+    "fid": "1328ae980c26",
+    "stream": 12,
+    "rows": 1500000000
+   },
+   {
+    "fid": "1328ae980c26",
+    "stream": 16,
+    "rows": 150000000
+   },
+   {
+    "fid": "1328ae980c26",
+    "stream": 20,
+    "rows": 2
+   },
+   {
+    "fid": "1328ae980c25",
+    "stream": 24,
+    "rows": 4
+   },
+   {
+    "fid": "1328ae980c24",
+    "stream": 27,
+    "rows": 4
+   }
+  ],
+  "relayed_batches": 88,
+  "relayed_streams": 9,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 10,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q07.r1": {
+  "status": "pass",
+  "ms": 3510,
+  "rows": 4,
+  "query_ids": [
+   "772c72f753e7"
+  ],
+  "fragments": 10,
+  "roles": {
+   "sender": 9,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2453
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    402
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    316
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    33
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "772c72f753ef",
+    "stream": 1,
+    "rows": 10000000
+   },
+   {
+    "fid": "772c72f753ef",
+    "stream": 3,
+    "rows": 2
+   },
+   {
+    "fid": "772c72f753ea",
+    "stream": 6,
+    "rows": 799746
+   },
+   {
+    "fid": "772c72f753ea",
+    "stream": 8,
+    "rows": 1822871264
+   },
+   {
+    "fid": "772c72f753ea",
+    "stream": 12,
+    "rows": 1500000000
+   },
+   {
+    "fid": "772c72f753ea",
+    "stream": 16,
+    "rows": 150000000
+   },
+   {
+    "fid": "772c72f753ea",
+    "stream": 20,
+    "rows": 2
+   },
+   {
+    "fid": "772c72f753e9",
+    "stream": 24,
+    "rows": 4
+   },
+   {
+    "fid": "772c72f753e8",
+    "stream": 27,
+    "rows": 4
+   }
+  ],
+  "relayed_batches": 88,
+  "relayed_streams": 9,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 10,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q07.r2": {
+  "status": "pass",
+  "ms": 3442,
+  "rows": 4,
+  "query_ids": [
+   "75b0c4380061"
+  ],
+  "fragments": 10,
+  "roles": {
+   "sender": 9,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2407
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    406
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    300
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    35
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "75b0c4380069",
+    "stream": 1,
+    "rows": 10000000
+   },
+   {
+    "fid": "75b0c4380069",
+    "stream": 3,
+    "rows": 2
+   },
+   {
+    "fid": "75b0c4380064",
+    "stream": 6,
+    "rows": 799746
+   },
+   {
+    "fid": "75b0c4380064",
+    "stream": 8,
+    "rows": 1822871264
+   },
+   {
+    "fid": "75b0c4380064",
+    "stream": 12,
+    "rows": 1500000000
+   },
+   {
+    "fid": "75b0c4380064",
+    "stream": 16,
+    "rows": 150000000
+   },
+   {
+    "fid": "75b0c4380064",
+    "stream": 20,
+    "rows": 2
+   },
+   {
+    "fid": "75b0c4380063",
+    "stream": 24,
+    "rows": 4
+   },
+   {
+    "fid": "75b0c4380062",
+    "stream": 27,
+    "rows": 4
+   }
+  ],
+  "relayed_batches": 88,
+  "relayed_streams": 9,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 10,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q08.r0": {
+  "status": "fail",
+  "ms": 168285,
+  "rows": 0,
+  "query_ids": [
+   "9e6050db7ca9"
+  ],
+  "fragments": 8,
+  "roles": {
+   "sender": 8
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    167986
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    799
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    47
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    34
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ]
+  ],
+  "declared_cardinalities": [],
+  "relayed_batches": 0,
+  "relayed_streams": 0,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [
+   "failed to execute fragment: GPU pipeline task exceeded maximum retry limit (100) for original task 6339: OOM at operator GPU_SCAN (index 0)"
+  ],
+  "cancels": 11,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 3600,
+   "oom_ops": {
+    "GPU_SCAN": 3600
+   },
+   "retry_exhausted": 1,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 3603,
+   "futile_aborts": 0,
+   "partial_proceed": 3603
+  }
+ },
+ "q09.r0": {
+  "status": "fail",
+  "ms": 232533,
+  "rows": 0,
+  "query_ids": [
+   "cf3355779940"
+  ],
+  "fragments": 6,
+  "roles": {
+   "sender": 6
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    231467
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    190
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    158
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    145
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    9
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ]
+  ],
+  "declared_cardinalities": [],
+  "relayed_batches": 0,
+  "relayed_streams": 0,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [
+   "failed to execute fragment: GPU pipeline task exceeded maximum retry limit (100) for original task 10031: OOM at operator GPU_SCAN (index 0)"
+  ],
+  "cancels": 9,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 5600,
+   "oom_ops": {
+    "GPU_SCAN": 5600
+   },
+   "retry_exhausted": 1,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 5603,
+   "futile_aborts": 0,
+   "partial_proceed": 5603
+  }
+ },
+ "q10.r0": {
+  "status": "pass",
+  "ms": 3913,
+  "rows": 20,
+  "query_ids": [
+   "a972849f7ed4"
+  ],
+  "fragments": 6,
+  "roles": {
+   "sender": 5,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1831
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1066
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    373
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    181
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "a972849f7ed8",
+    "stream": 9,
+    "rows": 57358391
+   },
+   {
+    "fid": "a972849f7ed7",
+    "stream": 2,
+    "rows": 25
+   },
+   {
+    "fid": "a972849f7ed7",
+    "stream": 12,
+    "rows": 114711320
+   },
+   {
+    "fid": "a972849f7ed6",
+    "stream": 16,
+    "rows": 44528891
+   },
+   {
+    "fid": "a972849f7ed5",
+    "stream": 19,
+    "rows": 20
+   }
+  ],
+  "relayed_batches": 32,
+  "relayed_streams": 5,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 6,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q10.r1": {
+  "status": "pass",
+  "ms": 3697,
+  "rows": 20,
+  "query_ids": [
+   "890afb433159"
+  ],
+  "fragments": 6,
+  "roles": {
+   "sender": 5,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1753
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1067
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    386
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    179
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "890afb43315d",
+    "stream": 9,
+    "rows": 57358391
+   },
+   {
+    "fid": "890afb43315c",
+    "stream": 2,
+    "rows": 25
+   },
+   {
+    "fid": "890afb43315c",
+    "stream": 12,
+    "rows": 114711320
+   },
+   {
+    "fid": "890afb43315b",
+    "stream": 16,
+    "rows": 44528891
+   },
+   {
+    "fid": "890afb43315a",
+    "stream": 19,
+    "rows": 20
+   }
+  ],
+  "relayed_batches": 32,
+  "relayed_streams": 5,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 6,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q10.r2": {
+  "status": "pass",
+  "ms": 3721,
+  "rows": 20,
+  "query_ids": [
+   "55825be3346e"
+  ],
+  "fragments": 6,
+  "roles": {
+   "sender": 5,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1782
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1056
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    377
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    179
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "55825be33472",
+    "stream": 9,
+    "rows": 57358391
+   },
+   {
+    "fid": "55825be33471",
+    "stream": 2,
+    "rows": 25
+   },
+   {
+    "fid": "55825be33471",
+    "stream": 12,
+    "rows": 114711320
+   },
+   {
+    "fid": "55825be33470",
+    "stream": 16,
+    "rows": 44528891
+   },
+   {
+    "fid": "55825be3346f",
+    "stream": 19,
+    "rows": 20
+   }
+  ],
+  "relayed_batches": 32,
+  "relayed_streams": 5,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 6,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q11.r0": {
+  "status": "pass",
+  "ms": 1047,
+  "rows": 0,
+  "query_ids": [
+   "c3e690683cac"
+  ],
+  "fragments": 9,
+  "roles": {
+   "sender": 8,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    357
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    284
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    14
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    9
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "c3e690683cb4",
+    "stream": 3,
+    "rows": 10000000
+   },
+   {
+    "fid": "c3e690683cb3",
+    "stream": 6,
+    "rows": 399948
+   },
+   {
+    "fid": "c3e690683cb1",
+    "stream": 15,
+    "rows": 10000000
+   },
+   {
+    "fid": "c3e690683cb0",
+    "stream": 18,
+    "rows": 399948
+   },
+   {
+    "fid": "c3e690683caf",
+    "stream": 22,
+    "rows": 1
+   },
+   {
+    "fid": "c3e690683cae",
+    "stream": 10,
+    "rows": 30129021
+   },
+   {
+    "fid": "c3e690683cae",
+    "stream": 25,
+    "rows": 1
+   },
+   {
+    "fid": "c3e690683cad",
+    "stream": 29,
+    "rows": 0
+   }
+  ],
+  "relayed_batches": 8,
+  "relayed_streams": 8,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 9,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q11.r1": {
+  "status": "pass",
+  "ms": 969,
+  "rows": 0,
+  "query_ids": [
+   "3519e4711a89"
+  ],
+  "fragments": 9,
+  "roles": {
+   "sender": 8,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    349
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    288
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    10
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "3519e4711a91",
+    "stream": 3,
+    "rows": 10000000
+   },
+   {
+    "fid": "3519e4711a90",
+    "stream": 6,
+    "rows": 399948
+   },
+   {
+    "fid": "3519e4711a8e",
+    "stream": 15,
+    "rows": 10000000
+   },
+   {
+    "fid": "3519e4711a8d",
+    "stream": 18,
+    "rows": 399948
+   },
+   {
+    "fid": "3519e4711a8c",
+    "stream": 22,
+    "rows": 1
+   },
+   {
+    "fid": "3519e4711a8b",
+    "stream": 10,
+    "rows": 30129021
+   },
+   {
+    "fid": "3519e4711a8b",
+    "stream": 25,
+    "rows": 1
+   },
+   {
+    "fid": "3519e4711a8a",
+    "stream": 29,
+    "rows": 0
+   }
+  ],
+  "relayed_batches": 8,
+  "relayed_streams": 8,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 9,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q11.r2": {
+  "status": "pass",
+  "ms": 971,
+  "rows": 0,
+  "query_ids": [
+   "9dc57f3bcaed"
+  ],
+  "fragments": 9,
+  "roles": {
+   "sender": 8,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    361
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    284
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    10
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    7
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "9dc57f3bcaf5",
+    "stream": 3,
+    "rows": 10000000
+   },
+   {
+    "fid": "9dc57f3bcaf4",
+    "stream": 6,
+    "rows": 399948
+   },
+   {
+    "fid": "9dc57f3bcaf2",
+    "stream": 15,
+    "rows": 10000000
+   },
+   {
+    "fid": "9dc57f3bcaf1",
+    "stream": 18,
+    "rows": 399948
+   },
+   {
+    "fid": "9dc57f3bcaf0",
+    "stream": 22,
+    "rows": 1
+   },
+   {
+    "fid": "9dc57f3bcaef",
+    "stream": 10,
+    "rows": 30129021
+   },
+   {
+    "fid": "9dc57f3bcaef",
+    "stream": 25,
+    "rows": 1
+   },
+   {
+    "fid": "9dc57f3bcaee",
+    "stream": 29,
+    "rows": 0
+   }
+  ],
+  "relayed_batches": 8,
+  "relayed_streams": 8,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 9,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q12.r0": {
+  "status": "pass",
+  "ms": 2393,
+  "rows": 2,
+  "query_ids": [
+   "e3715605fae9"
+  ],
+  "fragments": 4,
+  "roles": {
+   "sender": 3,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1825
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    397
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "e3715605faec",
+    "stream": 3,
+    "rows": 31162904
+   },
+   {
+    "fid": "e3715605faeb",
+    "stream": 7,
+    "rows": 2
+   },
+   {
+    "fid": "e3715605faea",
+    "stream": 10,
+    "rows": 2
+   }
+  ],
+  "relayed_batches": 67,
+  "relayed_streams": 3,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 4,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q12.r1": {
+  "status": "pass",
+  "ms": 2526,
+  "rows": 2,
+  "query_ids": [
+   "397fc965d697"
+  ],
+  "fragments": 4,
+  "roles": {
+   "sender": 3,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1899
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    405
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "397fc965d69a",
+    "stream": 3,
+    "rows": 31162904
+   },
+   {
+    "fid": "397fc965d699",
+    "stream": 7,
+    "rows": 2
+   },
+   {
+    "fid": "397fc965d698",
+    "stream": 10,
+    "rows": 2
+   }
+  ],
+  "relayed_batches": 67,
+  "relayed_streams": 3,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 4,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q12.r2": {
+  "status": "pass",
+  "ms": 2510,
+  "rows": 2,
+  "query_ids": [
+   "8a3d08e3a13c"
+  ],
+  "fragments": 4,
+  "roles": {
+   "sender": 3,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1886
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    402
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "8a3d08e3a13f",
+    "stream": 3,
+    "rows": 31162904
+   },
+   {
+    "fid": "8a3d08e3a13e",
+    "stream": 7,
+    "rows": 2
+   },
+   {
+    "fid": "8a3d08e3a13d",
+    "stream": 10,
+    "rows": 2
+   }
+  ],
+  "relayed_batches": 67,
+  "relayed_streams": 3,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 4,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q13.r0": {
+  "status": "pass",
+  "ms": 2085,
+  "rows": 30,
+  "query_ids": [
+   "e6640b819aa7"
+  ],
+  "fragments": 5,
+  "roles": {
+   "sender": 4,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1297
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    557
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    20
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "e6640b819aaa",
+    "stream": 2,
+    "rows": 1483831048
+   },
+   {
+    "fid": "e6640b819aaa",
+    "stream": 4,
+    "rows": 150000000
+   },
+   {
+    "fid": "e6640b819aa9",
+    "stream": 10,
+    "rows": 30
+   },
+   {
+    "fid": "e6640b819aa8",
+    "stream": 13,
+    "rows": 30
+   }
+  ],
+  "relayed_batches": 40,
+  "relayed_streams": 4,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 5,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q13.r1": {
+  "status": "pass",
+  "ms": 2254,
+  "rows": 30,
+  "query_ids": [
+   "286810da3426"
+  ],
+  "fragments": 5,
+  "roles": {
+   "sender": 4,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1526
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    556
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    22
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "286810da3429",
+    "stream": 2,
+    "rows": 1483831048
+   },
+   {
+    "fid": "286810da3429",
+    "stream": 4,
+    "rows": 150000000
+   },
+   {
+    "fid": "286810da3428",
+    "stream": 10,
+    "rows": 30
+   },
+   {
+    "fid": "286810da3427",
+    "stream": 13,
+    "rows": 30
+   }
+  ],
+  "relayed_batches": 40,
+  "relayed_streams": 4,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 5,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q13.r2": {
+  "status": "pass",
+  "ms": 2143,
+  "rows": 30,
+  "query_ids": [
+   "0569305e7f9b"
+  ],
+  "fragments": 5,
+  "roles": {
+   "sender": 4,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1416
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    556
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    23
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "0569305e7f9e",
+    "stream": 2,
+    "rows": 1483831048
+   },
+   {
+    "fid": "0569305e7f9e",
+    "stream": 4,
+    "rows": 150000000
+   },
+   {
+    "fid": "0569305e7f9d",
+    "stream": 10,
+    "rows": 30
+   },
+   {
+    "fid": "0569305e7f9c",
+    "stream": 13,
+    "rows": 30
+   }
+  ],
+  "relayed_batches": 40,
+  "relayed_streams": 4,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 5,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q14.r0": {
+  "status": "pass",
+  "ms": 2538,
+  "rows": 1,
+  "query_ids": [
+   "f8baec4c1c92"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2302
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    43
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "f8baec4c1c94",
+    "stream": 3,
+    "rows": 200000000
+   },
+   {
+    "fid": "f8baec4c1c93",
+    "stream": 7,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 4,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q14.r1": {
+  "status": "pass",
+  "ms": 2588,
+  "rows": 1,
+  "query_ids": [
+   "b1e22a4167c1"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2330
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    46
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    4
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "b1e22a4167c3",
+    "stream": 3,
+    "rows": 200000000
+   },
+   {
+    "fid": "b1e22a4167c2",
+    "stream": 7,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 4,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q14.r2": {
+  "status": "pass",
+  "ms": 2574,
+  "rows": 1,
+  "query_ids": [
+   "e69d16dcad7e"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2314
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    45
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "e69d16dcad80",
+    "stream": 3,
+    "rows": 200000000
+   },
+   {
+    "fid": "e69d16dcad7f",
+    "stream": 7,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 4,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q15.r0": {
+  "status": "pass",
+  "ms": 4831,
+  "rows": 1,
+  "query_ids": [
+   "2eaf12755a70"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2304
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2224
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    36
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    9
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "2eaf12755a75",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "2eaf12755a74",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "2eaf12755a73",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "2eaf12755a73",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "2eaf12755a72",
+    "stream": 18,
+    "rows": 1
+   },
+   {
+    "fid": "2eaf12755a71",
+    "stream": 22,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q15.r1": {
+  "status": "pass",
+  "ms": 4701,
+  "rows": 0,
+  "query_ids": [
+   "00ec9aefe560"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2253
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2163
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    35
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "00ec9aefe565",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "00ec9aefe564",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "00ec9aefe563",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "00ec9aefe563",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "00ec9aefe562",
+    "stream": 18,
+    "rows": 0
+   },
+   {
+    "fid": "00ec9aefe561",
+    "stream": 22,
+    "rows": 0
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q15.r2": {
+  "status": "pass",
+  "ms": 4669,
+  "rows": 1,
+  "query_ids": [
+   "a64d1a8ae635"
+  ],
+  "fragments": 7,
+  "roles": {
+   "sender": 6,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2234
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2152
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    35
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "a64d1a8ae63a",
+    "stream": 9,
+    "rows": 10000000
+   },
+   {
+    "fid": "a64d1a8ae639",
+    "stream": 13,
+    "rows": 1
+   },
+   {
+    "fid": "a64d1a8ae638",
+    "stream": 4,
+    "rows": 10000000
+   },
+   {
+    "fid": "a64d1a8ae638",
+    "stream": 15,
+    "rows": 1
+   },
+   {
+    "fid": "a64d1a8ae637",
+    "stream": 18,
+    "rows": 1
+   },
+   {
+    "fid": "a64d1a8ae636",
+    "stream": 22,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 6,
+  "relayed_streams": 6,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 7,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q16.r0": {
+  "status": "fail",
+  "ms": 356,
+  "rows": 0,
+  "query_ids": [
+   "34a4b4e9ff82"
+  ],
+  "fragments": 2,
+  "roles": {
+   "sender": 2
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    108
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    25
+   ]
+  ],
+  "declared_cardinalities": [],
+  "relayed_batches": 0,
+  "relayed_streams": 0,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 5,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q17.r0": {
+  "status": "fail",
+  "ms": 103894,
+  "rows": 0,
+  "query_ids": [
+   "cc25942eac9e"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 3
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    103740
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6343
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    60
+   ]
+  ],
+  "declared_cardinalities": [],
+  "relayed_batches": 0,
+  "relayed_streams": 0,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [
+   "failed to execute fragment: GPU pipeline task exceeded maximum retry limit (100) for original task 19495: OOM at operator GPU_SCAN (index 0)"
+  ],
+  "cancels": 5,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 2100,
+   "oom_ops": {
+    "GPU_SCAN": 2100
+   },
+   "retry_exhausted": 1,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 2103,
+   "futile_aborts": 0,
+   "partial_proceed": 2103
+  }
+ },
+ "q18.r0": {
+  "status": "fail",
+  "ms": 54202,
+  "rows": 0,
+  "query_ids": [
+   "eb862509ad97"
+  ],
+  "fragments": 4,
+  "roles": {
+   "sender": 4
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    45214
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1913
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    541
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    65
+   ]
+  ],
+  "declared_cardinalities": [],
+  "relayed_batches": 0,
+  "relayed_streams": 0,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [
+   "failed to execute fragment: GPU pipeline task exceeded maximum retry limit (100) for original task 21817: OOM at operator GPU_SCAN (index 0)"
+  ],
+  "cancels": 7,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 2300,
+   "oom_ops": {
+    "GPU_SCAN": 2300
+   },
+   "retry_exhausted": 1,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 2302,
+   "futile_aborts": 0,
+   "partial_proceed": 2302
+  }
+ },
+ "q19.r0": {
+  "status": "pass",
+  "ms": 3188,
+  "rows": 1,
+  "query_ids": [
+   "9f43377ccd4f"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2728
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    172
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "9f43377ccd51",
+    "stream": 3,
+    "rows": 128557109
+   },
+   {
+    "fid": "9f43377ccd50",
+    "stream": 7,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 121,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q19.r1": {
+  "status": "pass",
+  "ms": 3076,
+  "rows": 1,
+  "query_ids": [
+   "51469a90996a"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2641
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    165
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "51469a90996c",
+    "stream": 3,
+    "rows": 128557109
+   },
+   {
+    "fid": "51469a90996b",
+    "stream": 7,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 121,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q19.r2": {
+  "status": "pass",
+  "ms": 3087,
+  "rows": 1,
+  "query_ids": [
+   "7c4b0bb310dc"
+  ],
+  "fragments": 3,
+  "roles": {
+   "sender": 2,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2651
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    168
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "7c4b0bb310de",
+    "stream": 3,
+    "rows": 128557109
+   },
+   {
+    "fid": "7c4b0bb310dd",
+    "stream": 7,
+    "rows": 1
+   }
+  ],
+  "relayed_batches": 121,
+  "relayed_streams": 2,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 3,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q20.r0": {
+  "status": "pass",
+  "ms": 4360,
+  "rows": 112013,
+  "query_ids": [
+   "7846e3d0ec55"
+  ],
+  "fragments": 8,
+  "roles": {
+   "sender": 7,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3284
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    360
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    161
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    126
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    35
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    15
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    13
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "7846e3d0ec59",
+    "stream": 12,
+    "rows": 800000000
+   },
+   {
+    "fid": "7846e3d0ec59",
+    "stream": 15,
+    "rows": 2172291
+   },
+   {
+    "fid": "7846e3d0ec58",
+    "stream": 9,
+    "rows": 304124949
+   },
+   {
+    "fid": "7846e3d0ec58",
+    "stream": 18,
+    "rows": 8689164
+   },
+   {
+    "fid": "7846e3d0ec57",
+    "stream": 3,
+    "rows": 1
+   },
+   {
+    "fid": "7846e3d0ec57",
+    "stream": 21,
+    "rows": 3289180
+   },
+   {
+    "fid": "7846e3d0ec56",
+    "stream": 25,
+    "rows": 112013
+   }
+  ],
+  "relayed_batches": 22,
+  "relayed_streams": 7,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 8,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q20.r1": {
+  "status": "pass",
+  "ms": 4073,
+  "rows": 112013,
+  "query_ids": [
+   "a6d8eef131f4"
+  ],
+  "fragments": 8,
+  "roles": {
+   "sender": 7,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2976
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    370
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    157
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    138
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    37
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    15
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    13
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "a6d8eef131f8",
+    "stream": 12,
+    "rows": 800000000
+   },
+   {
+    "fid": "a6d8eef131f8",
+    "stream": 15,
+    "rows": 2172291
+   },
+   {
+    "fid": "a6d8eef131f7",
+    "stream": 9,
+    "rows": 304124949
+   },
+   {
+    "fid": "a6d8eef131f7",
+    "stream": 18,
+    "rows": 8689164
+   },
+   {
+    "fid": "a6d8eef131f6",
+    "stream": 3,
+    "rows": 1
+   },
+   {
+    "fid": "a6d8eef131f6",
+    "stream": 21,
+    "rows": 3289180
+   },
+   {
+    "fid": "a6d8eef131f5",
+    "stream": 25,
+    "rows": 112013
+   }
+  ],
+  "relayed_batches": 22,
+  "relayed_streams": 7,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 8,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q20.r2": {
+  "status": "pass",
+  "ms": 4269,
+  "rows": 112013,
+  "query_ids": [
+   "cc5665f42917"
+  ],
+  "fragments": 8,
+  "roles": {
+   "sender": 7,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3184
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    370
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    155
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    134
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    37
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    15
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    13
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "cc5665f4291b",
+    "stream": 12,
+    "rows": 800000000
+   },
+   {
+    "fid": "cc5665f4291b",
+    "stream": 15,
+    "rows": 2172291
+   },
+   {
+    "fid": "cc5665f4291a",
+    "stream": 9,
+    "rows": 304124949
+   },
+   {
+    "fid": "cc5665f4291a",
+    "stream": 18,
+    "rows": 8689164
+   },
+   {
+    "fid": "cc5665f42919",
+    "stream": 3,
+    "rows": 1
+   },
+   {
+    "fid": "cc5665f42919",
+    "stream": 21,
+    "rows": 3289180
+   },
+   {
+    "fid": "cc5665f42918",
+    "stream": 25,
+    "rows": 112013
+   }
+  ],
+  "relayed_batches": 22,
+  "relayed_streams": 7,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 8,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q21.r0": {
+  "status": "fail",
+  "ms": 114485,
+  "rows": 0,
+  "query_ids": [
+   "713d8be92ac4"
+  ],
+  "fragments": 5,
+  "roles": {
+   "sender": 5
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    112319
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3153
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    1824
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    179
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    6
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "713d8be92acb",
+    "stream": 6,
+    "rows": 730806711
+   }
+  ],
+  "relayed_batches": 8,
+  "relayed_streams": 1,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [
+   "failed to execute fragment: GPU pipeline task exceeded maximum retry limit (100) for original task 25868: OOM at operator GPU_SCAN (index 0)"
+  ],
+  "cancels": 9,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 1800,
+   "oom_ops": {
+    "GPU_SCAN": 1800
+   },
+   "retry_exhausted": 1,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 1803,
+   "futile_aborts": 0,
+   "partial_proceed": 1803
+  }
+ },
+ "q22.r0": {
+  "status": "pass",
+  "ms": 4110,
+  "rows": 7,
+  "query_ids": [
+   "832d7f224fc5"
+  ],
+  "fragments": 6,
+  "roles": {
+   "sender": 5,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    365
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    217
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    130
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    2
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "832d7f224fca",
+    "stream": 4,
+    "rows": 1
+   },
+   {
+    "fid": "832d7f224fc8",
+    "stream": 6,
+    "rows": 1
+   },
+   {
+    "fid": "832d7f224fc8",
+    "stream": 10,
+    "rows": 1500000000
+   },
+   {
+    "fid": "832d7f224fc7",
+    "stream": 14,
+    "rows": 7
+   },
+   {
+    "fid": "832d7f224fc6",
+    "stream": 17,
+    "rows": 7
+   }
+  ],
+  "relayed_batches": 7,
+  "relayed_streams": 5,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 6,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q22.r1": {
+  "status": "pass",
+  "ms": 971,
+  "rows": 7,
+  "query_ids": [
+   "4cd9ad05e8ce"
+  ],
+  "fragments": 6,
+  "roles": {
+   "sender": 5,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    370
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    225
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    132
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "4cd9ad05e8d3",
+    "stream": 4,
+    "rows": 1
+   },
+   {
+    "fid": "4cd9ad05e8d1",
+    "stream": 6,
+    "rows": 1
+   },
+   {
+    "fid": "4cd9ad05e8d1",
+    "stream": 10,
+    "rows": 1500000000
+   },
+   {
+    "fid": "4cd9ad05e8d0",
+    "stream": 14,
+    "rows": 7
+   },
+   {
+    "fid": "4cd9ad05e8cf",
+    "stream": 17,
+    "rows": 7
+   }
+  ],
+  "relayed_batches": 7,
+  "relayed_streams": 5,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 6,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ },
+ "q22.r2": {
+  "status": "pass",
+  "ms": 915,
+  "rows": 7,
+  "query_ids": [
+   "e577f41f1da8"
+  ],
+  "fragments": 6,
+  "roles": {
+   "sender": 5,
+   "result": 1
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9102",
+    368
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    234
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    130
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    3
+   ],
+   [
+    "result",
+    "127.0.0.1:9102",
+    3
+   ]
+  ],
+  "declared_cardinalities": [
+   {
+    "fid": "e577f41f1dad",
+    "stream": 4,
+    "rows": 1
+   },
+   {
+    "fid": "e577f41f1dab",
+    "stream": 6,
+    "rows": 1
+   },
+   {
+    "fid": "e577f41f1dab",
+    "stream": 10,
+    "rows": 1500000000
+   },
+   {
+    "fid": "e577f41f1daa",
+    "stream": 14,
+    "rows": 7
+   },
+   {
+    "fid": "e577f41f1da9",
+    "stream": 17,
+    "rows": 7
+   }
+  ],
+  "relayed_batches": 7,
+  "relayed_streams": 5,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [],
+  "cancels": 6,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 0,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ }
+}

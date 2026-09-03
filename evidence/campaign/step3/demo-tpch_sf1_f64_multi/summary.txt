@@ -1,0 +1,96 @@
+== demo-tpch_sf1_f64_multi  worktree=/home/prestouser/aocsa/sirius-stacks-wt/demo  dataset=/scratch/prestouser/aocsa/demo-q1q6/tpch_sf1_f64_multi  Thu Sep  3 12:25:12 UTC 2026
+== env: NUM_CNS=4 GPU_MEM=64GiB STAGING=8GiB SIRIUS_EXCHANGE_STAGING_BYTES=8GiB SIRIUS_QUERY_WATCHDOG_SECS=60 CUDA_VISIBLE_DEVICES=<unset>
+cluster launcher pid=1235267 log=/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/demo-tpch_sf1_f64_multi/cluster.log
+== alive compute nodes after 9s: 4
+   cn heartbeat=9100 alive=true
+   cn heartbeat=9110 alive=true
+   cn heartbeat=9120 alive=true
+   cn heartbeat=9130 alive=true
+== nvidia-smi:
+0, 74460 MiB 1, 74460 MiB 2, 74461 MiB 3, 74466 MiB 
+== one CN pid per GPU:
+      1 GPU-2d570fef-b284-0a3f-1d9d-c036d917ac2f, 1235297
+      1 GPU-4243ea2a-f191-d075-d3e5-905970e32d5f, 1235294
+      1 GPU-c04b294e-4a07-b8df-e8c0-2a1ea5d028cd, 1235296
+      1 GPU-cbe29b1b-f0e4-d8fe-ef58-25e9de2a6fed, 1235295
+== blacklist:
+== EXPLAIN q01:
+PARTITION: UNPARTITIONED
+6:MERGING-EXCHANGE
+PARTITION: HASH_PARTITIONED: 9: l_returnflag, 10: l_linestatus
+EXCHANGE ID: 06
+UNPARTITIONED
+5:SORT
+4:AGGREGATE (merge finalize)
+3:EXCHANGE
+PARTITION: RANDOM
+EXCHANGE ID: 03
+HASH_PARTITIONED: 9: l_returnflag, 10: l_linestatus
+2:AGGREGATE (update serialize)
+== EXPLAIN q06:
+PARTITION: UNPARTITIONED
+4:AGGREGATE (merge finalize)
+3:EXCHANGE
+PARTITION: RANDOM
+EXCHANGE ID: 03
+UNPARTITIONED
+2:AGGREGATE (update serialize)
+== WARM bench:
+cluster: 4 alive compute nodes + 0 alive backends (MIN_BACKENDS=4)
+q01 r0 cold pass 283ms rows=4
+q01 r1 warm pass 182ms rows=4
+q01 r2 warm pass 235ms rows=4
+q01 r3 warm pass 162ms rows=4
+q06 r0 cold pass 146ms rows=1
+q06 r1 warm pass 199ms rows=1
+q06 r2 warm pass 124ms rows=1
+q06 r3 warm pass 200ms rows=1
+== bench complete: /tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/demo-tpch_sf1_f64_multi/warm/out.csv ==
+== WARM compare:
+q01    MATCH  rows=4 maxreldiff=1.268e-12
+q06    MATCH  rows=1 maxreldiff=2.420e-16
+
+2/2 match the DuckDB oracle within rel tol 1e-06
+== COLD-RESTART bench:
+cluster: 4 alive compute nodes + 0 alive backends (MIN_BACKENDS=4)
+restarting cluster...
+q01 r0 cold pass 1102ms rows=4
+q01 r1 warm pass 199ms rows=4
+restarting cluster...
+q06 r0 cold pass 1116ms rows=1
+q06 r1 warm pass 211ms rows=1
+== bench complete: /tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/step3/demo-tpch_sf1_f64_multi/cold/out.csv ==
+== COLD compare:
+q01    MATCH  rows=4 maxreldiff=1.270e-12
+q06    MATCH  rows=1 maxreldiff=2.420e-16
+
+2/2 match the DuckDB oracle within rel tol 1e-06
+== log checks (cluster.log, current process generation):
+      1 peer=127.0.0.1:9102 gbps="362.1"
+      1 peer=127.0.0.1:9102 gbps="399.6"
+      1 peer=127.0.0.1:9102 gbps="84.3"
+      1 peer=127.0.0.1:9112 gbps="261.5"
+      1 peer=127.0.0.1:9112 gbps="340.9"
+      1 peer=127.0.0.1:9112 gbps="380.7"
+      1 peer=127.0.0.1:9122 gbps="264.8"
+      1 peer=127.0.0.1:9122 gbps="389.5"
+      1 peer=127.0.0.1:9122 gbps="401.1"
+      1 peer=127.0.0.1:9132 gbps="208.3"
+      1 peer=127.0.0.1:9132 gbps="279.8"
+      1 peer=127.0.0.1:9132 gbps="423.8"
+      1 stream_id=3 sender_id=0 dest=127.0.0.1:9112 batches=1 bytes=64
+      1 stream_id=3 sender_id=1 dest=127.0.0.1:9112 batches=1 bytes=64
+      1 stream_id=3 sender_id=1 dest=127.0.0.1:9122 batches=1 bytes=64
+      1 stream_id=3 sender_id=2 dest=127.0.0.1:9122 batches=1 bytes=64
+negative markers: needs-transport-tier=0 row-count-unknown=0 fail_stalled=0 errorCode62=0 ERROR-lines=0
+== cn-distribution (rows):
+WORK DISTRIBUTION -- distinct entities (the real unit of work; share% on 'task')
+CN    run-uuid                  operator         task   data_batch        query      channel    share%
+------------------------------------------------------------------------------------------------------
+.cn0  01a0673b-e1c3..59896d            0            0            0            0            0      0.0%
+.cn1  01a0673b-e1cd..738112            0           10            0            0            0     41.7%
+.cn2  01a0673b-e1d0..bfed2b            0           10            0            0            0     41.7%
+.cn3  01a0673b-e1cc..59cbfa            0            4            0            0            0     16.7%
+TOTAL                                   0           24            0            0            0
+stopped (waited 2s)
+== done Thu Sep  3 12:26:39 UTC 2026

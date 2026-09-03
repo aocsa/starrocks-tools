@@ -1,0 +1,8 @@
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+Filters: [retry_futility]
+
+[0/1] (0%): assess_retry_futility decides from the gate observation and progress signals
+[1/1] (100%): assess_retry_futility decides from the gate observation and progress signals
+===============================================================================
+All tests passed (29 assertions in 1 test case)
+

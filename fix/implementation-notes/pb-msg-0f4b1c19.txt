@@ -1,0 +1,16 @@
+feat(cn): cancel_plan_fragment tears down the cancelled query on this CN
+
+The FE sends one cancel per deployed instance (INTERNAL_ERROR/TIMEOUT on
+failure, QUERY_FINISHED/LIMIT_REACH after eos), and the CN only failed a
+waiting result entry, so a dead query's parked output, staged leases and
+rendezvous entries stayed for the process lifetime on every peer CN. The
+cancel now retires the query's parked output on the executor, purges the
+instance's rendezvous state and releases its staged leases, refuses a peer's
+late frames for the retired receiver, and records a query-level failure for
+the failure reasons only (a repeat fetch_data after QUERY_FINISHED still
+reports EOS). An inline sender failure is recorded at query level too. Tests:
+8 new (store, exchange, service in both modes); engine suite on GPU 1 and CI
+trio green. Left: the SF1000 arms, run by the orchestrator.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+

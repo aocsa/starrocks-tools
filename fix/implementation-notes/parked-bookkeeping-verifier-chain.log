@@ -1,0 +1,35 @@
+=== test-noengine: 17:55:42 args: test --workspace --no-default-features
+exit=0 17:56:00
+--- tail ---
+
+   Doc-tests starrocks_thrift
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0 17:56:00
+=== build-release: 17:56:00 args: build --release
+exit=0 17:56:16
+--- tail ---
+=== build-release: 17:56:00 args: build --release
+NIXL_PREFIX=/home/prestouser/aocsa/tools/nvda_nixl NIXL_NO_STUBS_FALLBACK=1 CC=/usr/bin/gcc
+   Compiling sirius v0.1.0 (/home/prestouser/aocsa/sirius-stacks-wt/fix-parked-bookkeeping/rust/crates/sirius)
+   Compiling sirius-starrocks-cn v0.1.0 (/home/prestouser/aocsa/sirius-stacks-wt/fix-parked-bookkeeping/experimental/starrocks)
+    Finished `release` profile [optimized] target(s) in 16.02s
+exit=0 17:56:16
+=== test-gpu: 17:56:16 args: test --release -p sirius-starrocks-cn
+exit=0 17:56:59
+--- tail ---
+
+   Doc-tests sirius_starrocks_cn
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0 17:56:59
+test-noengine exit=0
+build-release exit=0
+test-gpu exit=0
+CHAIN DONE 17:56:59
