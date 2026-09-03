@@ -1,0 +1,221 @@
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+NIXL_PREFIX=/home/prestouser/aocsa/tools/nvda_nixl NIXL_NO_STUBS_FALLBACK=1 CC=/usr/bin/gcc
+    Finished `release` profile [optimized] target(s) in 6.63s
+     Running unittests src/lib.rs (target/release/deps/sirius_starrocks_cn-4e5251673310ab5f)
+
+running 191 tests
+test admin_command::tests::multiple_commands_in_order ... ok
+test admin_command::tests::parses_duckdb_pin_without_path ... ok
+test admin_command::tests::parses_full_pin_table ... ok
+test admin_command::tests::parses_unpin_and_comments_and_blank_lines ... ok
+test admin_command::tests::rejects_bad_tier_unknown_verb_and_duplicate_key ... ok
+test admin_command::tests::rejects_empty_script_and_names_line_numbers ... ok
+test admin_command::tests::rejects_missing_path_for_parquet ... ok
+test admin_command::tests::rejects_missing_tier ... ok
+test brpc::tests::brpc_server_shutdown_cancels_active_connection ... ok
+test brpc::tests::brpc_server_isolates_bad_frame_and_keeps_serving ... ok
+test compute_node_service::tests::cached_descriptor_reference_requires_prior_query_table ... ok
+test compute_node_service::tests::cached_descriptor_reference_reuses_query_descriptor_table ... ok
+test compute_node_service::tests::cancel_for_the_phased_dummy_instance_still_retires_the_query ... ok
+test compute_node_service::tests::cancel_plan_fragment_for_an_unknown_instance_is_ok_and_fabricates_nothing ... ok
+test compute_node_service::tests::an_inline_sender_failure_is_recorded_at_query_level ... ok
+test compute_node_service::tests::cancel_plan_fragment_returns_ok_and_unblocks_a_waiting_result_poll ... ok
+test compute_node_service::tests::exchange_identity_requires_host_and_port_equality ... ok
+test compute_node_service::tests::data_stream_sink_destination_without_brpc_server_is_a_loud_error ... ok
+test compute_node_service::tests::cancel_reason_matrix_retires_and_records_by_reason ... ok
+test compute_node_service::tests::data_stream_sink_to_remote_destination_hands_the_parked_output_to_the_transport ... ok
+test compute_node_service::tests::a_result_fragment_arriving_after_the_failure_still_reports_the_cause ... ok
+test compute_node_service::tests::exchange_nixl_md_without_transport_is_an_internal_error ... ok
+test compute_node_service::tests::exec_batch_plan_fragments_translates_tpch_single_node_scans ... ok
+test compute_node_service::tests::exec_plan_fragment_rejects_data_stream_sink_without_payload ... ok
+test compute_node_service::tests::data_stream_sink_to_remote_destination_is_a_loud_error ... ok
+test compute_node_service::tests::dispatched_receiver_failure_surfaces_through_fetch_data ... ok
+test compute_node_service::tests::exec_plan_fragment_rejects_unsupported_attachment_protocol ... ok
+test compute_node_service::tests::exec_batch_plan_fragments_buffers_result_sink_instance ... ok
+test compute_node_service::tests::exec_plan_fragment_rejects_unhandled_output_sink ... ok
+test compute_node_service::tests::exec_plan_fragment_translates_supported_scan ... ok
+test compute_node_service::tests::a_fragment_failure_retires_the_query_on_the_executor ... ok
+test compute_node_service::tests::fetch_data_for_unknown_fragment_is_an_error ... ok
+test compute_node_service::tests::execute_command_pins_and_unpins_via_executor ... ok
+test compute_node_service::tests::exec_plan_fragment_rejects_unsupported_result_sink_format ... ok
+test compute_node_service::tests::exec_plan_fragment_executes_result_sink_and_fetch_data_drains_it ... ok
+test compute_node_service::tests::exec_plan_fragment_returns_internal_error_for_bad_attachment ... ok
+test compute_node_service::tests::get_file_schema_attachment_rejects_non_parquet_range_by_path ... ok
+test compute_node_service::tests::execute_command_propagates_executor_error_with_command_index ... ok
+test compute_node_service::tests::cancel_purges_the_receivers_staged_frames_and_refuses_late_ones ... ok
+test compute_node_service::tests::execute_command_rejects_wrong_command_and_bad_grammar ... ok
+test compute_node_service::tests::get_file_schema_attachment_infers_across_multiple_ranges ... ok
+test compute_node_service::tests::router_rejects_unknown_service_at_prpc_layer ... ok
+test compute_node_service::tests::stream_view_name_matches_the_engine ... ok
+test compute_node_service::tests::request_staging_lease_without_an_arena_is_an_internal_error ... ok
+test compute_node_service::tests::remote_transmit_failure_fails_the_sender_dispatch ... ok
+test compute_node_service::tests::intermediate_failure_before_result_registration_still_fails_the_result_poll ... ok
+test compute_node_service::tests::intermediate_fragment_failure_fails_the_fe_polled_result_id ... ok
+test compute_node_service::tests::transmit_packed_canary_without_an_arena_is_an_internal_error ... ok
+test compute_node_service::tests::transmit_packed_canary_releases_the_lease_without_touching_the_rendezvous ... ok
+test engine::tests::engine_replays_dumped_substrait_plan ... ignored, debug harness: set SIRIUS_SUBSTRAIT_PLAN to a dumped plan and run with a GPU
+test compute_node_service::tests::local_receiver_is_dispatched_before_the_remote_drains_complete ... ok
+test compute_node_service::tests::self_exchange_executes_sender_then_receiver_when_receiver_arrives_first ... ok
+test compute_node_service::tests::sender_rpc_returns_before_the_dispatched_receiver_executes ... ok
+test compute_node_service::tests::queued_fragments_of_a_failed_query_are_skipped ... ok
+test compute_node_service::tests::queued_fragments_of_a_failed_query_are_skipped_inline ... ok
+test engine_settings::tests::absent_affinity_emits_no_executor_block ... ok
+test compute_node_service::tests::self_exchange_executes_an_intermediate_receiver_and_reuses_cached_descriptors ... ok
+test compute_node_service::tests::sender_only_fragment_rpc_returns_before_the_sender_executes ... ok
+test compute_node_service::tests::transmit_packed_sequence_gap_is_an_internal_error ... ok
+test engine_settings::tests::cpu_affinity_alone_does_not_conjure_a_config ... ok
+test engine_settings::tests::engine_name_is_quoted_or_omitted ... ok
+test engine_settings::tests::full_document_snapshot ... ok
+test compute_node_service::tests::transmit_packed_frames_feed_a_dispatched_receiver ... ok
+test engine_settings::tests::full_document_snapshot_with_cpu_affinity ... ok
+test compute_node_service::tests::translation_failure_retires_the_slots_in_hand_and_releases_remote_leases ... ok
+test engine_settings::tests::full_socket_renders_every_core ... ok
+test engine_settings::tests::gpu_fraction_variant ... ok
+test engine_settings::tests::gpu_limit_passes_through_verbatim ... ok
+test engine_settings::tests::host_key_presence_and_absence ... ok
+test engine_settings::tests::host_only_omits_gpu_mapping ... ok
+test engine_settings::tests::no_yaml_when_no_memory_flag_is_set ... ok
+test engine_settings::tests::pipeline_pool_is_not_pinned_from_yaml ... ok
+test engine_settings::tests::quent_env_truthiness ... ok
+test engine_settings::tests::quent_is_explicit_and_off_unless_asked ... ok
+test engine_settings::tests::reservation_limit_fraction_is_always_one ... ok
+test engine_settings::tests::telemetry_alone_does_not_conjure_a_config ... ok
+test engine_settings::tests::telemetry_directory_is_under_engine_dir ... ok
+test file_schema::tests::decimal_falls_back_to_varchar_past_decimal128 ... ok
+test file_schema::tests::maps_json_to_json_not_varchar ... ok
+test compute_node_service::tests::query_finished_cancel_keeps_delivered_rows ... ok
+test file_schema::tests::maps_parquet_columns_to_starrocks_scalars ... ok
+test file_schema::tests::multi_file_accepts_case_differing_column_names ... ok
+test file_schema::tests::rejects_non_local_file_authority ... ok
+test file_schema::tests::rejects_remote_paths ... ok
+test file_schema::tests::multi_file_missing_file_error_names_its_path ... ok
+test fragment_executor::tests::fragment_label_renders_query_and_instance ... ok
+test file_schema::tests::multi_file_rejects_column_name_mismatch ... ok
+test fragment_executor::tests::stub_executor_emits_one_row_matching_output_names ... ok
+test file_schema::tests::rejects_case_insensitive_duplicate_columns ... ok
+test file_schema::tests::multi_file_rejects_column_count_mismatch ... ok
+test file_schema::tests::rejects_nested_columns ... ok
+test fragment_executor::tests::stub_executor_handles_empty_output ... ok
+test file_schema::tests::multi_file_rejects_column_type_mismatch ... ok
+test gpu_affinity::tests::cpulist_forms ... ok
+test file_schema::tests::strips_both_file_scheme_forms ... ok
+test file_schema::tests::multi_file_agreeing_schemas_infer_the_single_file_slots ... ok
+test local_exchange::tests::duplicate_remote_seq_is_dropped_idempotently ... ok
+test local_exchange::tests::mixed_local_and_remote_sender_set ... ok
+test local_exchange::tests::remote_frame_after_eos_is_a_loud_error ... ok
+test gpu_affinity::tests::cpuless_domain_is_rejected ... ok
+test local_exchange::tests::remote_frame_colliding_with_local_sender_is_an_error ... ok
+test local_exchange::tests::remote_frame_shape_is_validated ... ok
+test local_exchange::tests::remote_frames_accumulate_and_eos_completes_the_set ... ok
+test local_exchange::tests::remote_names_must_match_across_frames ... ok
+test gpu_affinity::tests::unknown_numa_node_is_rejected ... ok
+test local_exchange::tests::remote_seq_gap_is_a_loud_error ... ok
+test nixl_transport::agent_tier::tests::nixl_cross_agent_write_between_arena_leases ... ignored, GPU + libnixl smoke: source tools/nvda_nixl/ENV.sh, set UCX_TLS, run with --ignored
+test nixl_transport::nixl_bench::gpu_to_gpu_bench ... ignored, two-process GPU + libnixl benchmark: driven by scratchpad/nixl-bench/run.sh
+test nixl_transport::nixl_echo::two_node_gpu_echo ... ignored, two-host GPU + libnixl echo: driven by scripts/nixl-echo-2node.sh
+test local_exchange::tests::retire_receiver_returns_its_sources_and_refuses_later_frames ... ok
+test gpu_affinity::tests::other_vendors_do_not_shift_ordinals ... ok
+test nixl_transport::warmup::tests::peer_list_parses_host_port_pairs_and_drops_junk ... ok
+test nixl_transport::warmup::tests::peer_list_splits_on_the_last_colon ... ok
+test local_exchange::tests::retired_receivers_are_bounded ... ok
+test nixl_transport::warmup::tests::retry_backoff_doubles_up_to_the_cap ... ok
+test parked_registry::tests::duplicate_slot_is_refused_before_anything_is_inserted ... ok
+test parked_registry::tests::park_then_release_last_claim_drops_the_fragment ... ok
+test parked_registry::tests::release_after_retire_is_ok_exactly_once ... ok
+test parked_registry::tests::repark_of_a_retired_slot_forgets_its_torn_down_entry ... ok
+test parked_registry::tests::retire_drops_only_that_query_and_poisons_its_slots ... ok
+test parked_registry::tests::retire_of_the_unlabeled_bucket_leaves_labeled_output_alone ... ok
+test parked_registry::tests::second_release_of_a_live_slot_is_a_loud_error ... ok
+test parked_registry::tests::retired_queries_keep_the_first_cause_and_evict_fifo ... ok
+test gpu_affinity::tests::ordinal_out_of_range_is_unresolved ... ok
+test gpu_affinity::tests::gb200_gpu_ordinals_map_to_their_socket ... ok
+test result_encoder::tests::encodes_decimal_date_and_timestamp_as_text ... ok
+test prpc::tests::frame_round_trip_preserves_attachment_and_correlation ... ok
+test result_encoder::tests::encodes_length_prefixed_text_rows ... ok
+test result_encoder::tests::long_value_uses_two_byte_length_prefix ... ok
+test result_store::tests::cancel_fails_only_a_waiting_entry ... ok
+test result_store::tests::cancel_query_fails_waiting_entries_only_and_is_visible_to_failure_of ... ok
+test result_store::tests::delivers_rows_once_then_reports_eos_on_repeat_polls ... ok
+test result_store::tests::fail_query_fails_every_reserved_result_instance ... ok
+test result_store::tests::failed_fragment_reports_its_cause_on_every_poll ... ok
+test result_store::tests::failure_of_reports_the_first_recorded_failure ... ok
+test result_store::tests::reserved_fragment_reports_not_ready_until_rows_arrive ... ok
+test result_store::tests::query_failure_recorded_before_reserve_fails_the_result_instance_on_arrival ... ok
+test result_store::tests::rows_arriving_after_a_query_failure_do_not_mask_it ... ok
+test prpc_client::tests::client_surfaces_brpc_error_frames_as_errors ... ok
+test prpc_client::tests::client_round_trips_a_method_call_against_the_real_dispatch ... ok
+test result_store::tests::unknown_fragment_is_none ... ok
+test tests::backend_tablet_stat_returns_empty_inventory ... ok
+test tests::backend_tablets_info_returns_empty_ok_report ... ok
+test tests::backend_unsupported_calls_return_not_implemented_status ... ok
+test tests::first_heartbeat_succeeds_and_records_state ... ok
+test tests::cluster_mismatch_fails ... ok
+test tests::frontend_host_trust_normalizes_ip_aliases ... ok
+test parked_registry::tests::torn_down_is_bounded ... ok
+test prpc_client::tests::client_reconnects_after_the_peer_drops_the_connection ... ok
+test tests::readiness_defaults_are_open_and_marking_is_idempotent ... ok
+test tests::registration_uses_compute_node_surface ... ok
+test tests::missing_node_type_fails ... ok
+test tests::http_server_accepts_and_answers_the_reachability_probe ... ok
+test tests::heartbeat_server_shutdown_stops_accept_loop ... ok
+test tests::heartbeat_round_trip_over_thrift_transport ... ok
+test tests::report_waits_for_heartbeat_identity ... ok
+test tests::non_compute_node_heartbeat_fails ... ok
+test tests::secret_string_debug_redacts_value ... ok
+test tests::repeated_same_or_higher_epoch_succeeds ... ok
+test tests::report_payload_includes_identity_empty_state_and_monotonic_version ... ok
+test tests::stale_epoch_fails ... ok
+test tests::token_mismatch_fails ... ok
+test tests::trusted_frontend_address_is_used_as_report_target ... ok
+test tunable::tests::a_configured_value_is_taken ... ok
+test tests::untrusted_frontend_address_is_not_used_as_report_target ... ok
+test tunable::tests::a_float_knob_takes_a_value_and_rejects_a_non_finite_one ... ok
+test tests::warming_heartbeat_is_answered_but_not_ok_until_the_engine_is_ready ... ok
+test tunable::tests::a_zero_canary_floor_is_accepted_as_the_disable_sentinel ... ok
+test tunable::tests::an_empty_environment_reproduces_the_previously_hardcoded_constants ... ok
+test tunable::tests::an_empty_value_reads_as_unset ... ok
+test tunable::tests::an_out_of_range_value_is_rejected_rather_than_clamped ... ok
+test tunable::tests::an_unparsable_value_is_rejected_rather_than_silently_defaulted ... ok
+test tunable::tests::one_rejected_knob_fails_the_whole_resolution ... ok
+test tunable::tests::surrounding_whitespace_is_tolerated ... ok
+test tunable::tests::the_expect_peers_sentinel_maps_to_none ... ok
+test result_store::tests::wait_ready_times_out_loudly_instead_of_replying_not_ready ... ok
+test result_store::tests::wait_ready_blocks_until_rows_arrive ... ok
+test compute_node_service::tests::joining_drains_waits_for_every_ticket_and_reports_the_first_failure ... ok
+test compute_node_service::tests::the_sender_rpc_reports_ok_only_after_every_drain_has_finished ... ok
+test tests::shutdown_interrupts_blocked_connection ... ok
+test compute_node_service::tests::every_remote_destination_is_drained_even_after_one_fails ... ok
+test compute_node_service::tests::remote_drains_are_posted_once_per_destination_in_the_fes_order ... ok
+test tests::http_server_survives_a_client_that_never_reads ... ok
+test engine::tests::a_failed_run_retires_only_its_own_query ... ok
+test engine::tests::an_unlabeled_failure_retires_only_the_unlabeled_bucket ... ok
+test engine::tests::engine_executes_local_files_and_sequential_exchange ... ok
+test engine::tests::engine_pushes_staged_remote_batches ... ok
+test engine::tests::output_parked_after_a_retire_is_dropped_not_parked ... ok
+test engine::tests::retire_query_drops_parked_output_and_refuses_later_runs ... ok
+test engine::tests::staging_lease_does_not_queue_behind_engine_work ... ok
+test wire_type_parity::wire_type_model_matches_the_engine ... ok
+
+test result: ok. 187 passed; 0 failed; 4 ignored; 0 measured; 0 filtered out; finished in 20.09s
+
+     Running unittests src/main.rs (target/release/deps/sirius_starrocks_cn-dbae64abebd58a1f)
+
+running 9 tests
+test tests::byte_size_validator_accepts_supported_shapes ... ok
+test tests::byte_size_validator_rejects_malformed_values ... ok
+test tests::cli_definition_is_consistent ... ok
+test tests::enable_quent_conflicts_with_sirius_config ... ok
+test tests::enable_quent_is_off_by_default ... ok
+test tests::gpu_memory_limit_conflicts_with_fraction ... ok
+test tests::memory_fraction_validator_enforces_bounds ... ok
+test tests::sirius_config_composes_with_gpu_device ... ok
+test tests::sirius_config_conflicts_with_each_memory_flag ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sirius_starrocks_cn
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
