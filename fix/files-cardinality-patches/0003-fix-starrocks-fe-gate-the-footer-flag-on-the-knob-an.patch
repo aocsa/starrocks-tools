@@ -1,0 +1,373 @@
+From cde7ab223f4fc6218a3d12669cba54620e33dfb5 Mon Sep 17 00:00:00 2001
+From: Alexander Victor Ocsa Mamani <aocsa.cs@gmail.com>
+Date: Thu, 3 Sep 2026 18:55:55 +0000
+Subject: [PATCH 3/3] fix(starrocks-fe): gate the footer flag on the knob and
+ match path columns by name
+
+hasExactRowCount() said "footer" even with files_scan_estimate_row_count off, so the
+per-statement INFO line could read rows=1 source=footer; it now follows the same rule as
+estimateRowCount() and the line prints footer, estimated or disabled. getFileColumns()
+excludes columns_from_path by name instead of trailing position, which the INSERT full-schema
+push-down does not preserve. bench.sh and run-abc.sh abort when ADMIN SHOW FRONTEND CONFIG
+fails instead of treating a patched FE as stock; the bench helper is set_and_verify_global in
+both. TUNABLES.md and DEMO.md state the landing-order dependency: with the knob on the FE
+commutes LEFT SEMI to RIGHT SEMI (q04, q20), which the CN translator must support first.
+
+Tested with the three FE JUnit classes, the CN cargo tests, clippy and fmt; the patch set still
+applies from a clean submodule and is idempotent.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+---
+ experimental/starrocks/DEMO.md                |  7 +-
+ .../starrocks/benchmarks/tpch/bench.sh        | 25 ++++--
+ .../starrocks/benchmarks/tpch/run-abc.sh      | 21 +++--
+ experimental/starrocks/build.rs               |  4 +-
+ experimental/starrocks/docs/TUNABLES.md       |  5 ++
+ .../patches/files-scan-row-count.patch        | 83 +++++++++++++++----
+ .../starrocks/src/compute_node_service.rs     |  7 +-
+ 7 files changed, 117 insertions(+), 35 deletions(-)
+
+diff --git a/experimental/starrocks/DEMO.md b/experimental/starrocks/DEMO.md
+index e25b3e97..0b766e0f 100644
+--- a/experimental/starrocks/DEMO.md
++++ b/experimental/starrocks/DEMO.md
+@@ -179,7 +179,12 @@ pixi run fe-build    # long
+ ```
+ 
+ The row-count patch is on by default; `ADMIN SET FRONTEND CONFIG ("files_scan_estimate_row_count" = "false")`
+-restores upstream's 1-row FILES() plans on a running FE (see `docs/TUNABLES.md`).
++restores upstream's 1-row FILES() plans on a running FE (see `docs/TUNABLES.md`). Two consequences of
++real cardinalities outside the bench scripts: run `SET GLOBAL cbo_cte_reuse = false` before a query
++that consumes a CTE more than once (TPC-H q11, q15), otherwise the CBO may keep the CTE materialised
++and emit a MULTI_CAST sink the CN refuses; and the CN must carry the translator's `RIGHT_SEMI_JOIN`
++arm, because the FE now commutes LEFT SEMI joins to RIGHT SEMI when the outer side is the smaller
++one (TPC-H q04, q20). Until that arm is in the CN build, run with the knob `false`.
+ 
+ Everything else — the compute node and the Sirius engine — is built from this worktree by
+ `cn-build` → `engine-build`.
+diff --git a/experimental/starrocks/benchmarks/tpch/bench.sh b/experimental/starrocks/benchmarks/tpch/bench.sh
+index 49a2fa22..7bd84dcb 100755
+--- a/experimental/starrocks/benchmarks/tpch/bench.sh
++++ b/experimental/starrocks/benchmarks/tpch/bench.sh
+@@ -156,17 +156,24 @@ fi
+ echo "cluster: $ALIVE_CN alive compute nodes + $ALIVE_BE alive backends (MIN_BACKENDS=$MIN_BACKENDS)"
+ 
+ # Value of one FE config key, resolved from the header row of ADMIN SHOW FRONTEND CONFIG (Key,
+-# AliasNames, Value, Type, IsMutable, Comment); empty when the FE does not know the key.
++# AliasNames, Value, Type, IsMutable, Comment). Empty output with status 0 means the FE does not
++# know the key (a stock front end); a failed statement returns 1 with the error on stderr, so a
++# patched FE that refuses the query is never mistaken for a stock one.
+ frontend_config() {
+-  $MYSQL -e "ADMIN SHOW FRONTEND CONFIG LIKE '$1';" 2>/dev/null | awk -F'\t' '
+-    NR == 1 { for (i = 1; i <= NF; i++) if ($i == "Value") c = i; next }
+-    c { print $c }'
++  local out
++  if ! out=$($MYSQL -e "ADMIN SHOW FRONTEND CONFIG LIKE '$1';" 2>&1); then
++    echo "ADMIN SHOW FRONTEND CONFIG LIKE '$1' failed: $out" >&2
++    return 1
++  fi
++  printf '%s\n' "$out" | awk -F'\t' '
++    !c { for (i = 1; i <= NF; i++) if ($i == "Value") c = i; next }
++    { print $c }'
+ }
+ 
+ # Global session variables persist in FE metadata, so whatever the last run left behind is what
+-# the next run gets: set explicitly and READ IT BACK (run-abc.sh does the same for the pipeline
+-# engine).
+-set_global_and_verify() {
++# the next run gets: set explicitly and READ IT BACK (run-abc.sh has the same helper under the
++# same name).
++set_and_verify_global() {
+   local name=$1 want=$2 got
+   $MYSQL -e "SET GLOBAL $name = $want;" >/dev/null 2>&1
+   got=$($MYSQL -e "SHOW GLOBAL VARIABLES LIKE '$name';" 2>/dev/null | awk -F'\t' 'NR == 2 {print tolower($2)}')
+@@ -183,10 +190,10 @@ set_global_and_verify() {
+ # sink the Sirius CN refuses by name. cbo_cte_reuse=false reproduces the inline plans every
+ # query ran with before the FE had cardinalities. A stock FE (engine B) has no such knob and
+ # keeps its own defaults.
+-FILES_ROW_COUNT_KNOB=$(frontend_config files_scan_estimate_row_count)
++FILES_ROW_COUNT_KNOB=$(frontend_config files_scan_estimate_row_count) || exit 1
+ if [ -n "$FILES_ROW_COUNT_KNOB" ]; then
+   echo "files_scan_estimate_row_count = $FILES_ROW_COUNT_KNOB (patched FE)"
+-  set_global_and_verify cbo_cte_reuse false || exit 1
++  set_and_verify_global cbo_cte_reuse false || exit 1
+ else
+   echo "files_scan_estimate_row_count: not exposed by this FE (stock front end); cbo_cte_reuse left at its default"
+ fi
+diff --git a/experimental/starrocks/benchmarks/tpch/run-abc.sh b/experimental/starrocks/benchmarks/tpch/run-abc.sh
+index 524bff6d..540f2e73 100755
+--- a/experimental/starrocks/benchmarks/tpch/run-abc.sh
++++ b/experimental/starrocks/benchmarks/tpch/run-abc.sh
+@@ -814,11 +814,17 @@ set_and_verify_global() {
+ }
+ 
+ # Value of one FE config key (ADMIN SHOW FRONTEND CONFIG: Key, AliasNames, Value, Type, IsMutable,
+-# Comment), resolved from the header row; empty when the FE does not know the key.
++# Comment), resolved from the header row. Empty with status 0 when the FE does not know the key;
++# status 1 with the error on stderr when the statement itself failed (same contract as bench.sh).
+ frontend_config() {
+-  "${MYSQL[@]}" -e "ADMIN SHOW FRONTEND CONFIG LIKE '$1';" 2>/dev/null | awk -F'\t' '
+-    NR == 1 { for (i = 1; i <= NF; i++) if ($i == "Value") c = i; next }
+-    c { print $c }'
++  local out
++  if ! out=$("${MYSQL[@]}" -e "ADMIN SHOW FRONTEND CONFIG LIKE '$1';" 2>&1); then
++    echo "ADMIN SHOW FRONTEND CONFIG LIKE '$1' failed: $out" >&2
++    return 1
++  fi
++  printf '%s\n' "$out" | awk -F'\t' '
++    !c { for (i = 1; i <= NF; i++) if ($i == "Value") c = i; next }
++    { print $c }'
+ }
+ 
+ # =================================================================================================
+@@ -991,7 +997,12 @@ $BLACKLIST_TXT
+   # the CBO can keep a CTE materialised, which emits MULTI_CAST_DATA_STREAM_SINK -- a sink the
+   # Sirius CN refuses by name. cbo_cte_reuse=false reproduces the inline plans every query ran
+   # with before the FE had cardinalities. Engine B is stock StarRocks and keeps its defaults.
+-  say "  files_scan_estimate_row_count = $(frontend_config files_scan_estimate_row_count)"
++  local files_row_count_knob
++  if ! files_row_count_knob=$(frontend_config files_scan_estimate_row_count); then
++    warn "engine A: could not read the FE config (see above). Aborting."
++    return 1
++  fi
++  say "  files_scan_estimate_row_count = ${files_row_count_knob:-<not exposed by this FE>}"
+   if ! set_and_verify_global cbo_cte_reuse false; then
+     warn "engine A: cbo_cte_reuse read back as '${GLOBAL_READBACK:-<empty>}', wanted 'false'. Aborting."
+     return 1
+diff --git a/experimental/starrocks/build.rs b/experimental/starrocks/build.rs
+index 70fe3c61..1ea0be0b 100644
+--- a/experimental/starrocks/build.rs
++++ b/experimental/starrocks/build.rs
+@@ -125,8 +125,8 @@ fn require_proto_patch(
+ 
+ /// The text between `message <name> {` and its closing `}`, or empty when the message is absent.
+ ///
+-/// Scoped lookups matter because a field name such as `num_rows` appears in several messages;
+-/// only its presence in the named message says whether that patch is applied.
++/// Scoped so the check stays correct if another message ever gains a field of the same name
++/// (`num_rows`, say): only its presence in the named message says whether that patch is applied.
+ fn message_body<'a>(contents: &'a str, name: &str) -> &'a str {
+     let Some(start) = contents.find(&format!("message {name} {{")) else {
+         return "";
+diff --git a/experimental/starrocks/docs/TUNABLES.md b/experimental/starrocks/docs/TUNABLES.md
+index fce10d94..0eaa1592 100644
+--- a/experimental/starrocks/docs/TUNABLES.md
++++ b/experimental/starrocks/docs/TUNABLES.md
+@@ -61,6 +61,11 @@ Session variables that start to matter once FILES() has cardinalities: `cbo_cte_
+ reads it back at bring-up), `broadcast_row_limit` (15M rows, the broadcast guard),
+ `exec_mem_limit` (2 GiB; a broadcast build above it costs x1000).
+ 
++Landing order for `files_scan_estimate_row_count = true`: with real counts the CBO commutes a
++LEFT SEMI join to RIGHT SEMI once the outer side is the smaller one (TPC-H q04's EXISTS, q20's
++IN subqueries), and a CN whose translator has no `RIGHT_SEMI_JOIN` arm refuses those plans
++with `hash join type is unsupported`. Run the knob `false` against such a CN.
++
+ ## Debug
+ 
+ `SIRIUS_CN_DUMP_FRAGMENTS` writes received fragments and translated plans.
+diff --git a/experimental/starrocks/patches/files-scan-row-count.patch b/experimental/starrocks/patches/files-scan-row-count.patch
+index 2b196314..c87f4903 100644
+--- a/experimental/starrocks/patches/files-scan-row-count.patch
++++ b/experimental/starrocks/patches/files-scan-row-count.patch
+@@ -1,5 +1,5 @@
+ diff --git a/fe/fe-core/src/main/java/com/starrocks/catalog/TableFunctionTable.java b/fe/fe-core/src/main/java/com/starrocks/catalog/TableFunctionTable.java
+-index 2a8a9b16e07..0bae94e02fa 100644
++index 2a8a9b16e07..d719a1a1f2d 100644
+ --- a/fe/fe-core/src/main/java/com/starrocks/catalog/TableFunctionTable.java
+ +++ b/fe/fe-core/src/main/java/com/starrocks/catalog/TableFunctionTable.java
+ @@ -19,6 +19,7 @@ import com.google.common.base.Splitter;
+@@ -22,19 +22,18 @@ index 2a8a9b16e07..0bae94e02fa 100644
+      private MisMatchFillValue misMatchFillValue = MisMatchFillValue.NONE;
+  
+      // for unload data
+-@@ -272,6 +278,11 @@ public class TableFunctionTable extends Table {
++@@ -272,6 +278,10 @@ public class TableFunctionTable extends Table {
+  
+          // set schema
+          setNewFullSchema(columns);
+ +
+ +        // One line per statement so a plan can be traced to the cardinality path it was built with.
+ +        LOG.info("FILES() statistics path={} files={} bytes={} rows={} source={}",
+-+                path, fileStatuses.size(), getTotalFileBytes(), estimateRowCount(),
+-+                hasExactRowCount() ? "footer" : "estimated");
+++                path, fileStatuses.size(), getTotalFileBytes(), estimateRowCount(), rowCountSource());
+      }
+  
+      private void checkDuplicateColumns(List<Column> columns) throws DdlException {
+-@@ -301,6 +312,55 @@ public class TableFunctionTable extends Table {
++@@ -301,6 +311,75 @@ public class TableFunctionTable extends Table {
+          return fileStatuses;
+      }
+  
+@@ -49,16 +48,36 @@ index 2a8a9b16e07..0bae94e02fa 100644
+ +        return bytes;
+ +    }
+ +
+-+    /** The inferred file schema without the trailing columns_from_path entries, which occupy no file bytes. */
+++    /**
+++     * The inferred file schema without the columns_from_path entries, which occupy no file bytes. Matched by name
+++     * (case-insensitive, as checkDuplicateColumns compares) rather than by trailing position: the full-schema
+++     * push-down of INSERT ... SELECT FROM FILES() rebuilds the schema from the SELECT list and may drop or reorder
+++     * the path columns.
+++     */
+ +    public List<Column> getFileColumns() {
+-+        List<Column> all = getFullSchema();
+-+        int fileColumns = all.size() - columnsFromPath.size();
+-+        return all.subList(0, Math.max(0, fileColumns));
+++        Set<String> pathColumns = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
+++        pathColumns.addAll(columnsFromPath);
+++        return getFullSchema().stream()
+++                .filter(c -> !pathColumns.contains(c.getName()))
+++                .collect(Collectors.toList());
+++    }
+++
+++    /** False when estimateRowCount() answers 1 by rule: knob off, LIST_FILES table, or no files listed. */
+++    private boolean rowCountEstimated() {
+++        return Config.files_scan_estimate_row_count && !listFilesOnly && !fileStatuses.isEmpty();
+ +    }
+ +
+ +    /** True when estimateRowCount() returns the footer total the compute node reported rather than an estimate. */
+ +    public boolean hasExactRowCount() {
+-+        return footerRowCount > 0;
+++        return rowCountEstimated() && footerRowCount > 0;
+++    }
+++
+++    /** Which path estimateRowCount() took, for the per-statement INFO line: footer, estimated or disabled. */
+++    private String rowCountSource() {
+++        if (hasExactRowCount()) {
+++            return "footer";
+++        }
+++        return rowCountEstimated() ? "estimated" : "disabled";
+ +    }
+ +
+ +    /**
+@@ -70,10 +89,10 @@ index 2a8a9b16e07..0bae94e02fa 100644
+ +     * upstream's 1 row for every FILES() scan.
+ +     */
+ +    public long estimateRowCount() {
+-+        if (!Config.files_scan_estimate_row_count || listFilesOnly || fileStatuses.isEmpty()) {
+++        if (!rowCountEstimated()) {
+ +            return 1;
+ +        }
+-+        if (footerRowCount > 0) {
+++        if (hasExactRowCount()) {
+ +            return footerRowCount;
+ +        }
+ +        long bytes = getTotalFileBytes();
+@@ -90,7 +109,7 @@ index 2a8a9b16e07..0bae94e02fa 100644
+      // for list files
+      // must be consistent with list files schema
+      public List<List<String>> listFilesAndDirs() {
+-@@ -722,6 +782,12 @@ public class TableFunctionTable extends Table {
++@@ -722,6 +801,12 @@ public class TableFunctionTable extends Table {
+              throw new DdlException("failed to get file schema, path: " + path + ", error: " + result.status.errorMsgs);
+          }
+  
+@@ -183,7 +202,7 @@ index f58886ccae4..e342ad25452 100644
+  
+          return visitOperator(node, context);
+ diff --git a/fe/fe-core/src/test/java/com/starrocks/catalog/TableFunctionTableTest.java b/fe/fe-core/src/test/java/com/starrocks/catalog/TableFunctionTableTest.java
+-index 46f81a161c2..f6f8694cceb 100644
++index 46f81a161c2..8fca3536364 100644
+ --- a/fe/fe-core/src/test/java/com/starrocks/catalog/TableFunctionTableTest.java
+ +++ b/fe/fe-core/src/test/java/com/starrocks/catalog/TableFunctionTableTest.java
+ @@ -15,13 +15,22 @@
+@@ -239,7 +258,7 @@ index 46f81a161c2..f6f8694cceb 100644
+  
+  public class TableFunctionTableTest {
+  
+-@@ -233,6 +251,135 @@ public class TableFunctionTableTest {
++@@ -233,6 +251,169 @@ public class TableFunctionTableTest {
+                  () -> new TableFunctionTable(properties));
+      }
+  
+@@ -264,6 +283,17 @@ index 46f81a161c2..f6f8694cceb 100644
+ +        } finally {
+ +            Config.files_scan_estimate_row_count = saved;
+ +        }
+++
+++        // The full-schema push-down of INSERT ... SELECT FROM FILES() rebuilds the schema from the SELECT list, so
+++        // the path columns may be reordered or dropped: they are excluded by name, not by trailing position. Here
+++        // col_path1 leads and col_path2/col_path3 are gone; a trailing-position rule would leave 0 file columns.
+++        List<Column> all = table.getFullSchema();
+++        table.setNewFullSchema(Lists.newArrayList(all.get(2), all.get(1), all.get(0)));
+++        Assertions.assertEquals("col_path1", table.getFullSchema().get(0).getName());
+++        Assertions.assertEquals(2, table.getFileColumns().size());
+++        Assertions.assertEquals("col_string", table.getFileColumns().get(0).getName());
+++        Assertions.assertEquals("col_int", table.getFileColumns().get(1).getName());
+++        Assertions.assertEquals(153L, table.estimateRowCount());
+ +    }
+ +
+ +    @Test
+@@ -355,6 +385,29 @@ index 46f81a161c2..f6f8694cceb 100644
+ +            Assertions.assertEquals((long) (Long) c[1], table.estimateRowCount(), "numRows=" + c[0]);
+ +            Assertions.assertEquals((boolean) (Boolean) c[2], table.hasExactRowCount(), "numRows=" + c[0]);
+ +        }
+++
+++        // With the knob off the footer total is not used either, and hasExactRowCount() says so: the INFO line
+++        // must not read rows=1 source=footer.
+++        PGetFileSchemaResult result = new PGetFileSchemaResult();
+++        result.status = new StatusPB();
+++        result.status.statusCode = TStatusCode.OK.getValue();
+++        result.schema = Lists.newArrayList(intSlot("col_int"));
+++        result.numRows = 1000L;
+++        reply.set(result);
+++        Map<String, String> properties = new HashMap<>();
+++        properties.put("path", "hdfs://127.0.0.1:9000/dir/*");
+++        properties.put("format", "parquet");
+++        TableFunctionTable table = new TableFunctionTable(properties);
+++        Assertions.assertTrue(table.hasExactRowCount());
+++        boolean saved = Config.files_scan_estimate_row_count;
+++        try {
+++            Config.files_scan_estimate_row_count = false;
+++            Assertions.assertEquals(1L, table.estimateRowCount());
+++            Assertions.assertFalse(table.hasExactRowCount());
+++        } finally {
+++            Config.files_scan_estimate_row_count = saved;
+++        }
+++        Assertions.assertEquals(1000L, table.estimateRowCount());
+ +    }
+ +
+ +    /** One INT slot as the compute node reports it (TypeDeserializer.fromProtobuf reads types[0].scalarType.type). */
+diff --git a/experimental/starrocks/src/compute_node_service.rs b/experimental/starrocks/src/compute_node_service.rs
+index c22d998e..0415b4df 100644
+--- a/experimental/starrocks/src/compute_node_service.rs
++++ b/experimental/starrocks/src/compute_node_service.rs
+@@ -1,6 +1,7 @@
+ use std::collections::HashMap;
+ use std::sync::{Arc, Mutex, mpsc};
+ 
++use crate::file_schema::{self, FilesSchema};
+ #[cfg(test)]
+ use crate::fragment_executor::StubExecutor;
+ use crate::fragment_executor::{
+@@ -688,7 +689,7 @@ impl PInternalService for SiriusComputeNodeService {
+     ) -> Result<crate::prpc::Reply<PGetFileSchemaResult>, crate::prpc::Error> {
+         let started = std::time::Instant::now();
+         let result = match Self::file_schema_from_attachment(&attachment).await {
+-            Ok(crate::file_schema::FilesSchema {
++            Ok(FilesSchema {
+                 slots,
+                 files,
+                 num_rows,
+@@ -1702,7 +1703,7 @@ impl SiriusComputeNodeService {
+     /// range per file.
+     async fn file_schema_from_attachment(
+         attachment: &[u8],
+-    ) -> std::result::Result<crate::file_schema::FilesSchema, String> {
++    ) -> std::result::Result<FilesSchema, String> {
+         let request = Self::deserialize_binary::<TGetFileSchemaRequest>(attachment)
+             .map_err(|err| format!("failed to deserialize TGetFileSchemaRequest: {err}"))?;
+         let broker = request.scan_range.broker_scan_range.ok_or_else(|| {
+@@ -1724,7 +1725,7 @@ impl SiriusComputeNodeService {
+                 Ok(range.path)
+             })
+             .collect::<std::result::Result<Vec<_>, String>>()?;
+-        crate::file_schema::parquet_files_schema(&paths).await
++        file_schema::parquet_files_schema(&paths).await
+     }
+ 
+     /// Deserializes a thrift struct using the StarRocks binary attachment protocol.
+-- 
+2.43.0
+

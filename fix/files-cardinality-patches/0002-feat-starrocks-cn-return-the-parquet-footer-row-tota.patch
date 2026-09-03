@@ -1,7 +1,7 @@
 From 00302c5cc09720d991c4bf2d12612f63139dfa35 Mon Sep 17 00:00:00 2001
 From: Alexander Victor Ocsa Mamani <aocsa.cs@gmail.com>
 Date: Thu, 3 Sep 2026 18:24:08 +0000
-Subject: [PATCH 2/2] feat(starrocks-cn): return the parquet footer row total
+Subject: [PATCH 2/3] feat(starrocks-cn): return the parquet footer row total
  with the FILES() schema
 
 The CN already opens every parquet footer to infer the FILES() schema; it now
