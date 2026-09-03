@@ -79,3 +79,9 @@ maintenance on 2026-09-03 19:00 UTC. Paths below are that box's; every script ha
 `docs/reports/sf1000-planning-cardinality-backpressure.md` (SF1000 findings, ordered to-do), `docs/plans/starrocks-sirius-perf-plan.md`
 (SF10/SF100/SF1000 baselines and the two measured fixes), `docs/plans/demo-q1q6-report.md` (carve check),
 `evidence/sf1000/results.md`, `results-ratios.md`, `card-compare-*.txt`.
+
+## Raw evidence archive
+
+The complete session scratchpad (raw Quent sessions, fragment dumps, cluster and engine logs, 1.4 GB uncompressed, 126 MB zstd) and
+the Claude session transcript are attached to release `v2026-09-03-shutdown` of this repo, and also copied to
+`/scratch/prestouser/aocsa/session-archive-2026-09-03/` on the GB200 box (with `claude-plans/` and `claude-memory/`).
