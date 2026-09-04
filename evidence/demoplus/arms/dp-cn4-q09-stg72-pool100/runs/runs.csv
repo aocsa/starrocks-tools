@@ -1,0 +1,2 @@
+query,run,phase,status,ms,rows,start_utc
+q09,0,cold,fail,8340,0,2026-09-04T22:21:26.074

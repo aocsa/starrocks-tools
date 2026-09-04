@@ -1,0 +1,8 @@
+q05    VALUES-DIFFER  rows=5 maxreldiff=9.575e-04 badcells=5
+q08    VALUES-DIFFER  rows=2 maxreldiff=8.667e-06 badcells=2
+q09    EMPTY          no output
+q17    MATCH          rows=1 maxreldiff=3.884e-16
+q18    MATCH          rows=100 maxreldiff=0.000e+00
+q21    MATCH          rows=100 maxreldiff=0.000e+00
+
+3/6 match the DuckDB oracle within rel tol 1e-06

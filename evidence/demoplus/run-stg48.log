@@ -1,0 +1,28 @@
+##### ARM dp-cn4-six-stg48 wt=demo-plus@281b13bc NUM_CNS=4 ASYNC=1 FUSION=<unset> TRANSLATE_ONLY=0 EXTRA_ENV= queries: q05 q08 q09 q17 q18 q21 22:07:55
+alive=4 after 15s
+q05 r0 cold pass 6621ms rows=5 
+q05 r1 warm pass 5329ms rows=5 
+q05 r2 warm pass 3241ms rows=5 
+q08 r0 cold pass 3323ms rows=2 
+q08 r1 warm pass 3247ms rows=2 
+q08 r2 warm pass 3942ms rows=2 
+q09 r0 cold fail 3978ms rows=0 ERROR 1064 (HY000) at line 1: request_staging_lease failed with status 6: staging lease of 585166464 bytes failed: exchange staging arena exhausted: requested 5
+q17 r0 cold pass 2810ms rows=1 
+q17 r1 warm pass 2648ms rows=1 
+q17 r2 warm pass 2652ms rows=1 
+q18 r0 cold pass 2071ms rows=100 
+q18 r1 warm pass 2029ms rows=100 
+q18 r2 warm pass 2023ms rows=100 
+q21 r0 cold pass 5220ms rows=100 
+q21 r1 warm pass 5186ms rows=100 
+q21 r2 warm pass 5302ms rows=100 
+##### ARM dp-cn4-six-stg48 DONE 22:09:11
+q05    VALUES-DIFFER  rows=5 maxreldiff=9.575e-04 badcells=5
+q08    VALUES-DIFFER  rows=2 maxreldiff=8.667e-06 badcells=2
+q09    EMPTY          no output
+q17    MATCH          rows=1 maxreldiff=3.884e-16
+q18    MATCH          rows=100 maxreldiff=0.000e+00
+q21    MATCH          rows=100 maxreldiff=0.000e+00
+
+3/6 match the DuckDB oracle within rel tol 1e-06
+##### STG48 DONE 22:09:15

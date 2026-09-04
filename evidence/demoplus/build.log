@@ -1,0 +1,15 @@
+== setup 21:52:25
+Submodule path 'substrait/substrait': checked out '29844f1b58a666f36493c27def553854e81328a7'
+Submodule path 'vcpkg': checked out 'ffc071e0c08432c60c9b64f00334c0227667931b'
+applied nixl-exchange-proto.patch
+FE copied
+== engine build 21:56:04
+ WARN cache for Repodata at /home/prestouser/.cache/rattler/cache/repodata is on a network/parallel filesystem (NFS/SMB/FUSE/BeeGFS/Lustre/GPFS/CephFS), redirected to /tmp/pixi-cache-prestouser/repodata for this run. Set [cache.repodata] in config.toml or PIXI_CACHE_DIR to override, or [cache.netfs-redirect] = "never" to keep the original path.
+[1420/1422] Linking CXX executable extension/sirius/test/cpp/sirius_unittest
+[1421/1422] Linking CXX shared library extension/sirius/sirius.duckdb_extension
+[1422/1422] repository
+== CN build 22:00:48
+    Finished `release` profile [optimized] target(s) in 42.08s
+22:00 /home/prestouser/aocsa/sirius-stacks-wt/demo-plus/build/release/extension/sirius/sirius.duckdb_extension
+22:01 /home/prestouser/aocsa/sirius-stacks-wt/demo-plus/experimental/starrocks/target/release/sirius-starrocks-cn
+== BUILD DONE 22:01:31

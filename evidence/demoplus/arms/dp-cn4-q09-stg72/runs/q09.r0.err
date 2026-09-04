@@ -1,0 +1,1 @@
+ERROR 1064 (HY000) at line 1: sender output for SenderSlot { fragment_instance_id: FragmentInstanceId(01a06e79-5249-7deb-b456-5493b6691fcc), node_id: 4, sender_id: 1 } was discarded when its query was retired: failed to push a staged remote batch from sender 0 into stream 4: std::bad_alloc: out_of_memory: not enough capacity to allocate memory backend [id=10002] [

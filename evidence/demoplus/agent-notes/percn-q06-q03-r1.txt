@@ -1,0 +1,28 @@
+
+================= BASELINE q06.r1
+Traceback (most recent call last):
+  File "/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/demoplus/agent-notes/percn_timeline.py", line 29, in <module>
+    out.append((rel, f"FINISH {re.search(r'role=\"(\\w+)\"', l).group(1):6s} cn={re.search(r'cn=(\S+)', l).group(1)} fid=..{re.search(r'fragment_instance_id=([0-9a-f-]{36})', l).group(1)[-4:]} elapsed={re.search(r'elapsed_ms=(\d+)', l).group(1)}ms"))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+================= DEMO-PLUS q06.r1
+Traceback (most recent call last):
+  File "/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/demoplus/agent-notes/percn_timeline.py", line 29, in <module>
+    out.append((rel, f"FINISH {re.search(r'role=\"(\\w+)\"', l).group(1):6s} cn={re.search(r'cn=(\S+)', l).group(1)} fid=..{re.search(r'fragment_instance_id=([0-9a-f-]{36})', l).group(1)[-4:]} elapsed={re.search(r'elapsed_ms=(\d+)', l).group(1)}ms"))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+================= BASELINE q03.r1
+Traceback (most recent call last):
+  File "/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/demoplus/agent-notes/percn_timeline.py", line 29, in <module>
+    out.append((rel, f"FINISH {re.search(r'role=\"(\\w+)\"', l).group(1):6s} cn={re.search(r'cn=(\S+)', l).group(1)} fid=..{re.search(r'fragment_instance_id=([0-9a-f-]{36})', l).group(1)[-4:]} elapsed={re.search(r'elapsed_ms=(\d+)', l).group(1)}ms"))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'
+
+================= DEMO-PLUS q03.r1
+Traceback (most recent call last):
+  File "/tmp/claude-1002/-home-prestouser-aocsa-sirius/25f3e903-c551-4a98-b7fc-a6e0ed53ade6/scratchpad/demoplus/agent-notes/percn_timeline.py", line 29, in <module>
+    out.append((rel, f"FINISH {re.search(r'role=\"(\\w+)\"', l).group(1):6s} cn={re.search(r'cn=(\S+)', l).group(1)} fid=..{re.search(r'fragment_instance_id=([0-9a-f-]{36})', l).group(1)[-4:]} elapsed={re.search(r'elapsed_ms=(\d+)', l).group(1)}ms"))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'

@@ -16,6 +16,19 @@ run_of = {}
 if '--runs' in sys.argv:
     for run, o in json.load(open(sys.argv[sys.argv.index('--runs') + 1])).items():
         for qid in o.get("query_ids", []): run_of[qid] = run
+# optional: name query groups by time window from runs.csv (for trees without CN fragment labels)
+windows = []
+if '--runs-csv' in sys.argv:
+    import csv as _csv, datetime as _dt
+    _rows = list(_csv.DictReader(open(sys.argv[sys.argv.index('--runs-csv') + 1])))
+    def _ts(x): return _dt.datetime.strptime(x[:23], '%Y-%m-%dT%H:%M:%S.%f').replace(tzinfo=_dt.timezone.utc).timestamp() * 1e9
+    for i, r in enumerate(_rows):
+        t0 = _ts(r['start_utc']); t1 = _ts(_rows[i + 1]['start_utc']) if i + 1 < len(_rows) else t0 + float(r['ms']) * 1e6 + 5e9
+        windows.append((t0, t1, f"{r['query']}.r{r['run']}"))
+def window_of(t0):
+    for a, b, n in windows:
+        if a - 5e8 <= t0 < b: return n
+    return None
 def name_of(key):
     return run_of.get(key[-12:], key)
 def rows(s, kind):
@@ -127,7 +140,10 @@ for s in paths:
         for _, d in ev: c += d; m = max(m, c)
         return m
     for qid, info in q.items():
-        lab = info["label"]; key = f"{qkey(lab)}"; entry = out.setdefault(key, {"fragments": []})
+        lab = info["label"]; key = f"{qkey(lab)}"
+        if windows and (not lab or lab == "unnamed_query" or key == "unnamed"):
+            key = window_of(info["t0"]) or f"outside-windows:{qid[-8:]}"
+        entry = out.setdefault(key, {"fragments": []})
         a = per_q.get(qid, None)
         qb = [b for b in batches if b["qid"] == qid]; ql = [l for l in leases if l["qid"] == qid]
         dw = [d for d in (dwell(b) for b in qb) if d is not None]

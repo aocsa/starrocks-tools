@@ -1,0 +1,3 @@
+q16 ok rows=27840 6.4s
+q16    MATCH          rows=27840 maxreldiff=0.000e+00
+9/22 match the DuckDB oracle within rel tol 1e-06

@@ -1,0 +1,454 @@
+q01.r0: pass 3048ms frags=9 tasks=249 span=2.047s Q=88.78 Rsv=0.01 Prep=0.01 Comp=28.22 Fin=0.00 req=943.6GB est=943.6GB alloc=743.1GB in=256.5GB batches=475/996.78GB leases=0/0.00GB held=0.00s maxconc=0 nixl=15/7b/0.00GB
+      GPU_SCAN             n=108   sum=  20.885s in=  256.50GB
+      HASH_GROUP_BY        n=116   sum=   4.497s in=  443.67GB
+      PROJECTION           n=222   sum=   2.785s in=  553.11GB
+      MERGE_GROUP_BY       n=6     sum=   0.018s in=    0.00GB
+      STREAMING_SINK       n=6     sum=   0.015s in=    0.00GB
+      ORDER_BY             n=4     sum=   0.011s in=    0.00GB
+      SORT_SAMPLE          n=3     sum=   0.007s in=    0.00GB
+      PARTITION            n=116   sum=   0.003s in=    0.00GB
+q01.r1: pass 1846ms frags=9 tasks=249 span=1.623s Q=69.78 Rsv=0.01 Prep=0.01 Comp=23.21 Fin=0.00 req=943.6GB est=943.6GB alloc=743.1GB in=256.5GB batches=475/996.78GB leases=0/0.00GB held=0.00s maxconc=0 nixl=15/7b/0.00GB
+      GPU_SCAN             n=108   sum=  15.926s in=  256.50GB
+      HASH_GROUP_BY        n=116   sum=   4.482s in=  443.67GB
+      PROJECTION           n=222   sum=   2.767s in=  553.11GB
+      MERGE_GROUP_BY       n=6     sum=   0.011s in=    0.00GB
+      ORDER_BY             n=4     sum=   0.008s in=    0.00GB
+      SORT_SAMPLE          n=3     sum=   0.007s in=    0.00GB
+      PARTITION            n=116   sum=   0.004s in=    0.00GB
+      STREAMING_SINK       n=6     sum=   0.004s in=    0.00GB
+q01.r2: pass 2824ms frags=9 tasks=249 span=2.615s Q=95.02 Rsv=0.01 Prep=0.01 Comp=30.93 Fin=0.00 req=943.6GB est=943.6GB alloc=743.1GB in=256.5GB batches=475/996.78GB leases=0/0.00GB held=0.00s maxconc=0 nixl=15/8b/0.00GB
+      GPU_SCAN             n=108   sum=  23.877s in=  256.50GB
+      HASH_GROUP_BY        n=116   sum=   4.396s in=  443.67GB
+      PROJECTION           n=222   sum=   2.625s in=  553.11GB
+      MERGE_GROUP_BY       n=6     sum=   0.012s in=    0.00GB
+      ORDER_BY             n=4     sum=   0.007s in=    0.00GB
+      PARTITION            n=116   sum=   0.004s in=    0.00GB
+      STREAMING_SINK       n=6     sum=   0.003s in=    0.00GB
+      MERGE_SORT           n=3     sum=   0.001s in=    0.00GB
+q02.r0: pass 1971ms frags=49 tasks=650 span=1.611s Q=0.03 Rsv=0.01 Prep=0.02 Comp=5.70 Fin=0.00 req=553.2GB est=553.2GB alloc=134.8GB in=277.6GB batches=460/226.66GB leases=0/0.00GB held=0.00s maxconc=0 nixl=135/177b/42.59GB
+      GPU_SCAN             n=33    sum=   4.665s in=   32.27GB
+      HASH_JOIN            n=45    sum=   0.652s in=   59.89GB
+      STREAMING_SINK       n=67    sum=   0.162s in=   56.38GB
+      CONCAT               n=74    sum=   0.098s in=   59.90GB
+      HASH_GROUP_BY        n=10    sum=   0.055s in=    3.34GB
+      PROJECTION           n=64    sum=   0.026s in=   57.80GB
+      TOP_N                n=8     sum=   0.016s in=    0.08GB
+      MERGE_TOP_N          n=5     sum=   0.009s in=    0.00GB
+q02.r1: pass 1142ms frags=49 tasks=650 span=0.950s Q=0.03 Rsv=0.01 Prep=0.02 Comp=2.75 Fin=0.00 req=548.3GB est=548.3GB alloc=134.8GB in=277.6GB batches=462/229.11GB leases=0/0.00GB held=0.00s maxconc=0 nixl=135/177b/44.63GB
+      GPU_SCAN             n=33    sum=   1.731s in=   32.27GB
+      HASH_JOIN            n=45    sum=   0.578s in=   59.89GB
+      STREAMING_SINK       n=67    sum=   0.225s in=   56.38GB
+      CONCAT               n=74    sum=   0.103s in=   59.90GB
+      HASH_GROUP_BY        n=10    sum=   0.039s in=    3.34GB
+      PROJECTION           n=64    sum=   0.032s in=   57.80GB
+      TOP_N                n=8     sum=   0.016s in=    0.08GB
+      MERGE_TOP_N          n=5     sum=   0.009s in=    0.00GB
+q02.r2: pass 1140ms frags=49 tasks=650 span=0.966s Q=0.03 Rsv=0.02 Prep=0.02 Comp=2.89 Fin=0.00 req=545.6GB est=545.6GB alloc=134.8GB in=277.6GB batches=462/228.39GB leases=0/0.00GB held=0.00s maxconc=0 nixl=135/177b/43.61GB
+      GPU_SCAN             n=33    sum=   1.876s in=   32.27GB
+      HASH_JOIN            n=45    sum=   0.585s in=   59.89GB
+      STREAMING_SINK       n=67    sum=   0.216s in=   56.38GB
+      CONCAT               n=74    sum=   0.108s in=   59.90GB
+      HASH_GROUP_BY        n=10    sum=   0.039s in=    3.34GB
+      PROJECTION           n=64    sum=   0.026s in=   57.80GB
+      TOP_N                n=8     sum=   0.015s in=    0.08GB
+      MERGE_TOP_N          n=5     sum=   0.009s in=    0.00GB
+q03.r0: pass 3987ms frags=17 tasks=851 span=3.779s Q=22.23 Rsv=0.02 Prep=0.06 Comp=26.97 Fin=0.00 req=1046.0GB est=1046.0GB alloc=345.3GB in=544.5GB batches=569/272.92GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/237b/60.34GB
+      GPU_SCAN             n=82    sum=  24.840s in=  177.62GB
+      HASH_JOIN            n=40    sum=   1.496s in=   95.14GB
+      STREAMING_SINK       n=82    sum=   0.262s in=   81.31GB
+      CONCAT               n=48    sum=   0.260s in=   95.39GB
+      PROJECTION           n=45    sum=   0.043s in=    4.99GB
+      HASH_GROUP_BY        n=32    sum=   0.033s in=    0.72GB
+      TOP_N                n=8     sum=   0.011s in=    0.27GB
+      STREAMING_SOURCE     n=316   sum=   0.010s in=   80.45GB
+q03.r1: pass 1709ms frags=17 tasks=851 span=1.519s Q=16.87 Rsv=0.02 Prep=0.09 Comp=12.18 Fin=0.00 req=1039.0GB est=1039.0GB alloc=345.3GB in=544.5GB batches=569/272.97GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/237b/60.34GB
+      GPU_SCAN             n=82    sum=   9.985s in=  177.62GB
+      HASH_JOIN            n=40    sum=   1.499s in=   95.14GB
+      STREAMING_SINK       n=82    sum=   0.338s in=   81.31GB
+      CONCAT               n=48    sum=   0.257s in=   95.39GB
+      PROJECTION           n=45    sum=   0.033s in=    4.99GB
+      HASH_GROUP_BY        n=32    sum=   0.033s in=    0.72GB
+      STREAMING_SOURCE     n=316   sum=   0.011s in=   80.45GB
+      TOP_N                n=8     sum=   0.011s in=    0.27GB
+q03.r2: pass 1750ms frags=17 tasks=851 span=1.509s Q=16.56 Rsv=0.02 Prep=0.10 Comp=12.36 Fin=0.00 req=1039.9GB est=1039.9GB alloc=345.3GB in=544.5GB batches=569/272.79GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/237b/60.34GB
+      GPU_SCAN             n=82    sum=  10.148s in=  177.62GB
+      HASH_JOIN            n=40    sum=   1.496s in=   95.14GB
+      STREAMING_SINK       n=82    sum=   0.345s in=   81.31GB
+      CONCAT               n=48    sum=   0.259s in=   95.39GB
+      PROJECTION           n=45    sum=   0.039s in=    4.99GB
+      HASH_GROUP_BY        n=32    sum=   0.038s in=    0.72GB
+      TOP_N                n=8     sum=   0.011s in=    0.27GB
+      STREAMING_SOURCE     n=316   sum=   0.010s in=   80.45GB
+q04.r0: pass 1528ms frags=17 tasks=598 span=1.349s Q=7.95 Rsv=0.02 Prep=0.04 Comp=11.10 Fin=0.00 req=865.7GB est=865.7GB alloc=303.2GB in=255.3GB batches=1139/288.66GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/179b/23.64GB
+      GPU_SCAN             n=56    sum=   9.552s in=  129.22GB
+      PARTITION            n=248   sum=   0.408s in=   31.52GB
+      HASH_JOIN            n=12    sum=   0.340s in=   31.52GB
+      FILTER               n=40    sum=   0.310s in=   98.25GB
+      STREAMING_SINK       n=63    sum=   0.246s in=   32.01GB
+      CONCAT               n=24    sum=   0.116s in=   31.52GB
+      HASH_GROUP_BY        n=24    sum=   0.103s in=    0.65GB
+      ORDER_BY             n=6     sum=   0.009s in=    0.00GB
+q04.r1: pass 1077ms frags=17 tasks=598 span=0.839s Q=7.76 Rsv=0.02 Prep=0.04 Comp=8.74 Fin=0.00 req=865.9GB est=865.9GB alloc=303.2GB in=255.3GB batches=1139/288.66GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/179b/23.64GB
+      GPU_SCAN             n=56    sum=   7.287s in=  129.22GB
+      PARTITION            n=248   sum=   0.405s in=   31.52GB
+      FILTER               n=40    sum=   0.298s in=   98.25GB
+      HASH_JOIN            n=12    sum=   0.297s in=   31.52GB
+      STREAMING_SINK       n=63    sum=   0.269s in=   32.01GB
+      CONCAT               n=24    sum=   0.122s in=   31.52GB
+      HASH_GROUP_BY        n=24    sum=   0.043s in=    0.65GB
+      STREAMING_SOURCE     n=239   sum=   0.006s in=   31.52GB
+q04.r2: pass 1055ms frags=17 tasks=598 span=0.830s Q=7.20 Rsv=0.02 Prep=0.04 Comp=8.52 Fin=0.00 req=865.7GB est=865.7GB alloc=303.2GB in=255.3GB batches=1139/288.66GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/179b/23.64GB
+      GPU_SCAN             n=56    sum=   7.178s in=  129.22GB
+      PARTITION            n=248   sum=   0.407s in=   31.52GB
+      HASH_JOIN            n=12    sum=   0.297s in=   31.52GB
+      FILTER               n=40    sum=   0.277s in=   98.25GB
+      STREAMING_SINK       n=63    sum=   0.193s in=   32.01GB
+      CONCAT               n=24    sum=   0.100s in=   31.52GB
+      HASH_GROUP_BY        n=24    sum=   0.047s in=    0.65GB
+      STREAMING_SOURCE     n=239   sum=   0.006s in=   31.52GB
+q05.r0: fail 1408ms frags=10 tasks=72 span=1.200s Q=21.44 Rsv=0.00 Prep=0.11 Comp=12.04 Fin=0.00 req=722.6GB est=722.6GB alloc=372.2GB in=171.1GB batches=359/339.16GB leases=0/0.00GB held=0.00s maxconc=0 nixl=20/52b/21.22GB
+      GPU_SCAN             n=72    sum=  11.713s in=  171.08GB
+      STREAMING_SINK       n=72    sum=   0.325s in=  171.08GB
+q06.r0: pass 1304ms frags=5 tasks=80 span=1.075s Q=13.42 Rsv=0.00 Prep=0.00 Comp=8.03 Fin=0.00 req=392.8GB est=392.8GB alloc=239.5GB in=97.5GB batches=208/2.77GB leases=0/0.00GB held=0.00s maxconc=0 nixl=3/3b/0.00GB
+      GPU_SCAN             n=66    sum=   7.755s in=   97.50GB
+      UNGROUPED_AGGREGATE  n=70    sum=   0.149s in=    0.91GB
+      PROJECTION           n=66    sum=   0.123s in=    1.86GB
+      MERGE_AGGREGATE      n=5     sum=   0.002s in=    0.00GB
+      RESULT_COLLECTOR     n=1     sum=   0.000s in=    0.00GB
+      STREAMING_SINK       n=4     sum=   0.000s in=    0.00GB
+      STREAMING_SOURCE     n=4     sum=   0.000s in=    0.00GB
+q06.r1: pass 1209ms frags=5 tasks=80 span=1.028s Q=13.00 Rsv=0.00 Prep=0.00 Comp=7.71 Fin=0.00 req=392.8GB est=392.8GB alloc=239.5GB in=97.5GB batches=208/2.77GB leases=0/0.00GB held=0.00s maxconc=0 nixl=3/3b/0.00GB
+      GPU_SCAN             n=66    sum=   7.503s in=   97.50GB
+      UNGROUPED_AGGREGATE  n=70    sum=   0.126s in=    0.91GB
+      PROJECTION           n=66    sum=   0.076s in=    1.86GB
+      MERGE_AGGREGATE      n=5     sum=   0.002s in=    0.00GB
+      RESULT_COLLECTOR     n=1     sum=   0.000s in=    0.00GB
+      STREAMING_SOURCE     n=4     sum=   0.000s in=    0.00GB
+      STREAMING_SINK       n=4     sum=   0.000s in=    0.00GB
+q06.r2: pass 1239ms frags=5 tasks=80 span=1.061s Q=12.73 Rsv=0.00 Prep=0.00 Comp=7.83 Fin=0.00 req=392.8GB est=392.8GB alloc=239.5GB in=97.5GB batches=208/2.77GB leases=0/0.00GB held=0.00s maxconc=0 nixl=3/3b/0.00GB
+      GPU_SCAN             n=66    sum=   7.629s in=   97.50GB
+      UNGROUPED_AGGREGATE  n=70    sum=   0.102s in=    0.91GB
+      PROJECTION           n=66    sum=   0.100s in=    1.86GB
+      MERGE_AGGREGATE      n=5     sum=   0.003s in=    0.00GB
+      RESULT_COLLECTOR     n=1     sum=   0.000s in=    0.00GB
+      STREAMING_SINK       n=4     sum=   0.000s in=    0.00GB
+      STREAMING_SOURCE     n=4     sum=   0.000s in=    0.00GB
+q07.r0: pass 1995ms frags=39 tasks=1219 span=1.781s Q=29.59 Rsv=0.03 Prep=0.16 Comp=17.14 Fin=0.00 req=1081.3GB est=1081.3GB alloc=435.4GB in=591.2GB batches=883/363.97GB leases=0/0.00GB held=0.00s maxconc=0 nixl=105/374b/69.01GB
+      GPU_SCAN             n=94    sum=  14.838s in=  215.44GB
+      HASH_JOIN            n=44    sum=   1.215s in=   94.48GB
+      STREAMING_SINK       n=132   sum=   0.578s in=   89.82GB
+      CONCAT               n=60    sum=   0.363s in=   94.63GB
+      DYNAMIC_FILTER       n=16    sum=   0.046s in=    5.03GB
+      PROJECTION           n=120   sum=   0.039s in=   80.11GB
+      FILTER               n=24    sum=   0.023s in=    3.19GB
+      PARTITION            n=508   sum=   0.013s in=   94.63GB
+q07.r1: pass 1966ms frags=39 tasks=1219 span=1.754s Q=28.97 Rsv=0.03 Prep=0.09 Comp=16.78 Fin=0.00 req=1084.4GB est=1084.4GB alloc=435.4GB in=591.2GB batches=883/363.97GB leases=0/0.00GB held=0.00s maxconc=0 nixl=105/374b/69.01GB
+      GPU_SCAN             n=94    sum=  14.546s in=  215.44GB
+      HASH_JOIN            n=44    sum=   1.203s in=   94.48GB
+      STREAMING_SINK       n=132   sum=   0.567s in=   89.82GB
+      CONCAT               n=60    sum=   0.361s in=   94.63GB
+      PROJECTION           n=120   sum=   0.038s in=   80.11GB
+      FILTER               n=24    sum=   0.023s in=    3.19GB
+      PARTITION            n=508   sum=   0.014s in=   94.63GB
+      STREAMING_SOURCE     n=498   sum=   0.013s in=   92.01GB
+q07.r2: pass 1977ms frags=39 tasks=1219 span=1.770s Q=28.59 Rsv=0.03 Prep=0.06 Comp=16.65 Fin=0.00 req=1080.4GB est=1080.4GB alloc=435.4GB in=591.2GB batches=883/363.97GB leases=0/0.00GB held=0.00s maxconc=0 nixl=105/372b/69.01GB
+      GPU_SCAN             n=94    sum=  14.392s in=  215.44GB
+      HASH_JOIN            n=44    sum=   1.213s in=   94.48GB
+      STREAMING_SINK       n=132   sum=   0.573s in=   89.82GB
+      CONCAT               n=60    sum=   0.352s in=   94.63GB
+      PROJECTION           n=120   sum=   0.031s in=   80.11GB
+      DYNAMIC_FILTER       n=16    sum=   0.025s in=    5.03GB
+      FILTER               n=24    sum=   0.023s in=    3.19GB
+      PARTITION            n=508   sum=   0.014s in=   94.63GB
+q08.r0: fail 2392ms frags=23 tasks=103 span=2.133s Q=35.60 Rsv=0.01 Prep=0.09 Comp=19.55 Fin=0.00 req=1089.4GB est=1089.4GB alloc=482.2GB in=222.5GB batches=598/602.18GB leases=0/0.00GB held=0.00s maxconc=0 nixl=59/119b/30.38GB
+      GPU_SCAN             n=103   sum=  18.963s in=  222.46GB
+      STREAMING_SINK       n=103   sum=   0.579s in=  204.54GB
+      PROJECTION           n=84    sum=   0.008s in=  197.07GB
+q09.r0: fail 2115ms frags=21 tasks=120 span=1.887s Q=48.50 Rsv=0.01 Prep=0.20 Comp=19.63 Fin=0.00 req=1284.1GB est=1284.1GB alloc=611.0GB in=276.9GB batches=600/547.03GB leases=0/0.00GB held=0.00s maxconc=0 nixl=51/75b/23.19GB
+      GPU_SCAN             n=120   sum=  18.882s in=  276.88GB
+      STREAMING_SINK       n=120   sum=   0.748s in=  276.10GB
+q10.r0: pass 1869ms frags=22 tasks=1094 span=1.577s Q=13.86 Rsv=0.03 Prep=0.07 Comp=14.78 Fin=0.00 req=1198.0GB est=1198.0GB alloc=436.7GB in=534.6GB batches=679/313.94GB leases=0/0.00GB held=0.00s maxconc=0 nixl=54/330b/48.04GB
+      GPU_SCAN             n=93    sum=  12.216s in=  189.13GB
+      HASH_JOIN            n=40    sum=   1.219s in=   88.46GB
+      STREAMING_SINK       n=113   sum=   0.603s in=   64.66GB
+      HASH_GROUP_BY        n=12    sum=   0.318s in=   20.37GB
+      CONCAT               n=52    sum=   0.232s in=   88.56GB
+      MERGE_GROUP_BY       n=4     sum=   0.064s in=    7.91GB
+      PROJECTION           n=45    sum=   0.046s in=   60.59GB
+      TOP_N                n=8     sum=   0.045s in=    7.91GB
+q10.r1: pass 1760ms frags=22 tasks=1094 span=1.502s Q=13.74 Rsv=0.03 Prep=0.05 Comp=13.97 Fin=0.00 req=1223.0GB est=1223.0GB alloc=436.7GB in=534.6GB batches=679/313.94GB leases=0/0.00GB held=0.00s maxconc=0 nixl=54/330b/48.04GB
+      GPU_SCAN             n=93    sum=  11.368s in=  189.13GB
+      HASH_JOIN            n=40    sum=   1.202s in=   88.46GB
+      STREAMING_SINK       n=113   sum=   0.673s in=   64.66GB
+      HASH_GROUP_BY        n=12    sum=   0.320s in=   20.37GB
+      CONCAT               n=52    sum=   0.230s in=   88.56GB
+      MERGE_GROUP_BY       n=4     sum=   0.063s in=    7.91GB
+      PROJECTION           n=45    sum=   0.049s in=   60.59GB
+      TOP_N                n=8     sum=   0.028s in=    7.91GB
+q10.r2: pass 1811ms frags=22 tasks=1094 span=1.552s Q=13.83 Rsv=0.03 Prep=0.05 Comp=14.42 Fin=0.00 req=1209.2GB est=1209.2GB alloc=436.7GB in=534.6GB batches=679/313.94GB leases=0/0.00GB held=0.00s maxconc=0 nixl=54/330b/48.04GB
+      GPU_SCAN             n=93    sum=  11.861s in=  189.13GB
+      HASH_JOIN            n=40    sum=   1.200s in=   88.46GB
+      STREAMING_SINK       n=113   sum=   0.650s in=   64.66GB
+      HASH_GROUP_BY        n=12    sum=   0.313s in=   20.37GB
+      CONCAT               n=52    sum=   0.235s in=   88.56GB
+      MERGE_GROUP_BY       n=4     sum=   0.063s in=    7.91GB
+      PROJECTION           n=45    sum=   0.043s in=   60.59GB
+      TOP_N                n=8     sum=   0.026s in=    7.91GB
+q11.r0: pass 759ms frags=32 tasks=337 span=0.397s Q=0.01 Rsv=0.01 Prep=0.01 Comp=2.25 Fin=0.00 req=379.3GB est=379.3GB alloc=5.8GB in=122.1GB batches=258/34.39GB leases=0/0.00GB held=0.00s maxconc=0 nixl=75/71b/0.40GB
+      GPU_SCAN             n=26    sum=   1.811s in=   29.67GB
+      HASH_JOIN            n=28    sum=   0.363s in=   30.15GB
+      HASH_GROUP_BY        n=24    sum=   0.033s in=    0.75GB
+      PROJECTION           n=40    sum=   0.013s in=    1.81GB
+      MERGE_GROUP_BY       n=8     sum=   0.011s in=    0.73GB
+      STREAMING_SINK       n=31    sum=   0.007s in=    0.53GB
+      CONCAT               n=42    sum=   0.004s in=   30.15GB
+      UNGROUPED_AGGREGATE  n=12    sum=   0.004s in=    0.26GB
+q11.r1: pass 668ms frags=32 tasks=337 span=0.385s Q=0.01 Rsv=0.01 Prep=0.01 Comp=2.24 Fin=0.00 req=379.3GB est=379.3GB alloc=5.8GB in=122.1GB batches=258/34.39GB leases=0/0.00GB held=0.00s maxconc=0 nixl=75/70b/0.40GB
+      GPU_SCAN             n=26    sum=   1.819s in=   29.67GB
+      HASH_JOIN            n=28    sum=   0.342s in=   30.15GB
+      HASH_GROUP_BY        n=24    sum=   0.033s in=    0.75GB
+      PROJECTION           n=40    sum=   0.013s in=    1.81GB
+      MERGE_GROUP_BY       n=8     sum=   0.011s in=    0.73GB
+      STREAMING_SINK       n=31    sum=   0.008s in=    0.53GB
+      UNGROUPED_AGGREGATE  n=12    sum=   0.004s in=    0.26GB
+      CONCAT               n=42    sum=   0.004s in=   30.15GB
+q11.r2: pass 670ms frags=32 tasks=337 span=0.398s Q=0.01 Rsv=0.01 Prep=0.01 Comp=2.28 Fin=0.00 req=379.3GB est=379.3GB alloc=5.8GB in=122.1GB batches=258/34.39GB leases=0/0.00GB held=0.00s maxconc=0 nixl=75/71b/0.40GB
+      GPU_SCAN             n=26    sum=   1.860s in=   29.67GB
+      HASH_JOIN            n=28    sum=   0.343s in=   30.15GB
+      HASH_GROUP_BY        n=24    sum=   0.032s in=    0.75GB
+      PROJECTION           n=40    sum=   0.012s in=    1.81GB
+      MERGE_GROUP_BY       n=8     sum=   0.011s in=    0.73GB
+      STREAMING_SINK       n=31    sum=   0.008s in=    0.53GB
+      CONCAT               n=42    sum=   0.004s in=   30.15GB
+      UNGROUPED_AGGREGATE  n=12    sum=   0.004s in=    0.26GB
+q12.r0: pass 1297ms frags=17 tasks=793 span=1.109s Q=17.72 Rsv=0.02 Prep=0.02 Comp=11.65 Fin=0.00 req=925.1GB est=925.1GB alloc=357.3GB in=329.4GB batches=627/122.34GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/248b/23.47GB
+      GPU_SCAN             n=80    sum=  10.065s in=  204.44GB
+      STREAMING_SINK       n=86    sum=   0.620s in=   31.48GB
+      HASH_JOIN            n=12    sum=   0.549s in=   31.10GB
+      FILTER               n=68    sum=   0.260s in=   25.62GB
+      CONCAT               n=16    sum=   0.079s in=   31.29GB
+      PROJECTION           n=82    sum=   0.022s in=    2.03GB
+      HASH_GROUP_BY        n=20    sum=   0.021s in=    0.82GB
+      STREAMING_SOURCE     n=330   sum=   0.009s in=   31.29GB
+q12.r1: pass 1282ms frags=17 tasks=793 span=1.047s Q=18.10 Rsv=0.02 Prep=0.02 Comp=11.48 Fin=0.00 req=925.0GB est=925.0GB alloc=357.3GB in=329.4GB batches=627/122.34GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/248b/23.47GB
+      GPU_SCAN             n=80    sum=   9.907s in=  204.44GB
+      STREAMING_SINK       n=86    sum=   0.598s in=   31.48GB
+      HASH_JOIN            n=12    sum=   0.549s in=   31.10GB
+      FILTER               n=68    sum=   0.276s in=   25.62GB
+      CONCAT               n=16    sum=   0.078s in=   31.29GB
+      PROJECTION           n=82    sum=   0.020s in=    2.03GB
+      HASH_GROUP_BY        n=20    sum=   0.020s in=    0.82GB
+      STREAMING_SOURCE     n=330   sum=   0.009s in=   31.29GB
+q12.r2: pass 1298ms frags=17 tasks=793 span=1.094s Q=18.02 Rsv=0.02 Prep=0.03 Comp=11.55 Fin=0.00 req=927.6GB est=927.6GB alloc=357.3GB in=329.4GB batches=627/122.34GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/247b/23.47GB
+      GPU_SCAN             n=80    sum=   9.957s in=  204.44GB
+      STREAMING_SINK       n=86    sum=   0.619s in=   31.48GB
+      HASH_JOIN            n=12    sum=   0.549s in=   31.10GB
+      FILTER               n=68    sum=   0.279s in=   25.62GB
+      CONCAT               n=16    sum=   0.076s in=   31.29GB
+      HASH_GROUP_BY        n=20    sum=   0.024s in=    0.82GB
+      PROJECTION           n=82    sum=   0.021s in=    2.03GB
+      STREAMING_SOURCE     n=330   sum=   0.010s in=   31.29GB
+q13.r0: pass 1164ms frags=17 tasks=495 span=0.917s Q=9.15 Rsv=0.01 Prep=0.03 Comp=10.78 Fin=0.00 req=322.0GB est=322.0GB alloc=251.3GB in=96.2GB batches=676/122.34GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/147b/13.80GB
+      GPU_SCAN             n=44    sum=   9.476s in=   18.99GB
+      HASH_JOIN            n=8     sum=   0.774s in=   18.41GB
+      HASH_GROUP_BY        n=28    sum=   0.168s in=   19.80GB
+      PARTITION            n=204   sum=   0.156s in=   20.21GB
+      STREAMING_SINK       n=52    sum=   0.118s in=   18.80GB
+      CONCAT               n=16    sum=   0.053s in=   18.41GB
+      MERGE_GROUP_BY       n=12    sum=   0.022s in=    1.80GB
+      STREAMING_SOURCE     n=196   sum=   0.006s in=   18.41GB
+q13.r1: pass 1038ms frags=17 tasks=495 span=0.891s Q=8.82 Rsv=0.02 Prep=0.05 Comp=10.61 Fin=0.00 req=321.7GB est=321.7GB alloc=251.3GB in=96.2GB batches=676/122.34GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/147b/13.80GB
+      GPU_SCAN             n=44    sum=   9.256s in=   18.99GB
+      HASH_JOIN            n=8     sum=   0.780s in=   18.41GB
+      HASH_GROUP_BY        n=28    sum=   0.170s in=   19.80GB
+      STREAMING_SINK       n=52    sum=   0.159s in=   18.80GB
+      PARTITION            n=204   sum=   0.155s in=   20.21GB
+      CONCAT               n=16    sum=   0.053s in=   18.41GB
+      MERGE_GROUP_BY       n=12    sum=   0.023s in=    1.80GB
+      STREAMING_SOURCE     n=196   sum=   0.006s in=   18.41GB
+q13.r2: pass 1032ms frags=17 tasks=495 span=0.891s Q=8.74 Rsv=0.01 Prep=0.02 Comp=10.32 Fin=0.00 req=321.8GB est=321.8GB alloc=251.3GB in=96.2GB batches=676/122.34GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/147b/13.80GB
+      GPU_SCAN             n=44    sum=   8.983s in=   18.99GB
+      HASH_JOIN            n=8     sum=   0.786s in=   18.41GB
+      HASH_GROUP_BY        n=28    sum=   0.170s in=   19.80GB
+      PARTITION            n=204   sum=   0.159s in=   20.21GB
+      STREAMING_SINK       n=52    sum=   0.127s in=   18.80GB
+      CONCAT               n=16    sum=   0.054s in=   18.41GB
+      MERGE_GROUP_BY       n=12    sum=   0.023s in=    1.80GB
+      STREAMING_SOURCE     n=196   sum=   0.009s in=   18.41GB
+q14.r0: pass 1229ms frags=13 tasks=566 span=1.027s Q=18.39 Rsv=0.01 Prep=0.02 Comp=13.25 Fin=0.00 req=536.8GB est=536.8GB alloc=250.0GB in=157.0GB batches=331/29.02GB leases=0/0.00GB held=0.00s maxconc=0 nixl=27/183b/5.43GB
+      GPU_SCAN             n=60    sum=  12.950s in=  128.02GB
+      STREAMING_SINK       n=64    sum=   0.207s in=    7.29GB
+      HASH_JOIN            n=4     sum=   0.049s in=    7.22GB
+      CONCAT               n=8     sum=   0.013s in=    7.24GB
+      STREAMING_SOURCE     n=244   sum=   0.010s in=    7.24GB
+      PROJECTION           n=9     sum=   0.008s in=    6.08GB
+      PARTITION            n=240   sum=   0.006s in=    7.24GB
+      UNGROUPED_AGGREGATE  n=8     sum=   0.004s in=    1.20GB
+q14.r1: pass 1277ms frags=13 tasks=566 span=1.090s Q=19.46 Rsv=0.01 Prep=0.02 Comp=14.18 Fin=0.00 req=535.4GB est=535.4GB alloc=250.0GB in=157.0GB batches=331/29.02GB leases=0/0.00GB held=0.00s maxconc=0 nixl=27/183b/5.43GB
+      GPU_SCAN             n=60    sum=  13.862s in=  128.02GB
+      STREAMING_SINK       n=64    sum=   0.230s in=    7.29GB
+      HASH_JOIN            n=4     sum=   0.049s in=    7.22GB
+      CONCAT               n=8     sum=   0.013s in=    7.24GB
+      PROJECTION           n=9     sum=   0.007s in=    6.08GB
+      STREAMING_SOURCE     n=244   sum=   0.007s in=    7.24GB
+      PARTITION            n=240   sum=   0.006s in=    7.24GB
+      UNGROUPED_AGGREGATE  n=8     sum=   0.004s in=    1.20GB
+q14.r2: pass 1239ms frags=13 tasks=566 span=1.017s Q=18.43 Rsv=0.01 Prep=0.02 Comp=13.57 Fin=0.00 req=537.1GB est=537.1GB alloc=250.0GB in=157.0GB batches=331/29.02GB leases=0/0.00GB held=0.00s maxconc=0 nixl=27/183b/5.43GB
+      GPU_SCAN             n=60    sum=  13.318s in=  128.02GB
+      STREAMING_SINK       n=64    sum=   0.165s in=    7.29GB
+      HASH_JOIN            n=4     sum=   0.049s in=    7.22GB
+      CONCAT               n=8     sum=   0.013s in=    7.24GB
+      STREAMING_SOURCE     n=244   sum=   0.008s in=    7.24GB
+      PROJECTION           n=9     sum=   0.007s in=    6.08GB
+      PARTITION            n=240   sum=   0.006s in=    7.24GB
+      UNGROUPED_AGGREGATE  n=8     sum=   0.004s in=    1.20GB
+q15.r0: pass 2008ms frags=22 tasks=413 span=1.805s Q=34.35 Rsv=0.01 Prep=0.01 Comp=25.21 Fin=0.00 req=938.0GB est=938.0GB alloc=482.5GB in=259.8GB batches=492/24.53GB leases=0/0.00GB held=0.00s maxconc=0 nixl=45/45b/1.27GB
+      GPU_SCAN             n=116   sum=  24.461s in=  245.24GB
+      PROJECTION           n=124   sum=   0.346s in=    9.37GB
+      HASH_GROUP_BY        n=144   sum=   0.286s in=    6.45GB
+      MERGE_GROUP_BY       n=16    sum=   0.054s in=    5.40GB
+      UNGROUPED_AGGREGATE  n=8     sum=   0.020s in=    0.08GB
+      STREAMING_SINK       n=21    sum=   0.018s in=    1.70GB
+      PARTITION            n=172   sum=   0.006s in=    6.08GB
+      CONCAT               n=16    sum=   0.005s in=    0.68GB
+q15.r1: pass 2076ms frags=22 tasks=413 span=1.841s Q=35.02 Rsv=0.01 Prep=0.02 Comp=25.35 Fin=0.00 req=937.9GB est=937.9GB alloc=482.5GB in=259.8GB batches=492/24.53GB leases=0/0.00GB held=0.00s maxconc=0 nixl=45/45b/1.27GB
+      GPU_SCAN             n=116   sum=  24.529s in=  245.24GB
+      PROJECTION           n=124   sum=   0.376s in=    9.37GB
+      HASH_GROUP_BY        n=144   sum=   0.352s in=    6.45GB
+      MERGE_GROUP_BY       n=16    sum=   0.054s in=    5.40GB
+      STREAMING_SINK       n=21    sum=   0.018s in=    1.70GB
+      PARTITION            n=172   sum=   0.006s in=    6.08GB
+      CONCAT               n=16    sum=   0.005s in=    0.68GB
+      HASH_JOIN            n=8     sum=   0.002s in=    0.68GB
+q15.r2: pass 2070ms frags=22 tasks=413 span=1.836s Q=36.12 Rsv=0.01 Prep=0.01 Comp=25.90 Fin=0.00 req=938.5GB est=938.5GB alloc=482.5GB in=260.3GB batches=487/24.72GB leases=0/0.00GB held=0.00s maxconc=0 nixl=45/45b/1.27GB
+      GPU_SCAN             n=116   sum=  25.119s in=  245.24GB
+      PROJECTION           n=124   sum=   0.373s in=    9.37GB
+      HASH_GROUP_BY        n=144   sum=   0.319s in=    6.45GB
+      MERGE_GROUP_BY       n=16    sum=   0.054s in=    5.40GB
+      STREAMING_SINK       n=21    sum=   0.019s in=    1.70GB
+      PARTITION            n=172   sum=   0.005s in=    6.26GB
+      CONCAT               n=16    sum=   0.005s in=    0.86GB
+      UNGROUPED_AGGREGATE  n=8     sum=   0.002s in=    0.08GB
+q16.r0: pass 739ms frags=17 tasks=179 span=0.488s Q=0.01 Rsv=0.01 Prep=0.01 Comp=1.03 Fin=0.00 req=249.4GB est=249.4GB alloc=73.1GB in=91.8GB batches=148/92.58GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/39b/23.79GB
+      GPU_SCAN             n=12    sum=   0.427s in=   15.66GB
+      HASH_GROUP_BY        n=24    sum=   0.304s in=   15.95GB
+      DYNAMIC_FILTER       n=16    sum=   0.094s in=   26.40GB
+      MERGE_GROUP_BY       n=12    sum=   0.060s in=   10.66GB
+      HASH_JOIN            n=8     sum=   0.044s in=    7.66GB
+      FILTER               n=8     sum=   0.037s in=   13.83GB
+      STREAMING_SINK       n=16    sum=   0.036s in=   11.94GB
+      ORDER_BY             n=8     sum=   0.015s in=    0.00GB
+q16.r1: pass 647ms frags=17 tasks=179 span=0.494s Q=0.01 Rsv=0.01 Prep=0.01 Comp=1.07 Fin=0.00 req=250.5GB est=250.5GB alloc=73.1GB in=91.8GB batches=148/92.58GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/39b/23.79GB
+      GPU_SCAN             n=12    sum=   0.469s in=   15.66GB
+      HASH_GROUP_BY        n=24    sum=   0.304s in=   15.95GB
+      DYNAMIC_FILTER       n=16    sum=   0.092s in=   26.40GB
+      MERGE_GROUP_BY       n=12    sum=   0.059s in=   10.66GB
+      HASH_JOIN            n=8     sum=   0.043s in=    7.66GB
+      FILTER               n=8     sum=   0.037s in=   13.83GB
+      STREAMING_SINK       n=16    sum=   0.036s in=   11.94GB
+      ORDER_BY             n=8     sum=   0.013s in=    0.00GB
+q16.r2: pass 682ms frags=17 tasks=179 span=0.495s Q=0.01 Rsv=0.01 Prep=0.01 Comp=1.03 Fin=0.00 req=248.9GB est=248.9GB alloc=73.1GB in=91.8GB batches=148/92.58GB leases=0/0.00GB held=0.00s maxconc=0 nixl=39/39b/23.79GB
+      GPU_SCAN             n=12    sum=   0.433s in=   15.66GB
+      HASH_GROUP_BY        n=24    sum=   0.299s in=   15.95GB
+      DYNAMIC_FILTER       n=16    sum=   0.092s in=   26.40GB
+      MERGE_GROUP_BY       n=12    sum=   0.060s in=   10.66GB
+      HASH_JOIN            n=8     sum=   0.043s in=    7.66GB
+      FILTER               n=8     sum=   0.037s in=   13.83GB
+      STREAMING_SINK       n=16    sum=   0.037s in=   11.94GB
+      ORDER_BY             n=8     sum=   0.013s in=    0.00GB
+q17.r0: fail 1320ms frags=4 tasks=48 span=1.066s Q=13.87 Rsv=0.00 Prep=0.07 Comp=11.48 Fin=0.00 req=640.1GB est=640.1GB alloc=274.5GB in=122.2GB batches=240/242.25GB leases=0/0.00GB held=0.00s maxconc=0 nixl=2/24b/14.97GB
+      GPU_SCAN             n=48    sum=  11.171s in=  122.25GB
+      STREAMING_SINK       n=48    sum=   0.305s in=  122.25GB
+q18.r0: fail 1349ms frags=16 tasks=152 span=1.156s Q=5.80 Rsv=0.01 Prep=0.08 Comp=11.40 Fin=0.00 req=1439.2GB est=1439.2GB alloc=611.6GB in=283.9GB batches=600/565.29GB leases=0/0.00GB held=0.00s maxconc=0 nixl=36/96b/47.94GB
+      GPU_SCAN             n=100   sum=   9.161s in=  235.69GB
+      HASH_GROUP_BY        n=40    sum=   0.885s in=   97.50GB
+      MERGE_GROUP_BY       n=12    sum=   0.682s in=   24.00GB
+      STREAMING_SINK       n=72    sum=   0.421s in=  162.19GB
+      PROJECTION           n=40    sum=   0.133s in=   97.50GB
+      PARTITION            n=40    sum=   0.118s in=   24.19GB
+q19.r0: pass 1557ms frags=13 tasks=1151 span=1.301s Q=70.57 Rsv=0.03 Prep=0.08 Comp=15.99 Fin=0.00 req=712.1GB est=712.1GB alloc=485.6GB in=231.6GB batches=1885/47.20GB leases=0/0.00GB held=0.00s maxconc=0 nixl=27/378b/2.75GB
+      GPU_SCAN             n=125   sum=  14.687s in=  227.88GB
+      FILTER               n=629   sum=   0.883s in=   35.24GB
+      STREAMING_SINK       n=129   sum=   0.221s in=    3.73GB
+      DYNAMIC_FILTER       n=484   sum=   0.152s in=    3.60GB
+      PARTITION            n=500   sum=   0.014s in=    0.02GB
+      CONCAT               n=8     sum=   0.012s in=    0.02GB
+      STREAMING_SOURCE     n=504   sum=   0.010s in=    3.67GB
+      PROJECTION           n=125   sum=   0.009s in=    4.59GB
+q19.r1: pass 1415ms frags=13 tasks=1151 span=1.227s Q=70.46 Rsv=0.03 Prep=0.11 Comp=15.49 Fin=0.00 req=712.1GB est=712.1GB alloc=485.6GB in=231.6GB batches=1885/47.20GB leases=0/0.00GB held=0.00s maxconc=0 nixl=27/378b/2.75GB
+      GPU_SCAN             n=125   sum=  14.067s in=  227.88GB
+      FILTER               n=629   sum=   0.967s in=   35.24GB
+      STREAMING_SINK       n=129   sum=   0.246s in=    3.73GB
+      DYNAMIC_FILTER       n=484   sum=   0.157s in=    3.60GB
+      PARTITION            n=500   sum=   0.015s in=    0.02GB
+      CONCAT               n=8     sum=   0.012s in=    0.02GB
+      PROJECTION           n=125   sum=   0.012s in=    4.59GB
+      STREAMING_SOURCE     n=504   sum=   0.011s in=    3.67GB
+q19.r2: pass 1503ms frags=13 tasks=1151 span=1.313s Q=73.32 Rsv=0.03 Prep=0.09 Comp=16.02 Fin=0.00 req=712.1GB est=712.1GB alloc=485.6GB in=231.6GB batches=1885/47.20GB leases=0/0.00GB held=0.00s maxconc=0 nixl=27/378b/2.75GB
+      GPU_SCAN             n=125   sum=  14.607s in=  227.88GB
+      FILTER               n=629   sum=   1.007s in=   35.24GB
+      STREAMING_SINK       n=129   sum=   0.190s in=    3.73GB
+      DYNAMIC_FILTER       n=484   sum=   0.159s in=    3.60GB
+      PARTITION            n=500   sum=   0.015s in=    0.02GB
+      CONCAT               n=8     sum=   0.013s in=    0.02GB
+      STREAMING_SOURCE     n=504   sum=   0.011s in=    3.67GB
+      PROJECTION           n=125   sum=   0.010s in=    4.59GB
+q20.r0: pass 1777ms frags=26 tasks=400 span=1.509s Q=16.88 Rsv=0.01 Prep=0.02 Comp=15.65 Fin=0.00 req=731.1GB est=731.1GB alloc=321.0GB in=224.3GB batches=447/124.17GB leases=0/0.00GB held=0.00s maxconc=0 nixl=66/78b/15.01GB
+      GPU_SCAN             n=61    sum=  14.263s in=  109.57GB
+      HASH_GROUP_BY        n=80    sum=   0.638s in=   25.14GB
+      MERGE_GROUP_BY       n=12    sum=   0.413s in=   24.36GB
+      PARTITION            n=160   sum=   0.107s in=   39.82GB
+      HASH_JOIN            n=16    sum=   0.082s in=   15.25GB
+      STREAMING_SINK       n=29    sum=   0.068s in=   20.27GB
+      PROJECTION           n=60    sum=   0.040s in=   15.03GB
+      ORDER_BY             n=8     sum=   0.019s in=    0.01GB
+q20.r1: pass 1836ms frags=26 tasks=400 span=1.528s Q=16.96 Rsv=0.01 Prep=0.02 Comp=15.56 Fin=0.00 req=735.1GB est=735.1GB alloc=320.9GB in=224.3GB batches=447/124.13GB leases=0/0.00GB held=0.00s maxconc=0 nixl=66/78b/15.01GB
+      GPU_SCAN             n=61    sum=  14.214s in=  109.57GB
+      HASH_GROUP_BY        n=80    sum=   0.636s in=   25.14GB
+      MERGE_GROUP_BY       n=12    sum=   0.408s in=   24.34GB
+      PARTITION            n=160   sum=   0.108s in=   39.80GB
+      STREAMING_SINK       n=29    sum=   0.069s in=   20.27GB
+      HASH_JOIN            n=16    sum=   0.054s in=   15.25GB
+      PROJECTION           n=60    sum=   0.036s in=   15.03GB
+      ORDER_BY             n=8     sum=   0.018s in=    0.01GB
+q20.r2: pass 1786ms frags=26 tasks=400 span=1.545s Q=16.89 Rsv=0.01 Prep=0.02 Comp=15.64 Fin=0.00 req=730.3GB est=730.3GB alloc=320.9GB in=224.2GB batches=447/124.10GB leases=0/0.00GB held=0.00s maxconc=0 nixl=66/78b/15.01GB
+      GPU_SCAN             n=61    sum=  14.318s in=  109.57GB
+      HASH_GROUP_BY        n=80    sum=   0.609s in=   25.14GB
+      MERGE_GROUP_BY       n=12    sum=   0.406s in=   24.32GB
+      PARTITION            n=160   sum=   0.108s in=   39.79GB
+      STREAMING_SINK       n=29    sum=   0.072s in=   20.27GB
+      HASH_JOIN            n=16    sum=   0.054s in=   15.25GB
+      PROJECTION           n=60    sum=   0.037s in=   15.03GB
+      ORDER_BY             n=8     sum=   0.019s in=    0.01GB
+q21.r0: fail 2103ms frags=13 tasks=105 span=1.865s Q=24.94 Rsv=0.01 Prep=0.09 Comp=21.31 Fin=0.00 req=1093.4GB est=1093.4GB alloc=518.9GB in=258.2GB batches=716/720.57GB leases=0/0.00GB held=0.00s maxconc=0 nixl=27/171b/61.29GB
+      GPU_SCAN             n=105   sum=  20.264s in=  258.19GB
+      FILTER               n=96    sum=   0.644s in=  246.00GB
+      STREAMING_SINK       n=105   sum=   0.392s in=  161.47GB
+      PROJECTION           n=96    sum=   0.008s in=  155.53GB
+q22.r0: pass 903ms frags=18 tasks=180 span=0.660s Q=0.01 Rsv=0.01 Prep=0.01 Comp=3.59 Fin=0.00 req=252.3GB est=252.3GB alloc=135.0GB in=115.9GB batches=224/85.85GB leases=0/0.00GB held=0.00s maxconc=0 nixl=33/29b/18.56GB
+      HASH_JOIN            n=16    sum=   2.050s in=   26.08GB
+      GPU_SCAN             n=12    sum=   1.159s in=   12.11GB
+      PARTITION            n=52    sum=   0.285s in=   26.84GB
+      CONCAT               n=32    sum=   0.022s in=   26.08GB
+      HASH_GROUP_BY        n=24    sum=   0.020s in=    0.09GB
+      FILTER               n=12    sum=   0.016s in=    6.95GB
+      PROJECTION           n=32    sum=   0.013s in=    2.76GB
+      STREAMING_SINK       n=16    sum=   0.009s in=    6.19GB
+q22.r1: pass 845ms frags=6 tasks=180 span=0.662s Q=0.01 Rsv=0.01 Prep=0.01 Comp=3.63 Fin=0.00 req=252.3GB est=252.3GB alloc=135.0GB in=115.9GB batches=224/85.85GB leases=0/0.00GB held=0.00s maxconc=0 nixl=33/29b/18.56GB
+      HASH_JOIN            n=16    sum=   2.040s in=   26.08GB
+      GPU_SCAN             n=12    sum=   1.211s in=   12.11GB
+      PARTITION            n=52    sum=   0.286s in=   26.84GB
+      HASH_GROUP_BY        n=24    sum=   0.026s in=    0.09GB
+      CONCAT               n=32    sum=   0.023s in=   26.08GB
+      PROJECTION           n=32    sum=   0.014s in=    2.76GB
+      FILTER               n=12    sum=   0.010s in=    6.95GB
+      STREAMING_SINK       n=16    sum=   0.005s in=    6.19GB
+q22.r2: pass 859ms frags=0 tasks=178 span=0.000s Q=0.01 Rsv=0.01 Prep=0.01 Comp=3.66 Fin=0.00 req=257.0GB est=257.0GB alloc=135.0GB in=115.9GB batches=200/85.85GB leases=0/0.00GB held=0.00s maxconc=0 nixl=33/29b/18.56GB
+      HASH_JOIN            n=16    sum=   2.039s in=   26.08GB
+      GPU_SCAN             n=12    sum=   1.246s in=   12.11GB
+      PARTITION            n=52    sum=   0.286s in=   26.84GB
+      HASH_GROUP_BY        n=24    sum=   0.024s in=    0.09GB
+      CONCAT               n=32    sum=   0.023s in=   26.08GB
+      PROJECTION           n=32    sum=   0.014s in=    2.76GB
+      FILTER               n=12    sum=   0.010s in=    6.95GB
+      UNGROUPED_AGGREGATE  n=8     sum=   0.006s in=    0.62GB

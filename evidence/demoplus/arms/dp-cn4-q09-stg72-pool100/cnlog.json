@@ -1,0 +1,98 @@
+{
+ "q09.r0": {
+  "status": "fail",
+  "ms": 8340,
+  "rows": 0,
+  "query_ids": [
+   "aacb68a389c1"
+  ],
+  "fragments": 11,
+  "roles": {
+   "sender": 11
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9112",
+    6292
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    5924
+   ],
+   [
+    "sender",
+    "127.0.0.1:9112",
+    367
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    339
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    252
+   ],
+   [
+    "sender",
+    "127.0.0.1:9112",
+    249
+   ],
+   [
+    "sender",
+    "127.0.0.1:9112",
+    158
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    152
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    42
+   ],
+   [
+    "sender",
+    "127.0.0.1:9112",
+    14
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    8
+   ]
+  ],
+  "declared_cardinalities": [],
+  "relayed_batches": 0,
+  "relayed_streams": 0,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [
+   "failed to execute fragment: std::bad_alloc: out_of_memory: not enough capacity to allocate memory",
+   "failed to execute fragment: std::bad_alloc: out_of_memory: not enough capacity to allocate memory"
+  ],
+  "cancels": 20,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 2,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 6,
+   "futile_aborts": 0,
+   "partial_proceed": 6
+  }
+ }
+}

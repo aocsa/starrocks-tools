@@ -1,0 +1,102 @@
+{
+ "q09.r0": {
+  "status": "fail",
+  "ms": 10522,
+  "rows": 0,
+  "query_ids": [
+   "5493b6691fac"
+  ],
+  "fragments": 22,
+  "roles": {
+   "sender": 22
+  },
+  "fragment_ms": [
+   [
+    "sender",
+    "127.0.0.1:9122",
+    4733
+   ],
+   [
+    "sender",
+    "127.0.0.1:9112",
+    4731
+   ],
+   [
+    "sender",
+    "127.0.0.1:9132",
+    4729
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    4707
+   ],
+   [
+    "sender",
+    "127.0.0.1:9132",
+    3512
+   ],
+   [
+    "sender",
+    "127.0.0.1:9122",
+    3232
+   ],
+   [
+    "sender",
+    "127.0.0.1:9112",
+    3043
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    2721
+   ],
+   [
+    "sender",
+    "127.0.0.1:9112",
+    202
+   ],
+   [
+    "sender",
+    "127.0.0.1:9122",
+    198
+   ],
+   [
+    "sender",
+    "127.0.0.1:9122",
+    194
+   ],
+   [
+    "sender",
+    "127.0.0.1:9102",
+    193
+   ]
+  ],
+  "declared_cardinalities": [],
+  "relayed_batches": 0,
+  "relayed_streams": 0,
+  "transmits": [],
+  "transmit_bytes": 0,
+  "failures": [
+   "failed to push a staged remote batch from sender 0 into stream 4: std::bad_alloc: out_of_memory: not enough capacity to allocate memory"
+  ],
+  "cancels": 41,
+  "warnings": {},
+  "fix_counters": {
+   "fix2_skipped": 0,
+   "fix2_retired": 4,
+   "fix4_fused": 0,
+   "fix4_skipped": 0
+  },
+  "engine": {
+   "oom_reschedules": 0,
+   "oom_ops": {},
+   "retry_exhausted": 0,
+   "reservation_failed": 0,
+   "reservation_clamped": 0,
+   "downgrade_lines": 0,
+   "futile_aborts": 0,
+   "partial_proceed": 0
+  }
+ }
+}

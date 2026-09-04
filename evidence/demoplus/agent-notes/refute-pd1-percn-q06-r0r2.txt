@@ -1,0 +1,96 @@
+########## DP q06.r0
+### dp-cn4 q06.r0 client ms=1304 (ms since client start)
+    16.6  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=0.3ms
+   201.4  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=0.2ms
+   206.5  START  sender cn=127.0.0.1:9122 fid=..1c92 inputs=0 outputs=1
+   206.5  START  sender cn=127.0.0.1:9132 fid=..1c90 inputs=0 outputs=1
+   206.5  START  sender cn=127.0.0.1:9102 fid=..1c91 inputs=0 outputs=1
+   727.3  FINISH sender cn=127.0.0.1:9102 fid=..1c91 elapsed=520ms
+   728.7  TX stream_id=3 sender_id=2 dest=127.0.0.1:9112 batches=1 bytes=64
+   729.1  RPC exec_plan_fragment close peer=127.0.0.1:57324 busy=0.0ms idle=524.0ms
+   846.3  FINISH sender cn=127.0.0.1:9122 fid=..1c92 elapsed=639ms
+   847.9  TX stream_id=3 sender_id=3 dest=127.0.0.1:9112 batches=1 bytes=64
+   848.2  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=643.0ms
+   855.0  FINISH sender cn=127.0.0.1:9132 fid=..1c90 elapsed=648ms
+   856.3  TX stream_id=3 sender_id=1 dest=127.0.0.1:9112 batches=1 bytes=64
+   856.5  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=651.0ms
+   858.6  START  sender cn=127.0.0.1:9112 fid=..1c8f inputs=0 outputs=1
+  1295.8  FINISH sender cn=127.0.0.1:9112 fid=..1c8f elapsed=437ms
+  1296.1  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=439.0ms
+  1296.1  START  result cn=127.0.0.1:9112 fid=..1c8e inputs=4 outputs=0
+  1300.1  FINISH result cn=127.0.0.1:9112 fid=..1c8e elapsed=3ms
+  1300.1  RPC fetch_data close
+  1300.7  RPC fetch_data close
+
+########## BASE q06.r0
+### cn4 q06.r0 client ms=835 (ms since client start)
+    12.7  RPC exec_plan_fragment close peer=127.0.0.1:44692 busy=0.0ms idle=0.2ms
+   169.7  RPC exec_plan_fragment close peer=127.0.0.1:58934 busy=0.0ms idle=0.2ms
+   174.1  RPC exec_plan_fragment close peer=127.0.0.1:33644 busy=0.0ms idle=0.8ms
+   174.2  RPC exec_plan_fragment close peer=127.0.0.1:59790 busy=0.0ms idle=0.9ms
+   174.2  RPC exec_plan_fragment close peer=127.0.0.1:44692 busy=0.0ms idle=0.9ms
+   174.3  START  sender cn=127.0.0.1:9132 fid=..ef81 inputs=0 outputs=1
+   174.3  START  sender cn=127.0.0.1:9122 fid=..ef80 inputs=0 outputs=1
+   174.3  START  sender cn=127.0.0.1:9112 fid=..ef82 inputs=0 outputs=1
+   175.2  RPC exec_plan_fragment close peer=127.0.0.1:58934 busy=0.0ms idle=0.8ms
+   175.4  START  sender cn=127.0.0.1:9102 fid=..ef7f inputs=0 outputs=1
+   797.8  FINISH sender cn=127.0.0.1:9132 fid=..ef81 elapsed=623ms
+   799.4  TX query_id=01a0676d-0079-7fba-a93a-a672529eef7d fragment_instance_id=01a0676d-0079-7fba-a93a-a672529eef81 receiver_fragment_instance_id=01a0676d-0079-7fba-a93a-a672529eef7e
+   804.6  FINISH sender cn=127.0.0.1:9112 fid=..ef82 elapsed=630ms
+   805.7  TX query_id=01a0676d-0079-7fba-a93a-a672529eef7d fragment_instance_id=01a0676d-0079-7fba-a93a-a672529eef82 receiver_fragment_instance_id=01a0676d-0079-7fba-a93a-a672529eef7e
+   814.1  FINISH sender cn=127.0.0.1:9102 fid=..ef7f elapsed=638ms
+   826.0  FINISH sender cn=127.0.0.1:9122 fid=..ef80 elapsed=651ms
+   827.2  START  result cn=127.0.0.1:9102 fid=..ef7e inputs=4 outputs=0
+   827.2  TX query_id=01a0676d-0079-7fba-a93a-a672529eef7d fragment_instance_id=01a0676d-0079-7fba-a93a-a672529eef80 receiver_fragment_instance_id=01a0676d-0079-7fba-a93a-a672529eef7e
+   831.8  FINISH result cn=127.0.0.1:9102 fid=..ef7e elapsed=4ms
+   831.8  RPC fetch_data close
+   832.5  RPC fetch_data close
+
+########## DP q06.r2
+### dp-cn4 q06.r2 client ms=1239 (ms since client start)
+    17.4  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=0.2ms
+   151.9  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=0.2ms
+   156.5  START  sender cn=127.0.0.1:9102 fid=..de79 inputs=0 outputs=1
+   156.5  START  sender cn=127.0.0.1:9132 fid=..de78 inputs=0 outputs=1
+   156.5  START  sender cn=127.0.0.1:9122 fid=..de7a inputs=0 outputs=1
+   646.4  FINISH sender cn=127.0.0.1:9102 fid=..de79 elapsed=489ms
+   647.6  TX stream_id=3 sender_id=2 dest=127.0.0.1:9112 batches=1 bytes=64
+   648.0  RPC exec_plan_fragment close peer=127.0.0.1:57324 busy=0.0ms idle=493.0ms
+   813.2  FINISH sender cn=127.0.0.1:9122 fid=..de7a elapsed=656ms
+   815.3  TX stream_id=3 sender_id=3 dest=127.0.0.1:9112 batches=1 bytes=64
+   815.5  FINISH sender cn=127.0.0.1:9132 fid=..de78 elapsed=659ms
+   815.6  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=660.0ms
+   816.8  TX stream_id=3 sender_id=1 dest=127.0.0.1:9112 batches=1 bytes=64
+   817.1  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=662.0ms
+   819.0  START  sender cn=127.0.0.1:9112 fid=..de77 inputs=0 outputs=1
+  1231.2  FINISH sender cn=127.0.0.1:9112 fid=..de77 elapsed=412ms
+  1231.4  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=414.0ms
+  1231.5  START  result cn=127.0.0.1:9112 fid=..de76 inputs=4 outputs=0
+  1235.5  FINISH result cn=127.0.0.1:9112 fid=..de76 elapsed=3ms
+  1235.5  RPC fetch_data close
+  1236.1  RPC fetch_data close
+
+########## BASE q06.r2
+### cn4 q06.r2 client ms=852 (ms since client start)
+    16.3  RPC exec_plan_fragment close peer=127.0.0.1:44692 busy=0.0ms idle=0.2ms
+   157.7  RPC exec_plan_fragment close peer=127.0.0.1:58934 busy=0.0ms idle=0.1ms
+   162.0  RPC exec_plan_fragment close peer=127.0.0.1:33644 busy=0.0ms idle=0.9ms
+   162.1  RPC exec_plan_fragment close peer=127.0.0.1:44692 busy=0.0ms idle=0.9ms
+   162.1  RPC exec_plan_fragment close peer=127.0.0.1:59790 busy=0.0ms idle=0.9ms
+   162.2  START  sender cn=127.0.0.1:9132 fid=..c579 inputs=0 outputs=1
+   162.2  START  sender cn=127.0.0.1:9122 fid=..c578 inputs=0 outputs=1
+   162.3  START  sender cn=127.0.0.1:9112 fid=..c57a inputs=0 outputs=1
+   163.3  RPC exec_plan_fragment close peer=127.0.0.1:58934 busy=0.0ms idle=0.9ms
+   163.4  START  sender cn=127.0.0.1:9102 fid=..c577 inputs=0 outputs=1
+   811.7  FINISH sender cn=127.0.0.1:9122 fid=..c578 elapsed=649ms
+   813.3  TX query_id=01a0676d-071c-7c53-852a-c81f4beac575 fragment_instance_id=01a0676d-071c-7c53-852a-c81f4beac578 receiver_fragment_instance_id=01a0676d-071c-7c53-852a-c81f4beac576
+   822.4  FINISH sender cn=127.0.0.1:9132 fid=..c579 elapsed=660ms
+   823.7  TX query_id=01a0676d-071c-7c53-852a-c81f4beac575 fragment_instance_id=01a0676d-071c-7c53-852a-c81f4beac579 receiver_fragment_instance_id=01a0676d-071c-7c53-852a-c81f4beac576
+   833.7  FINISH sender cn=127.0.0.1:9112 fid=..c57a elapsed=671ms
+   834.6  TX query_id=01a0676d-071c-7c53-852a-c81f4beac575 fragment_instance_id=01a0676d-071c-7c53-852a-c81f4beac57a receiver_fragment_instance_id=01a0676d-071c-7c53-852a-c81f4beac576
+   844.4  FINISH sender cn=127.0.0.1:9102 fid=..c577 elapsed=680ms
+   844.6  START  result cn=127.0.0.1:9102 fid=..c576 inputs=4 outputs=0
+   848.5  FINISH result cn=127.0.0.1:9102 fid=..c576 elapsed=3ms
+   848.5  RPC fetch_data close
+   849.6  RPC fetch_data close
+

@@ -1,0 +1,1 @@
+ERROR 1064 (HY000) at line 1: request_staging_lease failed with status 6: staging lease of 585166464 bytes failed: exchange staging arena exhausted: requested 585166464 bytes (585166592 aligned), 987268608 free of 51539607552 capacity in 11 blocks (largest 462846976), 95 leases outstanding holding 50552338944 bytes (raise SIRIUS_EXCHANGE_STAGING_BYTES) backend [id=10004] [

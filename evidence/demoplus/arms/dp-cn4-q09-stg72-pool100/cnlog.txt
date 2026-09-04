@@ -1,0 +1,1 @@
+q09.r0: fail 8340ms frags=11 {'sender': 11} relayed=0b/0s  cards[] slowest=[('sender', '127.0.0.1:9112', 6292), ('sender', '127.0.0.1:9102', 5924), ('sender', '127.0.0.1:9112', 367)] fail=2 cancels=20 oom_resched=0 clamped=0 futile=0 partial=6 fix={'fix2_retired': 2}

@@ -1,0 +1,46 @@
+### dp-cn4 q01.r1 client ms=1846 (ms since client start)
+    15.3  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=0.3ms
+   171.5  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=0.2ms
+   176.1  RPC exec_plan_fragment close peer=127.0.0.1:57324 busy=0.0ms idle=0.4ms
+   176.1  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=0.4ms
+   176.4  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=0.4ms
+   177.4  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=0.3ms
+   189.9  START  sender cn=127.0.0.1:9112 fid=..7362 inputs=0 outputs=4
+   190.1  START  sender cn=127.0.0.1:9132 fid=..7363 inputs=0 outputs=4
+   190.1  START  sender cn=127.0.0.1:9102 fid=..7364 inputs=0 outputs=4
+   190.2  START  sender cn=127.0.0.1:9122 fid=..7365 inputs=0 outputs=4
+  1591.0  FINISH sender cn=127.0.0.1:9132 fid=..7363 elapsed=1400ms
+  1592.6  TX stream_id=3 sender_id=1 dest=127.0.0.1:9102 batches=1 bytes=960
+  1593.0  TX stream_id=3 sender_id=1 dest=127.0.0.1:9122 batches=0 bytes=0
+  1593.8  TX stream_id=3 sender_id=1 dest=127.0.0.1:9112 batches=1 bytes=960
+  1594.2  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=1410.0ms
+  1744.7  FINISH sender cn=127.0.0.1:9122 fid=..7365 elapsed=1554ms
+  1746.1  TX stream_id=3 sender_id=3 dest=127.0.0.1:9102 batches=1 bytes=960
+  1747.1  TX stream_id=3 sender_id=3 dest=127.0.0.1:9112 batches=1 bytes=960
+  1747.3  TX stream_id=3 sender_id=3 dest=127.0.0.1:9132 batches=0 bytes=0
+  1747.7  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=1560.0ms
+  1781.2  FINISH sender cn=127.0.0.1:9112 fid=..7362 elapsed=1591ms
+  1782.1  TX stream_id=3 sender_id=0 dest=127.0.0.1:9102 batches=1 bytes=960
+  1782.3  TX stream_id=3 sender_id=0 dest=127.0.0.1:9122 batches=0 bytes=0
+  1782.5  TX stream_id=3 sender_id=0 dest=127.0.0.1:9132 batches=0 bytes=0
+  1782.8  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=1590.0ms
+  1808.8  FINISH sender cn=127.0.0.1:9102 fid=..7364 elapsed=1618ms
+  1809.1  TX stream_id=3 sender_id=2 dest=127.0.0.1:9122 batches=0 bytes=0
+  1809.3  START  sender cn=127.0.0.1:9122 fid=..735f inputs=4 outputs=1
+  1809.9  TX stream_id=3 sender_id=2 dest=127.0.0.1:9112 batches=1 bytes=960
+  1810.1  START  sender cn=127.0.0.1:9112 fid=..7360 inputs=4 outputs=1
+  1810.1  TX stream_id=3 sender_id=2 dest=127.0.0.1:9132 batches=0 bytes=0
+  1810.2  START  sender cn=127.0.0.1:9132 fid=..7361 inputs=4 outputs=1
+  1810.5  RPC exec_plan_fragment close peer=127.0.0.1:57324 busy=0.0ms idle=1620.0ms
+  1810.6  START  sender cn=127.0.0.1:9102 fid=..735e inputs=4 outputs=1
+  1813.7  FINISH sender cn=127.0.0.1:9122 fid=..735f elapsed=4ms
+  1813.9  TX stream_id=6 sender_id=1 dest=127.0.0.1:9112 batches=0 bytes=0
+  1814.4  FINISH sender cn=127.0.0.1:9132 fid=..7361 elapsed=4ms
+  1814.6  TX stream_id=6 sender_id=3 dest=127.0.0.1:9112 batches=0 bytes=0
+  1819.4  FINISH sender cn=127.0.0.1:9102 fid=..735e elapsed=8ms
+  1820.1  TX stream_id=6 sender_id=0 dest=127.0.0.1:9112 batches=1 bytes=960
+  1829.5  FINISH sender cn=127.0.0.1:9112 fid=..7360 elapsed=19ms
+  1829.7  START  result cn=127.0.0.1:9112 fid=..735d inputs=4 outputs=0
+  1841.9  FINISH result cn=127.0.0.1:9112 fid=..735d elapsed=12ms
+  1842.0  RPC fetch_data close
+  1842.8  RPC fetch_data close

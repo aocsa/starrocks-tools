@@ -1,0 +1,434 @@
+## sirius_streaming_fragment [ing_fragment]: fragments=85 span=88.929s tasks=5628 leases=0 lease_GB=0.00 lease_held=0.000s batches=14834 dwell_sum=3630.276s
+   [.cn0] sirius_streaming_fragment                wall=11.864s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.024 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=11.866s
+        GPU_SCAN(0)            n=1    sum=   0.024s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.890s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.010 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.010s in=   0.08GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.802s tasks=27 Q=2.724 Rsv=0.001 Prep=0.001 Comp=2.234 Fin=0.000 req=119.4GB est=119.4GB alloc=55.3GB in=31.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=17 dwell_max=0.587s
+        GPU_SCAN(3)            n=10   sum=   1.957s in=  18.37GB
+        HASH_JOIN(7)           n=2    sum=   0.134s in=   3.97GB
+        GPU_SCAN(0)            n=1    sum=   0.119s in=   1.24GB
+        CONCAT(6)              n=2    sum=   0.012s in=   2.79GB
+   [.cn0] sirius_streaming_fragment                wall=10.911s tasks=353 Q=628.248 Rsv=0.066 Prep=3.221 Comp=40.130 Fin=0.001 req=801.9GB est=550.0GB alloc=298.6GB in=756.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=225 dwell_max=9.176s
+        GPU_SCAN(6)            n=65   sum=  37.357s in= 171.00GB
+        HASH_JOIN(9)           n=65   sum=   2.251s in= 171.48GB
+        HASH_JOIN(13)          n=10   sum=   0.281s in=  21.93GB
+        PROJECTION(10)         n=65   sum=   0.132s in=  36.52GB
+   [.cn0] sirius_streaming_fragment                wall=0.036s tasks=33 Q=0.004 Rsv=0.001 Prep=0.001 Comp=0.031 Fin=0.000 req=10.5GB est=10.5GB alloc=2.9GB in=6.3GB leases=0/0.00GB held=0.000s maxconc=0 batches=11 dwell_max=0.014s
+        PROJECTION(15)         n=1    sum=   0.008s in=   0.25GB
+        HASH_JOIN(10)          n=1    sum=   0.007s in=   0.73GB
+        HASH_GROUP_BY(16)      n=1    sum=   0.006s in=   0.13GB
+        HASH_JOIN(14)          n=1    sum=   0.004s in=   1.14GB
+   [.cn0] sirius_streaming_fragment                wall=0.010s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.005 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.005s
+        ORDER_BY(5)            n=1    sum=   0.005s in=   0.00GB
+        HASH_GROUP_BY(1)       n=1    sum=   0.001s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=5.107s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=5.122s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.627s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.006 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.006s in=   0.08GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.542s tasks=27 Q=2.067 Rsv=0.001 Prep=0.001 Comp=1.675 Fin=0.000 req=119.4GB est=119.4GB alloc=55.3GB in=31.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=17 dwell_max=0.467s
+        GPU_SCAN(3)            n=10   sum=   1.510s in=  18.37GB
+        HASH_JOIN(7)           n=2    sum=   0.115s in=   3.97GB
+        GPU_SCAN(0)            n=1    sum=   0.026s in=   1.24GB
+        CONCAT(6)              n=2    sum=   0.016s in=   2.79GB
+   [.cn0] sirius_streaming_fragment                wall=4.417s tasks=353 Q=236.670 Rsv=0.185 Prep=4.691 Comp=12.240 Fin=0.001 req=802.5GB est=547.6GB alloc=301.1GB in=756.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=225 dwell_max=3.124s
+        GPU_SCAN(6)            n=65   sum=   9.373s in= 171.00GB
+        HASH_JOIN(9)           n=65   sum=   2.252s in= 170.92GB
+        HASH_JOIN(13)          n=10   sum=   0.310s in=  21.93GB
+        CONCAT(12)             n=10   sum=   0.168s in=  21.87GB
+   [.cn0] sirius_streaming_fragment                wall=0.023s tasks=33 Q=0.004 Rsv=0.001 Prep=0.001 Comp=0.018 Fin=0.000 req=10.4GB est=10.4GB alloc=2.9GB in=6.3GB leases=0/0.00GB held=0.000s maxconc=0 batches=11 dwell_max=0.009s
+        HASH_JOIN(10)          n=1    sum=   0.007s in=   0.73GB
+        HASH_JOIN(14)          n=1    sum=   0.004s in=   1.14GB
+        GPU_SCAN(3)            n=1    sum=   0.002s in=   0.00GB
+        DYNAMIC_FILTER(7)      n=10   sum=   0.002s in=   0.73GB
+   [.cn0] sirius_streaming_fragment                wall=0.005s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.004s
+        HASH_GROUP_BY(1)       n=1    sum=   0.001s in=   0.00GB
+        ORDER_BY(5)            n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=5.436s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.003 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=5.451s
+        GPU_SCAN(0)            n=1    sum=   0.003s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.616s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.005 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.005s in=   0.08GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.532s tasks=27 Q=2.120 Rsv=0.000 Prep=0.001 Comp=1.655 Fin=0.000 req=119.4GB est=119.4GB alloc=55.3GB in=31.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=17 dwell_max=0.457s
+        GPU_SCAN(3)            n=10   sum=   1.491s in=  18.37GB
+        HASH_JOIN(7)           n=2    sum=   0.115s in=   3.97GB
+        GPU_SCAN(0)            n=1    sum=   0.027s in=   1.24GB
+        CONCAT(6)              n=2    sum=   0.016s in=   2.79GB
+   [.cn0] sirius_streaming_fragment                wall=4.758s tasks=353 Q=252.038 Rsv=0.139 Prep=4.693 Comp=13.177 Fin=0.001 req=854.0GB est=548.5GB alloc=352.0GB in=757.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=225 dwell_max=3.792s
+        GPU_SCAN(6)            n=65   sum=  10.455s in= 171.00GB
+        HASH_JOIN(9)           n=65   sum=   2.010s in= 171.25GB
+        HASH_JOIN(13)          n=10   sum=   0.413s in=  21.93GB
+        CONCAT(12)             n=10   sum=   0.116s in=  21.87GB
+   [.cn0] sirius_streaming_fragment                wall=0.024s tasks=33 Q=0.004 Rsv=0.001 Prep=0.001 Comp=0.018 Fin=0.000 req=10.3GB est=10.3GB alloc=2.9GB in=6.3GB leases=0/0.00GB held=0.000s maxconc=0 batches=11 dwell_max=0.009s
+        HASH_JOIN(10)          n=1    sum=   0.007s in=   0.73GB
+        HASH_JOIN(14)          n=1    sum=   0.004s in=   1.14GB
+        GPU_SCAN(3)            n=1    sum=   0.002s in=   0.00GB
+        DYNAMIC_FILTER(7)      n=10   sum=   0.002s in=   0.73GB
+   [.cn0] sirius_streaming_fragment                wall=0.005s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.004s
+        HASH_GROUP_BY(1)       n=1    sum=   0.001s in=   0.00GB
+        ORDER_BY(5)            n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.652s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.006 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.737s
+        GPU_SCAN(0)            n=1    sum=   0.006s in=   0.08GB
+        PROJECTION(1)          n=1    sum=   0.000s in=   0.08GB
+        STREAMING_SINK(2)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.624s tasks=10 Q=1.325 Rsv=0.000 Prep=0.000 Comp=1.539 Fin=0.000 req=113.9GB est=113.9GB alloc=50.2GB in=24.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=10 dwell_max=3.337s
+        GPU_SCAN(0)            n=10   sum=   1.539s in=  24.56GB
+        STREAMING_SINK(1)      n=10   sum=   0.000s in=   7.46GB
+   [.cn0] sirius_streaming_fragment                wall=0.206s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.025 Fin=0.000 req=9.9GB est=9.9GB alloc=3.2GB in=1.2GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.286s
+        GPU_SCAN(0)            n=1    sum=   0.025s in=   1.24GB
+        PROJECTION(1)          n=1    sum=   0.000s in=   1.24GB
+        STREAMING_SINK(2)      n=1    sum=   0.000s in=   1.24GB
+   [.cn0] sirius_streaming_fragment                wall=0.176s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.169s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.162s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=2.884s tasks=213 Q=188.726 Rsv=0.004 Prep=0.011 Comp=11.151 Fin=0.001 req=537.5GB est=536.2GB alloc=432.3GB in=224.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=254 dwell_max=2.618s
+        GPU_SCAN(18)           n=74   sum=  10.694s in= 195.75GB
+        GPU_SCAN(15)           n=3    sum=   0.235s in=   0.82GB
+        DYNAMIC_FILTER(19)     n=74   sum=   0.143s in= 195.75GB
+        DYNAMIC_FILTER(32)     n=10   sum=   0.017s in=   7.46GB
+   [.cn0] sirius_streaming_fragment                wall=0.008s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.004 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.005s
+        PROJECTION(4)          n=1    sum=   0.003s in=   0.00GB
+        HASH_GROUP_BY(1)       n=1    sum=   0.000s in=   0.00GB
+        ORDER_BY(5)            n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.662s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.005 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.703s
+        GPU_SCAN(0)            n=1    sum=   0.005s in=   0.08GB
+        PROJECTION(1)          n=1    sum=   0.000s in=   0.08GB
+        STREAMING_SINK(2)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.635s tasks=10 Q=1.297 Rsv=0.000 Prep=0.000 Comp=1.564 Fin=0.000 req=113.9GB est=113.9GB alloc=50.2GB in=24.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=10 dwell_max=3.280s
+        GPU_SCAN(0)            n=10   sum=   1.563s in=  24.56GB
+        STREAMING_SINK(1)      n=10   sum=   0.000s in=   7.46GB
+   [.cn0] sirius_streaming_fragment                wall=0.209s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.027 Fin=0.000 req=9.9GB est=9.9GB alloc=3.2GB in=1.2GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.242s
+        GPU_SCAN(0)            n=1    sum=   0.026s in=   1.24GB
+        PROJECTION(1)          n=1    sum=   0.000s in=   1.24GB
+        STREAMING_SINK(2)      n=1    sum=   0.000s in=   1.24GB
+   [.cn0] sirius_streaming_fragment                wall=0.176s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.001s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.170s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.162s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=2.799s tasks=213 Q=185.429 Rsv=0.004 Prep=0.012 Comp=10.849 Fin=0.001 req=537.5GB est=536.2GB alloc=432.3GB in=224.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=254 dwell_max=2.595s
+        GPU_SCAN(18)           n=74   sum=  10.539s in= 195.75GB
+        DYNAMIC_FILTER(19)     n=74   sum=   0.135s in= 195.75GB
+        GPU_SCAN(15)           n=3    sum=   0.103s in=   0.82GB
+        DYNAMIC_FILTER(32)     n=10   sum=   0.017s in=   7.46GB
+   [.cn0] sirius_streaming_fragment                wall=0.006s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.005s
+        HASH_GROUP_BY(1)       n=1    sum=   0.000s in=   0.00GB
+        PROJECTION(4)          n=1    sum=   0.000s in=   0.00GB
+        ORDER_BY(5)            n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.650s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.005 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.688s
+        GPU_SCAN(0)            n=1    sum=   0.005s in=   0.08GB
+        PROJECTION(1)          n=1    sum=   0.000s in=   0.08GB
+        STREAMING_SINK(2)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.623s tasks=10 Q=1.317 Rsv=0.000 Prep=0.000 Comp=1.526 Fin=0.000 req=113.9GB est=113.9GB alloc=50.2GB in=24.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=10 dwell_max=3.271s
+        GPU_SCAN(0)            n=10   sum=   1.525s in=  24.56GB
+        STREAMING_SINK(1)      n=10   sum=   0.001s in=   7.46GB
+   [.cn0] sirius_streaming_fragment                wall=0.206s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.025 Fin=0.000 req=9.9GB est=9.9GB alloc=3.2GB in=1.2GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.239s
+        GPU_SCAN(0)            n=1    sum=   0.025s in=   1.24GB
+        PROJECTION(1)          n=1    sum=   0.000s in=   1.24GB
+        STREAMING_SINK(2)      n=1    sum=   0.000s in=   1.24GB
+   [.cn0] sirius_streaming_fragment                wall=0.176s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.001s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.169s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.162s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=2.814s tasks=213 Q=186.340 Rsv=0.004 Prep=0.012 Comp=10.909 Fin=0.001 req=537.5GB est=536.2GB alloc=432.3GB in=224.9GB leases=0/0.00GB held=0.000s maxconc=0 batches=254 dwell_max=2.606s
+        GPU_SCAN(18)           n=74   sum=  10.595s in= 195.75GB
+        DYNAMIC_FILTER(19)     n=74   sum=   0.142s in= 195.75GB
+        GPU_SCAN(15)           n=3    sum=   0.101s in=   0.82GB
+        DYNAMIC_FILTER(32)     n=10   sum=   0.017s in=   7.46GB
+   [.cn0] sirius_streaming_fragment                wall=0.006s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.005s
+        HASH_GROUP_BY(1)       n=1    sum=   0.000s in=   0.00GB
+        PROJECTION(4)          n=1    sum=   0.000s in=   0.00GB
+        ORDER_BY(5)            n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.546s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.005 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.005s in=   0.08GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.521s tasks=5 Q=0.136 Rsv=0.000 Prep=0.000 Comp=0.802 Fin=0.000 req=91.2GB est=91.2GB alloc=30.2GB in=13.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=5 dwell_max=3.733s
+        GPU_SCAN(0)            n=5    sum=   0.802s in=  13.10GB
+        STREAMING_SINK(1)      n=5    sum=   0.000s in=  13.10GB
+   [.cn0] sirius_streaming_fragment                wall=0.274s tasks=7 Q=0.234 Rsv=0.000 Prep=0.000 Comp=0.488 Fin=0.000 req=104.1GB est=104.1GB alloc=44.3GB in=18.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=7 dwell_max=4.046s
+        GPU_SCAN(0)            n=7    sum=   0.488s in=  18.37GB
+        STREAMING_SINK(1)      n=7    sum=   0.000s in=  18.38GB
+   [.cn0] sirius_streaming_fragment                wall=0.125s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=4.302s tasks=349 Q=271.084 Rsv=0.107 Prep=0.014 Comp=16.855 Fin=0.001 req=976.0GB est=975.8GB alloc=627.1GB in=589.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=451 dwell_max=2.928s
+        GPU_SCAN(9)            n=93   sum=  11.786s in= 244.50GB
+        HASH_JOIN(26)          n=6    sum=   1.379s in=  27.15GB
+        HASH_JOIN(34)          n=12   sum=   1.224s in=  46.70GB
+        GPU_SCAN(6)            n=4    sum=   0.435s in=   0.82GB
+   [.cn0] sirius_streaming_fragment                wall=0.008s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.003 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.006s
+        ORDER_BY(4)            n=1    sum=   0.003s in=   0.00GB
+        HASH_GROUP_BY(1)       n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.532s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.005 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.005s in=   0.08GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.506s tasks=5 Q=0.094 Rsv=0.000 Prep=0.000 Comp=0.794 Fin=0.000 req=91.2GB est=91.2GB alloc=30.2GB in=13.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=5 dwell_max=3.869s
+        GPU_SCAN(0)            n=5    sum=   0.794s in=  13.10GB
+        STREAMING_SINK(1)      n=5    sum=   0.000s in=  13.10GB
+   [.cn0] sirius_streaming_fragment                wall=0.285s tasks=7 Q=0.240 Rsv=0.000 Prep=0.000 Comp=0.555 Fin=0.000 req=104.1GB est=104.1GB alloc=44.3GB in=18.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=7 dwell_max=4.157s
+        GPU_SCAN(0)            n=7    sum=   0.554s in=  18.37GB
+        STREAMING_SINK(1)      n=7    sum=   0.000s in=  18.38GB
+   [.cn0] sirius_streaming_fragment                wall=0.124s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=4.393s tasks=349 Q=282.135 Rsv=0.117 Prep=0.013 Comp=17.148 Fin=0.001 req=990.9GB est=990.8GB alloc=627.0GB in=589.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=451 dwell_max=3.032s
+        GPU_SCAN(9)            n=93   sum=  12.130s in= 244.50GB
+        HASH_JOIN(26)          n=6    sum=   1.380s in=  27.15GB
+        HASH_JOIN(34)          n=12   sum=   1.225s in=  46.70GB
+        GPU_SCAN(6)            n=4    sum=   0.437s in=   0.82GB
+   [.cn0] sirius_streaming_fragment                wall=0.006s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.006s
+        ORDER_BY(4)            n=1    sum=   0.001s in=   0.00GB
+        HASH_GROUP_BY(1)       n=1    sum=   0.001s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.539s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.005 Fin=0.000 req=0.7GB est=0.7GB alloc=0.2GB in=0.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.005s in=   0.08GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.08GB
+   [.cn0] sirius_streaming_fragment                wall=0.514s tasks=5 Q=0.102 Rsv=0.000 Prep=0.000 Comp=0.673 Fin=0.000 req=91.2GB est=91.2GB alloc=30.2GB in=13.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=5 dwell_max=3.750s
+        GPU_SCAN(0)            n=5    sum=   0.673s in=  13.10GB
+        STREAMING_SINK(1)      n=5    sum=   0.000s in=  13.10GB
+   [.cn0] sirius_streaming_fragment                wall=0.307s tasks=7 Q=0.307 Rsv=0.000 Prep=0.000 Comp=0.611 Fin=0.000 req=104.1GB est=104.1GB alloc=44.3GB in=18.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=7 dwell_max=4.061s
+        GPU_SCAN(0)            n=7    sum=   0.611s in=  18.37GB
+        STREAMING_SINK(1)      n=7    sum=   0.000s in=  18.38GB
+   [.cn0] sirius_streaming_fragment                wall=0.125s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=0.000s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=4.279s tasks=349 Q=269.352 Rsv=0.113 Prep=0.014 Comp=16.675 Fin=0.001 req=973.1GB est=973.0GB alloc=627.0GB in=589.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=451 dwell_max=2.894s
+        GPU_SCAN(9)            n=93   sum=  11.913s in= 244.50GB
+        HASH_JOIN(26)          n=6    sum=   1.380s in=  27.15GB
+        HASH_JOIN(34)          n=12   sum=   1.226s in=  46.70GB
+        GPU_SCAN(6)            n=4    sum=   0.456s in=   0.82GB
+   [.cn0] sirius_streaming_fragment                wall=0.006s tasks=6 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.006s
+        ORDER_BY(4)            n=1    sum=   0.001s in=   0.00GB
+        HASH_GROUP_BY(1)       n=1    sum=   0.001s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        PARTITION(2)           n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=2.375s tasks=84 Q=26.851 Rsv=0.003 Prep=0.651 Comp=8.257 Fin=0.001 req=744.6GB est=697.7GB alloc=414.5GB in=218.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=896 dwell_max=1.571s
+        GPU_SCAN(0)            n=28   sum=   4.748s in=  73.50GB
+        HASH_GROUP_BY(2)       n=28   sum=   1.761s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=28   sum=   1.316s in=  72.07GB
+        PARTITION(3)           n=28   sum=   0.251s in=  72.36GB
+   [.cn0] sirius_streaming_fragment                wall=2.110s tasks=167 Q=76.544 Rsv=0.003 Prep=0.018 Comp=7.844 Fin=0.001 req=388.2GB est=385.8GB alloc=295.6GB in=143.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=191 dwell_max=1.764s
+        GPU_SCAN(10)           n=46   sum=   7.248s in= 122.25GB
+        DYNAMIC_FILTER(11)     n=46   sum=   0.153s in= 122.25GB
+        HASH_GROUP_BY(1)       n=28   sum=   0.134s in=   4.00GB
+        GPU_SCAN(7)            n=3    sum=   0.134s in=   0.82GB
+   [.cn0] sirius_streaming_fragment                wall=2.679s tasks=84 Q=29.746 Rsv=0.003 Prep=1.124 Comp=8.822 Fin=0.000 req=781.3GB est=709.8GB alloc=444.7GB in=222.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=896 dwell_max=1.759s
+        GPU_SCAN(0)            n=28   sum=   4.855s in=  73.50GB
+        HASH_GROUP_BY(2)       n=28   sum=   2.179s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=28   sum=   1.363s in=  74.36GB
+        PROJECTION(1)          n=28   sum=   0.243s in=  73.50GB
+   [.cn0] sirius_streaming_fragment                wall=2.011s tasks=167 Q=75.210 Rsv=0.003 Prep=0.018 Comp=7.563 Fin=0.001 req=388.2GB est=385.8GB alloc=295.6GB in=143.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=191 dwell_max=1.694s
+        GPU_SCAN(10)           n=46   sum=   7.009s in= 122.25GB
+        GPU_SCAN(7)            n=3    sum=   0.132s in=   0.82GB
+        DYNAMIC_FILTER(11)     n=46   sum=   0.131s in= 122.25GB
+        HASH_GROUP_BY(1)       n=28   sum=   0.127s in=   4.00GB
+   [.cn0] sirius_streaming_fragment                wall=2.679s tasks=84 Q=30.830 Rsv=0.002 Prep=0.762 Comp=9.398 Fin=0.000 req=750.5GB est=705.9GB alloc=416.0GB in=221.1GB leases=0/0.00GB held=0.000s maxconc=0 batches=896 dwell_max=1.818s
+        GPU_SCAN(0)            n=28   sum=   5.170s in=  73.50GB
+        HASH_GROUP_BY(2)       n=28   sum=   2.226s in= 122.25GB
+        MERGE_GROUP_BY(4)      n=28   sum=   1.533s in=  73.58GB
+        PARTITION(3)           n=28   sum=   0.248s in=  73.87GB
+   [.cn0] sirius_streaming_fragment                wall=2.048s tasks=167 Q=72.629 Rsv=0.004 Prep=0.018 Comp=7.641 Fin=0.001 req=388.2GB est=385.8GB alloc=295.6GB in=143.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=191 dwell_max=1.722s
+        GPU_SCAN(10)           n=46   sum=   7.092s in= 122.25GB
+        DYNAMIC_FILTER(11)     n=46   sum=   0.138s in= 122.25GB
+        HASH_GROUP_BY(1)       n=28   sum=   0.133s in=   4.00GB
+        GPU_SCAN(7)            n=3    sum=   0.115s in=   0.82GB
+   [.cn0] sirius_streaming_fragment                wall=1.287s tasks=84 Q=16.087 Rsv=0.002 Prep=0.004 Comp=4.551 Fin=0.000 req=465.2GB est=465.2GB alloc=297.0GB in=145.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=491 dwell_max=0.852s
+        GPU_SCAN(0)            n=37   sum=   2.415s in=  97.50GB
+        HASH_GROUP_BY(2)       n=37   sum=   0.966s in=  97.50GB
+        MERGE_GROUP_BY(4)      n=10   sum=   0.914s in=  24.00GB
+        PROJECTION(1)          n=37   sum=   0.131s in=  97.50GB
+   [.cn0] sirius_streaming_fragment                wall=1.594s tasks=147 Q=23.481 Rsv=0.003 Prep=0.005 Comp=5.965 Fin=0.001 req=586.4GB est=586.4GB alloc=378.0GB in=206.3GB leases=0/0.00GB held=0.000s maxconc=0 batches=235 dwell_max=0.595s
+        GPU_SCAN(8)            n=14   sum=   2.271s in=  36.75GB
+        GPU_SCAN(15)           n=37   sum=   2.050s in=  97.50GB
+        MERGE_GROUP_BY(3)      n=9    sum=   0.766s in=  24.00GB
+        HASH_GROUP_BY(1)       n=10   sum=   0.536s in=  24.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.088s tasks=15 Q=0.001 Rsv=0.000 Prep=0.001 Comp=0.160 Fin=0.000 req=49.9GB est=49.9GB alloc=0.0GB in=15.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=12 dwell_max=0.021s
+        GPU_SCAN(3)            n=2    sum=   0.109s in=   3.94GB
+        HASH_JOIN(6)           n=2    sum=   0.038s in=   3.95GB
+        HASH_GROUP_BY(8)       n=2    sum=   0.009s in=   0.02GB
+        MERGE_GROUP_BY(10)     n=1    sum=   0.001s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=1.294s tasks=84 Q=16.244 Rsv=0.003 Prep=0.004 Comp=4.627 Fin=0.000 req=465.2GB est=465.2GB alloc=297.0GB in=145.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=491 dwell_max=0.860s
+        GPU_SCAN(0)            n=37   sum=   2.418s in=  97.50GB
+        HASH_GROUP_BY(2)       n=37   sum=   1.053s in=  97.50GB
+        MERGE_GROUP_BY(4)      n=10   sum=   0.907s in=  24.00GB
+        PARTITION(3)           n=37   sum=   0.128s in=  24.19GB
+   [.cn0] sirius_streaming_fragment                wall=1.578s tasks=147 Q=23.638 Rsv=0.003 Prep=0.004 Comp=5.892 Fin=0.001 req=586.4GB est=586.4GB alloc=378.0GB in=206.3GB leases=0/0.00GB held=0.000s maxconc=0 batches=235 dwell_max=0.582s
+        GPU_SCAN(8)            n=14   sum=   2.236s in=  36.75GB
+        GPU_SCAN(15)           n=37   sum=   2.032s in=  97.50GB
+        MERGE_GROUP_BY(3)      n=9    sum=   0.762s in=  24.00GB
+        HASH_GROUP_BY(1)       n=10   sum=   0.536s in=  24.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.084s tasks=15 Q=0.001 Rsv=0.000 Prep=0.001 Comp=0.152 Fin=0.000 req=49.9GB est=49.9GB alloc=0.0GB in=15.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=12 dwell_max=0.021s
+        GPU_SCAN(3)            n=2    sum=   0.108s in=   3.94GB
+        HASH_JOIN(6)           n=2    sum=   0.038s in=   3.95GB
+        HASH_GROUP_BY(8)       n=2    sum=   0.003s in=   0.02GB
+        MERGE_GROUP_BY(10)     n=1    sum=   0.001s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=1.293s tasks=84 Q=16.034 Rsv=0.002 Prep=0.004 Comp=4.582 Fin=0.000 req=465.2GB est=465.2GB alloc=297.0GB in=145.7GB leases=0/0.00GB held=0.000s maxconc=0 batches=491 dwell_max=0.863s
+        GPU_SCAN(0)            n=37   sum=   2.631s in=  97.50GB
+        MERGE_GROUP_BY(4)      n=10   sum=   0.909s in=  24.00GB
+        HASH_GROUP_BY(2)       n=37   sum=   0.809s in=  97.50GB
+        PARTITION(3)           n=37   sum=   0.126s in=  24.19GB
+   [.cn0] sirius_streaming_fragment                wall=1.618s tasks=147 Q=24.048 Rsv=0.003 Prep=0.005 Comp=6.051 Fin=0.001 req=586.4GB est=586.4GB alloc=378.0GB in=206.3GB leases=0/0.00GB held=0.000s maxconc=0 batches=235 dwell_max=0.615s
+        GPU_SCAN(8)            n=14   sum=   2.363s in=  36.75GB
+        GPU_SCAN(15)           n=37   sum=   2.054s in=  97.50GB
+        MERGE_GROUP_BY(3)      n=9    sum=   0.763s in=  24.00GB
+        HASH_GROUP_BY(1)       n=10   sum=   0.537s in=  24.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.089s tasks=15 Q=0.001 Rsv=0.000 Prep=0.001 Comp=0.162 Fin=0.000 req=49.9GB est=49.9GB alloc=0.0GB in=15.8GB leases=0/0.00GB held=0.000s maxconc=0 batches=12 dwell_max=0.021s
+        GPU_SCAN(3)            n=2    sum=   0.118s in=   3.94GB
+        HASH_JOIN(6)           n=2    sum=   0.038s in=   3.95GB
+        HASH_GROUP_BY(8)       n=2    sum=   0.003s in=   0.02GB
+        MERGE_GROUP_BY(10)     n=1    sum=   0.001s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=10.184s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=10.244s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.210s tasks=8 Q=0.323 Rsv=0.000 Prep=0.000 Comp=0.599 Fin=0.000 req=82.3GB est=82.3GB alloc=55.9GB in=12.2GB leases=0/0.00GB held=0.000s maxconc=0 batches=8 dwell_max=0.167s
+        GPU_SCAN(0)            n=8    sum=   0.599s in=  12.19GB
+        STREAMING_SINK(1)      n=8    sum=   0.000s in=   5.94GB
+   [.cn0] sirius_streaming_fragment                wall=3.217s tasks=147 Q=90.238 Rsv=0.003 Prep=0.192 Comp=12.326 Fin=0.001 req=556.6GB est=550.8GB alloc=312.7GB in=313.3GB leases=0/0.00GB held=0.000s maxconc=0 batches=357 dwell_max=3.389s
+        GPU_SCAN(3)            n=46   sum=   7.353s in= 123.00GB
+        HASH_JOIN(8)           n=18   sum=   3.710s in=  80.60GB
+        PROJECTION(9)          n=18   sum=   0.348s in=  36.64GB
+        PARTITION(6)           n=46   sum=   0.296s in=  46.47GB
+   [.cn0] sirius_streaming_fragment                wall=6.641s tasks=340 Q=122.459 Rsv=0.148 Prep=1.315 Comp=24.800 Fin=0.001 req=1269.5GB est=1174.8GB alloc=528.4GB in=645.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=2808 dwell_max=1.560s
+        GPU_SCAN(0)            n=46   sum=   7.567s in= 123.00GB
+        HASH_JOIN(16)          n=28   sum=   6.111s in=  73.99GB
+        HASH_JOIN(8)           n=18   sum=   4.799s in=  67.50GB
+        GPU_SCAN(13)           n=28   sum=   4.290s in=  73.50GB
+   [.cn0] sirius_streaming_fragment                wall=0.068s tasks=69 Q=0.007 Rsv=0.001 Prep=0.001 Comp=0.061 Fin=0.000 req=21.5GB est=21.5GB alloc=6.5GB in=10.6GB leases=0/0.00GB held=0.000s maxconc=0 batches=10 dwell_max=0.036s
+        HASH_JOIN(10)          n=1    sum=   0.031s in=   0.70GB
+        GPU_SCAN(3)            n=1    sum=   0.011s in=   0.30GB
+        HASH_JOIN(14)          n=1    sum=   0.009s in=   2.60GB
+        HASH_GROUP_BY(16)      n=1    sum=   0.005s in=   0.09GB
+   [.cn0] sirius_streaming_fragment                wall=0.010s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.006 Fin=0.000 req=0.1GB est=0.1GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.004s
+        TOP_N(5)               n=1    sum=   0.004s in=   0.01GB
+        HASH_GROUP_BY(1)       n=1    sum=   0.001s in=   0.01GB
+        MERGE_TOP_N(6)         n=1    sum=   0.001s in=   0.00GB
+        PROJECTION(4)          n=1    sum=   0.000s in=   0.01GB
+   [.cn0] sirius_streaming_fragment                wall=0.000s tasks=1 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=1 dwell_max=10.326s
+        GPU_SCAN(0)            n=1    sum=   0.002s in=   0.00GB
+        STREAMING_SINK(1)      n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_streaming_fragment                wall=0.212s tasks=8 Q=0.343 Rsv=0.000 Prep=0.000 Comp=0.610 Fin=0.000 req=82.3GB est=82.3GB alloc=55.9GB in=12.2GB leases=0/0.00GB held=0.000s maxconc=0 batches=8 dwell_max=0.166s
+        GPU_SCAN(0)            n=8    sum=   0.610s in=  12.19GB
+        STREAMING_SINK(1)      n=8    sum=   0.000s in=   5.94GB
+   [.cn0] sirius_streaming_fragment                wall=3.195s tasks=147 Q=88.953 Rsv=0.013 Prep=0.041 Comp=12.311 Fin=0.001 req=555.9GB est=547.1GB alloc=313.7GB in=313.3GB leases=0/0.00GB held=0.000s maxconc=0 batches=357 dwell_max=3.248s
+        GPU_SCAN(3)            n=46   sum=   7.218s in= 123.00GB
+        HASH_JOIN(8)           n=18   sum=   4.054s in=  80.60GB
+        CONCAT(7)              n=18   sum=   0.358s in=  45.52GB
+        PARTITION(6)           n=46   sum=   0.308s in=  46.47GB
+   [.cn0] sirius_streaming_fragment                wall=0.000s tasks=340 Q=122.026 Rsv=0.132 Prep=1.950 Comp=24.549 Fin=0.001 req=1300.0GB est=1174.9GB alloc=558.6GB in=645.4GB leases=0/0.00GB held=0.000s maxconc=0 batches=2808 dwell_max=1.563s
+        GPU_SCAN(0)            n=46   sum=   7.346s in= 123.00GB
+        HASH_JOIN(16)          n=28   sum=   6.075s in=  73.99GB
+        HASH_JOIN(8)           n=18   sum=   4.856s in=  67.50GB
+        GPU_SCAN(13)           n=28   sum=   4.369s in=  73.50GB
+## sirius_ffi [sirius_ffi]: fragments=16 span=73.181s tasks=53 leases=0 lease_GB=0.00 lease_held=0.000s batches=46 dwell_sum=0.014s
+   [.cn0] sirius_ffi                               wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(6)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(6)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(6)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(5)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.001s
+        RESULT_COLLECTOR(5)    n=1    sum=   0.000s in=   0.00GB
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.001s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.000 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(5)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.002s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.001s in=   0.00GB
+        RESULT_COLLECTOR(5)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.002s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.001s in=   0.00GB
+        RESULT_COLLECTOR(5)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.002s tasks=4 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=2 dwell_max=0.001s
+        ORDER_BY(1)            n=1    sum=   0.001s in=   0.00GB
+        RESULT_COLLECTOR(5)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+        SORT_SAMPLE(2)         n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.002s tasks=3 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.001s
+        UNGROUPED_AGGREGATE(1) n=1    sum=   0.000s in=   0.00GB
+        PROJECTION(3)          n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(4)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.001s tasks=3 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.001s
+        UNGROUPED_AGGREGATE(1) n=1    sum=   0.000s in=   0.00GB
+        PROJECTION(3)          n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(4)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.002s tasks=3 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=3 dwell_max=0.001s
+        UNGROUPED_AGGREGATE(1) n=1    sum=   0.000s in=   0.00GB
+        PROJECTION(3)          n=1    sum=   0.000s in=   0.00GB
+        RESULT_COLLECTOR(4)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.002s tasks=2 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.001s
+        MERGE_TOP_N(2)         n=1    sum=   0.001s in=   0.00GB
+        TOP_N(1)               n=1    sum=   0.001s in=   0.00GB
+        RESULT_COLLECTOR(4)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.002s tasks=2 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.001s
+        MERGE_TOP_N(2)         n=1    sum=   0.001s in=   0.00GB
+        TOP_N(1)               n=1    sum=   0.001s in=   0.00GB
+        RESULT_COLLECTOR(4)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.002s tasks=2 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.001 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.001s
+        MERGE_TOP_N(2)         n=1    sum=   0.001s in=   0.00GB
+        TOP_N(1)               n=1    sum=   0.001s in=   0.00GB
+        RESULT_COLLECTOR(4)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+   [.cn0] sirius_ffi                               wall=0.003s tasks=2 Q=0.000 Rsv=0.000 Prep=0.000 Comp=0.002 Fin=0.000 req=0.0GB est=0.0GB alloc=0.0GB in=0.0GB leases=0/0.00GB held=0.000s maxconc=0 batches=4 dwell_max=0.001s
+        MERGE_TOP_N(2)         n=1    sum=   0.001s in=   0.00GB
+        TOP_N(1)               n=1    sum=   0.001s in=   0.00GB
+        RESULT_COLLECTOR(4)    n=1    sum=   0.000s in=   0.00GB
+        STREAMING_SOURCE(0)    n=1    sum=   0.000s in=   0.00GB
+## _session_.cn0_7129cc6a3fbc: {"hops": {}, "leases_total": 0, "lease_max_concurrent": 0}

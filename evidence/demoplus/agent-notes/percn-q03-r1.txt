@@ -1,0 +1,256 @@
+================= BASELINE q03.r1
+### cn4 q03.r1 client ms=1639 (ms since client start)
+  -211.9  FINISH sender cn=127.0.0.1:9112 fid=..f811 elapsed=591ms
+  -207.0  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af811 receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80a
+  -202.9  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af811 receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80b
+  -198.4  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af811 receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80c
+  -173.7  FINISH sender cn=127.0.0.1:9132 fid=..f810 elapsed=629ms
+  -171.1  FINISH sender cn=127.0.0.1:9102 fid=..f80e elapsed=638ms
+  -169.4  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af810 receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80b
+  -166.7  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80e receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80a
+  -164.9  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af810 receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80c
+  -162.5  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80e receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80c
+  -160.8  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af810 receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80d
+  -158.5  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80e receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80d
+  -157.3  FINISH sender cn=127.0.0.1:9122 fid=..f80f elapsed=648ms
+  -152.8  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80f receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80a
+  -152.6  START  sender cn=127.0.0.1:9132 fid=..f80a inputs=8 outputs=1
+  -148.7  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80f receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80b
+  -148.6  START  sender cn=127.0.0.1:9102 fid=..f80b inputs=8 outputs=1
+  -144.7  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80f receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80d
+  -144.6  START  sender cn=127.0.0.1:9112 fid=..f80d inputs=8 outputs=1
+  -144.6  START  sender cn=127.0.0.1:9122 fid=..f80c inputs=8 outputs=1
+   -22.2  FINISH sender cn=127.0.0.1:9102 fid=..f80b elapsed=126ms
+   -22.0  FINISH sender cn=127.0.0.1:9132 fid=..f80a elapsed=130ms
+   -21.0  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80a receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af809
+   -14.4  FINISH sender cn=127.0.0.1:9112 fid=..f80d elapsed=130ms
+   -14.3  FINISH sender cn=127.0.0.1:9122 fid=..f80c elapsed=130ms
+   -13.4  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80d receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af809
+   -13.3  START  result cn=127.0.0.1:9102 fid=..f809 inputs=4 outputs=0
+   -13.2  TX query_id=01a0676c-db81-780e-8f42-0081934af808 fragment_instance_id=01a0676c-db81-780e-8f42-0081934af80c receiver_fragment_instance_id=01a0676c-db81-780e-8f42-0081934af809
+    -8.7  FINISH result cn=127.0.0.1:9102 fid=..f809 elapsed=4ms
+    -8.6  RPC fetch_data close
+    -7.3  RPC fetch_data close
+    16.2  RPC exec_plan_fragment close peer=127.0.0.1:59790 busy=0.0ms idle=0.2ms
+   188.3  RPC exec_plan_fragment close peer=127.0.0.1:33644 busy=0.0ms idle=0.2ms
+   191.7  RPC exec_plan_fragment close peer=127.0.0.1:58934 busy=0.0ms idle=0.3ms
+   191.7  RPC exec_plan_fragment close peer=127.0.0.1:44692 busy=0.0ms idle=0.3ms
+   191.8  RPC exec_plan_fragment close peer=127.0.0.1:59790 busy=0.0ms idle=0.3ms
+   192.4  RPC exec_plan_fragment close peer=127.0.0.1:33644 busy=0.0ms idle=0.2ms
+   198.5  RPC exec_plan_fragment close peer=127.0.0.1:58934 busy=0.0ms idle=0.8ms
+   198.6  RPC exec_plan_fragment close peer=127.0.0.1:33644 busy=0.0ms idle=0.8ms
+   198.6  RPC exec_plan_fragment close peer=127.0.0.1:59790 busy=0.0ms idle=0.8ms
+   198.7  START  sender cn=127.0.0.1:9102 fid=..ec5f inputs=0 outputs=4
+   198.7  RPC exec_plan_fragment close peer=127.0.0.1:44692 busy=0.0ms idle=0.8ms
+   198.7  START  sender cn=127.0.0.1:9132 fid=..ec61 inputs=0 outputs=4
+   198.7  START  sender cn=127.0.0.1:9122 fid=..ec60 inputs=0 outputs=4
+   198.8  START  sender cn=127.0.0.1:9112 fid=..ec62 inputs=0 outputs=4
+   199.3  RPC exec_plan_fragment close peer=127.0.0.1:58934 busy=0.0ms idle=0.8ms
+   199.4  RPC exec_plan_fragment close peer=127.0.0.1:33644 busy=0.0ms idle=0.7ms
+   199.5  RPC exec_plan_fragment close peer=127.0.0.1:44692 busy=0.0ms idle=0.8ms
+   199.5  RPC exec_plan_fragment close peer=127.0.0.1:59790 busy=0.0ms idle=0.8ms
+   245.3  RPC exec_plan_fragment close peer=127.0.0.1:58934 busy=0.0ms idle=0.6ms
+   245.3  RPC exec_plan_fragment close peer=127.0.0.1:44692 busy=0.0ms idle=0.6ms
+   245.3  RPC exec_plan_fragment close peer=127.0.0.1:33644 busy=0.0ms idle=0.7ms
+   245.4  RPC exec_plan_fragment close peer=127.0.0.1:59790 busy=0.0ms idle=0.7ms
+   808.3  FINISH sender cn=127.0.0.1:9102 fid=..ec5f elapsed=609ms
+   814.1  FINISH sender cn=127.0.0.1:9122 fid=..ec60 elapsed=615ms
+   858.6  FINISH sender cn=127.0.0.1:9112 fid=..ec62 elapsed=659ms
+   882.6  FINISH sender cn=127.0.0.1:9132 fid=..ec61 elapsed=683ms
+   903.5  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5f receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec54
+   910.8  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec60 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec53
+   954.4  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec62 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec53
+   978.2  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec61 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec53
+   997.7  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5f receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec55
+  1005.8  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec60 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec54
+  1049.1  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec62 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec55
+  1072.0  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec61 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec54
+  1091.4  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5f receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec56
+  1091.7  START  sender cn=127.0.0.1:9102 fid=..ec5b inputs=0 outputs=4
+  1100.6  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec60 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec56
+  1100.8  START  sender cn=127.0.0.1:9122 fid=..ec5c inputs=0 outputs=4
+  1127.3  FINISH sender cn=127.0.0.1:9102 fid=..ec5b elapsed=35ms
+  1128.8  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5b receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec58
+  1131.1  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5b receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec59
+  1132.9  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5b receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5a
+  1142.1  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec62 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec56
+  1142.2  START  sender cn=127.0.0.1:9112 fid=..ec5e inputs=0 outputs=4
+  1143.5  FINISH sender cn=127.0.0.1:9122 fid=..ec5c elapsed=42ms
+  1145.0  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5c receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec57
+  1146.4  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5c receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec59
+  1150.2  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5c receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5a
+  1168.1  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec61 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec55
+  1168.3  START  sender cn=127.0.0.1:9132 fid=..ec5d inputs=0 outputs=4
+  1181.4  FINISH sender cn=127.0.0.1:9112 fid=..ec5e elapsed=39ms
+  1183.1  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5e receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec57
+  1184.7  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5e receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec58
+  1186.1  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5e receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec59
+  1203.6  FINISH sender cn=127.0.0.1:9132 fid=..ec5d elapsed=35ms
+  1206.1  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5d receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec57
+  1206.2  START  sender cn=127.0.0.1:9102 fid=..ec57 inputs=4 outputs=4
+  1207.6  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5d receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec58
+  1207.8  START  sender cn=127.0.0.1:9122 fid=..ec58 inputs=4 outputs=4
+  1208.9  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5d receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5a
+  1209.0  START  sender cn=127.0.0.1:9112 fid=..ec5a inputs=4 outputs=4
+  1209.0  START  sender cn=127.0.0.1:9132 fid=..ec59 inputs=4 outputs=4
+  1391.4  FINISH sender cn=127.0.0.1:9102 fid=..ec57 elapsed=185ms
+  1397.1  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec57 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec54
+  1402.3  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec57 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec55
+  1407.3  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec57 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec56
+  1447.1  FINISH sender cn=127.0.0.1:9122 fid=..ec58 elapsed=239ms
+  1451.7  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec58 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec53
+  1455.7  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec58 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec54
+  1459.7  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec58 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec56
+  1479.6  FINISH sender cn=127.0.0.1:9112 fid=..ec5a elapsed=270ms
+  1483.6  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5a receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec53
+  1486.0  FINISH sender cn=127.0.0.1:9132 fid=..ec59 elapsed=276ms
+  1487.7  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5a receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec55
+  1490.3  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec59 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec53
+  1490.5  START  sender cn=127.0.0.1:9102 fid=..ec53 inputs=8 outputs=1
+  1491.4  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec5a receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec56
+  1494.4  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec59 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec54
+  1494.5  START  sender cn=127.0.0.1:9112 fid=..ec54 inputs=8 outputs=1
+  1498.6  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec59 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec55
+  1498.7  START  sender cn=127.0.0.1:9122 fid=..ec55 inputs=8 outputs=1
+  1498.7  START  sender cn=127.0.0.1:9132 fid=..ec56 inputs=8 outputs=1
+  1618.7  FINISH sender cn=127.0.0.1:9102 fid=..ec53 elapsed=128ms
+  1619.7  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec53 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec52
+  1621.5  FINISH sender cn=127.0.0.1:9112 fid=..ec54 elapsed=127ms
+  1622.3  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec54 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec52
+  1628.3  FINISH sender cn=127.0.0.1:9122 fid=..ec55 elapsed=129ms
+  1628.8  FINISH sender cn=127.0.0.1:9132 fid=..ec56 elapsed=130ms
+  1629.2  START  result cn=127.0.0.1:9132 fid=..ec52 inputs=4 outputs=0
+  1629.3  TX query_id=01a0676c-e39b-7091-a1c6-6293412eec51 fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec55 receiver_fragment_instance_id=01a0676c-e39b-7091-a1c6-6293412eec52
+  1633.7  FINISH result cn=127.0.0.1:9132 fid=..ec52 elapsed=4ms
+  1633.8  RPC fetch_data close
+  1635.0  RPC fetch_data close
+
+================= DEMO-PLUS q03.r1
+### dp-cn4 q03.r1 client ms=1709 (ms since client start)
+  -469.7  FINISH sender cn=127.0.0.1:9102 fid=..c61c elapsed=1337ms
+  -469.5  FINISH sender cn=127.0.0.1:9112 fid=..c61a elapsed=1340ms
+  -468.9  FINISH sender cn=127.0.0.1:9132 fid=..c61b elapsed=1340ms
+  -468.6  TX stream_id=6 sender_id=1 dest=127.0.0.1:9122 batches=1 bytes=30526528
+  -468.4  START  sender cn=127.0.0.1:9122 fid=..c61d inputs=4 outputs=4
+  -468.3  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=1430.0ms
+  -465.4  TX stream_id=9 sender_id=2 dest=127.0.0.1:9122 batches=2 bytes=146290368
+  -465.3  TX stream_id=9 sender_id=0 dest=127.0.0.1:9122 batches=2 bytes=145311680
+  -463.8  TX stream_id=9 sender_id=1 dest=127.0.0.1:9122 batches=2 bytes=144728512
+  -461.5  TX stream_id=9 sender_id=2 dest=127.0.0.1:9112 batches=2 bytes=146299648
+  -461.5  TX stream_id=9 sender_id=0 dest=127.0.0.1:9132 batches=2 bytes=145289856
+  -459.7  TX stream_id=9 sender_id=1 dest=127.0.0.1:9112 batches=2 bytes=144756672
+  -457.7  TX stream_id=9 sender_id=2 dest=127.0.0.1:9132 batches=2 bytes=146309888
+  -457.6  TX stream_id=9 sender_id=0 dest=127.0.0.1:9102 batches=2 bytes=145276800
+  -455.9  TX stream_id=9 sender_id=1 dest=127.0.0.1:9102 batches=2 bytes=144824256
+  -153.0  FINISH sender cn=127.0.0.1:9122 fid=..c61d elapsed=315ms
+  -148.3  TX stream_id=9 sender_id=3 dest=127.0.0.1:9112 batches=2 bytes=146832576
+  -148.2  START  sender cn=127.0.0.1:9112 fid=..c617 inputs=8 outputs=1
+  -144.0  TX stream_id=9 sender_id=3 dest=127.0.0.1:9132 batches=2 bytes=146837120
+  -143.8  START  sender cn=127.0.0.1:9132 fid=..c618 inputs=8 outputs=1
+  -139.9  TX stream_id=9 sender_id=3 dest=127.0.0.1:9102 batches=2 bytes=146793920
+  -139.8  START  sender cn=127.0.0.1:9102 fid=..c619 inputs=8 outputs=1
+  -139.6  START  sender cn=127.0.0.1:9122 fid=..c616 inputs=8 outputs=1
+   -22.4  FINISH sender cn=127.0.0.1:9112 fid=..c617 elapsed=125ms
+   -21.5  TX stream_id=14 sender_id=1 dest=127.0.0.1:9102 batches=1 bytes=384
+   -16.6  FINISH sender cn=127.0.0.1:9132 fid=..c618 elapsed=127ms
+   -15.6  TX stream_id=14 sender_id=2 dest=127.0.0.1:9102 batches=1 bytes=384
+   -14.4  FINISH sender cn=127.0.0.1:9102 fid=..c619 elapsed=125ms
+   -12.6  FINISH sender cn=127.0.0.1:9122 fid=..c616 elapsed=127ms
+   -11.7  START  result cn=127.0.0.1:9102 fid=..c615 inputs=4 outputs=0
+   -11.6  TX stream_id=14 sender_id=0 dest=127.0.0.1:9102 batches=1 bytes=384
+    -8.0  FINISH result cn=127.0.0.1:9102 fid=..c615 elapsed=3ms
+    -7.9  RPC fetch_data close
+    -6.9  RPC fetch_data close
+    12.5  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=0.3ms
+   161.5  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=0.2ms
+   164.3  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=0.3ms
+   164.3  RPC exec_plan_fragment close peer=127.0.0.1:57324 busy=0.0ms idle=0.3ms
+   164.3  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=0.4ms
+   164.8  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=0.2ms
+   170.3  START  sender cn=127.0.0.1:9112 fid=..67c8 inputs=0 outputs=4
+   170.3  START  sender cn=127.0.0.1:9132 fid=..67c9 inputs=0 outputs=4
+   170.4  START  sender cn=127.0.0.1:9102 fid=..67ca inputs=0 outputs=4
+   170.4  START  sender cn=127.0.0.1:9122 fid=..67cb inputs=0 outputs=4
+   743.2  FINISH sender cn=127.0.0.1:9122 fid=..67cb elapsed=572ms
+   753.1  FINISH sender cn=127.0.0.1:9102 fid=..67ca elapsed=582ms
+   780.6  FINISH sender cn=127.0.0.1:9132 fid=..67c9 elapsed=610ms
+   816.5  FINISH sender cn=127.0.0.1:9112 fid=..67c8 elapsed=646ms
+   838.8  TX stream_id=2 sender_id=3 dest=127.0.0.1:9102 batches=16 bytes=4824638208
+   847.7  TX stream_id=2 sender_id=2 dest=127.0.0.1:9122 batches=16 bytes=4842342336
+   877.9  TX stream_id=2 sender_id=1 dest=127.0.0.1:9122 batches=17 bytes=4850551104
+   912.9  TX stream_id=2 sender_id=0 dest=127.0.0.1:9122 batches=17 bytes=4888500288
+   932.3  TX stream_id=2 sender_id=3 dest=127.0.0.1:9112 batches=16 bytes=4823526336
+   939.6  TX stream_id=2 sender_id=2 dest=127.0.0.1:9112 batches=16 bytes=4841164608
+   973.0  TX stream_id=2 sender_id=1 dest=127.0.0.1:9102 batches=17 bytes=4852347840
+  1007.9  TX stream_id=2 sender_id=0 dest=127.0.0.1:9102 batches=17 bytes=4890204672
+  1026.0  TX stream_id=2 sender_id=3 dest=127.0.0.1:9132 batches=16 bytes=4824760512
+  1026.3  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=857.0ms
+  1027.3  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=0.9ms
+  1032.0  TX stream_id=2 sender_id=2 dest=127.0.0.1:9132 batches=16 bytes=4841429376
+  1032.3  RPC exec_plan_fragment close peer=127.0.0.1:57324 busy=0.0ms idle=863.0ms
+  1033.2  RPC exec_plan_fragment close peer=127.0.0.1:57324 busy=0.0ms idle=0.8ms
+  1067.4  TX stream_id=2 sender_id=1 dest=127.0.0.1:9112 batches=17 bytes=4850830848
+  1067.6  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=898.0ms
+  1068.5  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=0.8ms
+  1100.7  TX stream_id=2 sender_id=0 dest=127.0.0.1:9132 batches=17 bytes=4889779008
+  1100.9  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=932.0ms
+  1101.8  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=0.8ms
+  1145.2  START  sender cn=127.0.0.1:9112 fid=..67c4 inputs=0 outputs=4
+  1145.2  START  sender cn=127.0.0.1:9132 fid=..67c5 inputs=0 outputs=4
+  1145.2  START  sender cn=127.0.0.1:9122 fid=..67c7 inputs=0 outputs=4
+  1145.2  START  sender cn=127.0.0.1:9102 fid=..67c6 inputs=0 outputs=4
+  1179.4  FINISH sender cn=127.0.0.1:9132 fid=..67c5 elapsed=34ms
+  1181.2  TX stream_id=6 sender_id=1 dest=127.0.0.1:9112 batches=1 bytes=29733248
+  1183.0  TX stream_id=6 sender_id=1 dest=127.0.0.1:9102 batches=1 bytes=29733248
+  1183.2  FINISH sender cn=127.0.0.1:9102 fid=..67c6 elapsed=37ms
+  1183.8  FINISH sender cn=127.0.0.1:9122 fid=..67c7 elapsed=38ms
+  1184.8  FINISH sender cn=127.0.0.1:9112 fid=..67c4 elapsed=39ms
+  1184.8  TX stream_id=6 sender_id=2 dest=127.0.0.1:9112 batches=1 bytes=34568832
+  1185.0  TX stream_id=6 sender_id=1 dest=127.0.0.1:9122 batches=1 bytes=29733248
+  1185.2  RPC exec_plan_fragment close peer=127.0.0.1:43640 busy=0.0ms idle=40.8ms
+  1185.4  TX stream_id=6 sender_id=3 dest=127.0.0.1:9112 batches=1 bytes=28914048
+  1185.6  START  sender cn=127.0.0.1:9112 fid=..67c0 inputs=4 outputs=4
+  1186.5  TX stream_id=6 sender_id=2 dest=127.0.0.1:9132 batches=1 bytes=34568832
+  1187.0  TX stream_id=6 sender_id=3 dest=127.0.0.1:9132 batches=1 bytes=28914048
+  1188.1  TX stream_id=6 sender_id=2 dest=127.0.0.1:9122 batches=1 bytes=34568832
+  1188.3  RPC exec_plan_fragment close peer=127.0.0.1:57324 busy=0.0ms idle=43.9ms
+  1188.8  TX stream_id=6 sender_id=3 dest=127.0.0.1:9102 batches=1 bytes=28914048
+  1189.0  RPC exec_plan_fragment close peer=127.0.0.1:52336 busy=0.0ms idle=44.6ms
+  1350.2  FINISH sender cn=127.0.0.1:9112 fid=..67c0 elapsed=164ms
+  1350.5  TX stream_id=6 sender_id=0 dest=127.0.0.1:9132 batches=1 bytes=30526528
+  1350.7  START  sender cn=127.0.0.1:9132 fid=..67c1 inputs=4 outputs=4
+  1354.5  TX stream_id=9 sender_id=0 dest=127.0.0.1:9122 batches=2 bytes=144728512
+  1355.9  TX stream_id=6 sender_id=0 dest=127.0.0.1:9102 batches=1 bytes=30526528
+  1356.0  START  sender cn=127.0.0.1:9102 fid=..67c2 inputs=4 outputs=4
+  1359.6  TX stream_id=9 sender_id=0 dest=127.0.0.1:9102 batches=2 bytes=144756864
+  1360.8  TX stream_id=6 sender_id=0 dest=127.0.0.1:9122 batches=1 bytes=30526528
+  1361.0  START  sender cn=127.0.0.1:9122 fid=..67c3 inputs=4 outputs=4
+  1361.1  RPC exec_plan_fragment close peer=127.0.0.1:33982 busy=0.0ms idle=217.0ms
+  1364.7  TX stream_id=9 sender_id=0 dest=127.0.0.1:9132 batches=2 bytes=144824192
+  1534.5  FINISH sender cn=127.0.0.1:9102 fid=..67c2 elapsed=178ms
+  1539.0  TX stream_id=9 sender_id=2 dest=127.0.0.1:9122 batches=2 bytes=146687168
+  1543.0  TX stream_id=9 sender_id=2 dest=127.0.0.1:9112 batches=2 bytes=146836992
+  1546.9  TX stream_id=9 sender_id=2 dest=127.0.0.1:9132 batches=2 bytes=146793920
+  1551.5  FINISH sender cn=127.0.0.1:9132 fid=..67c1 elapsed=200ms
+  1556.0  TX stream_id=9 sender_id=1 dest=127.0.0.1:9122 batches=2 bytes=146290368
+  1559.7  FINISH sender cn=127.0.0.1:9122 fid=..67c3 elapsed=198ms
+  1559.9  TX stream_id=9 sender_id=1 dest=127.0.0.1:9102 batches=2 bytes=146299648
+  1564.0  TX stream_id=9 sender_id=1 dest=127.0.0.1:9112 batches=2 bytes=146309824
+  1564.1  TX stream_id=9 sender_id=3 dest=127.0.0.1:9102 batches=2 bytes=145172928
+  1564.3  START  sender cn=127.0.0.1:9102 fid=..67bd inputs=8 outputs=1
+  1568.0  TX stream_id=9 sender_id=3 dest=127.0.0.1:9112 batches=2 bytes=145289728
+  1568.2  START  sender cn=127.0.0.1:9112 fid=..67be inputs=8 outputs=1
+  1572.1  TX stream_id=9 sender_id=3 dest=127.0.0.1:9132 batches=2 bytes=145276608
+  1572.2  START  sender cn=127.0.0.1:9132 fid=..67bf inputs=8 outputs=1
+  1572.4  START  sender cn=127.0.0.1:9122 fid=..67bc inputs=8 outputs=1
+  1690.7  FINISH sender cn=127.0.0.1:9102 fid=..67bd elapsed=126ms
+  1691.6  TX stream_id=14 sender_id=1 dest=127.0.0.1:9112 batches=1 bytes=384
+  1693.6  FINISH sender cn=127.0.0.1:9112 fid=..67be elapsed=125ms
+  1699.9  FINISH sender cn=127.0.0.1:9132 fid=..67bf elapsed=127ms
+  1700.3  FINISH sender cn=127.0.0.1:9122 fid=..67bc elapsed=127ms
+  1700.9  TX stream_id=14 sender_id=3 dest=127.0.0.1:9112 batches=1 bytes=384
+  1701.1  START  result cn=127.0.0.1:9112 fid=..67bb inputs=4 outputs=0
+  1701.2  TX stream_id=14 sender_id=0 dest=127.0.0.1:9112 batches=1 bytes=384
+  1705.1  FINISH result cn=127.0.0.1:9112 fid=..67bb elapsed=3ms
+  1705.2  RPC fetch_data close
+  1706.0  RPC fetch_data close
