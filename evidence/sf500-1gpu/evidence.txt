@@ -1,0 +1,38 @@
+restarts: 6
+failed runs: 6 of 54
+-- transport / staging (cluster logs)
+failed to stage a: 7
+exchange staging arena exhausted: 0
+EXPORT_CAPACITY_EXCEEDED: 0
+INGRESS_CAPACITY: 0
+retryable_unavailable: 0
+waiting for a receive credit: 0
+receive credit granted after waiting: 0
+refused a credit for a: 0
+capacity wait exceeded: 0
+receive credit wait: 0
+owned receive credit granted: 0
+quarantined_bytes=[1-9]: 0
+oversized: 0
+lease_protocol: 0
+process epoch: 0
+timed out: 0
+exceeded: 14
+-- engine (per-CN engine logs)
+[exchange_ingress]: 0
+[exchange_reload]: 0
+[exchange_pack]: 0
+[downgrade]: 220
+downgrade request not satisfied: 220
+OOM retry: 0
+reschedule (retry: 200
+out_of_memory: 224
+spill request for a: 0
+held outside any task reservation: 0
+tier=HOST: 0
+-- wait metrics (cluster logs; n / median / p95 / max)
+waited_ms: n=0
+pack_wait_us: n=0
+queue_wait_us: n=0
+-- per-query warm spread (max-min of the two warm runs, ms) for queries that passed all runs
+q01:169 q02:2 q03:131 q04:128 q06:7 q07:301 q10:43 q11:53 q12:2 q13:50 q14:18 q15:9 q16:26 q19:21 q20:68 q22:22 

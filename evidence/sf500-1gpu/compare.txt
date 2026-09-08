@@ -1,0 +1,25 @@
+query  verdict  detail
+q01    MATCH  rows=4 maxreldiff=6.101e-08
+q02    MATCH  rows=100 maxreldiff=0.000e+00
+q03    MATCH  rows=10 maxreldiff=0.000e+00
+q04    MATCH  rows=5 maxreldiff=0.000e+00
+q05    EMPTY  no output
+q06    MATCH  rows=1 maxreldiff=0.000e+00
+q07    MATCH  rows=4 maxreldiff=3.885e-15
+q08    EMPTY  no output
+q09    EMPTY  no output
+q10    MATCH  rows=20 maxreldiff=0.000e+00
+q11    MATCH  rows=467405 maxreldiff=0.000e+00
+q12    MATCH  rows=2 maxreldiff=0.000e+00
+q13    MATCH  rows=40 maxreldiff=0.000e+00
+q14    MATCH  rows=1 maxreldiff=0.000e+00
+q15    MATCH  rows=1 maxreldiff=0.000e+00
+q16    MATCH  rows=27840 maxreldiff=0.000e+00
+q17    EMPTY  no output
+q18    EMPTY  no output
+q19    MATCH  rows=1 maxreldiff=0.000e+00
+q20    MATCH  rows=72343 maxreldiff=0.000e+00
+q21    EMPTY  no output
+q22    MATCH  rows=7 maxreldiff=0.000e+00
+
+16/22 queries match the DuckDB oracle within rel tol 1e-06 on every run (54 runs compared)
