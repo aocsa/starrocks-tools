@@ -1,0 +1,10 @@
+== q05
+
+== q08
+ERROR 1064 (HY000) at line 1: fragment instance 01a085a2-6a79-7de1-ab75-0d3fe0ff3f6e failed: fragment instance 01a085a2-6a79-7de1-ab75-0d3fe0ff3f80 failed: rece
+== q09
+ERROR 1064 (HY000) at line 1: fragment instance 01a085a3-c938-7712-8976-02aa12548841 failed: fragment instance 01a085a3-c938-7712-8976-02aa1254884f failed: owne
+== q13
+ERROR 1064 (HY000) at line 1: failed independent pack for SenderSlot { fragment_instance_id: FragmentInstanceId(01a085a5-c019-77a0-9391-f2c480bd4f1b), node_id: 
+== q21
+ERROR 1064 (HY000) at line 1: fragment instance 01a085a8-e435-755c-94fc-e980603d3f3d failed: fragment instance 01a085a8-e435-755c-94fc-e980603d3f46 failed: rece
