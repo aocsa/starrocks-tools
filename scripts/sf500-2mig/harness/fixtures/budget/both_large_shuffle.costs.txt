@@ -1,0 +1,18 @@
+PLAN FRAGMENT 0(F0)
+  5:HASH JOIN
+  |  join op: INNER JOIN (PARTITIONED)
+  |  cardinality: 1000000
+  |  column statistics: 
+  |  * a-->[0.0, 100.0, 0.0, 8.0, 100.0] ESTIMATE
+  |  
+  |----4:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       cardinality: 1500000000
+  |       column statistics: 
+  |       * k-->[0.0, 1000.0, 0.0, 8.0, 1000.0] ESTIMATE
+  |  
+  3:EXCHANGE
+     distribution type: SHUFFLE
+     cardinality: 3000000000
+     column statistics: 
+     * k-->[0.0, 1000.0, 0.0, 8.0, 1000.0] ESTIMATE

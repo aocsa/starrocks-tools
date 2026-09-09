@@ -1,0 +1,19 @@
+PLAN FRAGMENT 0(F0)
+  3:HASH JOIN
+  |  join op: INNER JOIN (BROADCAST)
+  |  cardinality: 1000000
+  |  column statistics: 
+  |  * a-->[0.0, 100.0, 0.0, 8.0, 100.0] ESTIMATE
+  |  
+  |----2:EXCHANGE
+  |       distribution type: BROADCAST
+  |       cardinality: 1000
+  |       column statistics: 
+  |       * k-->[0.0, 1000.0, 0.0, 8.0, 1000.0] ESTIMATE
+  |       * v-->[0.0, 1.0, 0.0, 16.0, 10.0] ESTIMATE
+  |  
+  1:FileScanNode
+     cardinality: 1000000000
+     column statistics: 
+     * k-->[0.0, 1000.0, 0.0, 8.0, 1000.0] ESTIMATE
+     * a-->[0.0, 100.0, 0.0, 8.0, 100.0] ESTIMATE

@@ -1,0 +1,18 @@
+PLAN FRAGMENT 0(F0)
+  3:HASH JOIN
+  |  join op: INNER JOIN (PARTITIONED)
+  |  cardinality: 1
+  |  column statistics: 
+  |  * a-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  |----2:EXCHANGE
+  |       distribution type: SHUFFLE
+  |       cardinality: 1
+  |       column statistics: 
+  |       * k-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN
+  |  
+  1:EXCHANGE
+     distribution type: SHUFFLE
+     cardinality: 1
+     column statistics: 
+     * k-->[-Infinity, Infinity, 0.0, 1.0, 1.0] UNKNOWN

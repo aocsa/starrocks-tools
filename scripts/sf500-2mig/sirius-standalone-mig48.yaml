@@ -1,0 +1,43 @@
+# Standalone Sirius (DuckDB extension, one process) on ONE MIG 2g.48gb instance (48,512 MiB) of the RTX PRO 6000, for the
+# SF500 comparison against the 2-CN MIG arms. Derived from all22/sirius-standalone-rtx6000.yaml: pool = the CN's 40 GiB
+# (usage_limit_bytes, not a fraction, so it matches the CN layout L-A exactly), host pool = the same 40 GiB one CN gets,
+# operator_params = the CN's derived defaults at a 40 GiB pool (pool/40 = 1 GiB, max_build 2 GiB), no disk tier.
+sirius:
+    topology:
+        num_gpus: 1
+    memory:
+        gpu:
+            usage_limit_bytes: 40GiB
+            reservation_limit_fraction: 1.0
+            downgrade_trigger_fraction: 0.9
+            downgrade_stop_fraction: 0.85
+        host:
+            capacity_bytes: 42949672960
+            initial_number_pools: 40
+            pool_size: 8
+            block_size: 67108864
+    executor:
+        scan_manager:
+          memory_prefetcher:
+            enable: true
+            num_threads: 2
+          num_threads: 8
+          use_sirius_datasource: true
+          uring_n_reactors: 2
+          enable_prefetch_cache: false
+        pipeline:
+            num_threads: 4
+        downgrade:
+            num_threads: 1
+        task_creator:
+            num_threads: 2
+    operator_params:
+        scan_task_batch_size: 1GiB
+        max_sort_partition_bytes: 0
+        hash_partition_bytes: 1GiB
+        concat_batch_bytes: 1GiB
+        max_build_hash_table_bytes: 2GiB
+    telemetry:
+        enable_quent: false
+        output_directory: telemetry_data
+        engine_name: siriusDB
