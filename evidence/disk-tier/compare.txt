@@ -1,0 +1,10 @@
+query  verdict        detail
+q05    MATCH          rows=5 maxreldiff=3.890e-15
+q08    VALUES-DIFFER  rows=2 maxreldiff=5.890e-01 badcells=2 (r1,r2 of 3 runs)
+  r0   MATCH          rows=2 maxreldiff=4.624e-15
+  r1   VALUES-DIFFER  rows=2 maxreldiff=5.890e-01 badcells=2
+  r2   VALUES-DIFFER  rows=2 maxreldiff=9.799e-01 badcells=2
+q09    MATCH          rows=175 maxreldiff=8.609e-15
+q21    MATCH          rows=100 maxreldiff=0.000e+00
+
+3/4 queries match the DuckDB oracle within rel tol 1e-06 on every run (12 runs compared)

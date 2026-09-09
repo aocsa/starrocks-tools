@@ -1,0 +1,7 @@
+tag=D-MCN16-2mig wt=/home/ubuntu/sirius-wt/wp0 commit=cd239575 branch=wp0/exchange-telemetry
+gpus: GPU 0: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-d70bd34d-b789-3ee0-696a-2134418cb930); MIG 2g.48gb Device 0: (UUID: MIG-b033b1f9-5271-5055-a47c-6ad1488f922d); MIG 2g.48gb Device 1: (UUID: MIG-3ee9ed20-4cc9-50c9-990a-d67cc1c592dd)
+env: NUM_CNS=2 GPU_DEVICES=0,1 GPU_MEM=36GiB STAGING=8GiB HOST_MEM=40GiB optimized w2 TPCH_SF=500
+DISK: capacity_bytes=600GiB per CN, downgrade_root_dirs=/opt/dlami/nvme/spill/cn{0,1} via CN_SIRIUS_CONFIG_DIR=/home/ubuntu/sirius-wt/arms/DISK-cn-cfg
+operator_params: engine default (min(device/40, pool/40)) -- one variable vs R5-MCN16-2mig
+queries: q05 q08 q09 q21 (the four host-full failures of R5-MCN16-2mig)
+cn_sha256=133eee0ce47380c0 engine_sha256=a4c736d298304e32
