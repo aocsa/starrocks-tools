@@ -1,0 +1,4 @@
+query  verdict  detail
+q13    EMPTY  no output
+
+0/1 queries match the DuckDB oracle within rel tol 1e-06 on every run (1 runs compared)

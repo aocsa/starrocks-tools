@@ -1,0 +1,10 @@
+q13 with BATCH_BYTES=512MiB (D-q13-b512-2mig), 2026-09-09
+r0 cold FAIL: failed independent pack ... std::bad_alloc: out_of_memory
+
+Bound DID apply: max [exchange_pack] bytes 76.0 MB (b512) vs 85.1 MB (engine default ~921MiB batch).
+So the packed frame was never near the 1016 MiB cap -- frame size is NOT the cause.
+
+Real cause: pool at 100% (peak 38.65 GB of the 36 GiB configured limit) driven by a task
+reserving essentially the whole pool:
+after downgrade (973897800 bytes freed), reservation still partial (34053996288/36810100032 bytes) for pipeline 4 task 245 -- proceeding with partial reservation
+after downgrade (224944116 bytes freed), reservation still partial (36308216320/36802543680 bytes) for pipeline 4 task 246 -- proceeding with partial reservation
