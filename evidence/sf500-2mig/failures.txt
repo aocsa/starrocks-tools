@@ -1,0 +1,12 @@
+ERROR 1064 (HY000) at line 1: failed to execute fragment: GPU pipeline task exceeded maximum retry limit (100) for original task 2533: OOM at operator GPU_SCAN (index 0)
+
+ERROR 1064 (HY000) at line 1: failed to execute fragment: std::bad_alloc: out_of_memory: not enough capacity to allocate memory
+
+ERROR 1064 (HY000) at line 1: fragment instance 01a083d5-e1db-74f2-9ca6-07679650652d failed: fragment instance 01a083d5-e1db-74f2-9ca6-07679650653b failed: failed to execute fragment: std::bad_alloc: out_of_memory: not enough capacity to allocate memory
+
+ERROR 1064 (HY000) at line 1: fragment instance 01a083d8-1401-78da-acfa-8f5ef22949c2 failed: fragment instance 01a083d8-1401-78da-acfa-8f5ef22949c9 failed: failed to execute fragment: std::bad_alloc: out_of_memory: not enough capacity to allocate memory
+
+ERROR 1064 (HY000) at line 1: fragment instance 01a083d8-5f93-780d-8fac-6fe11ce939f7 failed: fragment instance 01a083d8-5f93-780d-8fac-6fe11ce939fe failed: transmit_packed failed with status 6: failed to stage a 527635200 byte inbound frame: std::bad_alloc: out_of_memory: not enough capacity to allocate memory
+
+ERROR 1064 (HY000) at line 1: fragment instance 01a083d9-5b30-762a-970c-27d8f9808971 failed: fragment instance 01a083d9-5b30-762a-970c-27d8f9808979 failed: transmit_packed failed with status 6: failed to stage a 523452288 byte inbound frame: std::bad_alloc: out_of_memory: not enough capacity to allocate memory
+
