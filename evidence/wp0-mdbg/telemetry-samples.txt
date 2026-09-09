@@ -1,0 +1,40 @@
+[2026-09-09 09:28:26.679] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=2 output=0 batches=1 rows=25
+[2026-09-09 09:28:30.679] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=0 batches=46 rows=404309523
+[2026-09-09 09:28:30.679] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=1 batches=46 rows=404360534
+[2026-09-09 09:28:30.713] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=0 batches=1 rows=7402442
+[2026-09-09 09:28:30.713] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=1 batches=1 rows=7402442
+[2026-09-09 09:28:37.029] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=8 output=0 batches=4 rows=18213832
+[2026-09-09 09:28:37.029] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=8 output=1 batches=4 rows=18220481
+[2026-09-09 09:28:37.030] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=6 declared=14997607 sent=14997607 consumed=14997607 relayed_batches=1 relayed_rows=7402442 pushed_frames=1 pushed_rows=7595165 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:37.934] [info] [sirius_physical_grouped_aggregate_merge.cpp:230] [opcount] MERGE_GROUP_BY op=10 partition=0 in_batches=23 in_rows=2827997 out_rows=2827997
+[2026-09-09 09:28:37.953] [info] [sirius_physical_streaming_sink.cpp:298] [opcount] STREAMING_SINK op=14 output=0 batches=1 rows=10 sums=[c0=4793927.4252000004,c1=0,c2=0,c3=16158011811]
+[2026-09-09 09:28:37.954] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=2 declared=808591854 sent=808591854 consumed=808591854 relayed_batches=46 relayed_rows=404309523 pushed_frames=46 pushed_rows=404282331 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:37.954] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=9 declared=36423904 sent=36423904 consumed=36423904 relayed_batches=4 relayed_rows=18213832 pushed_frames=4 pushed_rows=18210072 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:42.087] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=0 batches=46 rows=404282331
+[2026-09-09 09:28:42.087] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=1 batches=46 rows=404309383
+[2026-09-09 09:28:42.142] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=0 batches=1 rows=7595165
+[2026-09-09 09:28:42.142] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=1 batches=1 rows=7595165
+[2026-09-09 09:28:43.319] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=8 output=0 batches=4 rows=18210072
+[2026-09-09 09:28:43.319] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=8 output=1 batches=4 rows=18213963
+[2026-09-09 09:28:43.319] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=6 declared=14997607 sent=14997607 consumed=14997607 relayed_batches=1 relayed_rows=7595165 pushed_frames=1 pushed_rows=7402442 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:45.304] [info] [sirius_physical_grouped_aggregate_merge.cpp:230] [opcount] MERGE_GROUP_BY op=10 partition=0 in_batches=23 in_rows=2830554 out_rows=2830554
+[2026-09-09 09:28:45.312] [info] [sirius_physical_streaming_sink.cpp:298] [opcount] STREAMING_SINK op=14 output=0 batches=1 rows=10 sums=[c0=4870606.9309,c1=0,c2=0,c3=15917261993]
+[2026-09-09 09:28:45.312] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=2 declared=808669917 sent=808669917 consumed=808669917 relayed_batches=46 relayed_rows=404309383 pushed_frames=46 pushed_rows=404360534 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:45.312] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=9 declared=36434444 sent=36434444 consumed=36434444 relayed_batches=4 relayed_rows=18213963 pushed_frames=4 pushed_rows=18220481 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:49.658] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=0 batches=46 rows=404282331
+[2026-09-09 09:28:49.658] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=1 batches=46 rows=404309383
+[2026-09-09 09:28:49.729] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=0 batches=1 rows=7595165
+[2026-09-09 09:28:49.729] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=1 batches=1 rows=7595165
+[2026-09-09 09:28:50.972] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=8 output=0 batches=4 rows=18210072
+[2026-09-09 09:28:50.972] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=8 output=1 batches=4 rows=18213963
+[2026-09-09 09:28:50.973] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=6 declared=14997607 sent=14997607 consumed=14997607 relayed_batches=1 relayed_rows=7595165 pushed_frames=1 pushed_rows=7402442 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:51.717] [info] [sirius_physical_grouped_aggregate_merge.cpp:230] [opcount] MERGE_GROUP_BY op=10 partition=0 in_batches=23 in_rows=2830554 out_rows=2830554
+[2026-09-09 09:28:51.725] [info] [sirius_physical_streaming_sink.cpp:298] [opcount] STREAMING_SINK op=14 output=0 batches=1 rows=10 sums=[c0=4870606.9309,c1=0,c2=0,c3=15917261993]
+[2026-09-09 09:28:51.725] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=2 declared=808669917 sent=808669917 consumed=808669917 relayed_batches=46 relayed_rows=404309383 pushed_frames=46 pushed_rows=404360534 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:51.725] [info] [sirius_ffi.cpp:930] [exchange_reconcile] stream=9 declared=36434444 sent=36434444 consumed=36434444 relayed_batches=4 relayed_rows=18213963 pushed_frames=4 pushed_rows=18220481 packed_frames=0 packed_rows=0
+[2026-09-09 09:28:52.700] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=0 batches=7 rows=56969637
+[2026-09-09 09:28:52.700] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=1 batches=7 rows=56962954
+[2026-09-09 09:28:52.731] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=2 output=0 batches=1 rows=37986975
+[2026-09-09 09:28:52.731] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=2 output=1 batches=1 rows=37986975
+[2026-09-09 09:28:52.776] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=0 batches=2 rows=167178
+[2026-09-09 09:28:52.776] [info] [sirius_physical_streaming_sink.cpp:304] [opcount] STREAMING_SINK op=1 output=1 batches=2 rows=166226

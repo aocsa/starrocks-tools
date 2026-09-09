@@ -1,0 +1,14 @@
+[Mdbg 09:30:20] telemetry grep over engine logs:
+  [exchange_reconcile]     25
+  [exchange_relay]         24
+  [exchange_reload]        170
+  [exchange_frame]         438
+  [exchange_checksum]      0
+  [arena]                  103
+  [gpu_pool]               189
+  [host_pool]              189
+  [downgrade]              2
+  [streaming_sink]         0
+  [opcount]                77
+  MISMATCH                 0
+[Mdbg 09:30:20] DONE /home/ubuntu/sirius-wt/arms/M-dbg-2mig

@@ -1,0 +1,5 @@
+query  verdict  detail
+q03    MATCH  rows=10 maxreldiff=0.000e+00
+q08    EMPTY  no output
+
+1/2 queries match the DuckDB oracle within rel tol 1e-06 on every run (4 runs compared)

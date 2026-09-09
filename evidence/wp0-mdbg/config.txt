@@ -1,0 +1,6 @@
+tag=M-dbg-2mig wt=/home/ubuntu/sirius-wt/wp0 commit=883868ef branch=wp0/exchange-telemetry
+purpose=WP0 telemetry smoke on the instrumented build
+gpus: GPU 0: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-d70bd34d-b789-3ee0-696a-2134418cb930); MIG 2g.48gb Device 0: (UUID: MIG-b033b1f9-5271-5055-a47c-6ad1488f922d); MIG 2g.48gb Device 1: (UUID: MIG-3ee9ed20-4cc9-50c9-990a-d67cc1c592dd)
+env: NUM_CNS=2 GPU_DEVICES=0,1 GPU_MEM=36GiB STAGING=8GiB HOST_MEM=40GiB TPCH_SF=500
+EXTRA_ENV: SIRIUS_EXCHANGE_OPTIMIZED=1 WINDOW=2 SIRIUS_EXCHANGE_CHECKSUM=1 SIRIUS_EXCHANGE_OPCOUNTERS=1 (STRICT off)
+cn_sha256=133eee0ce47380c0 engine_sha256=a4c736d298304e32
