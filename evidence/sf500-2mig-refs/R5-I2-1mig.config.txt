@@ -1,0 +1,7 @@
+tag=R5-I2-1mig wt=/home/ubuntu/sirius-wt/demo commit=95bec853 branch=all22/integration dirty=0 dirty_files=
+box=g7e.4xlarge MIG: GPU 0: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-d70bd34d-b789-3ee0-696a-2134418cb930); MIG 2g.48gb Device 0: (UUID: MIG-b033b1f9-5271-5055-a47c-6ad1488f922d); MIG 2g.48gb Device 1: (UUID: MIG-3ee9ed20-4cc9-50c9-990a-d67cc1c592dd)
+env: NUM_CNS=1 GPU_DEVICES=0 GPU_MEM=40GiB STAGING=4GiB HOST_MEM=40GiB DISK=none EXTRA_ENV= TPCH_SF=500 QD=/home/ubuntu/sirius-wt/demo/experimental/starrocks/benchmarks/tpch/queries ASYNC=1
+FE_SETUP_SQL=SET GLOBAL cbo_cte_reuse_rate = 1.15
+TO=300 RUNS=2 watchdog=240 restart_on_fail=1 oracle=/home/ubuntu/starrocks-tools-wt/sf500-2-mig-gpus/oracle/tpch_sf500
+cn_sha256=4e8ce902d528a7d4 engine_sha256=7d502c6acf739b2f
+same-box reference arm (PLAN-top3-2mig.md step 2), mode-off

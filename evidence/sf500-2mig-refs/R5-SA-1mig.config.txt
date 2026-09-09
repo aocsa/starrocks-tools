@@ -1,0 +1,3 @@
+tag=R5-SA-1mig wt=/home/ubuntu/sirius-wt/demo commit=95bec853 branch=all22/integration mode=standalone-duckdb-cli
+duckdb=/home/ubuntu/sirius-wt/demo/build/release/duckdb config=/home/ubuntu/starrocks-tools-wt/sf500-2-mig-gpus/scripts/sf500-2mig/sirius-standalone-mig48.yaml data=/home/ubuntu/tpch_parquet_sf500 kit=CN-kit /home/ubuntu/sirius-wt/demo/experimental/starrocks/benchmarks/tpch/queries (FILES()->read_parquet, __TPCH_SF__=500)
+CUDA_VISIBLE_DEVICES=0 RUNS=2 TO_per_iteration=300 oracle=/home/ubuntu/starrocks-tools-wt/sf500-2-mig-gpus/oracle/tpch_sf500
