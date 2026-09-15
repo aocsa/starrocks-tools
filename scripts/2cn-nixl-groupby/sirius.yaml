@@ -1,0 +1,12 @@
+# Copied into the e2e scratch dir as the CN --sirius-config. One visible GPU per process.
+sirius:
+  topology:
+    num_gpus: 1
+  memory:
+    gpu:
+      usage_limit_fraction: 0.5
+    host:
+      capacity_bytes: 17179869184
+  executor:
+    pipeline:
+      num_threads: 4
